@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="member">
+   	<resultMap type="member" id="memberType">
+   		<result column="member_no" property="memberNo"/>
+   		<result column="member_id" property="memberId"/>	
+   		<result column="member_pwd" property="memberPwd"/>	
+   		<result column="member_name" property="memberName"/>	
+   		<result column="member_birth" property="memberBirth"/>	
+   		<result column="member_addr" property="memberAddr"/>		
+   		<result column="member_email" property="memberEmail"/>	
+   		<result column="member_phone" property="memberPhone"/>	
+   		<result column="member_profile" property="memberProfile"/>	
+   		<result column="member_state" property="memberState"/>	
+   		<result column="member_authority" property="memberAuthority"/>		
+   		<result column="member_enrolldate" property="memberEnrollDate"/>	
+	</resultMap>
+   <select id="login" parameterType="string" resultMap="memberType">
+      SELECT * FROM MEMBER WHERE MEMBER_ID=#{memberId}
+   </select>
+   
+   <insert id="insertMember" parameterType="member">
+      INSERT INTO MEMBER VALUES('MNO_'||SEQ_MEMBER_NO.nextval,
+      #{memberId}, #{memberPwd}, #{memberName}, #{memberBirth}, default,
+      #{memberEmail}, #{memberPhone}, default, default, default, default)
+   </insert>
+   
+<!--    <resultMap type="member" id="memberType">
+      <result column='hobby' property="hobby" typeHandler="strArray"/>
+   </resultMap>
+   
+   <select id="selectOne" parameterType="string" resultMap="memberType">
+      SELECT * FROM MEMBER WHERE USERID=#{userId}
+   </select>
+   
+   <update id="updateMember" parameterType="member">
+      UPDATE MEMBER SET USERNAME=#{userName}, GENDER=#{gender}, AGE=#{age}, EMAIL=#{email}, PHONE=#{phone}, ADDRESS=#{address},
+      HOBBY=#{hobby, typeHandler=strArray}
+      WHERE USERID=#{userId}
+   </update> -->
+</mapper>

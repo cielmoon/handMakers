@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+   <settings>
+      <setting name="jdbcTypeForNull" value="NULL"/>
+   </settings>
+   <typeAliases>
+<!--       <typeAlias type="com.kh.spring.demo.model.vo.Dev" alias="dev"/>
+      <typeAlias type="com.kh.spring.common.StringArrayTypeHandler" alias="strArray"/>-->
+      <typeAlias type="kh.hand.makers.member.model.vo.Member" alias="member"/>
+   </typeAliases>
+   <typeHandlers>
+      <package name="kh.hand.makers.common"/>
+   </typeHandlers>
+</configuration>
