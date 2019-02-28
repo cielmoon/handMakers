@@ -78,7 +78,7 @@
 												</c:when>
 												<c:when test="${member.memberAuthority == 'A' }">
 												<ul class="dropdown-menu dropdown-menu-right">
-													<li><a href="#" onclick="location.href='${path}/member/myPage.do'">관리자페이지</a></li>	
+													<li><a href="#" onclick="location.href='${path}/member/adminPage.do'">관리자페이지</a></li>	
 													<li><a href="#"
 														onclick="location.href='${path}/member/memberLogout.do'">로그아웃</a></li>
 												</ul>
@@ -95,7 +95,7 @@
 											</c:otherwise>
 										</c:choose>
 									</li>
-
+									<li><a href="#" onclick="location.href='${path}/member/wishList.do'" id="wishlist-total" title="Wish List (0)"><i class="fa fa-heart"></i><span>Wish List</span><span> (0)</span></a></li>
 								</ul>
 								<div class="search-box">
 									<input class="input-text" placeholder="Search By Products.."
@@ -112,15 +112,6 @@
 		</div>
 		<div class="container">
 			<div class="header-inner">
-				<div class="col-sm-4 col-xs-6 header-left">
-					<div class="shipping">
-						<div class="shipping-img"></div>
-						<div class="shipping-text">
-							(+91) 000-1233<br> <span class="shipping-detail">24/7
-								Online Support</span>
-						</div>
-					</div>
-				</div>
 				<div class="col-sm-4 col-xs-12 header-middle">
 					<div class="header-middle-top">
 						<div id="logo">
@@ -128,67 +119,6 @@
 								src="${path }/resources/image/logo.png" title="handmakers"
 								alt="handmakers" class="img-responsive" /></a>
 						</div>
-					</div>
-				</div>
-				<div class="col-sm-4 col-xs-12 header-right">
-					<div id="cart" class="btn-group btn-block">
-						<button type="button"
-							class="btn btn-inverse btn-block btn-lg dropdown-toggle cart-dropdown-button" onclick="location.href='${path}/shop/shopCart.do'">
-							<span id="cart-total"><span class="cart-title">Shopping
-									Cart</span><br> 0 item(s) - $0.00</span>
-						</button>
-<%-- 						<ul class="dropdown-menu pull-right cart-dropdown-menu">
-							<li>
-								<table class="table table-striped">
-									<tbody>
-										<tr>
-											<td class="text-center"><a href="#"><img
-													class="img-thumbnail" title="장바구니"
-													alt="장바구니"
-													src="${path }/resources/image/product/7product50x59.jpg"></a></td>
-											<td class="text-left"><a href="#">lorem ippsum dolor
-													dummy</a></td>
-											<td class="text-right">x 1</td>
-											<td class="text-right">$254.00</td>
-											<td class="text-center"><button
-													class="btn btn-danger btn-xs" title="Remove" type="button">
-													<i class="fa fa-times"></i>
-												</button></td>
-										</tr>
-									</tbody>
-								</table>
-							</li>
-							<li>
-								<div>
-									<table class="table table-bordered">
-										<tbody>
-											<tr>
-												<td class="text-right"><strong>Sub-Total</strong></td>
-												<td class="text-right">$210.00</td>
-											</tr>
-											<tr>
-												<td class="text-right"><strong>Eco Tax (-2.00)</strong></td>
-												<td class="text-right">$2.00</td>
-											</tr>
-											<tr>
-												<td class="text-right"><strong>VAT (20%)</strong></td>
-												<td class="text-right">$42.00</td>
-											</tr>
-											<tr>
-												<td class="text-right"><strong>Total</strong></td>
-												<td class="text-right">$254.00</td>
-											</tr>
-										</tbody>
-									</table>
-									<p class="text-right">
-										<span class="btn-viewcart"><a href="cart.html"><strong><i
-													class="fa fa-shopping-cart"></i> View Cart</strong></a></span> <span
-											class="btn-checkout"><a href="checkout.html"><strong><i
-													class="fa fa-share"></i> Checkout</strong></a></span>
-									</p>
-								</div>
-							</li>
-						</ul> --%>
 					</div>
 				</div>
 			</div>

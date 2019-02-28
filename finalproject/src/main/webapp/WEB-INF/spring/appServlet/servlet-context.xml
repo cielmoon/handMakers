@@ -31,8 +31,8 @@
 
 	<interceptors>
 		<interceptor>
-			<mapping path="/shop/*.do" />
 			<mapping path="/member/*.do" />
+			<mapping path="/order/*.do" />
 			<exclude-mapping path="/member/memberLogin.do" />
 			<exclude-mapping path="/member/memberLoginEnd.do" />
 			<exclude-mapping path="/member/memberEnroll.do" />

@@ -3,157 +3,75 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
-			<li><a href="index.html"><i class="fa fa-home"></i></a></li>
-			<li><a href="blog.html">관리자페이지</a></li>
+			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
+			<li><a href="#">관리자페이지</a></li>
 		</ul>
+		<br />
 		<div class="row">
-			<div id="content" class="col-sm-9">
-				<div class="blog1 blog">
-					<div class="blog_img">
-						<img src="image/blog/blog_4.jpg" alt="" />
-					</div>
-					<h4 class="p-name">
-						<a href="singale-blog.html">Image Post Format</a>
-					</h4>
-					<ul class="blog-meta">
-						<li><i class="fa fa-clock-o"></i><span class="dt-published">December
-								23, 2015</span></li>
-						<li><i class="fa fa-comment-o"></i><span>2</span> Comment</li>
-						<li><i class="fa fa-user"></i><span><a rel="author"
-								title="Posts by Admin" href="#">Admin admin</a></span></li>
-					</ul>
-					<p class="p-summary"></p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-						Repudiandae provident minus similique porro assumenda illo dolore
-						ducimus vero ipsum illum ipsa velit, deleniti accusantium repellat
-						facilis tempora ab consectetur! Sequi, aperiam, dignissimos!
-						Molestias quidem temporibus, earum deleniti, quae voluptatibus
-						cum, doloremque libero dolorum sapiente neque saepe magnam ullam
-						nisi mollitia itaque voluptas illo pariatur inventore, …..</p>
-					<a class="u-url" href="singale-blog.html">read more</a>
-				</div>
-				<div class="blog2 blog">
-					<div class="blog_img video">
-						<video controls>
-							<source type="video/mp4" src="image/Lighthouse.mp4">
-							<source type="video/ogg" src="mov_bbb.ogg">
-							Your browser does not support HTML5 video.
-						</video>
-					</div>
-					<h4 class="p-name">
-						<a href="singale-blog.html">Video Post Format</a>
-					</h4>
-					<ul class="blog-meta">
-						<li><i class="fa fa-clock-o"></i><span class="dt-published">December
-								23, 2015</span></li>
-						<li><i class="fa fa-comment-o"></i><span>2</span> Comment</li>
-						<li><i class="fa fa-user"></i><span><a rel="author"
-								title="Posts by Admin" href="#">Admin</a></span></li>
-					</ul>
-					<p class="p-summary"></p>
-					<p>Repellat minus perferendis dolor, animi dignissimos aut
-						maiores molestiae perspiciatis doloremque, recusandae blanditiis
-						reprehenderit voluptatibus unde ut? Ullam at nihil omnis
-						consequatur, assumenda autem dolor quis velit fugiat magni,
-						pariatur. Beatae modi quod, quia facilis voluptatum iusto atque
-						vero, fugiat perferendis, officia maiores illo explicabo nesciunt
-						doloribus eum praesentium quasi. Sint tempore reiciendis nisi, ex
-						…..</p>
-					<a class="u-url" href="singale-blog.html">read more</a>
-				</div>
-				<div class="blog3 blog">
-					<div class="blog_img owl-carousel home-slider owl-theme gellery">
-						<div class="item">
-							<a href="#"><img src="image/blog/blog_1.jpg" alt=""
-								class="img-responsive" /></a>
-						</div>
-						<div class="item">
-							<a href="#"><img src="image/blog/blog_2.jpg" alt=""
-								class="img-responsive" /></a>
-						</div>
-						<div class="item">
-							<a href="#"><img src="image/blog/blog_3.jpg" alt=""
-								class="img-responsive" /></a>
+			<div class="col-sm-3 hidden-xs column-left" id="column-left">
+				<div class="column-block">
+					<div class="columnblock-title">관리자페이지</div>
+					<div class="account-block">
+						<div class="list-group">
+							<a class="list-group-item" href="#">홈</a> 
+							<a class="list-group-item" href="#">공지사항 관리</a>
+							<a class="list-group-item" href="#">메인배너 관리</a>
+							<a class="list-group-item" href="#">회원 관리</a>				
+							<a class="list-group-item" href="#">입점문의 관리</a>	
+							<a class="list-group-item" href="#">상품 관리</a>					
+							
 						</div>
 					</div>
-					<h4 class="p-name">
-						<a href="singale-blog.html">Gellery Post Format</a>
-					</h4>
-					<ul class="blog-meta">
-						<li><i class="fa fa-clock-o"></i><span class="dt-published">December
-								23, 2015</span></li>
-						<li><i class="fa fa-comment-o"></i><span>2</span> Comment</li>
-						<li><i class="fa fa-user"></i><span><a rel="author"
-								title="Posts by Admin" href="#">Admin</a></span></li>
-					</ul>
-					<p class="p-summary"></p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-						Repudiandae provident minus similique porro assumenda illo dolore
-						ducimus vero ipsum illum ipsa velit, deleniti accusantium repellat
-						facilis tempora ab consectetur! Sequi, aperiam, dignissimos!
-						Molestias quidem temporibus, earum deleniti, quae voluptatibus
-						cum, doloremque libero dolorum sapiente neque saepe magnam ullam
-						nisi mollitia itaque voluptas illo pariatur inventore, …..</p>
-					<a class="u-url" href="singale-blog.html">read more</a>
-				</div>
-				<div class="blog4 blog">
-					<div class="blog_img">
-						<img src="image/blog/blog_5.jpg" alt="" />
-					</div>
-					<h4 class="p-name">
-						<a href="singale-blog.html">Image Post Format</a>
-					</h4>
-					<ul class="blog-meta">
-						<li><i class="fa fa-clock-o"></i><span class="dt-published">December
-								23, 2015</span></li>
-						<li><i class="fa fa-comment-o"></i><span>2</span> Comment</li>
-						<li><i class="fa fa-user"></i><span><a rel="author"
-								title="Posts by Admin" href="#">Admin</a></span></li>
-					</ul>
-					<p class="p-summary"></p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-						Non blanditiis, voluptas, esse at iste nulla in ratione quas
-						incidunt aspernatur nostrum, veniam expedita recusandae quis
-						libero aliquid animi, repellat harum velit eum assumenda.
-						Asperiores perferendis sequi modi, sunt quasi veniam laborum, ea
-						ducimus illum velit quam iure ipsam eligendi similique. Labore,
-						dolore commodi sequi iste …..</p>
-					<a class="u-url" href="singale-blog.html">read more</a>
 				</div>
 			</div>
-			<!-- end blog-home -->
+			<!-- 정보 변경 전에 다시 비밀번호 확인 -->
+			<div class="col-sm-9" id="content">
+				<div class="row">
+					<div class="col-sm-8">
+						<div class="well">
+							<h1 style="vertical-align: middle; padding-top: 10px">관리자페이지 홈</h1>
 
-			<div id="column-right" class="col-sm-3 hidden-xs column-left">
-				<div class="columnblock-title">Categories</div>
-				<div class="blog-categories-block category_block">
-					<div class="list-group">
-						<a class="list-group-item" href="#">Audio</a> <a
-							class="list-group-item" href="#">Gallery</a> <a
-							class="list-group-item" href="#">Link</a> <a
-							class="list-group-item" href="#">Quote</a> <a
-							class="list-group-item" href="#">Uncategorized</a> <a
-							class="list-group-item last" href="#">Video</a>
+						</div>
+
+						<p style="text-align: center; width: 100%; margin-top: 50px;">
+							<strong>&nbsp;</strong>
+						</p>
+
+					</div>
+					<div class="col-sm-4">
+						<div class="well">
+							<div>
+								<h2>관리자 프로필</h2>
+								<!-- 라운드로 꾸며야함 style로 -->
+								<div class="well">
+									<%-- <a href="<%=request.getContextPath()%>/memberProfileChange"> --%>
+									<a href="#" onclick="return false;"> 
+										<img src="${path }/resources/image/profile/admin.png" width="100" height="100" style="border-radius: 50%;"onclick="fileUpload()" />
+									
+									</a>
+
+
+								</div>
+							</div>
+							<div>
+								<input type="button" class="btn btn-primary" value="변경" onclick="fileUpload()">
+<%-- 
+								<form action="<%=request.getContextPath()%>/FileUpload"
+									method="post" enctype="multipart/form-data" id="fileUploadForm">
+									<input type="file" class="btn btn-primary" id="file"
+										name="file" style="display: none;">
+
+								</form> --%>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="productblock-title">Recent Posts</div>
-				<div class="blog-categories-block category_block">
-					<div class="list-group">
-						<a class="list-group-item" href="#">Gallery Post Format</a> <a
-							class="list-group-item" href="#">Recent Posts</a> <a
-							class="list-group-item" href="
-    #">Gallery Post Format</a> <a
-							class="list-group-item" href="#">Standard Post Format</a> <a
-							class="list-group-item last" href="#">Image Post Format</a>
-					</div>
-				</div>
-
-				<!-- end blog-sidebar -->
-
 			</div>
 		</div>
 	</div>

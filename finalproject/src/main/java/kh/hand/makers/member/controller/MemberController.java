@@ -129,4 +129,11 @@ public class MemberController {
 	{
 		return "member/adminPage";
 	}
+	
+	
+	@RequestMapping("/member/wishList.do")
+	public String wishList()
+	{
+		return "member/wishList";
+	}
 }
