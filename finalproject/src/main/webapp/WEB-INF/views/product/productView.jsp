@@ -117,7 +117,7 @@
           <ul class="list-unstyled productinfo-details-top">
             <li>
             <!-- 가격 -->
-              <h2 class="productpage-price">${productPrice }</h2>
+              <h2 class="productpage-price">${productPrice }가격</h2>
             </li>
             
             <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
