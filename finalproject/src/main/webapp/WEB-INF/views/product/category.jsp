@@ -214,7 +214,7 @@
       <div class="grid-list-wrapper">
         <div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-2-220x294.jpg" alt="women's New Wine is an alcoholic stores" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+			<div class="image product-imageblock"> <a href="${path }/product/productView.do"> <img src="${path}/resources/image/product/pro-2-220x294.jpg" alt="women's New Wine is an alcoholic stores" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>

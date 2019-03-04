@@ -137,7 +137,7 @@
 									<li><a href="${path }/product/category.do">IT/가전</a></li>
 									<li><a href="${path }/product/category.do">푸드</a></li>
 									<li><a href="${path }/product/category.do">악세서리</a></li>
-									<li><a href="${path }/product/category.do">가방/지갑</a></li>		
+									<li><a href="${path }/product/productTest.do">상세테스트-가방/지갑</a></li>		
 								</ul></li>
 							<!-- <li><a href="index.html" class="parent">신규</a></li>
 							<li><a href="category.html" class="parent">베스트</a></li> -->
