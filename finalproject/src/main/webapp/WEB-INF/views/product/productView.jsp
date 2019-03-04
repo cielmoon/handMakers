@@ -183,18 +183,23 @@
           <div class="thumbnails">
             <div><a class="thumbnail" href="#" title="메인 상품사진"><img src="메인 상품사진" title="메인 상품사진" alt="메인 상품사진" /></a></div>
             <div id="product-thumbnail" class="owl-carousel">
+              
               <div class="item">
                 <div class="image-additional"><a class="thumbnail  " href="#" title="메인 상품사진"> <img src="image/product/pro-1-220x294.jpg" title="메인 상품사진" alt="메인 상품사진" /></a></div>
               </div>
+              
               <div class="item">
                 <div class="image-additional"><a class="thumbnail  " href="image/product/product2.jpg" title="서브 상품 사진"> <img src="image/product/pro-2-220x294.jpg" title="서브 상품 사진" alt="서브 상품 사진" /></a></div>
               </div>
+              
               <div class="item">
                 <div class="image-additional"><a class="thumbnail  " href="image/product/product3.jpg" title="lorem ippsum dolor dummy"> <img src="image/product/pro-3-220x294.jpg" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
               </div>
+              
               <div class="item">
                 <div class="image-additional"><a class="thumbnail  " href="image/product/product4.jpg" title="lorem ippsum dolor dummy"> <img src="image/product/pro-4-220x294.jpg" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
               </div>
+              
             </div>
           </div>
         </div>

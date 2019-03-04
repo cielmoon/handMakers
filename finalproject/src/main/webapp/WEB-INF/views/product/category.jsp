@@ -9,8 +9,8 @@
 <section>
 <div class="container">
   <ul class="breadcrumb">
-    <li><a href="index.html"><i class="fa fa-home"></i></a></li>
-    <li><a href="category.html">Electronics</a></li>
+    <li><a href="/makers"><i class="fa fa-home"></i></a></li>
+    <li><a href="#">Electronics</a></li>
   </ul>
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
@@ -51,7 +51,7 @@
         </div>
       </div>
       <!-- start -->
-      <div class="panel panel-default filter">
+      <!-- <div class="panel panel-default filter">
       <div class="panel-heading columnblock-title">Refine Search</div>
         <div class="filter-block">
           <div class="list-group"> <a class="list-group-item">Color</a>
@@ -100,13 +100,13 @@
         </div>
       </div>
       <div class="banner" >
-        <div class="item"> <a href="#"><img src="image/banners/LeftBanner.jpg" alt="Left Banner" class="img-responsive" /></a> </div>
+        <div class="item"> <a href="#"><img src="${path }/resources/image/banners/LeftBanner.jpg" alt="Left Banner" class="img-responsive" /></a> </div>
       </div>
       <h3 class="productblock-title">Specials</h3>
       <div class="row special-grid product-grid">
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 product-grid-item">
           <div class="product-thumb transition">
-            <div class="image product-imageblock"> <a href="#"><img src="image/product/5product50x59.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /></a>
+            <div class="image product-imageblock"> <a href="#"><img src="${path }/resources/image/product/5product50x59.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /></a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List" ><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn" >Add to Cart</button>
@@ -126,7 +126,7 @@
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 product-grid-item">
           <div class="product-thumb transition">
-            <div class="image product-imageblock"> <a href="#"><img src="image/product/1product50x59.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /></a>
+            <div class="image product-imageblock"> <a href="#"><img src="${path }/resources/image/product/1product50x59.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /></a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List" ><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn" >Add to Cart</button>
@@ -146,7 +146,7 @@
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 product-grid-item">
           <div class="product-thumb transition">
-            <div class="image product-imageblock"> <a href="#"><img src="image/product/4product50x59.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /></a>
+            <div class="image product-imageblock"> <a href="#"><img src="${path }/resources/image/product/4product50x59.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /></a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List" ><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn" >Add to Cart</button>
@@ -164,13 +164,13 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div> -->
     <!-- end -->
+    </div>
     <div id="content" class="col-sm-9">
       <h2 class="category-title">Desktops</h2>
       <div class="row category-banner">
-        <div class="col-sm-12 category-image"><img src="image/banners/category-banner.jpg" alt="Desktops" title="Desktops" class="img-thumbnail" /></div>
+        <div class="col-sm-12 category-image"><img src="${path }/resources/image/banners/category-banner.jpg" alt="Desktops" title="Desktops" class="img-thumbnail" /></div>
         <div class="col-sm-12 category-desc">Lorem ipsum dolomagna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate.</div>
       </div>
       <div class="category-page-wrapper">
@@ -179,7 +179,8 @@
             <button type="button" id="list-view" class="btn btn-default list" data-toggle="tooltip" title="List"><i class="fa fa-th-list"></i></button>
             <button type="button" id="grid-view" class="btn btn-default grid" data-toggle="tooltip" title="Grid"><i class="fa fa-th"></i></button>
           </div>
-          <a href="#" id="compare-total">Product Compare (0)</a> </div>
+          <!-- <a href="#" id="compare-total">Product Compare (0)</a> -->
+          </div>
         <div class="col-md-1 text-right page-wrapper">
           <label class="control-label" for="input-limit">Show :</label>
           <div class="limit">
@@ -213,7 +214,7 @@
       <div class="grid-list-wrapper">
         <div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-2-220x294.jpg" alt="women's New Wine is an alcoholic stores" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-2-220x294.jpg" alt="women's New Wine is an alcoholic stores" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -240,7 +241,7 @@
           </div>
         </div><div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-3-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-3-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -267,7 +268,7 @@
           </div>
         </div><div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-4-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-4-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -294,7 +295,7 @@
           </div>
         </div><div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-5-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-5-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -321,7 +322,7 @@
           </div>
         </div><div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-6-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-6-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -348,7 +349,7 @@
           </div>
         </div><div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-7-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-7-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -375,7 +376,7 @@
           </div>
         </div><div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-8-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-8-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -402,7 +403,7 @@
           </div>
         </div><div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-2-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-2-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -429,7 +430,7 @@
           </div>
         </div><div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-4-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-4-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -457,7 +458,7 @@
         </div>
         <div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-2-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-2-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -485,7 +486,7 @@
         </div>
         <div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-3-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-3-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -513,7 +514,7 @@
         </div>
         <div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-4-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-4-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -541,7 +542,7 @@
         </div>
         <div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-5-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-5-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -569,7 +570,7 @@
         </div>
         <div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-6-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-6-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -597,7 +598,7 @@
         </div>
         <div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-7-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-7-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -625,7 +626,7 @@
         </div>
         <div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="image/product/pro-8-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-8-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
                 <button type="button" class="addtocart-btn">Add to Cart</button>
