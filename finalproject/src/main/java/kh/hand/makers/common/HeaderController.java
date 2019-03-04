@@ -35,5 +35,11 @@ public class HeaderController {
 	{
 		return "product/category";
 	}
+	
+	@RequestMapping("/product/productTest.do")
+	public String productTest()
+	{
+		return "/product/productView";
+	}
 
 }

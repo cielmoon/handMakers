@@ -1,17 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <script>
-	$(function(){
-		var cartBtn=$('#cartBtn');
-		cartBtn.on('click',function(){
-			location.href="${path}/shop/shopCart.do";
-		});
-	});
+   $(function(){
+      var cartBtn=$('#cartBtn');
+      cartBtn.on('click',function(){
+         location.href="${path}/shop/shopCart.do";
+      });
+   });
 </script>
 <section class="product col-2 left-col">
 <div class="preloader loader" style="display: block; background:#f2f2f2;"> <img src="image/loader.gif"  alt="#"/></div>
@@ -89,22 +89,22 @@
           <!-- 별 찍는 거 -->
           <div class="rating product"> 
           <span class="fa fa-stack">
-	          <i class="fa fa-star fa-stack-1x"></i>
-	          <i class="fa fa-star-o fa-stack-1x"></i>
+             <i class="fa fa-star fa-stack-1x"></i>
+             <i class="fa fa-star-o fa-stack-1x"></i>
           </span> 
           <span class="fa fa-stack">
-	          <i class="fa fa-star fa-stack-1x"></i>
-	          <i class="fa fa-star-o fa-stack-1x"></i>
+             <i class="fa fa-star fa-stack-1x"></i>
+             <i class="fa fa-star-o fa-stack-1x"></i>
           </span> 
           <span class="fa fa-stack">
-	          <i class="fa fa-star fa-stack-1x"></i>
-	          <i class="fa fa-star-o fa-stack-1x"></i>
+             <i class="fa fa-star fa-stack-1x"></i>
+             <i class="fa fa-star-o fa-stack-1x"></i>
           </span> 
           <span class="fa fa-stack">
-          	<i class="fa fa-star-o fa-stack-1x"></i>
+             <i class="fa fa-star-o fa-stack-1x"></i>
           </span> 
           <span class="fa fa-stack">
-          	<i class="fa fa-star-o fa-stack-1x"></i>
+             <i class="fa fa-star-o fa-stack-1x"></i>
           </span>
           <hr>
          
@@ -138,7 +138,7 @@
               <span> ${qtn }</span></li>
           </ul>
           <hr>
-          	
+             
           <p class="product-desc"> 핵심적인 간단한 상품 설명</p>
           <div id="product">
             <div class="form-group">
