@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="HelloSpring" name="pageTitle"/>
 </jsp:include>
-
+<h1>new List</h1>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 

@@ -134,14 +134,16 @@
 						<ul class="main-navigation">
 							<li><a href="#" class="active parent">카테고리</a>
 								<ul>
-									<li><a href="category.html">IT/가전</a></li>
-									<li><a href="cart.html">푸드</a></li>
-									<li><a href="checkout.html">악세서리</a></li>
-									<li><a href="blog.html">가방/지갑</a></li>		
+									<li><a href="${path }/product/category.do">IT/가전</a></li>
+									<li><a href="${path }/product/category.do">푸드</a></li>
+									<li><a href="${path }/product/category.do">악세서리</a></li>
+									<li><a href="${path }/product/category.do">가방/지갑</a></li>		
 								</ul></li>
-							<li><a href="index.html" class="parent">신규</a></li>
-							<li><a href="category.html" class="parent">베스트</a></li>
-							<li><a href="category.html" class="parent">입점예정</a></li>
+							<!-- <li><a href="index.html" class="parent">신규</a></li>
+							<li><a href="category.html" class="parent">베스트</a></li> -->
+							<li><a href="${path }/product/newList.do" class="parent">신규</a></li>
+							<li><a href="${path }/product/bestList.do" class="parent">베스트</a></li>
+							<li><a href="${path }/product/preList.do" class="parent">입점예정</a></li>
 							<li><a href="#" class="active parent">문의하기</a>
 								<ul>
 									<li><a href="category.html">Q & A</a></li>
