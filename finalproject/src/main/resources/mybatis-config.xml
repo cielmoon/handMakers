@@ -8,6 +8,7 @@
 <!--       <typeAlias type="com.kh.spring.demo.model.vo.Dev" alias="dev"/>
       <typeAlias type="com.kh.spring.common.StringArrayTypeHandler" alias="strArray"/>-->
       <typeAlias type="kh.hand.makers.member.model.vo.Member" alias="member"/>
+      <typeAlias type="kh.hand.makers.shop.model.vo.Shop" alias="shop"/> 
    </typeAliases>
    <typeHandlers>
       <package name="kh.hand.makers.common"/>

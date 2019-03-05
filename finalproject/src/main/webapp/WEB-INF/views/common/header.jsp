@@ -147,7 +147,7 @@
 							<li><a href="#" class="active parent">문의하기</a>
 								<ul>
 									<li><a href="category.html">Q & A</a></li>
-									<li><a href="cart.html">입점문의</a></li>
+									<li><a href="${path }/shop/shopEnroll.do">입점문의</a></li>
 								</ul></li>
 						</ul>
 					</div>

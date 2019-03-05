@@ -45,8 +45,10 @@
 								<p>상품을 제안할 브랜드를 선택해 주세요.</p>
 								<div class="form-group">
 									<label for="input-license" class="control-label">브랜드</label>
-									<select class="form-control">
-										<option selected>없음</option>
+									<select class="form-control" name="brandNo">
+										<c:forEach items="${list }" var="b">
+											<option>${b.brandNo }</option>
+										</c:forEach>
 									</select>
 								</div>
 								<div class="form-group">
