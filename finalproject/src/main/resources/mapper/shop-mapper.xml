@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="shop">
-	<select id="selectBrandList" resultType="shop" parameterType="string">
+	<resultMap type="brand" id="brandMap">
+   		<result column="brand_No" property="brandNo"/>
+   		<result column="brand_Title" property="brandTitle"/>	
+   		<result column="brand_license" property="brandLicense"/>	
+   		<result column="brand_type" property="brandType"/>	
+   		<result column="brand_addr" property="brandAddr"/>	
+   		<result column="brand_detailAddr" property="brandDetailAddr"/>	
+   		<result column="brand_enrollDate" property="brandEnrollDate"/>		
+   		<result column="member_no" property="memberNo"/>
+	</resultMap>
+	<select id="selectBrandList" resultMap="brandMap" parameterType="string">
 		SELECT * FROM BRAND WHERE MEMBER_NO = #{memberNo}	
 	</select>
+	<insert id="insertBrand" parameterType="map">
+		INSERT INTO BRAND VALUES(SEQ_BRAND_NO.NEXTVAL, #{brandTitle}, #{brandLicense}, #{brandType}, #{brandAddr}, #{brandDetailAddr}, DEFAULT, #{memberNo})
+	</insert>
 </mapper>

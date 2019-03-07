@@ -3,7 +3,7 @@ package kh.hand.makers.shop.model.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Shop implements Serializable{
+public class Brand implements Serializable{
 
 	/**
 	 * 
@@ -14,25 +14,27 @@ public class Shop implements Serializable{
 	private String brandLicense;
 	private String brandType;
 	private String brandAddr;
+	private String brandDetailAddr;
 	private Date brandEnrollDate;
 	private String memberNo;
 	
-	public Shop() {
+	public Brand() {
 		super();
 	}
-	
-	public Shop(int brandNo, String brandTitle, String brandLicense, String brandType, String brandAddr,
-			Date brandEnrollDate, String memberNo) {
+
+	public Brand(int brandNo, String brandTitle, String brandLicense, String brandType, String brandAddr,
+			String brandDetailAddr, Date brandEnrollDate, String memberNo) {
 		super();
 		this.brandNo = brandNo;
 		this.brandTitle = brandTitle;
 		this.brandLicense = brandLicense;
 		this.brandType = brandType;
 		this.brandAddr = brandAddr;
+		this.brandDetailAddr = brandDetailAddr;
 		this.brandEnrollDate = brandEnrollDate;
 		this.memberNo = memberNo;
 	}
-	
+
 	public int getBrandNo() {
 		return brandNo;
 	}
@@ -73,6 +75,14 @@ public class Shop implements Serializable{
 		this.brandAddr = brandAddr;
 	}
 
+	public String getBrandDetailAddr() {
+		return brandDetailAddr;
+	}
+
+	public void setBrandDetailAddr(String brandDetailAddr) {
+		this.brandDetailAddr = brandDetailAddr;
+	}
+
 	public Date getBrandEnrollDate() {
 		return brandEnrollDate;
 	}
@@ -88,6 +98,7 @@ public class Shop implements Serializable{
 	public void setMemberNo(String memberNo) {
 		this.memberNo = memberNo;
 	}
+	
 	
 	
 }

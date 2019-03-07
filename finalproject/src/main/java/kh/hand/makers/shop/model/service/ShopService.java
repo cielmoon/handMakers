@@ -1,11 +1,14 @@
 package kh.hand.makers.shop.model.service;
 
 import java.util.List;
+import java.util.Map;
 
-import kh.hand.makers.shop.model.vo.Shop;
+import kh.hand.makers.shop.model.vo.Brand;
 
 public interface ShopService {
 
-	List<Shop> selectBrandList(String memberNo);
+	List<Brand> selectBrandList(String memberNo);
+
+	int insertBrand(Map<String, String> map);
 
 }

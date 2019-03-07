@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <c:set var="path" value="${pageContext.request.contextPath }" />
-
 <style>
 .mt-1 {
 	margin-top: 10px;
@@ -28,6 +27,26 @@
 	font-size: 20px;
 }
 </style>
+
+<script>
+	$(function(){
+		/* 선택 브랜드 변경 시 사업자등록번호 변경 */
+		$("#select-brand").change(function(){
+			var brandNo = $("#select-brand").find(":selected").index();
+			
+			/* $.ajax({
+				url:"${path}/shop/selectBrand.do",
+				data:{"brandNo" : brandNo},
+				success:function(data){
+					$("#input-license").val(data);
+					
+					
+				}
+			});  */
+		}); 
+	});
+</script>
+
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
@@ -45,15 +64,18 @@
 								<p>상품을 제안할 브랜드를 선택해 주세요.</p>
 								<div class="form-group">
 									<label for="input-license" class="control-label">브랜드</label>
-									<select class="form-control" name="brandNo">
-										<c:forEach items="${list }" var="b">
-											<option>${b.brandNo }</option>
+									<select class="form-control" name="brandNo" id="select-brand">
+										<c:if test="${list }.size() < 1">
+											<option selected>등록된 브랜드 없음</option>		
+										</c:if>
+										<c:forEach items="${list }" var="b" varStatus="vs">
+											<option ${vs.count==1? "selected" : ""} value="${b.brandNo }">${b.brandTitle }</option>
 										</c:forEach>
 									</select>
 								</div>
 								<div class="form-group">
 									<label for="input-brandLicense" class="control-label">사업자 등록번호</label>
-									<input type="text" class="form-control" id="input-license" name="brandLicense" value="333-22-*****" readonly>
+									<input type="text" class="form-control" id="input-license" name="brandLicense" value='${list!=null? list[0].brandLicense : ""}' readonly>
 								</div>
 							</div>
 							<div class="col-sm-1"></div>

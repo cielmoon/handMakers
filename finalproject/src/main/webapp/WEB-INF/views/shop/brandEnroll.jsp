@@ -44,6 +44,13 @@ function validate(){
 		return false;
 	}
 	
+	var brandAddr = $('#input-brandAddr').val();
+	if(brandAddr.trim().length < 1)
+	{
+		alert("사업장 주소를 입력해주세요.");
+		return false;
+	}
+	
 	return true;
 }
 
@@ -93,7 +100,7 @@ function searchAddr(){
 							</h4>
 						</div>
 						<div class="panel-body">
-							<form name="brandEnrollFrm" action="${path}/shop/brandEnrollEnd.do" method="post" onsubmit="return validate();">
+							<form name="brandEnrollFrm" action="${path}/shop/brandEnrollEnd.do?memberNo=${member.memberNo}" method="post" onsubmit="return validate();">
 								<div class="row">
 									<div class="col-sm-6">
 										<h2>브랜드 정보</h2>
@@ -109,16 +116,16 @@ function searchAddr(){
 										
 										<div class="row">
 											<div class="col-sm-6">
-												<label for="input-brandFormat" class="control-label">업태</label>
-												<input type="text" class="form-control" id="input-brandFormat" name="brandFormat" placeholder="ex)제조업">
+												<label for="input-brandFormat" class="control-label">업태 *</label>
+												<input type="text" class="form-control" id="input-brandFormat" name="brandFormat" value="제조업/전자상거래업" readonly>
 											</div>
 											<div class="col-sm-6">
-												<label for="input-brandType" class="control-label">업종</label>
+												<label for="input-brandType" class="control-label">업종 *</label>
 												<input type="text" class="form-control" id="input-brandType" name="brandType" placeholder="ex)의류">
 											</div>
 										</div>
 										
-										<label class="control-label mt-1">사업장 소재지</label>
+										<label class="control-label mt-1">사업장 소재지 *</label>
 										<div class="row">
 											<div class="col-sm-4">
 												<input type="text" class="form-control" id="input-brandZipCode" name="brandZipCode" placeholder="우편번호" readonly>
@@ -130,21 +137,24 @@ function searchAddr(){
 										<div class="form-group">
 											<input type="text" class="form-control" id="input-brandAddr" name="brandAddr" placeholder="주소" readonly>
 										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" id="input-brandDetailAddr" name="brandDetailAddr" placeholder="상세주소" required>
+										</div>
 									</div>
 									<div class="col-sm-6">
 										<h2>담당자 정보</h2>
 										<p>연락이 가능한 담당자 정보를 확인해주세요.</p>
 										<div class="form-group">
 											<label class="control-label">이름</label>
-											<input type="text" class="form-control" id="input-name" value="${member.memberName }" name="memberName" readonly>
+											<input type="text" class="form-control" id="input-name" value="${member.memberName }" readonly>
 										</div>
 										<div class="form-group">
 											<label class="control-label">전화번호</label>
-											<input type="text" class="form-control" id="input-phone" value="${member.memberPhone }" name="memberPhone" readonly>
+											<input type="text" class="form-control" id="input-phone" value="${member.memberPhone }" readonly>
 										</div>		
 										<div class="form-group">
 											<label class="control-label">E-Mail</label>
-											<input type="text" class="form-control" id="input-email" value="${member.memberEmail }" name="memberEmail" readonly>
+											<input type="text" class="form-control" id="input-email" value="${member.memberEmail }" readonly>
 										</div>								
 									</div>
 								</div>
