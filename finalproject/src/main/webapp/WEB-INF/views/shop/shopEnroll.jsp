@@ -28,6 +28,42 @@
 	font-size: 20px;
 }
 </style>
+
+<script>
+	$(function(){
+		/* 선택 브랜드 변경 시 사업자등록번호 변경 */
+		$("#select-brand").change(function(){
+			$("#input-license").val("수정사항");	
+			
+		}); 
+	});
+	function productEnroll()
+	{
+		var brandNo = $("#select-brand").find(":selected").val();
+		if(brandNo != -1)
+		{
+			location.href="${path }/shop/productEnroll.do?brandNo=" + brandNo;
+		}
+		else
+		{
+			alert("상품을 제안할 브랜드를 선택해주세요.");
+			$("#select-brand").focus();
+		}
+	}
+	function brandEnroll()
+	{
+		var brandSize = $("#select-brand option:last").index();
+		if(brandSize >= 4)
+		{
+			alert("최대 5개 브랜드까지 등록할 수 있습니다. 관리자에게 문의해주세요.");
+		}
+		else
+		{
+			location.href="${path}/shop/brandEnroll.do";
+		}
+	}
+</script>
+
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
@@ -45,13 +81,20 @@
 								<p>상품을 제안할 브랜드를 선택해 주세요.</p>
 								<div class="form-group">
 									<label for="input-license" class="control-label">브랜드</label>
-									<select class="form-control">
-										<option selected>없음</option>
+									<select class="form-control" name="brandNo" id="select-brand">
+										<c:if test="${list.size() < 1}">
+											<option selected disabled value="-1">등록된 브랜드 없음</option>
+										</c:if>
+										<c:forEach items="${list }" var="b" varStatus="vs">
+											<option ${vs.count==1? "selected" : ""} value="${b.brandNo }">${b.brandTitle } 
+												${b.brandState.toString()=='0'? "(검토중)": b.brandState.toString()=='2'?'(반려)':''}
+											</option>
+										</c:forEach>										
 									</select>
 								</div>
 								<div class="form-group">
 									<label for="input-brandLicense" class="control-label">사업자 등록번호</label>
-									<input type="text" class="form-control" id="input-license" name="brandLicense" value="333-22-*****" readonly>
+									<input type="text" class="form-control" id="input-license" name="brandLicense" value='${list!=null? list[0].brandLicense : ""}' readonly>
 								</div>
 							</div>
 							<div class="col-sm-1"></div>
@@ -67,9 +110,9 @@
 						<div class="row mt-1">
 							<div class="col-sm-12">
 								<input type="button" class="btn btn-primary float-right" data-loading-text="Loading..." 
-								id="button-product" value="상품 제안하기" onclick='location.href="${path }/shop/productEnroll.do"'>						
+								id="button-product" value="상품 제안하기" onclick='productEnroll();'>						
 								<input type="button" class="btn btn-primary float-right mr-1" data-loading-text="Loading..." 
-								id="button-brand" value="브랜드 등록하기" onclick='location.href="${path}/shop/brandEnroll.do"'>					
+								id="button-brand" value="브랜드 등록하기" onclick='brandEnroll();'>					
 							</div>
 						</div>
 					</div>    

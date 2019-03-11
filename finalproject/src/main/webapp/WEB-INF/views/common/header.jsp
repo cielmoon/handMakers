@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
-	import = "kh.hand.makers.member.model.vo.*, java.util.*" %>
+	import="kh.hand.makers.member.model.vo.*, java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -12,6 +12,13 @@
 <title>handmakers</title>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
+<script type='text/javascript'
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+<script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
+
 <meta name="description"
 	content="e-commerce site well design with responsive view." />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,45 +64,55 @@
 									<li class="dropdown account"><a href="#"
 										title="My Account" class="  dropdown-toggle"
 										data-toggle="dropdown"> <i class="fa fa-user"></i><span>MyAccount</span>
-											<span class="caret"></span></a> 
+											<span class="caret"></span></a>
+											
+									<c:choose>
+									<c:when test="${member != null }">
+												
 										<c:choose>
-											<c:when test="${member != null }">
-												<c:choose>
-												<c:when test="${member.memberAuthority == 'M' }">
+											<c:when test="${member.memberAuthority == 'M' }">
 												<ul class="dropdown-menu dropdown-menu-right">
-													<li><a href="#" onclick="location.href='${path}/member/myPage.do'">마이페이지</a></li>
-													<li><a href="#"
-														onclick="location.href='${path}/member/memberLogout.do'">로그아웃</a></li>
+													<li><a href="#"	onclick="location.href='${path}/member/myPage.do'">마이페이지</a></li>
+													<li><a href="#" onclick="location.href='${path}/member/memberLogout.do'">로그아웃</a></li>
 												</ul>
-												</c:when>
-												<c:when test="${member.memberAuthority == 'S' }">
-												<ul class="dropdown-menu dropdown-menu-right">								
+											</c:when>
+			
+											<c:when test="${member.memberAuthority == 'S' }">
+												<ul class="dropdown-menu dropdown-menu-right">
 													<li><a href="#" onclick="location.href='${path}/member/myPage.do'">마이페이지</a></li>
 													<li><a href="#" onclick="location.href='${path}/member/myPage.do'">판매관리</a></li>
-													<li><a href="#"
-														onclick="location.href='${path}/member/memberLogout.do'">로그아웃</a></li>
-												</ul>
-												</c:when>
-												<c:when test="${member.memberAuthority == 'A' }">
-												<ul class="dropdown-menu dropdown-menu-right">
-													<li><a href="#" onclick="location.href='${path}/member/adminPage.do'">관리자페이지</a></li>	
-													<li><a href="#"
-														onclick="location.href='${path}/member/memberLogout.do'">로그아웃</a></li>
-												</ul>
-												</c:when>
-												</c:choose>
+													<li><a href="#" onclick="location.href='${path}/member/memberLogout.do'">로그아웃</a></li>
+														</ul>
 											</c:when>
-											<c:otherwise>					
+											
+											<c:when test="${member.memberAuthority == 'A' }">
 												<ul class="dropdown-menu dropdown-menu-right">
-													<li><a href="#"
-														onclick="location.href='${path}/member/memberLogin.do'">로그인</a></li>
-													<li><a href="#"
-														onclick="location.href='${path}/member/memberEnroll.do'">회원가입</a></li>
-												</ul>											
-											</c:otherwise>
+													<li><a href="#" onclick="location.href='${path}/admin/adminPage.do'">관리자페이지</a></li>
+													<li><a href="#" onclick="location.href='${path}/member/memberLogout.do'">로그아웃</a></li>
+													</ul>
+											</c:when>
+											<c:when test="${member.memberAuthority == null }">
+											<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#" onclick="location.href='${path}/member/memberLogin.do'">로그인</a></li>
+													<li><a href="#" onclick="location.href='${path}/member/memberEnroll.do'">회원가입</a></li>
+												</ul>
+											</c:when>
 										</c:choose>
-									</li>
-									<li><a href="#" onclick="location.href='${path}/member/wishList.do'" id="wishlist-total" title="Wish List (0)"><i class="fa fa-heart"></i><span>Wish List</span><span> (0)</span></a></li>
+										
+									</c:when>
+									<c:otherwise>
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#" onclick="location.href='${path}/member/memberLogin.do'">로그인</a></li>
+													<li><a href="#" onclick="location.href='${path}/member/memberEnroll.do'">회원가입</a></li>
+												</ul>
+									</c:otherwise>
+									</c:choose></li>
+									
+									<li><a href="#"
+										onclick="location.href='${path}/member/wishList.do'"
+										id="wishlist-total" title="Wish List (0)"><i
+											class="fa fa-heart"></i><span>Wish List</span><span>
+												(0)</span></a></li>
 								</ul>
 								<div class="search-box">
 									<input class="input-text" placeholder="Search By Products.."
@@ -137,7 +154,7 @@
 									<li><a href="${path }/product/category.do?category=electronics">IT/가전</a></li>
 									<li><a href="${path }/product/category.do">푸드</a></li>
 									<li><a href="${path }/product/category.do">악세서리</a></li>
-									<li><a href="${path }/product/productTest.do">상세테스트-가방/지갑</a></li>		
+									<li><a href="${path }/product/productTest.do">상세테스트-가방/지갑</a></li>
 								</ul></li>
 							<!-- <li><a href="index.html" class="parent">신규</a></li>
 							<li><a href="category.html" class="parent">베스트</a></li> -->
@@ -147,7 +164,7 @@
 							<li><a href="#" class="active parent">문의하기</a>
 								<ul>
 									<li><a href="category.html">Q & A</a></li>
-									<li><a href="cart.html">입점문의</a></li>
+									<li><a href="${path }/shop/shopEnroll.do">입점문의</a></li>
 								</ul></li>
 						</ul>
 					</div>
