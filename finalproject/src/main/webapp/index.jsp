@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <section>
 	<div class="container">
-		<div class="mainbanner">
+		<div class="mainbanner"><!-- 메인배너엔 뭘넣어야할까? -->
 			<div id="main-banner" class="owl-carousel home-slider">
 				<div class="item">
 					<a href="#"><img src="${path }/resources/image/banners/Main-Banner1.jpg"
@@ -25,7 +25,7 @@
 		</div>
 	</div>
 	<div class="container">
-		<h1>오호오호1</h1>
+		<h1>오호오호1</h1><!-- 사이트맵? ex: kh정보교육원 -->
 	</div>
 </section>
 

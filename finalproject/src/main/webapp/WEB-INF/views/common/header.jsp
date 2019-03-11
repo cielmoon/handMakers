@@ -134,7 +134,7 @@
 						<ul class="main-navigation">
 							<li><a href="#" class="active parent">카테고리</a>
 								<ul>
-									<li><a href="${path }/product/category.do">IT/가전</a></li>
+									<li><a href="${path }/product/category.do?category=electronics">IT/가전</a></li>
 									<li><a href="${path }/product/category.do">푸드</a></li>
 									<li><a href="${path }/product/category.do">악세서리</a></li>
 									<li><a href="${path }/product/productTest.do">상세테스트-가방/지갑</a></li>		
