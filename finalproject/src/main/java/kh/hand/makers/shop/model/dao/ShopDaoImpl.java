@@ -47,7 +47,10 @@ public class ShopDaoImpl implements ShopDao {
 	public List<SmallCategory> selectScList(String bcNo) {
 		return sqlSession.selectList("shop.selectScList", bcNo);
 	}
-	
-	
 
+	@Override
+	public int updateBrand(Map<String, String> map) {
+		return sqlSession.update("shop.updateBrand", map);
+	}
+	
 }

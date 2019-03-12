@@ -49,16 +49,26 @@ public class ShopController {
 	
 	// 브랜드 등록 페이지
 	@RequestMapping("/shop/brandEnroll.do")
-	public String brandEnroll()
+	public ModelAndView brandEnroll(String brandNo)
 	{
-		return "shop/brandEnroll";
+		ModelAndView mv = new ModelAndView();
+
+		if(brandNo != null) //반려된 브랜드 재등록 요청일 경우
+		{
+			Brand brand = service.selectBrand(brandNo);
+			mv.addObject("brand", brand);
+		}
+		
+		mv.setViewName("shop/brandEnroll");
+		return mv;
 	}
 	
 	@RequestMapping("/shop/brandEnrollEnd.do")
 	public ModelAndView brandEnrollEnd(String memberNo, Brand b)
 	{
-		ModelAndView mv = new ModelAndView();
+		String brandNo = b.getBrandNo();
 		
+		ModelAndView mv = new ModelAndView();
 		Map<String, String> map = new HashMap<>();
 		map.put("brandTitle", b.getBrandTitle());
 		map.put("brandLicense", b.getBrandLicense());
@@ -67,15 +77,30 @@ public class ShopController {
 		map.put("brandDetailAddr", b.getBrandDetailAddr());
 		map.put("memberNo", memberNo);
 
-		int result = service.insertBrand(map);
+		int result = -1;
 		String msg="";
 		String loc="/shop/shopEnroll.do";
-		if(result>0)
+		
+		if(brandNo.trim().isEmpty()) // 신규 브랜드 등록
 		{
-			msg="브랜드 등록이 정상적으로 접수되었습니다.";
-		}
-		else {
-			msg="브랜드 등록 접수에 실패하였습니다.";
+			result = service.insertBrand(map);
+			if(result>0)
+			{
+				msg="브랜드 등록이 정상적으로 접수되었습니다.";
+			}
+			else {
+				msg="브랜드 등록 접수에 실패하였습니다.";
+			}
+		}else { // 반려된 브랜드 재등록 요청
+			map.put("brandNo", brandNo);
+			result = service.updateBrand(map);
+			if(result>0)
+			{
+				msg="브랜드 재등록 요청이 정상적으로 접수되었습니다.";
+			}
+			else {
+				msg="브랜드 재등록 요청에 실패하였습니다.";
+			}
 		}
 		mv.addObject("msg",msg);
 		mv.addObject("loc",loc);

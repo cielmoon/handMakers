@@ -27,6 +27,9 @@
 .i-contact {
 	font-size: 20px;
 }
+.modal-dialog {z-index: 1050;}
+
+#button-brand {width: 170px;}
 </style>
 
 <script>
@@ -35,31 +38,67 @@
 		$("#select-brand").change(function(){
 			$("#input-license").val("수정사항");	
 			
+			var brandState = $('#select-brand').find(":selected").attr('class');
+			if(brandState == 'state2'){ // 반려된 브랜드를 선택한 경우
+				$("#button-brand").show();
+				$("#button-brand").val("브랜드 등록 재요청");
+			}
+			else
+			{
+				$("#button-brand").show();
+				$("#button-brand").val("신규 브랜드 등록하기");
+			}
 		}); 
+
+		// 브랜드 상태 표시
+		$('#select-brand').find('option').each(function() {
+			var optClass = $(this).attr('class');
+		    if(optClass == 'state0'){ //검토중
+		    	$(this).text($(this).text() + " (미승인) ");
+		    }
+		    if(optClass == 'state2'){ //반려
+		    	$(this).text($(this).text() + " (반려) ");
+		    }
+		});
 	});
 	function productEnroll()
 	{
 		var brandNo = $("#select-brand").find(":selected").val();
-		if(brandNo != -1)
+		if(brandNo == -1)
+		{		
+			alert("상품을 제안할 브랜드를 선택해주세요.");
+			$("#select-brand").focus();
+			return false;
+		}
+				
+		var brandState = $('#select-brand').find(":selected").attr('class');
+		if(brandState == 'state0' || brandState == 'state2') // 판매 승인 검토중이거나 반려된 브랜드
 		{
-			location.href="${path }/shop/productEnroll.do?brandNo=" + brandNo;
+			alert("승인되지 않은 브랜드입니다.");
 		}
 		else
 		{
-			alert("상품을 제안할 브랜드를 선택해주세요.");
-			$("#select-brand").focus();
+			location.href="${path }/shop/productEnroll.do?brandNo=" + brandNo;	
 		}
 	}
 	function brandEnroll()
 	{
 		var brandSize = $("#select-brand option:last").index();
-		if(brandSize >= 4)
+		var brandState = $('#select-brand').find(":selected").attr('class');
+		var brandNo = $('#select-brand').find(":selected").val();
+		if(brandState == 'state2') // 등록 반려된 브랜드 재요청
 		{
-			alert("최대 5개 브랜드까지 등록할 수 있습니다. 관리자에게 문의해주세요.");
-		}
-		else
+			location.href="${path}/shop/brandEnroll.do?brandNo=" + brandNo;
+		}else
 		{
-			location.href="${path}/shop/brandEnroll.do";
+			if(brandSize > 4)
+			{
+				alert("최대 5개 브랜드까지 등록할 수 있습니다. 관리자에게 문의해주세요.");
+			}
+			else
+			{
+				location.href="${path}/shop/brandEnroll.do";
+			}
 		}
 	}
 </script>
@@ -85,16 +124,15 @@
 										<c:if test="${list.size() < 1}">
 											<option selected disabled value="-1">등록된 브랜드 없음</option>
 										</c:if>
+										<option selected disabled value="-1">브랜드를 선택해주세요.</option>
 										<c:forEach items="${list }" var="b" varStatus="vs">
-											<option ${vs.count==1? "selected" : ""} value="${b.brandNo }">${b.brandTitle } 
-												${b.brandState.toString()=='0'? "(검토중)": b.brandState.toString()=='2'?'(반려)':''}
-											</option>
+											<option class="${b.brandState.toString()=='0'? 'state0': b.brandState.toString()=='2'?'state2':'state1'}" value="${b.brandNo }">${b.brandTitle }</option>
 										</c:forEach>										
 									</select>
 								</div>
 								<div class="form-group">
 									<label for="input-brandLicense" class="control-label">사업자 등록번호</label>
-									<input type="text" class="form-control" id="input-license" name="brandLicense" value='${list!=null? list[0].brandLicense : ""}' readonly>
+									<input type="text" class="form-control" id="input-license" name="brandLicense" readonly>
 								</div>
 							</div>
 							<div class="col-sm-1"></div>
@@ -112,7 +150,7 @@
 								<input type="button" class="btn btn-primary float-right" data-loading-text="Loading..." 
 								id="button-product" value="상품 제안하기" onclick='productEnroll();'>						
 								<input type="button" class="btn btn-primary float-right mr-1" data-loading-text="Loading..." 
-								id="button-brand" value="브랜드 등록하기" onclick='brandEnroll();'>					
+								id="button-brand" value="신규 브랜드 등록하기" onclick='brandEnroll();'>					
 							</div>
 						</div>
 					</div>    

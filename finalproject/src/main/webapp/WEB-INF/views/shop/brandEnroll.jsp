@@ -65,7 +65,6 @@ function searchAddr(){
             } else {
             	var expRoadAddr = data.roadAddress;
             }
-    	   document.getElementById('input-brandZipCode').value = data.zonecode;
            document.getElementById("input-brandAddr").value = expRoadAddr;
            },
            shorthand : false //'시','도' 부분을 축약 표시
@@ -82,6 +81,12 @@ function searchAddr(){
 }
 .float-right {
 	float: right;
+}
+.pr-0{
+	padding-right: 0;
+}
+.btn-120{
+	width: 120px;
 }
 </style>
 <section>
@@ -108,11 +113,13 @@ function searchAddr(){
 										<p>* 표시는 필수 입력 사항입니다.</p> 
 										<div class="form-group">
 											<label for="input-license" class="control-label">사업자 등록번호 *</label>
-											<input type="text" class="form-control" id="input-license" name="brandLicense" maxlength="12" required>
+											<input type="text" class="form-control" id="input-license" name="brandLicense" maxlength="12" required
+											value="${brand.brandLicense}" ${brand!=null? "readonly" : "" }>
 										</div>
 										<div class="form-group">
 											<label for="input-brandTitle" class="control-label">브랜드명 *</label>
-											<input type="text" class="form-control" id="input-brandTitle" name="brandTitle" required>
+											<input type="text" class="form-control" id="input-brandTitle" name="brandTitle" maxlength="25" required
+											value="${brand.brandTitle}" ${brand!=null? "readonly" : "" }>
 										</div>
 										
 										<div class="row">
@@ -122,24 +129,24 @@ function searchAddr(){
 											</div>
 											<div class="col-sm-6">
 												<label for="input-brandType" class="control-label">업종 *</label>
-												<input type="text" class="form-control" id="input-brandType" name="brandType" placeholder="ex)의류" required>
+												<input type="text" class="form-control" id="input-brandType" name="brandType" placeholder="ex)의류" 
+												value="${brand.brandType}" required>
 											</div>
 										</div>
 										
 										<label class="control-label mt-1">사업장 소재지 *</label>
 										<div class="row">
-											<div class="col-sm-4">
-												<input type="text" class="form-control" id="input-brandZipCode" name="brandZipCode" placeholder="우편번호" readonly>
+											<div class="col-sm-9 pr-0">	
+												<input type="text" class="form-control" id="input-brandAddr" name="brandAddr" 
+												value="${brand.brandAddr }" placeholder="주소" readonly>
 											</div>
-											<div class="col-sm-6">
-												<input type="button" class="btn btn-primary" id="button-searchAddr" value="우편번호 조회" onclick="searchAddr();">
+											<div class="col-sm-3 text-right">
+												<input type="button" class="btn btn-primary btn-120" id="button-searchAddr" value="주소검색" onclick="searchAddr();">
 											</div>
-										</div>							
-										<div class="form-group">
-											<input type="text" class="form-control" id="input-brandAddr" name="brandAddr" placeholder="주소" readonly>
 										</div>
 										<div class="form-group">
-											<input type="text" class="form-control" id="input-brandDetailAddr" name="brandDetailAddr" placeholder="상세주소" required>
+											<input type="text" class="form-control" id="input-brandDetailAddr" name="brandDetailAddr" 
+											value="${brand.brandDetailAddr }" placeholder="상세주소" maxlength="30" required>
 										</div>
 									</div>
 									<div class="col-sm-6">
@@ -159,6 +166,7 @@ function searchAddr(){
 										</div>								
 									</div>
 								</div>
+								<input type="hidden" value="${brand.brandNo }" name="brandNo"/>
 								<input type="submit" class="btn btn-primary float-right" data-loading-text="Loading..." id="button-submit" value="등록하기">
 						</form>
 					</div>
