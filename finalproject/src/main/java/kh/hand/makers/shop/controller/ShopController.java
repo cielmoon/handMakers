@@ -115,7 +115,7 @@ public class ShopController {
 		ModelAndView mv = new ModelAndView();
 		Brand brand = service.selectBrand(brandNo);	
 		List<BigCategory> bcList = service.selectBcList();
-		List<SmallCategory> scList = service.selectScList("B_C_NO1");
+		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
 		mv.addObject("brand", brand);
 		mv.addObject("bcList", bcList);
 		mv.addObject("scList", scList);
