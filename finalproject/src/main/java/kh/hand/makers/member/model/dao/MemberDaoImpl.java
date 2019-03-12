@@ -1,5 +1,9 @@
 package kh.hand.makers.member.model.dao;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,4 +25,19 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.insert("member.insertMember",m);
 	}
 
+	@Override
+	public int selectBrandCloseCount() {
+		return sqlSession.selectOne("member.selectBrandCloseCount");
+	}
+
+	@Override
+	public List<Map<String, String>> selectBrandCloseList(int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage - 1) * numPerPage, numPerPage);
+		return sqlSession.selectList("member.selectBrandCloseList", null, rb);
+	}
+
+	@Override
+	public int checkId(String memberId) {
+		return sqlSession.selectOne("member.checkId", memberId);
+	}
 }
