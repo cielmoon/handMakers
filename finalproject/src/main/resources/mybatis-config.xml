@@ -12,6 +12,7 @@
       <typeAlias type="kh.hand.makers.shop.model.vo.PreProduct" alias="preproduct"/>
       <typeAlias type="kh.hand.makers.shop.model.vo.BigCategory" alias="bigcategory"/>
       <typeAlias type="kh.hand.makers.shop.model.vo.SmallCategory" alias="smallcategory"/>
+      <typeAlias type="kh.hand.makers.product.model.vo.Product" alias="product"/>
    </typeAliases>
    <typeHandlers>
       <package name="kh.hand.makers.common"/>

@@ -12,7 +12,7 @@ public class HeaderController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HeaderController.class);
 	
-	@RequestMapping("/product/bestList.do")
+	/*@RequestMapping("/product/bestList.do")
 	public String productBestList()
 	{
 		return "product/bestList";
@@ -40,6 +40,6 @@ public class HeaderController {
 	public String productTest()
 	{
 		return "/product/productView";
-	}
+	}*/
 
 }
