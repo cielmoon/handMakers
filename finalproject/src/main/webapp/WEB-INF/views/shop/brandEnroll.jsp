@@ -9,6 +9,15 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 $(function(){
+	
+	// 반려된 브랜드 재등록 요청
+	var brand = '${brand}';
+	if(brand != '')
+	{
+		$('#input-license').attr('disabled', true);
+		$('#input-brandTitle').attr('disabled', true);
+	}
+	
 	/* 사업자 등록번호 입력 시 글자 제한 및 자동 하이픈 추가 */
 	$('#input-license').on('keydown',function(){
      var key = event.charCode || event.keyCode || 0;
@@ -108,11 +117,13 @@ function searchAddr(){
 										<p>* 표시는 필수 입력 사항입니다.</p> 
 										<div class="form-group">
 											<label for="input-license" class="control-label">사업자 등록번호 *</label>
-											<input type="text" class="form-control" id="input-license" name="brandLicense" maxlength="12" required>
+											<input type="text" class="form-control" id="input-license" name="brandLicense" maxlength="12" required
+											value="${brand!=null? brand.brandLicense : ''}">
 										</div>
 										<div class="form-group">
 											<label for="input-brandTitle" class="control-label">브랜드명 *</label>
-											<input type="text" class="form-control" id="input-brandTitle" name="brandTitle" required>
+											<input type="text" class="form-control" id="input-brandTitle" name="brandTitle" maxlength="25" required
+											value="${brand!=null? brand.brandTitle : ''}">
 										</div>
 										
 										<div class="row">
@@ -139,7 +150,7 @@ function searchAddr(){
 											<input type="text" class="form-control" id="input-brandAddr" name="brandAddr" placeholder="주소" readonly>
 										</div>
 										<div class="form-group">
-											<input type="text" class="form-control" id="input-brandDetailAddr" name="brandDetailAddr" placeholder="상세주소" required>
+											<input type="text" class="form-control" id="input-brandDetailAddr" name="brandDetailAddr" placeholder="상세주소" maxlength="30" required>
 										</div>
 									</div>
 									<div class="col-sm-6">
