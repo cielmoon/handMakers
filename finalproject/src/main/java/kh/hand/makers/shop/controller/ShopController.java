@@ -1,5 +1,7 @@
 package kh.hand.makers.shop.controller;
 
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.shop.model.service.ShopService;
+import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
+import kh.hand.makers.shop.model.vo.PreProduct;
+import kh.hand.makers.shop.model.vo.SmallCategory;
 
 @Controller
 public class ShopController {
@@ -63,19 +68,74 @@ public class ShopController {
 		map.put("memberNo", memberNo);
 
 		int result = service.insertBrand(map);
-		
-		mv.addObject("result", result); //정상등록인 경우 상품등록 페이지 이동 제안용(모달창)
-		/*mv.setViewName("shop/shopEnroll.");*/
-		
+		String msg="";
+		String loc="/shop/shopEnroll.do";
+		if(result>0)
+		{
+			msg="브랜드 등록이 정상적으로 접수되었습니다.";
+		}
+		else {
+			msg="브랜드 등록 접수에 실패하였습니다.";
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.setViewName("common/msg");
 		return mv;
 	}
 
 	// 상품 제안 페이지
 	@RequestMapping("/shop/productEnroll.do")
-	public String productEnroll()
+	public ModelAndView productEnroll(String brandNo)
 	{
-		return "shop/productEnroll";
+		ModelAndView mv = new ModelAndView();
+		Brand brand = service.selectBrand(brandNo);	
+		List<BigCategory> bcList = service.selectBcList();
+		List<SmallCategory> scList = service.selectScList("B_C_NO1");
+		mv.addObject("brand", brand);
+		mv.addObject("bcList", bcList);
+		mv.addObject("scList", scList);
+		mv.setViewName("shop/productEnroll");
+		return mv;
 	}
 	
+	@RequestMapping("/shop/productEnrollEnd.do")
+	public ModelAndView productEnrollEnd(PreProduct p)
+	{
+		ModelAndView mv = new ModelAndView();
+		Map<String, String> map = new HashMap<>();
+		map.put("preProductTitle", p.getPreProductTitle());
+		map.put("preProductDiscript", p.getPreProductDiscript());
+		map.put("brandNo", p.getBrandNo());
+		map.put("bcNo", p.getBcNo());
+		map.put("scNo", p.getScNo());
+
+		int result = service.insertPreProduct(map);
+		
+		String msg="";
+		String loc="/shop/shopEnroll.do";
+		if(result>0)
+		{
+			msg="상품 제안이 정상적으로 접수되었습니다.";
+		}
+		else {
+			msg="상품 제안 접수에 실패하였습니다.";
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.setViewName("common/msg");
+		return mv;
+		
+	}
 	
+	@RequestMapping("/shop/productEnrollScSet.do")
+	public ModelAndView productEnrollScSet(String bcNo)
+	{
+		ModelAndView mv = new ModelAndView();
+
+		List<SmallCategory> scList = service.selectScList(bcNo);
+		mv.addObject("scList", scList);
+		
+		mv.setViewName("jsonView");
+		return mv;
+	}
 }

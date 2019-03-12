@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <c:set var="path" value="${pageContext.request.contextPath }" />
+
 <style>
 .mt-1 {
 	margin-top: 10px;
@@ -32,19 +33,35 @@
 	$(function(){
 		/* 선택 브랜드 변경 시 사업자등록번호 변경 */
 		$("#select-brand").change(function(){
-			var brandNo = $("#select-brand").find(":selected").index();
+			$("#input-license").val("수정사항");	
 			
-			/* $.ajax({
-				url:"${path}/shop/selectBrand.do",
-				data:{"brandNo" : brandNo},
-				success:function(data){
-					$("#input-license").val(data);
-					
-					
-				}
-			});  */
 		}); 
 	});
+	function productEnroll()
+	{
+		var brandNo = $("#select-brand").find(":selected").val();
+		if(brandNo != -1)
+		{
+			location.href="${path }/shop/productEnroll.do?brandNo=" + brandNo;
+		}
+		else
+		{
+			alert("상품을 제안할 브랜드를 선택해주세요.");
+			$("#select-brand").focus();
+		}
+	}
+	function brandEnroll()
+	{
+		var brandSize = $("#select-brand option:last").index();
+		if(brandSize >= 4)
+		{
+			alert("최대 5개 브랜드까지 등록할 수 있습니다. 관리자에게 문의해주세요.");
+		}
+		else
+		{
+			location.href="${path}/shop/brandEnroll.do";
+		}
+	}
 </script>
 
 <section>
@@ -65,12 +82,14 @@
 								<div class="form-group">
 									<label for="input-license" class="control-label">브랜드</label>
 									<select class="form-control" name="brandNo" id="select-brand">
-										<c:if test="${list }.size() < 1">
-											<option selected>등록된 브랜드 없음</option>		
+										<c:if test="${list.size() < 1}">
+											<option selected disabled value="-1">등록된 브랜드 없음</option>
 										</c:if>
 										<c:forEach items="${list }" var="b" varStatus="vs">
-											<option ${vs.count==1? "selected" : ""} value="${b.brandNo }">${b.brandTitle }</option>
-										</c:forEach>
+											<option ${vs.count==1? "selected" : ""} value="${b.brandNo }">${b.brandTitle } 
+												${b.brandState.toString()=='0'? "(검토중)": b.brandState.toString()=='2'?'(반려)':''}
+											</option>
+										</c:forEach>										
 									</select>
 								</div>
 								<div class="form-group">
@@ -91,9 +110,9 @@
 						<div class="row mt-1">
 							<div class="col-sm-12">
 								<input type="button" class="btn btn-primary float-right" data-loading-text="Loading..." 
-								id="button-product" value="상품 제안하기" onclick='location.href="${path }/shop/productEnroll.do"'>						
+								id="button-product" value="상품 제안하기" onclick='productEnroll();'>						
 								<input type="button" class="btn btn-primary float-right mr-1" data-loading-text="Loading..." 
-								id="button-brand" value="브랜드 등록하기" onclick='location.href="${path}/shop/brandEnroll.do"'>					
+								id="button-brand" value="브랜드 등록하기" onclick='brandEnroll();'>					
 							</div>
 						</div>
 					</div>    

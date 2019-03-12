@@ -9,21 +9,22 @@ public class Brand implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 8697881280526170957L;
-	private int brandNo;
+	private String brandNo;
 	private String brandTitle;
 	private String brandLicense;
 	private String brandType;
 	private String brandAddr;
 	private String brandDetailAddr;
 	private Date brandEnrollDate;
+	private char brandState;
 	private String memberNo;
 	
 	public Brand() {
 		super();
 	}
 
-	public Brand(int brandNo, String brandTitle, String brandLicense, String brandType, String brandAddr,
-			String brandDetailAddr, Date brandEnrollDate, String memberNo) {
+	public Brand(String brandNo, String brandTitle, String brandLicense, String brandType, String brandAddr,
+			String brandDetailAddr, Date brandEnrollDate, char brandState, String memberNo) {
 		super();
 		this.brandNo = brandNo;
 		this.brandTitle = brandTitle;
@@ -32,14 +33,15 @@ public class Brand implements Serializable{
 		this.brandAddr = brandAddr;
 		this.brandDetailAddr = brandDetailAddr;
 		this.brandEnrollDate = brandEnrollDate;
+		this.brandState = brandState;
 		this.memberNo = memberNo;
 	}
 
-	public int getBrandNo() {
+	public String getBrandNo() {
 		return brandNo;
 	}
 
-	public void setBrandNo(int brandNo) {
+	public void setBrandNo(String brandNo) {
 		this.brandNo = brandNo;
 	}
 
@@ -91,6 +93,14 @@ public class Brand implements Serializable{
 		this.brandEnrollDate = brandEnrollDate;
 	}
 
+	public char getBrandState() {
+		return brandState;
+	}
+
+	public void setBrandState(char brandState) {
+		this.brandState = brandState;
+	}
+
 	public String getMemberNo() {
 		return memberNo;
 	}
@@ -98,7 +108,7 @@ public class Brand implements Serializable{
 	public void setMemberNo(String memberNo) {
 		this.memberNo = memberNo;
 	}
-	
+
 	
 	
 }

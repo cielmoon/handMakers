@@ -124,12 +124,7 @@ public class MemberController {
 		return "member/myPage";
 	}
 	
-	@RequestMapping("/member/adminPage.do")
-	public String adminMyPage()
-	{
-		return "member/adminPage";
-	}
-	
+
 	
 	@RequestMapping("/member/wishList.do")
 	public String wishList()

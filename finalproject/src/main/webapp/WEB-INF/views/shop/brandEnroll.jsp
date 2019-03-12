@@ -100,7 +100,8 @@ function searchAddr(){
 							</h4>
 						</div>
 						<div class="panel-body">
-							<form name="brandEnrollFrm" action="${path}/shop/brandEnrollEnd.do?memberNo=${member.memberNo}" method="post" onsubmit="return validate();">
+						
+							<form name="brandEnrollFrm" action="${path }/shop/brandEnrollEnd.do?memberNo=${member.memberNo }" method="post" onsubmit="return validate();">
 								<div class="row">
 									<div class="col-sm-6">
 										<h2>브랜드 정보</h2>
@@ -121,7 +122,7 @@ function searchAddr(){
 											</div>
 											<div class="col-sm-6">
 												<label for="input-brandType" class="control-label">업종 *</label>
-												<input type="text" class="form-control" id="input-brandType" name="brandType" placeholder="ex)의류">
+												<input type="text" class="form-control" id="input-brandType" name="brandType" placeholder="ex)의류" required>
 											</div>
 										</div>
 										
