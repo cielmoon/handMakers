@@ -24,11 +24,11 @@
 							<a class="list-group-item" href="#">홈</a> 
 							<a class="list-group-item" href="#">공지사항 관리</a>
 							<a class="list-group-item" href="#">메인배너 관리</a>
-							<a class="list-group-item" href="#">회원 관리</a>				
+							<a class="list-group-item" href="#">회원 관리</a>	
+							<a class="list-group-item" href="${path}/admin/adminBrandCloseManage.do">브랜드 관리</a>			
 							<a class="list-group-item" href="#">입점문의 관리</a>	
-							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a>					
-							<a class="list-group-item" href="${path}/admin/adminBrandCloseManage.do">브랜드 관리</a>
-							<a class="list-group-item" href="#">상품 판매 관리</a>
+							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a>						
+							<!-- <a class="list-group-item" href="#">상품 판매 관리</a> -->
 							<a class="list-group-item" href="#">상품 재등록 관리</a>		
 						</div>
 					</div>
