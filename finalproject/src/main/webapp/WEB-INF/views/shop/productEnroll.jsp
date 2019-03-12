@@ -95,7 +95,8 @@ function changeAgree(){
 		<ul class="breadcrumb">
 			<li><a href="${path}"><i class="fa fa-home"></i></a></li>
 			<li><a href="#">문의하기</a></li>
-			<li><a href="#">입점문의</a></li>
+			<li><a href="${path}/shop/shopEnroll.do">입점문의</a></li>
+			<li><a href="${path}/shop/productEnroll.do?brandNo=${brand.brandNo}">상품제안</a></li>	
 		</ul>
 		<div class="row">
 			<div class="col-sm-12" id="content">
