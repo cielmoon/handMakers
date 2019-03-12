@@ -8,6 +8,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.hand.makers.shop.model.vo.Brand;
+
 @Repository
 public class AdminDaoImpl implements AdminDao {
 	@Autowired
@@ -24,4 +26,19 @@ public class AdminDaoImpl implements AdminDao {
 	public int selectProductCount() {
 		return session.selectOne("product.selectProductCount");
 	}
+
+	@Override
+	public List<Brand> selectBrandList(int cPage, int numPerPage) {
+		RowBounds rb=new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return session.selectList("brand.selectBrandList",null,rb);
+	}
+
+	@Override
+	public int selectBrandCount() {
+		// TODO Auto-generated method stub
+		return session.selectOne("brand.selectBrandCount");
+	}
+	
+	
+	
 }

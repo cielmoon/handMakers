@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.admin.model.service.AdminService;
 import kh.hand.makers.common.PageFactory;
+import kh.hand.makers.shop.model.vo.Brand;
 
 @Controller
 public class AdminController {
@@ -26,11 +27,30 @@ public class AdminController {
 		return "admin/adminPage";
 	}
 	
-	@RequestMapping("/admin/manageProduct.do")
-	public String manageProduct() {
+	@RequestMapping("/admin/manageBrand.do")
+/*	public String manageProduct() {
 		return "admin/manageProduct";
-	}
-/*	public ModelAndView manageProduct(
+	}*/
+	public ModelAndView manageBrand(
+			@RequestParam(value="cPage", 
+			required=false, defaultValue="0") int cPage
+			)
+	{
+		int numPerPage=5;
+		ModelAndView mv=new ModelAndView();
+		int contentCount=service.selectBrandCount();
+		List<Brand> brandList=service.selectBrandList(cPage,numPerPage);
+		mv.addObject("pageBar",PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageBrand"));
+		mv.addObject("brandList",brandList);
+		mv.setViewName("admin/manageBrand");
+		return mv;
+	}	
+	
+	@RequestMapping("/admin/manageProduct.do")
+/*	public String manageProduct() {
+		return "admin/manageProduct";
+	}*/
+	public ModelAndView manageProduct(
 			@RequestParam(value="cPage", 
 			required=false, defaultValue="0") int cPage
 			)
@@ -38,12 +58,12 @@ public class AdminController {
 		int numPerPage=5;
 		ModelAndView mv=new ModelAndView();
 		int contentCount=service.selectProductCount();
-		List<Map<String,String>> list=service.selectProductList(cPage,numPerPage);
+		List<Map<String,String>> productList=service.selectProductList(cPage,numPerPage);
 		mv.addObject("pageBar",PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageProduct"));
-		mv.addObject("list",list);
+		mv.addObject("productList",productList);
 		mv.setViewName("admin/manageProduct");
 		return mv;
-	}*/
+	}
 	
 	@RequestMapping("/admin/enrollProduct.do")
 	public String enrollProduct()
