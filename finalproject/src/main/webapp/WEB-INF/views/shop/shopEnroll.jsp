@@ -34,10 +34,13 @@
 
 <script>
 	$(function(){
-		/* 선택 브랜드 변경 시 사업자등록번호 변경 */
+		
 		$("#select-brand").change(function(){
-			$("#input-license").val("수정사항");	
+			/* 선택 브랜드 변경 시 해당 브랜드 사업자등록번호 표시 */
+			var brandIndex = $(this).find(":selected").index();
+			$("#select-license").prop('selectedIndex', brandIndex); 
 			
+			// 브랜드 승인 상태에 따른 버튼 텍스트 변경
 			var brandState = $('#select-brand').find(":selected").attr('class');
 			if(brandState == 'state2'){ // 반려된 브랜드를 선택한 경우
 				$("#button-brand").show();
@@ -108,7 +111,7 @@
 		<ul class="breadcrumb">
 			<li><a href="${path}"><i class="fa fa-home"></i></a></li>
 			<li><a href="#">문의하기</a></li>
-			<li><a href="#">입점문의</a></li>
+			<li><a href="${path}/shop/shopEnroll.do">입점문의</a></li>
 		</ul>
 		<div class="row">
 			<div class="col-sm-12" id="content">
@@ -121,9 +124,6 @@
 								<div class="form-group">
 									<label for="input-license" class="control-label">브랜드</label>
 									<select class="form-control" name="brandNo" id="select-brand">
-										<c:if test="${list.size() < 1}">
-											<option selected disabled value="-1">등록된 브랜드 없음</option>
-										</c:if>
 										<option selected disabled value="-1">브랜드를 선택해주세요.</option>
 										<c:forEach items="${list }" var="b" varStatus="vs">
 											<option class="${b.brandState.toString()=='0'? 'state0': b.brandState.toString()=='2'?'state2':'state1'}" value="${b.brandNo }">${b.brandTitle }</option>
@@ -132,7 +132,14 @@
 								</div>
 								<div class="form-group">
 									<label for="input-brandLicense" class="control-label">사업자 등록번호</label>
-									<input type="text" class="form-control" id="input-license" name="brandLicense" readonly>
+									<select class="form-control" name="brandLicense" id="select-license" disabled>
+										<option selected disabled>없음</option>
+										<c:forEach items="${list }" var="b" varStatus="vs">
+											<option value="${b.brandLicense }">${b.brandLicense }</option>
+										</c:forEach>										
+									</select><!-- 
+									
+									<input type="text" class="form-control" id="input-license" name="brandLicense" readonly> -->
 								</div>
 							</div>
 							<div class="col-sm-1"></div>
