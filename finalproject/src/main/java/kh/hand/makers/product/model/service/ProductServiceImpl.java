@@ -14,6 +14,14 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductDao dao;
 
+	
+	
+	@Override
+	public int selectProductCount() {
+		// TODO Auto-generated method stub
+		return dao.selectProductCount();
+	}
+
 	@Override
 	public List<Map<String, Object>> selectCategoryTemp(String category) {
 		// TODO Auto-generated method stub
@@ -21,9 +29,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Map<String, String>> productList(String category) {
+	public List<Map<String, String>> productList(String category, int cPage, int numPerPage) {
 		// TODO Auto-generated method stub
-		return dao.productList(category);
+		return dao.productList(category, cPage, numPerPage);
 	}
 	
 	
