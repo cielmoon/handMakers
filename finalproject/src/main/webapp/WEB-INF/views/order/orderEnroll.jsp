@@ -41,7 +41,7 @@ function requestPay() {
 	IMP.init('imp16711907');
     // IMP.request_pay(param, callback) 호출
 	IMP.request_pay({
-	    pg : 'kakaopay',
+	    pg : 'html5_inicis',
 	    pay_method : 'card',
 	    merchant_uid : 'merchant_' + new Date().getTime(),//환불시 필요한 정보
 	    name : '테스트상품',
@@ -49,7 +49,7 @@ function requestPay() {
 	    buyer_email : '${member.memberEmail}',
 	    buyer_name : '${member.memberName}',
 	    buyer_tel : '${member.memberPhone}',
-	    buyer_addr : '서울시 강남구 테헤란로 245-1',
+	    buyer_addr : '서울시 강남구 테헤란로',
 	    buyer_postcode : '123-456',
 	    m_redirect_url : 'https://www.myservice.com/payments/complete'
 	}, function(rsp) {
