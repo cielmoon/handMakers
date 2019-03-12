@@ -8,7 +8,7 @@
 <script>
    function fn_order(){
 	   location.href="${path}/order/orderEnroll.do";
-   }
+   };
    
 </script>
 <section class="product col-2 left-col">

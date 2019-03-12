@@ -46,10 +46,10 @@ function requestPay() {
 	    merchant_uid : 'merchant_' + new Date().getTime(),//환불시 필요한 정보
 	    name : '테스트상품',
 	    amount : '1',
-	    buyer_email : 'pjun127@naver.com',
-	    buyer_name : '박종언',
-	    buyer_tel : '010-1234-5678',
-	    buyer_addr : '서울특별시 강남구 삼성동',
+	    buyer_email : '${member.memberEmail}',
+	    buyer_name : '${member.memberName}',
+	    buyer_tel : '${member.memberPhone}',
+	    buyer_addr : '서울시 강남구 테헤란로 245-1',
 	    buyer_postcode : '123-456',
 	    m_redirect_url : 'https://www.myservice.com/payments/complete'
 	}, function(rsp) {
