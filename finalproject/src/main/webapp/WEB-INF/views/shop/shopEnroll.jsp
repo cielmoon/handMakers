@@ -91,7 +91,7 @@
 			location.href="${path}/shop/brandEnroll.do?brandNo=" + brandNo;
 		}else
 		{
-			if(brandSize >= 4)
+			if(brandSize > 4)
 			{
 				alert("최대 5개 브랜드까지 등록할 수 있습니다. 관리자에게 문의해주세요.");
 			}

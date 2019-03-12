@@ -21,4 +21,6 @@ public interface ShopDao {
 
 	List<SmallCategory> selectScList(String bcNo);
 
+	int updateBrand(Map<String, String> map);
+
 }

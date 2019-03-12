@@ -47,5 +47,10 @@ public class ShopServiceImpl implements ShopService {
 		return dao.selectScList(bcNo);
 	}
 
+	@Override
+	public int updateBrand(Map<String, String> map) {
+		return dao.updateBrand(map);
+	}
+
 	
 }

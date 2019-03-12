@@ -42,4 +42,8 @@
 	<select id="selectScList" resultMap="scMap" parameterType="string">
 		SELECT * FROM SMALL_CATEGORY WHERE BC_NO = #{bcNo}
 	</select>
+	<update id="updateBrand" parameterType="map">
+		UPDATE BRAND SET BRAND_ADDR = #{brandAddr}, BRAND_DETAILADDR = #{brandDetailAddr}, BRAND_TYPE = #{brandType}, BRAND_STATE = 0
+		WHERE BRAND_NO = #{brandNo}
+	</update>
 </mapper>
