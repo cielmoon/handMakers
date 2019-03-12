@@ -1,5 +1,12 @@
 package kh.hand.makers.member.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +14,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import kh.hand.makers.common.PageFactory;
 import kh.hand.makers.member.model.service.MemberService;
 import kh.hand.makers.member.model.vo.Member;
 
@@ -27,6 +36,26 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
 	
+	@RequestMapping("/member/checkId.do")
+	/*public void checkId(String userId,HttpServletResponse response) throws IOException
+	{
+		logger.debug("중복체크");
+		boolean isId=service.checkId(userId)==0?false:true;
+		response.getWriter().print(isId);
+	}*/
+	public ModelAndView checkId(String memberId, ModelAndView mv) throws UnsupportedEncodingException
+	{
+		Map map=new HashMap();
+		boolean isId=service.checkId(memberId)==0?false:true;
+		map.put("isId", isId);
+		
+		System.out.println("checkId~~~~~~~~~~~");
+		
+		mv.addAllObjects(map);
+		mv.setViewName("jsonView");
+		
+		return mv;	
+	}
 	
 	@RequestMapping("/member/memberEnroll.do")
 	public String memberEnroll()
@@ -124,7 +153,27 @@ public class MemberController {
 		return "member/myPage";
 	}
 	
-
+	@RequestMapping("/member/adminPage.do")
+	public String adminMyPage()
+	{
+		return "member/adminPage";
+	}
+	
+	@RequestMapping("/member/adminBrandCloseManage.do")
+	public ModelAndView brandCloseList(
+			@RequestParam(value="cPage", 
+			required=false, defaultValue="0") int cPage
+			)
+	{
+		int numPerPage=5;
+		ModelAndView mv=new ModelAndView();
+		int brandCloseCount=service.selectBrandCloseCount();
+		List<Map<String,String>> brandCloseList = service.selectBrandCloseList(cPage,numPerPage);
+		mv.addObject("pageBar",PageFactory.getPageBar(brandCloseCount, cPage, numPerPage, "/spring/board/boardList"));
+		mv.addObject("brandCloseList", brandCloseList);
+		mv.setViewName("admin/brandCloseList");
+		return mv;
+	}
 	
 	@RequestMapping("/member/wishList.do")
 	public String wishList()

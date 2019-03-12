@@ -6,7 +6,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
-<section>
+<section class="product col-2 left-col">
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="/makers"><i class="fa fa-home"></i></a></li>
@@ -169,10 +169,12 @@
     </div>
     <div id="content" class="col-sm-9">
       <h2 class="category-title">Desktops</h2>
-      <div class="row category-banner">
+      <!-- 카테고리배너 -->
+      <%-- <div class="row category-banner">
         <div class="col-sm-12 category-image"><img src="${path }/resources/image/banners/category-banner.jpg" alt="Desktops" title="Desktops" class="img-thumbnail" /></div>
         <div class="col-sm-12 category-desc">Lorem ipsum dolomagna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate.</div>
-      </div>
+      </div> --%>
+      <!-- /카테고리배너 -->
       <div class="category-page-wrapper">
         <div class="col-md-6 list-grid-wrapper">
           <div class="btn-group btn-list-grid">
@@ -211,18 +213,77 @@
         </div>
       </div>
       <br />
+      
+      
+      
       <div class="grid-list-wrapper">
-        <div class="product-layout product-list col-xs-12">
+      
+      
+      
+       <!-- 작업중 -->
+       <!-- 리스트는 input-limit 갯수 만큼. -->
+       <c:forEach items="${productList }" var="product" varStatus="vs">
+       
+      
+       
+		
+		<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-         <div class="image product-imageblock"> <a href="${path }/product/productView.do"> <img src="${path}/resources/image/product/pro-2-220x294.jpg" alt="women's New Wine is an alcoholic stores" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+         <div class="image product-imageblock">
+         <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
+         <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
+        <!-- 상품 프로필 사진 product_profile, alt=? product_title, title=product_title -->
               <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
+                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List">
+                <i class="fa fa-heart-o"></i></button><!-- title 툴팁정보 -->
                 <button type="button" class="addtocart-btn">Add to Cart</button>
-                <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
               </div>
             </div>
+            
             <div class="caption product-detail">
-              <h4 class="product-name"> <a href="product.html" title="lorem ippsum dolor dummy"> lorem ippsum dolor dummy </a> </h4>
+              <h4 class="product-name">
+              <a href="${path }/product/productView.do?productNo=${product.productNo}" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
+              <!-- 상품상세페이지 링크 , title=product_title , value = product_title -->
+              <p class="product-desc">${product.productComment }</p>
+                <!-- product_comment -->
+              <p class="price product-price"><span class="price-old">$272.00</span> ${product.productPrice } <span class="price-tax">Ex Tax: $100.00</span> </p>
+              <!-- product_price -->
+              <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
+              <!-- totalProductPoint 별이 다섯개  이부분은 좀더 고민-->
+            </div>
+            <div class="button-group"><!-- 리스트형식으로 볼때의 추가 버튼들 -->
+              <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
+              <button type="button" class="addtocart-btn">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 여기까지가 상품 한사이클 패이징방식에따라서 채워주어야함. 어떤식으로 걸러서 몇개를 들고올것인가? -->
+		
+       
+       </c:forEach>
+       <!-- 작업중 -->
+       <h1>asdjasldjaskljdklasjkldaklsjdlasjldakl</h1>
+       
+        <div class="product-layout product-list col-xs-12">
+          <div class="product-thumb">
+         <div class="image product-imageblock">
+         <a href="${path }/product/productView.do"><!-- 상품상세페이지 ? product_no  -->
+         <img src="${path}/resources/image/product/pro-2-220x294.jpg" alt="women's New Wine is an alcoholic stores" title="lorem ippsum dolor dummy" class="img-responsive" /></a>
+        <!-- 상품 프로필 사진 product_profile, alt=? product_title, title=product_title -->
+              <div class="button-group">
+                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List">
+                <i class="fa fa-heart-o"></i></button><!-- title 툴팁정보 -->
+                <button type="button" class="addtocart-btn">Add to Cart</button>
+                <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product">
+                <i class="fa fa-exchange"></i></button>
+              </div>
+            </div>
+            
+            <div class="caption product-detail">
+              <h4 class="product-name">
+              <a href="product.html" title="lorem ippsum dolor dummy"> lorem ippsum dolor dummy </a> </h4>
+              <!-- 상품상세페이지 링크 , title=product_title , value = product_title -->
               <p class="product-desc"> More room to move.
 
                 With 80GB or 160GB of storage and up to 40 hours of battery life, the new lorem ippsum dolor dummy lets you enjoy up to 40,000 songs or up to 200 hours of video or any combination wherever you go.
@@ -230,16 +291,32 @@
                 Cover Flow.
 
                 Browse through your music collection by flipping..</p>
+                <!-- product_comment -->
               <p class="price product-price"><span class="price-old">$272.00</span> $122.00 <span class="price-tax">Ex Tax: $100.00</span> </p>
+              <!-- product_price -->
               <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
+              <!-- totalProductPoint 별이 다섯개 -->
             </div>
-            <div class="button-group">
+            <div class="button-group"><!-- 리스트형식으로 볼때의 추가 버튼들 -->
               <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
               <button type="button" class="addtocart-btn">Add to Cart</button>
               <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
             </div>
           </div>
-        </div><div class="product-layout product-list col-xs-12">
+        </div>
+        
+        <!-- 여기까지가 상품 한사이클 패이징방식에따라서 채워주어야함. 어떤식으로 걸러서 몇개를 들고올것인가? -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
             <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-3-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
               <div class="button-group">
@@ -671,4 +748,3 @@
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-

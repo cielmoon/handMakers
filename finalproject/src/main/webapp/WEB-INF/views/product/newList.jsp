@@ -10,7 +10,7 @@
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="${path }"><i class="fa fa-home"></i></a></li>
-    <li><a href="#">Wish List</a></li>
+    <li><a href="${path }/product/newList.do">신규</a></li>
   </ul>
   <div class="row">
     <div id="content" class="col-sm-12">    
@@ -89,6 +89,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 </section>
 

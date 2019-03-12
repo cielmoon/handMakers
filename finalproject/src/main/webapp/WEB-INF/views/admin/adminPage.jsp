@@ -14,6 +14,8 @@
 		</ul>
 		<br />
 		<div class="row">
+		
+		
 			<div class="col-sm-3 hidden-xs column-left" id="column-left">
 				<div class="column-block">
 					<div class="columnblock-title">관리자페이지</div>

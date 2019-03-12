@@ -6,12 +6,10 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <script>
-   $(function(){
-      var cartBtn=$('#cartBtn');
-      cartBtn.on('click',function(){
-         location.href="${path}/shop/shopCart.do";
-      });
-   });
+   function fn_order(){
+	   location.href="${path}/order/orderEnroll.do";
+   };
+   
 </script>
 <section class="product col-2 left-col">
 <div class="preloader loader" style="display: block; background:#f2f2f2;"> <img src="image/loader.gif"  alt="#"/></div>
@@ -84,6 +82,7 @@
         
         <!-- 상품 설명 -->
         <div class="col-sm-6">
+        <form action="#" method="post">
           <h1 class="productpage-title">상품명</h1>
           
           <!-- 별 찍는 거 -->
@@ -146,13 +145,17 @@
               <input type="number" name="quantity" value="1" size="2" id="input-quantity" class="form-control productpage-qty" />
               <input type="hidden" name="productNo" value="${productNo }" />
               <div class="btn-group">
-                <button type="button" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" ><i class="fa fa-heart-o"></i></button>
-                <!-- 카트 버튼 -->
-                <button type="button" id="cartBtn" data-loading-text="Loading..." class="btn btn-primary btn-lg btn-block addtocart">Add to Cart</button>
+              
+              <!-- 찜 버튼 ajax 처리 wish list 저장 -->
+              <!-- data-toggle="tooltip"은 호버 했을 경우 title의 내용이 말 풍선으로 나옴 -->
+                <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" ><i class="fa fa-heart-o"></i></button>
+                <!-- 결재 버튼 -->
+                <button type="button" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" onclick="fn_order();">결재하기</button>
                 <!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
               </div>
             </div>
           </div>
+          </form>
         </div>
       </div>
       
@@ -160,7 +163,9 @@
       <div class="productinfo-tab">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#tab-description" data-toggle="tab">상세설명</a></li>
-          <li><a href="#tab-review" data-toggle="tab">상품문의</a></li>
+          <li><a href="#tab-review" data-toggle="tab">상품후기</a></li>
+          <li><a href="#tab-question" data-toggle="tab">상품문의</a></li>
+          <li><a href="#tab-sallerInfo" data-toggle="tab">판매자 정보</a></li>	
         </ul>
         
         <!-- 상품 설명 탭 -->
@@ -176,8 +181,48 @@
           
           <!-- 댓글 등록 창 -->
           <div class="tab-pane" id="tab-review">
+         	<div class="form-group" style="border:1px solid red">
+         	작성된 댓글 넣기 
+         		<!-- <table border="1">
+         			<tr><td>실험</td></tr>
+         		</table> -->
+         	</div>
+         	
             <form class="form-horizontal">
               <div id="review"></div>
+              <h2>상품 후기</h2>
+              <div class="form-group required">
+                <div class="col-sm-12">
+                  <label class="control-label" for="input-name">댓글 작성자 이름</label>
+                  <input type="text" name="name" value="" id="input-name" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group required">
+                <div class="col-sm-12">
+                  <label class="control-label" for="input-review">댓글 작성내용</label>
+                  <textarea name="text" rows="5" id="input-review" class="form-control"></textarea>
+                </div>
+              </div>
+              
+              <div class="buttons clearfix">
+                <div class="pull-right">
+                  <button type="button" id="button-review" data-loading-text="Loading..." class="btn btn-primary">댓글등록(continue)</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+          <!-- 상품 문의 작성 -->
+          <div class="tab-pane" id="tab-question">
+         	<div class="form-group" style="border:1px solid red">
+         	작성된 댓글 넣기 
+         		<!-- <table border="1">
+         			<tr><td>실험</td></tr>
+         		</table> -->
+         	</div>
+         	
+          <form class="form-horizontal">
+              <div id="question"></div>
               <h2>상품 문의</h2>
               <div class="form-group required">
                 <div class="col-sm-12">
@@ -192,29 +237,45 @@
                 </div>
               </div>
               
-              <div class="form-group required">
-                <div class="col-sm-12">
-                  <label class="control-label">평점</label>
-                  &nbsp;&nbsp;&nbsp; Bad&nbsp;
-                  <input type="radio" name="rating" value="1" />
-                  &nbsp;
-                  <input type="radio" name="rating" value="2" />
-                  &nbsp;
-                  <input type="radio" name="rating" value="3" />
-                  &nbsp;
-                  <input type="radio" name="rating" value="4" />
-                  &nbsp;
-                  <input type="radio" name="rating" value="5" />
-                  &nbsp;Good
-               </div>
-              </div>
               <div class="buttons clearfix">
                 <div class="pull-right">
-                  <button type="button" id="button-review" data-loading-text="Loading..." class="btn btn-primary">댓글등록(continue)</button>
+                  <button type="button" id="button-review" data-loading-text="Loading..." class="btn btn-primary">문의등록(continue)</button>
                 </div>
               </div>
             </form>
           </div>
+          
+          <!-- 업체 정보 보여주는 곳 -->
+          <div class="tab-pane" id="tab-sallerInfo">
+            <div class="cpt_product_description ">
+              <div>
+                
+            <div class="col-sm-4 left">
+              <address>
+              <strong> 브랜드 명: </strong>test브랜드 <br>
+              <br>
+              <strong>주소:</strong>
+              <div class="address"> 강남구 테헤란로 243-1</div>
+              <br>
+              <strong>업체 전화번호: </strong>+ 0987-654-321
+              </address>
+            </div>
+            <div class="col-sm-8 rigt">
+              <div class="map">
+                <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+                <div style="overflow:hidden;height:200px;width:100%;">
+                  <div id="gmap_canvas" style="height:200px;width:600px;"></div>
+
+                  <a class="google-map-code" href="http://www.pureblack.de/google-maps/" id="get-map-data">pureblack.de</a></div>
+                <script type="text/javascript"> function init_map(){var myOptions = {zoom:14, scrollwheel:false,center:new google.maps.LatLng(36.778261,-119.41793239999998),mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById("gmap_canvas"), myOptions);marker = new google.maps.Marker({map: map,position: new google.maps.LatLng(36.778261, -119.41793239999998)});infowindow = new google.maps.InfoWindow({content:"<b>Fresh Food privated limited</b><br/>Warehouse &amp; Offices 12345<br/> California " });google.maps.event.addListener(marker, "click", function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>
+              </div>
+            </div>
+        
+              </div>
+            </div>
+            <!-- cpt_container_end -->
+            </div>
+            
         </div>
       </div>
       

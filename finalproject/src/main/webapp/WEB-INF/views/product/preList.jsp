@@ -8,6 +8,7 @@
 	<jsp:param value="HelloSpring" name="pageTitle"/>
 </jsp:include>
 <h1>yet product pre</h1>
+<p>할인률 표시로 사전혜택주면 될듯.</p>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
