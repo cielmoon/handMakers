@@ -5,8 +5,7 @@
    		<result column="member_no" property="memberNo"/>
    		<result column="member_id" property="memberId"/>	
    		<result column="member_pwd" property="memberPwd"/>	
-   		<result column="member_name" property="memberName"/>	
-   		<result column="member_birth" property="memberBirth"/>	
+   		<result column="member_name" property="memberName"/>
    		<result column="member_addr" property="memberAddr"/>		
    		<result column="member_email" property="memberEmail"/>	
    		<result column="member_phone" property="memberPhone"/>	
@@ -25,7 +24,7 @@
    </select>
    
    <insert id="insertMember" parameterType="member">
-      INSERT INTO MEMBER VALUES('M_NO_'||SEQ_MEMBER_NO.nextval, #{memberId}, #{memberPwd}, #{memberName}, #{memberBirth}, default, #{memberEmail}, #{memberPhone}, default, default, default, default)
+      INSERT INTO MEMBER VALUES('M_NO_'||SEQ_MEMBER_NO.nextval, #{memberId}, #{memberPwd}, #{memberName}, default, #{memberEmail}, #{memberPhone}, default, default, default, default)
    </insert>
    
    <select id="selectBrandCloseCount" resultType="_int">

@@ -67,7 +67,7 @@ public class MemberController {
 	public String memberEnrollEnd(Member m, Model model)
 	{
 		
-		System.out.println(m);
+		System.out.println("m이다" + m);
 		String rawPw=m.getMemberPwd();
 		System.out.println("암호화전 " +rawPw);
 		//System.out.println("암호화후 "+pwEncoder.encode(rawPw));		

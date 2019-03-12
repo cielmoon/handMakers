@@ -13,7 +13,6 @@ public class Member implements Serializable {
 	private String memberId;
 	private String memberPwd;
 	private String memberName;
-	private String memberBirth;
 	private String memberAddr;
 	private String memberEmail;
 	private String memberPhone;
@@ -26,15 +25,14 @@ public class Member implements Serializable {
 
 	}
 
-	public Member(String memberNo, String memberId, String memberPwd, String memberName, String memberBirth,
-			String memberAddr, String memberEmail, String memberPhone, String memberProfile, String memberState,
-			String memberAuthority, Date memberEnrollDate) {
+	public Member(String memberNo, String memberId, String memberPwd, String memberName, String memberAddr,
+			String memberEmail, String memberPhone, String memberProfile, String memberState, String memberAuthority,
+			Date memberEnrollDate) {
 		super();
 		this.memberNo = memberNo;
 		this.memberId = memberId;
 		this.memberPwd = memberPwd;
 		this.memberName = memberName;
-		this.memberBirth = memberBirth;
 		this.memberAddr = memberAddr;
 		this.memberEmail = memberEmail;
 		this.memberPhone = memberPhone;
@@ -74,14 +72,6 @@ public class Member implements Serializable {
 
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
-	}
-
-	public String getMemberBirth() {
-		return memberBirth;
-	}
-
-	public void setMemberBirth(String memberBirth) {
-		this.memberBirth = memberBirth;
 	}
 
 	public String getMemberAddr() {
@@ -147,9 +137,8 @@ public class Member implements Serializable {
 	@Override
 	public String toString() {
 		return "Member [memberNo=" + memberNo + ", memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName="
-				+ memberName + ", memberBirth=" + memberBirth + ", memberAddr=" + memberAddr + ", memberEmail="
-				+ memberEmail + ", memberPhone=" + memberPhone + ", memberProfile=" + memberProfile + ", memberState="
-				+ memberState + ", memberAuthority=" + memberAuthority + ", memberEnrollDate=" + memberEnrollDate + "]";
+				+ memberName + ", memberAddr=" + memberAddr + ", memberEmail=" + memberEmail + ", memberPhone="
+				+ memberPhone + ", memberProfile=" + memberProfile + ", memberState=" + memberState
+				+ ", memberAuthority=" + memberAuthority + ", memberEnrollDate=" + memberEnrollDate + "]";
 	}
-
 }
