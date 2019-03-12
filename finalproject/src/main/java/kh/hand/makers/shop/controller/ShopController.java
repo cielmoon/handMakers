@@ -49,9 +49,18 @@ public class ShopController {
 	
 	// 브랜드 등록 페이지
 	@RequestMapping("/shop/brandEnroll.do")
-	public String brandEnroll()
+	public ModelAndView brandEnroll(String brandNo)
 	{
-		return "shop/brandEnroll";
+		ModelAndView mv = new ModelAndView();
+
+		if(brandNo != null) //반려된 브랜드 재등록 요청일 경우
+		{
+			Brand brand = service.selectBrand(brandNo);
+			mv.addObject("brand", brand);
+		}
+		
+		mv.setViewName("shop/brandEnroll");
+		return mv;
 	}
 	
 	@RequestMapping("/shop/brandEnrollEnd.do")
