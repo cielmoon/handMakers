@@ -7,8 +7,8 @@
    <bean id="realDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
       <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
       <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-      <property name="username" value="handmakers"/>
-      <property name="password" value="handmakers"/>
+      <property name="username" value="test22"/>
+      <property name="password" value="test22"/>
    </bean>
    
    <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">

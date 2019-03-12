@@ -18,6 +18,18 @@ public class ProductDaoImpl implements ProductDao {
 	@Autowired
 	SqlSession session;
 
+	
+	
+	
+	@Override
+	public List<Map<String, String>> productList(String category) {
+		// TODO Auto-generated method stub
+		return session.selectList("product.selectProductList", category);
+	}
+
+
+
+
 	@Override
 	public List<Map<String, Object>> selectCategoryTemp(String category) {
 		// TODO Auto-generated method stub

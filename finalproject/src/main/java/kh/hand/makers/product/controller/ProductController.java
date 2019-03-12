@@ -57,9 +57,15 @@ public class ProductController {
 		logger.debug("ProductController In -");
 		logger.debug("+_+_+_+query : "+category);
 		
-		List<Map<String, Object>> list = service.selectCategoryTemp(category);
+		//List<Map<String, Object>> list = service.selectCategoryTemp(category);
+		//mv.addObject("productList", list);
+		//System.out.println(list);
+		
+		List<Map<String, String>> list = service.productList(category);
 		mv.addObject("productList", list);
 		System.out.println(list);
+		
+		
 		return mv;
 	}
 	
@@ -70,3 +76,8 @@ public class ProductController {
 	}
 
 }
+
+
+
+
+

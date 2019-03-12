@@ -216,9 +216,7 @@
       
       <div class="grid-list-wrapper">
       <h1>${productList }</h1>
-      <h2>${product }</h2>
-       <h3>${product.product }</h3>
-       <p>${product.product.no }</p>
+       <h3>${productList.product }</h3>
       
       
        <!-- 작업중 -->
@@ -749,4 +747,3 @@
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-

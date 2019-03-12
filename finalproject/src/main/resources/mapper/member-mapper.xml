@@ -20,7 +20,7 @@
    </select>
    
    <insert id="insertMember" parameterType="member">
-      INSERT INTO MEMBER VALUES('MNO_'||SEQ_MEMBER_NO.nextval,
+      INSERT INTO MEMBER VALUES('M_NO_'||SEQ_MEMBER_NO.nextval,
       #{memberId}, #{memberPwd}, #{memberName}, #{memberBirth}, default,
       #{memberEmail}, #{memberPhone}, default, default, default, default)
    </insert>

@@ -19,6 +19,14 @@ public class ProductServiceImpl implements ProductService {
 		// TODO Auto-generated method stub
 		return dao.selectCategoryTemp(category);
 	}
+
+	@Override
+	public List<Map<String, String>> productList(String category) {
+		// TODO Auto-generated method stub
+		return dao.productList(category);
+	}
+	
+	
 	
 	
 	
