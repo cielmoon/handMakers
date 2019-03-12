@@ -214,9 +214,10 @@
       </div>
       <br />
       
+      
+      
       <div class="grid-list-wrapper">
-      <h1>${productList }</h1>
-       <h3>${productList.product }</h3>
+      
       
       
        <!-- 작업중 -->
@@ -229,8 +230,8 @@
 		<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
          <div class="image product-imageblock">
-         <a href="${path }/product/productView.do?productNo=${product.no}"><!-- 상품상세페이지 ? product_no  -->
-         <img src="${path}/resources/image/product/${product_profile }" alt="${product_title }" title="${product_title }" class="img-responsive" /></a>
+         <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
+         <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
         <!-- 상품 프로필 사진 product_profile, alt=? product_title, title=product_title -->
               <div class="button-group">
                 <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List">
@@ -241,11 +242,11 @@
             
             <div class="caption product-detail">
               <h4 class="product-name">
-              <a href="${path }/product/productView.do?productNo=${product.no}" title="${product.title }"> ${product.title } </a> </h4>
+              <a href="${path }/product/productView.do?productNo=${product.productNo}" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
               <!-- 상품상세페이지 링크 , title=product_title , value = product_title -->
-              <p class="product-desc">${product.comment }</p>
+              <p class="product-desc">${product.productComment }</p>
                 <!-- product_comment -->
-              <p class="price product-price"><span class="price-old">$272.00</span> ${product.price } <span class="price-tax">Ex Tax: $100.00</span> </p>
+              <p class="price product-price"><span class="price-old">$272.00</span> ${product.productPrice } <span class="price-tax">Ex Tax: $100.00</span> </p>
               <!-- product_price -->
               <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
               <!-- totalProductPoint 별이 다섯개  이부분은 좀더 고민-->
