@@ -27,7 +27,10 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/manageProduct.do")
-	public ModelAndView manageProduct(
+	public String manageProduct() {
+		return "admin/manageProduct";
+	}
+/*	public ModelAndView manageProduct(
 			@RequestParam(value="cPage", 
 			required=false, defaultValue="0") int cPage
 			)
@@ -40,7 +43,7 @@ public class AdminController {
 		mv.addObject("list",list);
 		mv.setViewName("admin/manageProduct");
 		return mv;
-	}
+	}*/
 	
 	@RequestMapping("/admin/enrollProduct.do")
 	public String enrollProduct()
