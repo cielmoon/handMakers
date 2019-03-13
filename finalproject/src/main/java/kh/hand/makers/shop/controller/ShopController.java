@@ -115,7 +115,7 @@ public class ShopController {
 		ModelAndView mv = new ModelAndView();
 		Brand brand = service.selectBrand(brandNo);	
 		List<BigCategory> bcList = service.selectBcList();
-		List<SmallCategory> scList = service.selectScList("B_C_NO1");
+		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
 		mv.addObject("brand", brand);
 		mv.addObject("bcList", bcList);
 		mv.addObject("scList", scList);
@@ -161,6 +161,17 @@ public class ShopController {
 		mv.addObject("scList", scList);
 		
 		mv.setViewName("jsonView");
+		return mv;
+	}
+	
+	@RequestMapping("/shop/brandHome.do")
+	public ModelAndView brandHome(String brandNo)
+	{
+		ModelAndView mv = new ModelAndView();
+
+		Brand brand = service.selectBrand(brandNo);	
+		mv.addObject("brand", brand);
+		mv.setViewName("shop/brandHome");
 		return mv;
 	}
 }

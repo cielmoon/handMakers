@@ -6,6 +6,8 @@ import java.util.Map;
 public interface ProductDao {
 	
 	List<Map<String, Object>> selectCategoryTemp(String category);
-	List<Map<String, String>> productList(String category);
+	//List<Map<String, String>> productList(String category);
+	List<Map<String, String>> productList(String category, int cPage, int numPerPage);
+	int selectProductCount();
 
 }

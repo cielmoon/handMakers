@@ -12,7 +12,7 @@ public class Product implements Serializable  {
 	
 	private String productNo;
 	private String productTitle;
-	private String productProfile;
+	private String productProfile;		// 상품 메인사진[0]~ 옵션사진
 	private Date productEnrollDate;		// 최초 판매 시작 날짜
 	private Date productUpdate;		// 업데이트 날짜
 	private Date productEndDate;		// 판매 종료 날짜
@@ -28,7 +28,7 @@ public class Product implements Serializable  {
 	private String brandNo;
 	private String AdminNo;
 	private String MemberNo;
-	private int sellCount;
+	private int productCurSell;				//현재 누적 판매량
 	private int productTotalSell;
 	
 	
@@ -40,7 +40,7 @@ public class Product implements Serializable  {
 	public Product(String productNo, String productTitle, String productProfile, Date productEnrollDate,
 			Date productUpdate, Date productEndDate, String productDetail, String productComment, int productState,
 			int productStep, int productPrice, int productStock, int productMin, String scNo, String bcNo,
-			String brandNo, String adminNo, String memberNo, int sellCount, int productTotalSell) {
+			String brandNo, String adminNo, String memberNo, int productCurSell, int productTotalSell) {
 		super();
 		this.productNo = productNo;
 		this.productTitle = productTitle;
@@ -60,7 +60,7 @@ public class Product implements Serializable  {
 		this.brandNo = brandNo;
 		AdminNo = adminNo;
 		MemberNo = memberNo;
-		this.sellCount = sellCount;
+		this.productCurSell = productCurSell;
 		this.productTotalSell = productTotalSell;
 	}
 
@@ -245,13 +245,13 @@ public class Product implements Serializable  {
 	}
 
 
-	public int getSellCount() {
-		return sellCount;
+	public int getProductCurSell() {
+		return productCurSell;
 	}
 
 
-	public void setSellCount(int sellCount) {
-		this.sellCount = sellCount;
+	public void setProductCurSell(int productCurSell) {
+		this.productCurSell = productCurSell;
 	}
 
 
@@ -278,9 +278,10 @@ public class Product implements Serializable  {
 				+ productComment + ", productState=" + productState + ", productStep=" + productStep + ", productPrice="
 				+ productPrice + ", productStock=" + productStock + ", productMin=" + productMin + ", scNo=" + scNo
 				+ ", bcNo=" + bcNo + ", brandNo=" + brandNo + ", AdminNo=" + AdminNo + ", MemberNo=" + MemberNo
-				+ ", sellCount=" + sellCount + ", productTotalSell=" + productTotalSell + "]";
+				+ ", productCurSell=" + productCurSell + ", productTotalSell=" + productTotalSell + "]";
 	}
 	
 	
+
 
 }

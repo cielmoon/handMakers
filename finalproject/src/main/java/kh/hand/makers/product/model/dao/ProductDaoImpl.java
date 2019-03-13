@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,9 +23,19 @@ public class ProductDaoImpl implements ProductDao {
 	
 	
 	@Override
-	public List<Map<String, String>> productList(String category) {
+	public int selectProductCount() {
 		// TODO Auto-generated method stub
-		return session.selectList("product.selectProductList", category);
+		return session.selectOne("product.selectProductCount");
+	}
+
+
+
+
+	@Override
+	public List<Map<String, String>> productList(String category, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return session.selectList("product.selectProductList", category, rb);
 	}
 
 
