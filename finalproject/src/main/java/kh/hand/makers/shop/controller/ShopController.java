@@ -163,4 +163,15 @@ public class ShopController {
 		mv.setViewName("jsonView");
 		return mv;
 	}
+	
+	@RequestMapping("/shop/brandHome.do")
+	public ModelAndView brandHome(String brandNo)
+	{
+		ModelAndView mv = new ModelAndView();
+
+		Brand brand = service.selectBrand(brandNo);	
+		mv.addObject("brand", brand);
+		mv.setViewName("shop/brandHome");
+		return mv;
+	}
 }

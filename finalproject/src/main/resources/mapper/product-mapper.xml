@@ -28,4 +28,9 @@
 <select id="selectProductList" resultMap="productMap" parameterType="string">
 SELECT * FROM PRODUCT
 </select>
+
+<select id="selectProductCount" resultType="_int">
+SELECT COUNT(*) FROM PRODUCT
+</select>
+
 </mapper>

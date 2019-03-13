@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 import kh.hand.makers.common.PageFactory;
 import kh.hand.makers.member.model.service.MemberService;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.shop.model.service.ShopService;
+import kh.hand.makers.shop.model.vo.Brand;
 
 
 
@@ -35,6 +39,8 @@ public class MemberController {
 	MemberService service;
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
+	@Autowired
+	ShopService shopService;
 	
 	@RequestMapping("/member/checkId.do")
 	/*public void checkId(String userId,HttpServletResponse response) throws IOException
@@ -67,7 +73,7 @@ public class MemberController {
 	public String memberEnrollEnd(Member m, Model model)
 	{
 		
-		System.out.println(m);
+		System.out.println("m이다" + m);
 		String rawPw=m.getMemberPwd();
 		System.out.println("암호화전 " +rawPw);
 		//System.out.println("암호화후 "+pwEncoder.encode(rawPw));		
@@ -148,9 +154,16 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/myPage.do")
-	public String memberMyPage()
-	{
-		return "member/myPage";
+	public ModelAndView memberMyPage(HttpSession session)
+	{	
+		// 판매회원일 경우 등록된 브랜드 목록 가져옴
+		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
+		ModelAndView mv=new ModelAndView();
+		List<Brand> list = shopService.selectBrandList(memberNo);
+		mv.addObject("brandList", list);
+		
+		mv.setViewName("member/myPage");
+		return mv;
 	}
 	
 	@RequestMapping("/member/adminPage.do")

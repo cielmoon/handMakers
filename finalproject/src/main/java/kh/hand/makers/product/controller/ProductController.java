@@ -8,8 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import kh.hand.makers.common.PageFactory;
 import kh.hand.makers.product.model.service.ProductService;
 
 @Controller
@@ -51,9 +53,14 @@ public class ProductController {
 		return "product/category";
 	}*/
 	@RequestMapping("/product/category.do")
-	public ModelAndView productCategory(String category)
+	public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, String category)
 	{
-		ModelAndView mv = new ModelAndView("product/category");
+	
+		int numPerPage=8;
+		int contentCount = service.selectProductCount();
+		
+		ModelAndView mv = new ModelAndView();
+		//ModelAndView mv = new ModelAndView("product/category");
 		logger.debug("ProductController In -");
 		logger.debug("+_+_+_+query : "+category);
 		
@@ -61,10 +68,14 @@ public class ProductController {
 		//mv.addObject("productList", list);
 		//System.out.println(list);
 		
-		List<Map<String, String>> list = service.productList(category);
-		mv.addObject("productList", list);
-		System.out.println(list);
+//		List<Map<String, String>> list = service.productList(category);
+		List<Map<String, String>> list = service.productList(category, cPage, numPerPage);
 		
+		mv.addObject("productList", list);
+		mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"));
+		System.out.println(list);
+		mv.addObject("cPage", cPage);
+		mv.addObject("contentCount", contentCount);
 		
 		return mv;
 	}
