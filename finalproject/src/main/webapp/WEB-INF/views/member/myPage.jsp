@@ -15,7 +15,7 @@ function selectBrand(brandNo, brandState)
 	}
 	else
 	{
-		location.href="${path}/shop/brandHome.do?"+brandNo;
+		location.href="${path}/shop/brandHome.do?brandNo="+brandNo;
 	}
 }
 </script>
@@ -54,10 +54,10 @@ function selectBrand(brandNo, brandState)
 							<c:forEach items="${brandList }" var="b">
 								<a class="list-group-item brand-list" href="javascript:selectBrand('${b.brandNo }', '${b.brandState }');">${b.brandTitle }				
 									<c:if test="${b.brandState.toString()=='0'}">
-										<i class="fa fa-clock-o" style="font-size:20px; color: LightSkyBlue;"></i>
+										<i class="fa fa-clock-o" style="font-size:20px; float: right;"></i>
 									</c:if>
 									<c:if test="${b.brandState.toString()=='2'}">
-										<i class="fa fa-exclamation-circle" style="font-size:20px; color: firebrick;"></i>
+										<i class="fa fa-exclamation-circle" style="font-size:20px; color: firebrick; float: right;"></i>
 									</c:if>
 								</a>
 							</c:forEach>

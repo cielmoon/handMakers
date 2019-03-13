@@ -16,10 +16,10 @@
 <script>
 	function validate() {
 		/* 
-		아이디 : OK
+		아이디 : OK (아이디 존재 유무 확인은 해주는데 중복가입을 막아야 함 -> 버튼 활성화 / 비활성화로 함)
 		패스워드 : 나중에 추가
 		이름 : OK
-		나이 : OK
+		나이 : 삭제
 		이메일 : OK
 		핸드폰번호 : OK
 		*/
@@ -64,13 +64,13 @@
 			return false;
 		}
 		
-		if ((memberAge < 0 || memberAge > 101) || isNaN(memberAge)) {
+		/* if ((memberAge < 0 || memberAge > 101) || isNaN(memberAge)) {
 			alert("나이는 1~100사이 숫자만 입력해주세요.");
 			// 왜 memberBirth.focus()라 하면 alert창 한 번 띄운 후 자동으로 회원가입이 될까?
 			$("#memberBirth").focus();
 			
 			return false;
-		}
+		} */
 		
 		if (!emailRegex.test(memberEmail)) {
 			alert("잘못된 이메일 형식입니다. 다시 입력해주세요.")
@@ -88,6 +88,33 @@
 		
 		return true;
 	};
+	
+	$(function(){
+		$("#memberId").keyup(function(){
+		var memberId=$("#memberId").val().trim();
+		
+		if(memberId.length<4)
+		{
+			$(".guide").hide();
+			return;
+		}
+		$.ajax({
+			url:"${path}/member/checkId.do",
+			data:{"memberId":memberId},
+			success:function(data){
+				if(data.isId==true) {
+					$(".guide.ok").hide();
+					$(".guide.error").show();
+					$("#submit").attr("disabled", true).attr("readonly", false);
+				} else {
+					$(".guide.ok").show();
+					$(".guide.error").hide();
+					$("#submit").attr("disabled", false).attr("readonly", true);
+				}	
+			}
+		});
+		});
+	});
 	
 	$(function() {
 		$("#memberPwdCheck").blur(function() {
@@ -123,32 +150,9 @@
 									<span class="guide ok">이 아이디는 사용할 수 있습니다. </span>
             						<span class="guide error">이 아이디는 사용할 수 없습니다. </span>
             						<input type="hidden" name="checkId" value="0"/>
-            						<script>
-            							$(function(){
-            								$("#memberId").keyup(function(){
-            								var memberId=$("#memberId").val().trim();
-            								
-            								if(memberId.length<4)
-            								{
-            									$(".guide").hide();
-            									return;
-            								}
-            								$.ajax({
-            									url:"${path}/member/checkId.do",
-            									data:{"memberId":memberId},
-            									success:function(data){
-            										if(data.isId==true) {
-            											$(".guide.ok").hide();
-            											$(".guide.error").show();            					
-            										} else {
-            											$(".guide.ok").show();
-            											$(".guide.error").hide();
-            										}	
-            									}
-            								});
-            								});
-            							});
-            						</script>
+            						<!-- <script>
+            							
+            						</script> -->
 								</div>
 								
 								<div class="form-group">
@@ -165,10 +169,10 @@
 									<input type="text" class="form-control" id="memberName"
 										placeholder="이름" name="memberName">
 								</div>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<input type="text" class="form-control" id="memberBirth"
 										placeholder="나이 (1~100사이 숫자만)" value="" name="memberBirth">
-								</div>
+								</div> -->
 								
 								<div class="form-group">
 									<input type="text" class="form-control" id="memberEmail"
@@ -179,7 +183,7 @@
 									<input type="text" class="form-control" id="memberPhone"
 										placeholder="핸드폰번호 (-제외)" name="memberPhone">
 								</div>
-								<input type="submit" class="btn btn-primary" value="회원가입">
+								<input type="submit" id="submit" class="btn btn-primary" value="회원가입">
 							</form>
 						</div>
 					</div>
