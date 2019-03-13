@@ -5,8 +5,7 @@
    		<result column="member_no" property="memberNo"/>
    		<result column="member_id" property="memberId"/>	
    		<result column="member_pwd" property="memberPwd"/>	
-   		<result column="member_name" property="memberName"/>	
-   		<result column="member_birth" property="memberBirth"/>	
+   		<result column="member_name" property="memberName"/>
    		<result column="member_addr" property="memberAddr"/>		
    		<result column="member_email" property="memberEmail"/>	
    		<result column="member_phone" property="memberPhone"/>	
@@ -15,16 +14,36 @@
    		<result column="member_authority" property="memberAuthority"/>		
    		<result column="member_enrolldate" property="memberEnrollDate"/>	
 	</resultMap>
+
+   <select id="checkId" parameterType="string" resultType="_int">
+      select count(*) from member where MEMBER_ID=#{memberId}
+   </select>
+	
    <select id="login" parameterType="string" resultMap="memberType">
       SELECT * FROM MEMBER WHERE MEMBER_ID=#{memberId}
    </select>
    
    <insert id="insertMember" parameterType="member">
-      INSERT INTO MEMBER VALUES('M_NO_'||SEQ_MEMBER_NO.nextval,
-      #{memberId}, #{memberPwd}, #{memberName}, #{memberBirth}, default,
-      #{memberEmail}, #{memberPhone}, default, default, default, default)
+      INSERT INTO MEMBER VALUES('M_NO_'||SEQ_MEMBER_NO.nextval, #{memberId}, #{memberPwd}, #{memberName}, default, #{memberEmail}, #{memberPhone}, default, default, default, default)
    </insert>
    
+   <select id="selectBrandCloseCount" resultType="_int">
+      SELECT COUNT(*) FROM BRANDCLOSE
+   </select>
+   
+   <select id="selectBoardList" resultType="map">
+  	select a.*,(select count(*) 
+  			from attachment 
+  			where boardno=a.boardno) as ATTACHCOUNT 
+  	from board a  order by boarddate desc
+  </select>
+  
+  <select id="selectBrandCloseList" resultType="map">
+      SELECT A.*,(SELECT COUNT(*)
+      		FROM ATTACHMENT
+      		WHERE BRANDCLOSENO=A.BRANDCLOSENO) AS ATTACHCOUNT
+      FROM BRANDCLOSE A ORDER BY BRANDCLOSEDATE DESC
+  </select>
 <!--    <resultMap type="member" id="memberType">
       <result column='hobby' property="hobby" typeHandler="strArray"/>
    </resultMap>

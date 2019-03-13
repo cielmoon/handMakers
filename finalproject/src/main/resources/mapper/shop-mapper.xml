@@ -33,7 +33,7 @@
 		SELECT * FROM BRAND WHERE BRAND_NO = #{brandNo}
 	</select>
 	<insert id="insertPreProduct" parameterType="map">
-		INSERT INTO PRE_PRODUCT VALUES('PRE_P_NO'||SEQ_PRE_PRODUCT_NO.nextval,
+		INSERT INTO PRE_PRODUCT VALUES('PRE_P_NO_'||SEQ_PRE_PRODUCT_NO.nextval,
 		#{preProductTitle}, #{preProductDiscript}, 0, DEFAULT, #{brandNo}, #{bcNo}, #{scNo})
 	</insert>
 	<select id="selectBcList" resultMap="bcMap">
@@ -42,4 +42,8 @@
 	<select id="selectScList" resultMap="scMap" parameterType="string">
 		SELECT * FROM SMALL_CATEGORY WHERE BC_NO = #{bcNo}
 	</select>
+	<update id="updateBrand" parameterType="map">
+		UPDATE BRAND SET BRAND_ADDR = #{brandAddr}, BRAND_DETAILADDR = #{brandDetailAddr}, BRAND_TYPE = #{brandType}, BRAND_STATE = 0
+		WHERE BRAND_NO = #{brandNo}
+	</update>
 </mapper>

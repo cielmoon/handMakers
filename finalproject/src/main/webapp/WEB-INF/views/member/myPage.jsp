@@ -6,6 +6,20 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
+<script>
+function selectBrand(brandNo, brandState)
+{
+	if(brandState == '0' || brandState == '2')
+	{
+		alert("승인되지 않은 브랜드입니다.");
+	}
+	else
+	{
+		location.href="${path}/shop/brandHome.do?brandNo="+brandNo;
+	}
+}
+</script>
+
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
@@ -34,12 +48,19 @@
 					<div class="columnblock-title">판매자페이지</div>
 					<div class="account-block">
 						<div class="list-group">
-							<a class="list-group-item" href="#">홈</a> 
-							<a class="list-group-item" href="#">내정보 관리</a>
-							<a class="list-group-item" href="#">배송지 설정</a>				
-							<a class="list-group-item" href="#">비밀번호 변경</a> 
-							<a class="list-group-item" href="#">주문/배송내역 조회</a>			
-							<a class="list-group-item" href="#">회원탈퇴</a>
+							<c:if test="${brandList == null }">
+								<a class="list-group-item" href="${path }/shop/brandEnroll.do">브랜드 등록하기</a>
+							</c:if>
+							<c:forEach items="${brandList }" var="b">
+								<a class="list-group-item brand-list" href="javascript:selectBrand('${b.brandNo }', '${b.brandState }');">${b.brandTitle }				
+									<c:if test="${b.brandState.toString()=='0'}">
+										<i class="fa fa-clock-o" style="font-size:20px; float: right;"></i>
+									</c:if>
+									<c:if test="${b.brandState.toString()=='2'}">
+										<i class="fa fa-exclamation-circle" style="font-size:20px; color: firebrick; float: right;"></i>
+									</c:if>
+								</a>
+							</c:forEach>
 						</div>
 					</div>
 				</div>
