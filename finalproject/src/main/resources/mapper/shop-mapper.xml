@@ -27,7 +27,7 @@
 	</select>
 	<insert id="insertBrand" parameterType="map">
 		INSERT INTO BRAND VALUES('B_NO_'||SEQ_BRAND_NO.nextval, 
-		#{brandTitle}, #{brandLicense}, #{brandType}, #{brandAddr}, #{brandDetailAddr}, DEFAULT, 0, #{memberNo})
+		#{brandTitle}, #{brandLicense}, #{brandType}, #{brandAddr}, #{brandDetailAddr}, DEFAULT, DEFAULT, #{memberNo})
 	</insert>
 	<select id="selectBrand" parameterType="string" resultMap="brandMap">
 		SELECT * FROM BRAND WHERE BRAND_NO = #{brandNo}

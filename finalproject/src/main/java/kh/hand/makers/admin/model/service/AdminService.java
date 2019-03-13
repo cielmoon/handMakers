@@ -11,4 +11,5 @@ public interface AdminService {
 	int selectProductCount();
 	List<Brand> selectBrandList(int cPage,int numPerPage);
 	int selectBrandCount();
+	int brandStateUpdate(Map<String,String> bs);
 }

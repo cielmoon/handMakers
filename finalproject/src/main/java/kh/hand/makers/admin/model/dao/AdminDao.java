@@ -11,4 +11,5 @@ public interface AdminDao {
 	List<Brand> selectBrandList(int cPage, int numPerPage);
 	int selectProductCount();
 	int selectBrandCount();
+	int brandStateUpdate(Map<String,String> bs);
 }

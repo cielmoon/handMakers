@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC ".//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="admin">
+	
 	<resultMap type="brand" id="brandMap">
 		<result column="brand_no" property="brandNo" />
 		<result column="brand_title" property="brandTitle" />
@@ -12,8 +13,8 @@
 		<result column="brand_state" property="brandState" />
 		<result column="member_no" property="memberNo" />
 	</resultMap>
-
-	<select id="selectBrandList" resultType="brandMap">
+	<!-- javaType="string"  -->
+	<select id="selectBrandList" resultMap="brandMap">
 		select * from brand
 	</select>
 
@@ -21,4 +22,8 @@
 		select count(*) from brand	
 	</select>
 
+
+	<update id="brandStateUpdate" parameterType="map">
+		update brand set brand_state = #{brandState} where brand_no = #{brandNo}		
+	</update>
 </mapper>

@@ -20,15 +20,14 @@
 					<div class="columnblock-title">관리자페이지</div>
 					<div class="account-block">
 						<div class="list-group">
-							<a class="list-group-item" href="#">홈</a> 
-							<a class="list-group-item" href="#">공지사항 관리</a> 
-							<a class="list-group-item" href="#">메인배너 관리</a> 
-							<a class="list-group-item" href="#">회원 관리</a> 
-							<a class="list-group-item" href="#">입점문의 관리</a> 
-							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a> 
-							<a class="list-group-item" href="${path}/member/adminBrandCloseManage.do">브랜드 관리</a> 
-							<a class="list-group-item" href="#">상품 판매 관리</a> 
-							<a class="list-group-item" href="#">상품 재등록 관리</a>
+							<a class="list-group-item" href="${path}/admin/adminPage.do">홈</a> <a
+								class="list-group-item" href="#">공지사항 관리</a> <a
+								class="list-group-item" href="#">메인배너 관리</a> <a
+								class="list-group-item" href="${path}/admin/manageMember.do">회원 관리</a> <a
+								class="list-group-item" href="${path}/admin/managePreProduct.do">입점문의 관리</a> <a
+								class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a> <a 
+								class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 관리</a> <a							
+								class="list-group-item" href="${path}/admin/manageEndProduct.do">상품 재등록 관리</a>
 						</div>
 					</div>
 				</div>
@@ -36,34 +35,54 @@
 			<!-- 정보 변경 전에 다시 비밀번호 확인 -->
 			<div class="col-sm-9" id="content">
 				<div class="row">
-					<div class="col-sm-12">
-						<table>
+					<div class="col-sm-12">					
+						<table id='tbl-board' class='table table-striped table-hover'>
 							<tr>
-								<th>번호</th>
-								<th>제목</th>
-								<th>작성자</th>
-								<th>작성일</th>
-								<th>첨부파일</th>
-								<th>조회수</th>
+								<th>사업자 등록번호</th>
+								<th>브랜드명</th>								
+								<th>브랜드 카테고리</th>
+								<th>승인상태</th>
+								<th>등록날짜</th>
+								<th>요청관리</th>
+								<th></th>
 							</tr>
-<%-- 							<c:forEach var="b" items="${list }">
+ 							<%-- <c:forEach var="b" items="${productList }">
 								<tr>
-									<td>${b.BOARDNO }</td>
-									<td><a
-										href="${path}/board/boardView.do?boardNo=${b.BOARDNO}">${b.BOARDTITLE }</a></td>
-									<td>${b.BOARDWRITER }</td>
-									<td>${b.BOARDDATE }</td>
-									<td align="center"><c:if test="${b.ATTACHCOUNT>0 }">
-											<img src="${path }/resources/images/file.png" width="16px" />
-										</c:if></td>
-									<td>${b.BOARDREADCOUNT }</td>
+									<td>${b.brandLicense }</td>
+									<td>${b.brandTitle }</td>
+									<td>${b.brandType }</td>									
+									<c:choose>
+										<c:when test="${b.brandState eq '1' }">
+											<td>승인</td>		
+										</c:when>
+										<c:when test="${b.brandState eq '2' }">
+											<td>반려</td>											
+										</c:when>
+										<c:otherwise>
+											<td>검토중</td>		
+										</c:otherwise>						
+									</c:choose>
+									
+															
+									<td>${b.brandEnrollDate}</td>
+									<c:choose>
+										<c:when test="${b.brandState eq '1' }">
+											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,1"><button class="btn btn-primary">승인취소</button></a></td>					
+										</c:when>
+										<c:when test="${b.brandState eq '2' }">
+											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,3"><button class="btn btn-primary">반려취소</button></a></td>											
+										</c:when>
+										<c:otherwise>
+											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,1"><button class="btn btn-primary">승인</button></a></td>
+											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,2"><button class="btn btn-primary">반려</button></a></td>	
+										</c:otherwise>								
+									</c:choose>
 								</tr>
 							</c:forEach> --%>
 						</table>
-						<%-- ${pageBar } --%>
-
+						${pageBar }
 					</div>
-					<div class="col-sm-12">
+ 					<div class="col-sm-12">
 						<div class="col-sm-9"></div>
 						<div class="col-sm-3">
 							<input type="button" class="btn btn-primary"

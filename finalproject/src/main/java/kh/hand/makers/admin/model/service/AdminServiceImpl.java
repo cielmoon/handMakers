@@ -34,5 +34,11 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectBrandCount();
 	}
+
+	@Override
+	public int brandStateUpdate(Map<String,String> bs) {
+		// TODO Auto-generated method stub
+		return dao.brandStateUpdate(bs);
+	}
 	
 }

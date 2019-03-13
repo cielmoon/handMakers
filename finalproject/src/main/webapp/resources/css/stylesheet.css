@@ -2675,3 +2675,11 @@ div.dioprogress_size_l {
     opacity: 0.7;
 }
 
+.AgreeBtn{
+	background-color: black;
+	color: lightgray;
+}
+.AgreeBtn:hover{
+	background-color: gray;
+	color: black;
+}

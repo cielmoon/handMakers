@@ -19,24 +19,31 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public List<Map<String, String>> selectProductList(int cPage,int numPerPage) {
 		RowBounds rb=new RowBounds((cPage-1)*numPerPage,numPerPage);
-		return session.selectList("product.selectProductList",null,rb);
+		return session.selectList("admin.selectProductList",null,rb);
 	}
 
 	@Override
 	public int selectProductCount() {
-		return session.selectOne("product.selectProductCount");
+		return session.selectOne("admin.selectProductCount");
 	}
 
 	@Override
 	public List<Brand> selectBrandList(int cPage, int numPerPage) {
 		RowBounds rb=new RowBounds((cPage-1)*numPerPage,numPerPage);
-		return session.selectList("brand.selectBrandList",null,rb);
+		return session.selectList("admin.selectBrandList",null,rb);
 	}
 
 	@Override
 	public int selectBrandCount() {
 		// TODO Auto-generated method stub
-		return session.selectOne("brand.selectBrandCount");
+		return session.selectOne("admin.selectBrandCount");
+	}
+
+	@Override
+	public int brandStateUpdate(Map<String,String> bs) {
+		// TODO Auto-generated method stub
+		System.out.println("DAO왔음 업데이트");
+		return session.update("admin.brandStateUpdate",bs);
 	}
 	
 	
