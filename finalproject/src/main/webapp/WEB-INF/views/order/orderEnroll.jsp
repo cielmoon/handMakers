@@ -5,6 +5,8 @@
 	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
+<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+
 <!-- 다음 주소검색 API -->
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <!-- jQuery -->
@@ -12,7 +14,6 @@
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
-<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <script>
 /* 사업장 주소 검색 버튼 클릭 시 실행 */
 function searchAddr(){
@@ -25,8 +26,8 @@ function searchAddr(){
             } else {
             	var expRoadAddr = data.roadAddress;
             }
-    	   document.getElementById('input-brandZipCode').value = data.zonecode;
-           document.getElementById("input-brandAddr").value = expRoadAddr;
+    	   document.getElementById('input-postCode').value = data.zonecode; //우편번호
+           document.getElementById("input-addr").value = expRoadAddr; //주소
            },
            shorthand : false //'시','도' 부분을 축약 표시
         	}).open({
@@ -36,54 +37,45 @@ function searchAddr(){
       		});
 }
 
-function requestPay() {
+function requestPay(product_no) {
+	var productNo = product_no.value;
+	
+	console.log(productNo);
 	var IMP=window.IMP;
 	IMP.init('imp16711907');
     // IMP.request_pay(param, callback) 호출
 	IMP.request_pay({
-	    pg : 'html5_inicis',
+	    pg : 'kakao',
 	    pay_method : 'card',
 	    merchant_uid : 'merchant_' + new Date().getTime(),//환불시 필요한 정보
 	    name : '테스트상품',
-	    amount : '1',
-	    buyer_email : '${member.memberEmail}',
-	    buyer_name : '${member.memberName}',
-	    buyer_tel : '${member.memberPhone}',
+	    amount : '1', //상품 가격
+	    /* buyer_email : '123@naver.com', */
+	    buyer_name : '홍길동',
+	    buyer_tel : '01012345678',
 	    buyer_addr : '서울시 강남구 테헤란로',
 	    buyer_postcode : '123-456',
 	    m_redirect_url : 'https://www.myservice.com/payments/complete'
 	}, function(rsp) {
 		console.log(rsp);
 	    if ( rsp.success ) {
-	    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
-	    	console.log(rsp);
-	    	jQuery.ajax({
-	    		url: "${path}/test/pay", //cross-domain error가 발생하지 않도록 주의해주세요
-	    		type: 'POST',
-	    		dataType: 'json',
-	    		data: {
-		    		imp_uid : rsp.imp_uid
-		    		
-		    		//기타 필요한 데이터가 있으면 추가 전달
-	    		}
-	    		
-	    	}).done(function(data) {
-	    		console.log(data);
-	    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-	    		if ( everythings_fine ) {
-	    			var msg = '결제가 완료되었습니다.';
-	    			msg += '\n고유ID : ' + rsp.imp_uid;
-	    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-	    			msg += '\결제 금액 : ' + rsp.paid_amount;
-	    			msg += '카드 승인번호 : ' + rsp.apply_num;
-	    			
-	    			alert(msg);
-	    		} else {
-	    			//[3] 아직 제대로 결제가 되지 않았습니다.
-	    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-	    		}
-	    	});
-	    } else {
+    			var msg = '결제가 완료되었습니다.';
+    			msg += '\n고유ID : ' + rsp.imp_uid;
+    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+    			msg += '\결제 금액 : ' + rsp.paid_amount;
+    			msg += '카드 승인번호 : ' + rsp.apply_num;
+    			msg += '결제수단 : ' + rsp.pg_type; 
+    			$('#imp_uid').val(rsp.imp_uid);//결제 고유번호
+    			$('#merchant_uid').val(rsp.merchant_uid);//주문번호
+    			$('#order_total_price').val(rsp.paid_amount);//결재 가격
+    			$('#order_payType').val(rsp.pg_provider);//결제 승인된 PG사
+    			
+    			alert(msg);
+    			
+    			$('form[name=brandEnrollFrm]').submit();
+    			
+	    	}		
+	   	else {
 	        var msg = '결제에 실패하였습니다.';
 	        msg += '에러내용 : ' + rsp.error_msg;
 	        
@@ -125,13 +117,50 @@ function requestPay() {
 							</h4>
 						</div>
 						<div class="panel-body">
-							<form name="brandEnrollFrm" action="${path}/order/orderEnrollEnd.do" method="post" onsubmit="return validate();">
+							<form name="brandEnrollFrm" action="${path}/order/orderEnrollEnd.do" method="post">
 								<div class="row">
-									<div class="col-sm-12">
-										<h2>담당자 정보</h2>
-										<p>연락이 가능한 담당자 정보를 확인해주세요.</p>
+									<div class="col-sm-6">
+										<h2>상품 정보</h2>
 										<div class="form-group">
-											<label class="control-label">구입자ID</label>
+											<label class="control-label">상품명</label>
+											<input type="text" class="form-control" id="input-productName" value="상품명" readonly>
+										</div>
+										<div class="form-group">
+											<label class="control-label">옵션</label>
+											<input type="text" class="form-control" id="input-productOptionSubject" value="옵션" readonly>
+										</div>
+										<div class="form-group">
+											<label class="control-label">가격</label>
+											<input type="number" class="form-control" id="input-productPrice" value="가격" readonly>
+										</div>
+										<div class="form-group">
+											<label class="control-label">수량</label>
+											<input type="number" class="form-control" id="input-productOptionQty" value="수량" required>
+										</div>
+										
+										<!-- 배송지 주소 -->
+										<label class="control-label mt-1">배송지</label>
+										<div class="row">
+											<div class="col-sm-4">
+												<input type="text" class="form-control" id="input-postCode" name="postCode" placeholder="우편번호" readonly>
+											</div>
+											<div class="col-sm-6">
+												<input type="button" class="btn btn-primary" id="button-searchAddr" value="우편번호 조회" onclick="searchAddr();">
+											</div>
+										</div>							
+										<div class="form-group">
+											<input type="text" class="form-control" id="input-addr" name="addr" placeholder="주소" readonly>
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" id="input-detailAddr" name="detailAddr" placeholder="상세주소" required>
+										</div>								
+									</div>
+									
+									<div class="col-sm-6">
+										<h2>회원 정보</h2>
+										<!-- 회원 정보 -->
+										<div class="form-group">
+											<label class="control-label">회원명</label>
 											<input type="text" class="form-control" id="input-name" value="${member.memberName }" readonly>
 										</div>
 										<div class="form-group">
@@ -139,33 +168,23 @@ function requestPay() {
 											<input type="text" class="form-control" id="input-phone" value="${member.memberPhone }" readonly>
 										</div>		
 										<div class="form-group">
-											<label class="control-label">E-Mail</label>
+											<label class="control-label">이메일</label>
 											<input type="text" class="form-control" id="input-email" value="${member.memberEmail }" readonly>
 										</div>
-										<div class="form-group">
-											<label class="control-label">상품명</label>
-											<input type="text" class="form-control" id="input-email" value="${member.memberEmail }" readonly>
-										</div>
-										<label class="control-label mt-1">사업장 소재지 *</label>
-										<div class="row">
-											<div class="col-sm-4">
-												<input type="text" class="form-control" id="input-brandZipCode" name="brandZipCode" placeholder="우편번호" readonly>
-											</div>
-											<div class="col-sm-6">
-												<input type="button" class="btn btn-primary" id="button-searchAddr" value="우편번호 조회" onclick="searchAddr();">
-											</div>
-										</div>							
-										<div class="form-group">
-											<input type="text" class="form-control" id="input-brandAddr" name="brandAddr" placeholder="주소" readonly>
-										</div>
-										<div class="form-group">
-											<input type="text" class="form-control" id="input-brandDetailAddr" name="brandDetailAddr" placeholder="상세주소" required>
-										</div>								
 									</div>
+										
+										
+									<!-- 상품 번호 받아서 저장 하는 곳 -->
+									<input type="hidden" name="product_no" value="2"/>
+									<input type="hidden" name="member_no" value="${member.memberNo }"/>
+									<input type="hidden" name="imp_uid" id="imp_uid" value=""/>
+									<input type="hidden" name="merchant_uid" id="merchant_uid" value=""/>
+									<input type="hidden" name="order_total_price" id="order_total_price" value=""/>
+									<input type="hidden" name="order_payType" id="order_payType" value=""/>
+									
+									<button id="payBtn" class="btn btn-primary float-right" onclick="requestPay(product_no);">결제하기</button>
 								</div>
-								<!-- HTML -->
-								<button onclick="requestPay()">결제하기</button>
-								<input type="button" class="btn btn-primary float-right" data-loading-text="Loading..." id="button-submit" value="결제하기">
+								<!-- <input type="button" class="btn btn-primary float-right" data-loading-text="Loading..." id="button-submit" value="결제하기"> -->
 						</form>
 					</div>
 				</div>

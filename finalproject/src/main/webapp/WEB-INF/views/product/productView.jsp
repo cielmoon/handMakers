@@ -141,9 +141,14 @@
           <p class="product-desc"> 핵심적인 간단한 상품 설명</p>
           <div id="product">
             <div class="form-group">
+            	<label class="control-label">옵션</label>
+            	<input type="number" id="color" name="input-optionType"/>색상
+            	<input type="number" id="" name="input-optionType"/>
+            </div>
+            <div class="form-group">
               <label class="control-label qty-label" for="input-quantity">수량</label>
               <input type="number" name="quantity" value="1" size="2" id="input-quantity" class="form-control productpage-qty" />
-              <input type="hidden" name="productNo" value="${productNo }" />
+              <input type="hidden" name="productNo" value="${product.productNo }" />
               <div class="btn-group">
               
               <!-- 찜 버튼 ajax 처리 wish list 저장 -->
@@ -154,6 +159,7 @@
                 <!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
               </div>
             </div>
+            
           </div>
           </form>
         </div>
@@ -179,7 +185,7 @@
             <!-- cpt_container_end -->
             </div>
           
-          <!-- 댓글 등록 창 -->
+          <!-- 후기 댓글 등록 창 -->
           <div class="tab-pane" id="tab-review">
          	<div class="form-group" style="border:1px solid red">
          	작성된 댓글 넣기 
@@ -193,20 +199,21 @@
               <h2>상품 후기</h2>
               <div class="form-group required">
                 <div class="col-sm-12">
-                  <label class="control-label" for="input-name">댓글 작성자 이름</label>
+                  <label class="control-label" for="input-name">후기 작성자ID</label>
                   <input type="text" name="name" value="" id="input-name" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
                 <div class="col-sm-12">
-                  <label class="control-label" for="input-review">댓글 작성내용</label>
+                  <label class="control-label" for="input-review">상품 후기</label>
                   <textarea name="text" rows="5" id="input-review" class="form-control"></textarea>
                 </div>
               </div>
               
               <div class="buttons clearfix">
                 <div class="pull-right">
-                  <button type="button" id="button-review" data-loading-text="Loading..." class="btn btn-primary">댓글등록(continue)</button>
+                <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
+                  <c:if test="${product_order.order_state eq '2'}"><button type="button" id="button-review" data-loading-text="Loading..." class="btn btn-primary">후기등록</button></c:if>
                 </div>
               </div>
             </form>
@@ -226,20 +233,20 @@
               <h2>상품 문의</h2>
               <div class="form-group required">
                 <div class="col-sm-12">
-                  <label class="control-label" for="input-name">댓글 작성자 이름</label>
+                  <label class="control-label" for="input-name">상품문의 ID</label>
                   <input type="text" name="name" value="" id="input-name" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
                 <div class="col-sm-12">
-                  <label class="control-label" for="input-review">댓글 작성내용</label>
+                  <label class="control-label" for="input-review">상품 문의내용</label>
                   <textarea name="text" rows="5" id="input-review" class="form-control"></textarea>
                 </div>
               </div>
               
               <div class="buttons clearfix">
                 <div class="pull-right">
-                  <button type="button" id="button-review" data-loading-text="Loading..." class="btn btn-primary">문의등록(continue)</button>
+                  <button type="button" id="button-review" data-loading-text="Loading..." class="btn btn-primary">문의등록</button>
                 </div>
               </div>
             </form>
