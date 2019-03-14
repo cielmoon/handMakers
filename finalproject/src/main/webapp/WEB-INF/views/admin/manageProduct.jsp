@@ -5,13 +5,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<%-- <jsp:param value="" name="pageTitle"/> --%>
+
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
 			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
-			<li><a href="#">관리자페이지</a></li>
-			<li><a href="#">상품 관리</a></li>
+			<li><a href="${path}/admin/adminPage.do">관리자페이지</a></li>
+			<li><a href="${path}/admin/manageProduct.do">상품 관리</a></li>
 		</ul>
 		<br />
 		<div class="row">
@@ -46,11 +46,11 @@
 								<th>요청관리</th>
 								<th></th>
 							</tr>
- 							<%-- <c:forEach var="b" items="${productList }">
+ 							<c:forEach var="p" items="${productList }">
 								<tr>
-									<td>${b.brandLicense }</td>
-									<td>${b.brandTitle }</td>
-									<td>${b.brandType }</td>									
+									<td>${p.brandLicense }</td>
+									<td>${p.brandTitle }</td>
+									<td>${p.brandType }</td>									
 									<c:choose>
 										<c:when test="${b.brandState eq '1' }">
 											<td>승인</td>		
@@ -78,7 +78,7 @@
 										</c:otherwise>								
 									</c:choose>
 								</tr>
-							</c:forEach> --%>
+							</c:forEach>
 						</table>
 						${pageBar }
 					</div>

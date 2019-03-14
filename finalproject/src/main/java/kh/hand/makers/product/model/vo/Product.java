@@ -25,8 +25,8 @@ public class Product implements Serializable {
 	private String scNo; // 소카테고리 대카테고리 브랜드번호 관리자식별 유저식별 누적판매 현재판매 누적평점
 	private String bcNo;
 	private String brandNo;
-	private String AdminNo;
-	private String MemberNo;
+	private String adminNo;
+	private String memberNo;
 	private int productCurSell; // 현재 누적 판매량
 	private int productTotalSell;
 	private int productQty; // 상품 주문 수량
@@ -35,7 +35,6 @@ public class Product implements Serializable {
 	public Product() {
 
 	}
-
 	public Product(String productNo, String productTitle, String productProfile, Date productEnrollDate,
 			Date productUpdate, Date productEndDate, String productDetail, String productComment, int productState,
 			int productStep, int productPrice, int productMax, int productMin, String scNo, String bcNo, String brandNo,
@@ -58,8 +57,8 @@ public class Product implements Serializable {
 		this.scNo = scNo;
 		this.bcNo = bcNo;
 		this.brandNo = brandNo;
-		AdminNo = adminNo;
-		MemberNo = memberNo;
+		this.adminNo = adminNo;
+		this.memberNo = memberNo;
 		this.productCurSell = productCurSell;
 		this.productTotalSell = productTotalSell;
 		this.productQty = productQty;
@@ -73,7 +72,7 @@ public class Product implements Serializable {
 				+ ", productEndDate=" + productEndDate + ", productDetail=" + productDetail + ", productComment="
 				+ productComment + ", productState=" + productState + ", productStep=" + productStep + ", productPrice="
 				+ productPrice + ", productMax=" + productMax + ", productMin=" + productMin + ", scNo=" + scNo
-				+ ", bcNo=" + bcNo + ", brandNo=" + brandNo + ", AdminNo=" + AdminNo + ", MemberNo=" + MemberNo
+				+ ", bcNo=" + bcNo + ", brandNo=" + brandNo + ", adminNo=" + adminNo + ", memberNo=" + memberNo
 				+ ", productCurSell=" + productCurSell + ", productTotalSell=" + productTotalSell + ", productQty="
 				+ productQty + ", productDiscount=" + productDiscount + "]";
 	}
@@ -207,19 +206,19 @@ public class Product implements Serializable {
 	}
 
 	public String getAdminNo() {
-		return AdminNo;
+		return adminNo;
 	}
 
 	public void setAdminNo(String adminNo) {
-		AdminNo = adminNo;
+		this.adminNo = adminNo;
 	}
 
 	public String getMemberNo() {
-		return MemberNo;
+		return memberNo;
 	}
 
 	public void setMemberNo(String memberNo) {
-		MemberNo = memberNo;
+		this.memberNo = memberNo;
 	}
 
 	public int getProductCurSell() {
@@ -257,5 +256,6 @@ public class Product implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
 
 }

@@ -26,16 +26,44 @@
 		<result column="pre_product_date" property="preProductDate" />
 		<result column="pre_product_no" property="preProductNo" />
 	</resultMap>
-	
+
 	<resultMap type="preproduct" id="preProductMap">
 		<result column="pre_product_no" property="preProductNo" />
 		<result column="pre_product_title" property="preProductTitle" />
-		<result column="pre_product_discript" property="preProductDiscript" />
+		<result column="pre_product_discript"
+			property="preProductDiscript" />
 		<result column="pre_product_state" property="preProductState" />
 		<result column="pre_product_date" property="preProductDate" />
 		<result column="brand_no" property="brandNo" />
 		<result column="bc_no" property="bcNo" />
 		<result column="sc_no" property="scNo" />
+	</resultMap>
+
+	<resultMap type="product" id="productMap">
+		<result column="product_no" property="productNo" />
+		<result column="product_title" property="productTitle" />
+		<result column="product_enrolldate" property="productEnrollDate" />
+		<result column="product_update" property="productUpdate" />
+		<result column="product_profile" property="productProfile" />
+		<result column="product_comment" property="productComment" />
+		<result column="product_state" property="productState" />
+		<result column="product_step" property="productStep" />
+		
+		<result column="product_price" property="productPrice" />
+		<result column="product_max" property="productMax" />
+		<result column="product_min" property="productMin" />
+		<result column="product_enddate" property="productEndDate" />
+		<result column="sc_no" property="scNo" />
+		<result column="bc_no" property="bcNo" />
+		<result column="brand_no" property="brandNo" />
+		
+		<result column="member_no" property="memberNo" />
+		<result column="admin_no" property="adminNo" />
+		<result column="product_totalsell" property="productTotalSell" />
+		<result column="product_cursell" property="productCurSell" />		
+
+		<result column="product_qty" property="productQty" />
+		<result column="product_discount" property="productDiscount" />
 	</resultMap>
 
 	<!-- javaType="string" -->
@@ -45,7 +73,8 @@
 	</select>
 
 	<select id="selectBrandCount" resultType="_int">
-		select count(*) from brand
+		select count(*) from
+		brand
 	</select>
 
 
@@ -55,25 +84,38 @@
 	</update>
 
 	<!-- javaType="string" -->
-	<select id="selectPreProductList" resultMap="managePreProductMap">
-		select	big_category.bc_title as "pre_product_bctitle", small_category.sc_title as "pre_product_sctitle", brand.brand_title as	"pre_product_brandtitle", pre_product_title as "pre_product_title",
+	<select id="selectPreProductList"
+		resultMap="managePreProductMap">
+		select big_category.bc_title as "pre_product_bctitle",
+		small_category.sc_title as "pre_product_sctitle", brand.brand_title as
+		"pre_product_brandtitle", pre_product_title as "pre_product_title",
 		pre_product_state as "pre_product_state", pre_product_date as
 		"pre_product_date", pre_product_no as "pre_product_no" from
 		pre_product join brand on (brand.brand_no = pre_product.brand_no) join
 		big_category on (pre_product.bc_no = big_category.bc_no) join
-		small_category on (pre_product.sc_no = small_category.sc_no) order by pre_product_date desc
+		small_category on (pre_product.sc_no = small_category.sc_no) order by
+		pre_product_date desc
 	</select>
 
 	<select id="selectPreProductCount" resultType="_int">
-		select count(*)	from pre_product order by pre_product_date desc
+		select count(*)
+		from pre_product order by pre_product_date desc
 	</select>
 
 	<update id="preProductStateUpdate" parameterType="map">
-		update pre_product set pre_product_state = #{preProductState} where pre_product_no = #{preProductNo}
+		update
+		pre_product set pre_product_state = #{preProductState} where
+		pre_product_no = #{preProductNo}
 	</update>
-		
-	<select id="selectPreProduct" parameterType="string" resultMap="preProductMap">
-		SELECT * FROM PRE_PRODUCT WHERE PRE_PRODUCT_NO = #{preProductNo}
-	</select>	
-	
+
+	<select id="selectPreProduct" parameterType="string"
+		resultMap="preProductMap">
+		SELECT * FROM PRE_PRODUCT WHERE PRE_PRODUCT_NO =
+		#{preProductNo}
+	</select>
+			
+	<select id="selectProductList" resultMap="productMap">
+		SELECT * FROM PRODUCT order by product_update desc 
+	</select>
+
 </mapper>
