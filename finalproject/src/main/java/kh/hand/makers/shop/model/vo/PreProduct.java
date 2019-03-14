@@ -1,8 +1,13 @@
 package kh.hand.makers.shop.model.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class PreProduct {
+public class PreProduct implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2678906938493797742L;
 	private String preProductNo;
 	private String preProductTitle;
 	private String preProductDiscript;
