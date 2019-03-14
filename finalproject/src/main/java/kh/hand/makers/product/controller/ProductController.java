@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.common.PageFactory;
 import kh.hand.makers.product.model.service.ProductService;
+import kh.hand.makers.product.model.vo.Product;
 
 @Controller
 public class ProductController {
@@ -23,10 +24,24 @@ public class ProductController {
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
 	//상품 상세화면 보여주는 서블릿
+	// 3월 14일 상세상품 보여주기 위함
 	@RequestMapping("/product/productView.do")
-	public String productView() {
+	public ModelAndView productView(String productNo) {
 		
-		return "/product/productView";
+		ModelAndView mv = new ModelAndView();
+		
+		logger.debug(productNo);
+		
+		Map<String,String> map = service.selectProduct(productNo);
+
+		System.out.println("찍나?");
+		
+		System.out.println(map);
+		
+		mv.addObject("product",map);
+		mv.setViewName("/product/productView");
+
+		return mv;
 	}
 	
 	@RequestMapping("/product/bestList.do")

@@ -4,8 +4,7 @@
 	<resultMap type="product" id="productMap">
 		<result column="product_no" property="productNo" />
 		<result column="product_title" property="productTitle" />
-		<result column="product_enrolldate"
-			property="productEnrollDate" />
+		<result column="product_enrolldate" property="productEnrollDate" />
 		<result column="product_update" property="productUpdate" />
 		<result column="product_profile" property="productProfile" />
 		<result column="product_enddate" property="productEndDate" />
@@ -32,6 +31,10 @@
 
 	<select id="selectProductCount" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
+	</select>
+	
+	<select id="selectProduct" parameterType="string" resultType="map">
+		SELECT * FROM PRODUCT JOIN BRAND USING(BRAND_NO) LEFT JOIN PRODUCT_DETAIL USING(PRODUCT_NO) JOIN SMALL_CATEGORY USING(SC_NO) WHERE PRODUCT_NO=#{productNo}
 	</select>
 
 </mapper>

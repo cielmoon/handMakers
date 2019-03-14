@@ -5,32 +5,24 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<script>
-   function fn_order(){
-	   location.href="${path}/order/orderEnroll.do";
-   };
-   
-</script>
+
 <section class="product col-2 left-col">
 <div class="preloader loader" style="display: block; background:#f2f2f2;"> <img src="image/loader.gif"  alt="#"/></div>
-
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="index.html"><i class="fa fa-home"></i></a></li>
-    <li><a href="${path }/product/category.do">대분류카테고리(BC_TITLE)</a></li>
-    <li><a href="${path }/product/productView.do">소분류카테고리(SC_TITLE)</a></li>
+    <li><a href="${path }/product/category.do">${product.BC_TITLE }</a></li>
+    <li><a href="${path }/product/productView.do">${product.SC_TITLE }</a></li>
   </ul>
   <!-- nav -->
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
       <div class="column-block">
         <div class="column-block">
-          <div class="columnblock-title">대분류카테고리(BC_TITLE)</div>
+          <div class="columnblock-title">${product.BC_TITLE }</div>
           <div class="category_block">
             <ul class="box-category treeview-list treeview">
-              <li><a href="#">소분류카테고리1(SC_TITLE)</a></li>
-              <li><a href="#">소분류카테고리2(SC_TITLE)</a></li>
-              <li><a href="#">소분류카테고리3(SC_TITLE)</a></li>
+              <li><a href="#">${product.SC_TITLE }</a></li>
             </ul>
           </div>
         </div>
@@ -82,8 +74,8 @@
         
         <!-- 상품 설명 -->
         <div class="col-sm-6">
-        <form action="#" method="post">
-          <h1 class="productpage-title">상품명</h1>
+        <form id="productViewFrm" action="${path }/order/orderEnroll.do" method="post">
+          <h1 class="productpage-title">${product.PRODUCT_TITLE }</h1>
           
           <!-- 별 찍는 거 -->
           <div class="rating product"> 
@@ -116,7 +108,7 @@
           <ul class="list-unstyled productinfo-details-top">
             <li>
             <!-- 가격 -->
-              <h2 class="productpage-price">${productPrice }가격</h2>
+              <h2 class="productpage-price">${product.PRODUCT_PRICE }</h2>
             </li>
             
             <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
@@ -128,34 +120,36 @@
           <ul class="list-unstyled product_info">
             <li>
               <label>brand:</label>
-              <span> <!-- <a href="#"> -->${brandNo} <!-- </a> --></span></li>
+              <span> ${product.BRAND_TITLE}</span></li>
             <li>
               <label>상품 :</label>
-              <span> ${scNo }</span></li>
+              <span> ${product.PRODUCT_TITLE }</span></li>
             <li>
               <label>재고:</label>
-              <span> ${qtn }</span></li>
+              <span> ${product.PRODUCT_STOCK }</span></li>
           </ul>
           <hr>
              
           <p class="product-desc"> 핵심적인 간단한 상품 설명</p>
           <div id="product">
             <div class="form-group">
-            	<label class="control-label">옵션</label>
+            	<label class="control-label">${product.PRODUCT_OPTION }</label>
             	<input type="number" id="color" name="input-optionType"/>색상
-            	<input type="number" id="" name="input-optionType"/>
+            	<input type="number" id="food" name="input-optionType"/>맛
+            	<input type="number" id="option" name="input-optionType"/>옵션2
             </div>
             <div class="form-group">
-              <label class="control-label qty-label" for="input-quantity">수량</label>
-              <input type="number" name="quantity" value="1" size="2" id="input-quantity" class="form-control productpage-qty" />
-              <input type="hidden" name="productNo" value="${product.productNo }" />
+              <label class="control-label qty-label" for="input-qty">수량</label>
+              <input type="number" name="quantity" value="${product.PRODUCT_PRICE }" size="2" id="input-quantity" class="form-control productpage-qty" />
+              <input type="hidden" name="productNo" value="${product.PRODUCT_NO }" />
+              <input type="hidden" name="productNo" value="${product.BRAND_NO }" />
               <div class="btn-group">
               
               <!-- 찜 버튼 ajax 처리 wish list 저장 -->
               <!-- data-toggle="tooltip"은 호버 했을 경우 title의 내용이 말 풍선으로 나옴 -->
                 <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" ><i class="fa fa-heart-o"></i></button>
                 <!-- 결재 버튼 -->
-                <button type="button" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" onclick="fn_order();">결재하기</button>
+                <input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결재하기"/>
                 <!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
               </div>
             </div>
@@ -179,7 +173,7 @@
           <div class="tab-pane active" id="tab-description">
             <div class="cpt_product_description ">
               <div>
-                <p>자세한 상품 설명</p>
+                <p>${product.PRODUCT_DETAIL }</p>
               </div>
             </div>
             <!-- cpt_container_end -->

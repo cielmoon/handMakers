@@ -22,8 +22,15 @@ public class OrderController {
 	OrderService service = new OrderServiceImpl();
 	
 	@RequestMapping("/order/orderEnroll.do")
-	public String orderEnroll() {
-		return "/order/orderEnroll";
+	public ModelAndView orderEnroll(@RequestParam Map<String,Object> map) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		System.out.println(map);
+		
+		mv.setViewName("order/orderEnroll");
+		
+		return mv;
 	}
 	
 	@RequestMapping("/order/orderEnrollEnd.do")

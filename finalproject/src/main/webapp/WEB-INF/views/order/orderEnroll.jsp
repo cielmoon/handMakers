@@ -187,7 +187,7 @@ function requestPay() {
 										
 										
 									<!-- 상품 번호 받아서 저장 하는 곳 -->
-									<input type="hidden" name="product_no" value="2"/>
+									<input type="hidden" name="product_no" value="${productNo} }"/>
 									<input type="hidden" name="member_no" value="${member.memberNo }"/>
 									<input type="hidden" name="imp_uid" id="imp_uid" value=""/>
 									<input type="hidden" name="merchant_uid" id="merchant_uid" value=""/>
