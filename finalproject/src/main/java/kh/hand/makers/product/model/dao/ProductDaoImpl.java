@@ -11,6 +11,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.product.model.vo.Product2;
 
 @Repository
@@ -19,7 +20,7 @@ public class ProductDaoImpl implements ProductDao {
 	@Autowired
 	SqlSession session;
 
-	
+
 	
 	
 	@Override
@@ -53,6 +54,13 @@ public class ProductDaoImpl implements ProductDao {
 		list.add(map);
 		
 		return list;
+	}
+
+	// 3월 14일 상세상품 보여주기 위함
+	@Override
+	public Map<String,String> selectProduct(String productNo) {
+		
+		return session.selectOne("product.selectProduct",productNo);
 	}
 	
 	

@@ -37,10 +37,20 @@ function searchAddr(){
       		});
 }
 
-function requestPay(product_no) {
-	var productNo = product_no.value;
+function requestPay() {
 	
-	console.log(productNo);
+	var productNo = $('input[name=product_no]').val();
+	var name = $('input[name=productName]').val();
+	var productPrice = $('input[name=productPrice]').val();
+	var productOptionSubject = $('input[name=productOptionSubject]').val();
+	var productOptionQty = $('input[name=productOptionQty]').val();
+	var buyer_name = '${member.memberName}';
+	var buyer_tel = ${member.memberPhone};
+	var buyer_addr = $('input[name=addr]').val().concat($('input[name=detailAddr]'));
+	var buyer_postcode = $('input[name=postCode]').val();
+	
+	var amount = productPrice * productOptionQty;
+	
 	var IMP=window.IMP;
 	IMP.init('imp16711907');
     // IMP.request_pay(param, callback) 호출
@@ -48,13 +58,13 @@ function requestPay(product_no) {
 	    pg : 'kakao',
 	    pay_method : 'card',
 	    merchant_uid : 'merchant_' + new Date().getTime(),//환불시 필요한 정보
-	    name : '테스트상품',
-	    amount : '1', //상품 가격
+	    name : name,
+	    amount : amount, //상품 가격
 	    /* buyer_email : '123@naver.com', */
-	    buyer_name : '홍길동',
-	    buyer_tel : '01012345678',
-	    buyer_addr : '서울시 강남구 테헤란로',
-	    buyer_postcode : '123-456',
+	    buyer_name : buyer_name,
+	    buyer_tel : buyer_tel,
+	    buyer_addr : buyer_addr,
+	    buyer_postcode : buyer_postcode,
 	    m_redirect_url : 'https://www.myservice.com/payments/complete'
 	}, function(rsp) {
 		console.log(rsp);
@@ -65,6 +75,7 @@ function requestPay(product_no) {
     			msg += '\결제 금액 : ' + rsp.paid_amount;
     			msg += '카드 승인번호 : ' + rsp.apply_num;
     			msg += '결제수단 : ' + rsp.pg_type; 
+    			
     			$('#imp_uid').val(rsp.imp_uid);//결제 고유번호
     			$('#merchant_uid').val(rsp.merchant_uid);//주문번호
     			$('#order_total_price').val(rsp.paid_amount);//결재 가격
@@ -72,7 +83,7 @@ function requestPay(product_no) {
     			
     			alert(msg);
     			
-    			$('form[name=brandEnrollFrm]').submit();
+    			$('form[name=orderEnrollFrm]').submit();
     			
 	    	}		
 	   	else {
@@ -80,6 +91,7 @@ function requestPay(product_no) {
 	        msg += '에러내용 : ' + rsp.error_msg;
 	        
 	        alert(msg);
+	        return;
 	    }
 	});
 
@@ -117,25 +129,25 @@ function requestPay(product_no) {
 							</h4>
 						</div>
 						<div class="panel-body">
-							<form name="brandEnrollFrm" action="${path}/order/orderEnrollEnd.do" method="post">
+							<form name="orderEnrollFrm" action="${path}/order/orderEnrollEnd.do" method="post">
 								<div class="row">
 									<div class="col-sm-6">
 										<h2>상품 정보</h2>
 										<div class="form-group">
 											<label class="control-label">상품명</label>
-											<input type="text" class="form-control" id="input-productName" value="상품명" readonly>
-										</div>
-										<div class="form-group">
-											<label class="control-label">옵션</label>
-											<input type="text" class="form-control" id="input-productOptionSubject" value="옵션" readonly>
+											<input type="text" class="form-control" id="input-productName" name="productName"value="상품명" readonly>
 										</div>
 										<div class="form-group">
 											<label class="control-label">가격</label>
-											<input type="number" class="form-control" id="input-productPrice" value="가격" readonly>
+											<input type="number" class="form-control" id="input-productPrice" name="productPrice"/>
+										</div>
+										<div class="form-group">
+											<label class="control-label">옵션</label>
+											<input type="text" class="form-control" id="input-productOptionSubject" name="productOptionSubject" value="옵션" readonly>
 										</div>
 										<div class="form-group">
 											<label class="control-label">수량</label>
-											<input type="number" class="form-control" id="input-productOptionQty" value="수량" required>
+											<input type="number" class="form-control" id="input-productOptionQty" name="productOptionQty"required>
 										</div>
 										
 										<!-- 배송지 주소 -->
@@ -175,17 +187,18 @@ function requestPay(product_no) {
 										
 										
 									<!-- 상품 번호 받아서 저장 하는 곳 -->
-									<input type="hidden" name="product_no" value="2"/>
+									<input type="hidden" name="product_no" value="${productNo} }"/>
 									<input type="hidden" name="member_no" value="${member.memberNo }"/>
 									<input type="hidden" name="imp_uid" id="imp_uid" value=""/>
 									<input type="hidden" name="merchant_uid" id="merchant_uid" value=""/>
-									<input type="hidden" name="order_total_price" id="order_total_price" value=""/>
+									<input type="hidden" name="order_total_price" id="order_total_price"/>
 									<input type="hidden" name="order_payType" id="order_payType" value=""/>
 									
-									<button id="payBtn" class="btn btn-primary float-right" onclick="requestPay(product_no);">결제하기</button>
+									
 								</div>
 								<!-- <input type="button" class="btn btn-primary float-right" data-loading-text="Loading..." id="button-submit" value="결제하기"> -->
 						</form>
+						<button id="payBtn" class="btn btn-primary float-right" onclick="requestPay();">결제하기</button>
 					</div>
 				</div>
 			</div>
