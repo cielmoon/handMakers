@@ -10,9 +10,8 @@
 	<div class="container">
 		<ul class="breadcrumb">
 			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
-			<li><a href="#">관리자페이지</a></li>
-			<li><a href="#">상품 관리</a></li>
-			<li><a href="#">상품 등록</a></li>
+			<li><a href="${path}/admin/adminPage.do">관리자페이지</a></li>
+			<li><a href="${path}/admin/manageProduct.do">상품 관리</a></li>		
 		</ul>
 		<br />
 		<div class="row">
@@ -25,9 +24,9 @@
 								class="list-group-item" href="#">공지사항 관리</a> <a
 								class="list-group-item" href="#">메인배너 관리</a> <a
 								class="list-group-item" href="${path}/admin/manageMember.do">회원 관리</a> <a
-								class="list-group-item" href="${path}/admin/managePreProduct.do">입점문의 관리</a> <a
-								class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a> <a 
-								class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 관리</a> <a							
+								class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 관리</a> <a	
+								class="list-group-item" href="${path}/admin/managePreProduct.do">입점문의 관리</a> <a							
+								class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a> <a 						
 								class="list-group-item" href="${path}/admin/manageEndProduct.do">상품 재등록 관리</a>
 						</div>
 					</div>

@@ -13,9 +13,7 @@
 			<li><a href="#">관리자페이지</a></li>
 		</ul>
 		<br />
-		<div class="row">
-		
-		
+		<div class="row">		
 			<div class="col-sm-3 hidden-xs column-left" id="column-left">
 				<div class="column-block">
 					<div class="columnblock-title">관리자페이지</div>
@@ -25,9 +23,9 @@
 								class="list-group-item" href="#">공지사항 관리</a> <a
 								class="list-group-item" href="#">메인배너 관리</a> <a
 								class="list-group-item" href="${path}/admin/manageMember.do">회원 관리</a> <a
-								class="list-group-item" href="${path}/admin/managePreProduct.do">입점문의 관리</a> <a
-								class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a> <a 
-								class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 관리</a> <a							
+								class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 관리</a> <a	
+								class="list-group-item" href="${path}/admin/managePreProduct.do">입점문의 관리</a> <a							
+								class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a> <a 						
 								class="list-group-item" href="${path}/admin/manageEndProduct.do">상품 재등록 관리</a>
 						</div>
 					</div>

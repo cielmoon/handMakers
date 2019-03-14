@@ -45,10 +45,32 @@ function selectBrand(brandNo, brandState)
 				</div>
 				
 				<div class="column-block">
+					<c:if test="${brandList.size() != 0}">		
+						<div class="columnblock-title">판매자페이지</div>
+					</c:if>
+					<div class="account-block">
+					
+						<div class="list-group">
+							<c:forEach items="${brandList }" var="b">
+								<c:if test="${b.brandState.toString()!='4'}">
+								<a class="list-group-item brand-list" href="javascript:selectBrand('${b.brandNo }', '${b.brandState }');">${b.brandTitle }				
+									<c:if test="${b.brandState.toString()=='0'}">
+										<i class="fa fa-clock-o" style="font-size:20px; float: right;"></i>
+									</c:if>
+									<c:if test="${b.brandState.toString()=='2'}">
+										<i class="fa fa-exclamation-circle" style="font-size:20px; color: firebrick; float: right;"></i>
+									</c:if>
+								</a>
+								</c:if>
+							</c:forEach>
+						</div>	
+					</div>					
+				</div>
+<%-- 				<div class="column-block">		
+					<c:if test="${brandList == null }">		
 					<div class="columnblock-title">판매자페이지</div>
 					<div class="account-block">
-						<div class="list-group">
-							<c:if test="${brandList == null }">
+						<div class="list-group">							
 								<a class="list-group-item" href="${path }/shop/brandEnroll.do">브랜드 등록하기</a>
 							</c:if>
 							<c:forEach items="${brandList }" var="b">
@@ -61,9 +83,8 @@ function selectBrand(brandNo, brandState)
 									</c:if>
 								</a>
 							</c:forEach>
-						</div>
-					</div>
-				</div>
+						</div> --%>
+			
 			</div>
 			<!-- 정보 변경 전에 다시 비밀번호 확인 -->
 			<div class="col-sm-9" id="content">
