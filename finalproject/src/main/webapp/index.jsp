@@ -26,7 +26,7 @@
 		</div>
 	</div>
 	<div class="container">
-		<h1>진짜싫다 .classpath .ignore의 심오한 세계</h1><!-- 사이트맵? ex: kh정보교육원 -->
+		<h1>진짜싫다 .classpath .ignore의 심오한 세계.git은 다시 살아났나요?</h1><!-- 사이트맵? ex: kh정보교육원 -->
 	</div>
 </section>
 

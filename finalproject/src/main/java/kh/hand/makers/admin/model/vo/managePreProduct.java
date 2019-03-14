@@ -1,9 +1,14 @@
 package kh.hand.makers.admin.model.vo;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class managePreProduct {
+public class managePreProduct implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2595149189372224405L;
 	private String preProductBcTitle;
 	private String preProductScTitle;
 	private String preProductBrandTitle;
