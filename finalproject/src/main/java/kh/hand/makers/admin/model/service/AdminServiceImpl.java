@@ -7,16 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kh.hand.makers.admin.model.dao.AdminDao;
+import kh.hand.makers.admin.model.vo.managePreProduct;
+import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.vo.Brand;
+import kh.hand.makers.shop.model.vo.PreProduct;
 @Service
 public class AdminServiceImpl implements AdminService {
 	@Autowired
 	AdminDao dao;
-	
-	@Override
-	public List<Map<String, String>> selectProductList(int cPage, int numPerPage) {
-		return dao.selectProductList(cPage, numPerPage);
-	}
 	
 	@Override
 	public int selectProductCount() {
@@ -40,5 +38,36 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.brandStateUpdate(bs);
 	}
+
+	@Override
+	public int selectPreProductCount() {
+		// TODO Auto-generated method stub
+		return dao.selectPreProductCount();
+	}
+
+	@Override
+	public List<managePreProduct> selectPreProductList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectPreProductList(cPage, numPerPage);
+	}
+
+	@Override
+	public int preProductStateUpdate(Map<String, String> ps) {
+		// TODO Auto-generated method stub
+		return dao.preProductStateUpdate(ps);
+	}
+
+	@Override
+	public PreProduct selectPreProduct(String preProductNo) {
+		// TODO Auto-generated method stub
+		return dao.selectPreProduct(preProductNo);
+	}
+
+	@Override
+	public List<Product> selectProductList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectProductList(cPage, numPerPage);
+	}
+	
 	
 }

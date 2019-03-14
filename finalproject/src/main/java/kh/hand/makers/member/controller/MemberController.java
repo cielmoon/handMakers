@@ -161,6 +161,15 @@ public class MemberController {
 		ModelAndView mv=new ModelAndView();
 		List<Brand> list = shopService.selectBrandList(memberNo);
 		mv.addObject("brandList", list);
+		System.out.println("브랜드 갯수: "+list.size());
+		
+		if(list.size() == 0) {
+			System.out.println("있어? : ");
+		}else {
+			System.out.println("없어:");
+		}
+		
+		mv.addObject("listSize",list.size());
 		
 		mv.setViewName("member/myPage");
 		return mv;

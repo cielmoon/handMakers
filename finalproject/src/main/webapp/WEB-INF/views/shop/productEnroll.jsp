@@ -42,6 +42,7 @@ $(function(){
 		  $( "#frm-productEnroll" ).submit();
 	});
 });
+
 function validate() {
 	var pTitle = $('#input-productTitle').val();
 	if(pTitle.trim().length < 1)

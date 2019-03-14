@@ -1,6 +1,12 @@
 package kh.hand.makers.shop.model.vo;
 
-public class SmallCategory {
+import java.io.Serializable;
+
+public class SmallCategory implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6921142375447542747L;
 	private String scNo;
 	private String scTitle;
 	private String bcNo;

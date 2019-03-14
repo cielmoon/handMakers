@@ -3,40 +3,39 @@ package kh.hand.makers.product.model.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Product implements Serializable  {
+public class Product implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3077995635206426085L;
-	
 	private String productNo;
 	private String productTitle;
-	private String productProfile;		// 상품 메인사진[0]~ 옵션사진
-	private Date productEnrollDate;		// 최초 판매 시작 날짜
-	private Date productUpdate;		// 업데이트 날짜
-	private Date productEndDate;		// 판매 종료 날짜
-	private String productDetail;		// 상품 상세설명
-	private String productComment;		// 상품 간략설명
+	private String productProfile; // 상품 메인사진[0]~ 옵션사진
+	private Date productEnrollDate; // 최초 판매 시작 날짜
+	private Date productUpdate; // 업데이트 날짜
+	private Date productEndDate; // 판매 종료 날짜
+	private String productDetail; // 상품 상세설명
+	private String productComment; // 상품 간략설명
 	private int productState;
 	private int productStep;
 	private int productPrice;
 	private int productMax;
 	private int productMin;
-	private String scNo; //소카테고리 대카테고리 브랜드번호 관리자식별 유저식별 누적판매 현재판매 누적평점
+	private String scNo; // 소카테고리 대카테고리 브랜드번호 관리자식별 유저식별 누적판매 현재판매 누적평점
 	private String bcNo;
 	private String brandNo;
 	private String adminNo;
 	private String memberNo;
-	private int productCurSell;				//현재 누적 판매량
+	private int productCurSell; // 현재 누적 판매량
 	private int productTotalSell;
-	private int productQty;					//상품 주문 수량
-	private double productDiscount;			//상품 할인율
+	private int productQty; // 상품 주문 수량
+	private double productDiscount; // 상품 할인율
 	
 	public Product() {
-		
-	}
 
+	}
+	
 	public Product(String productNo, String productTitle, String productProfile, Date productEnrollDate,
 			Date productUpdate, Date productEndDate, String productDetail, String productComment, int productState,
 			int productStep, int productPrice, int productMax, int productMin, String scNo, String bcNo, String brandNo,
@@ -243,6 +242,10 @@ public class Product implements Serializable  {
 		this.productDiscount = productDiscount;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [productNo=" + productNo + ", productTitle=" + productTitle + ", productProfile="
@@ -255,11 +258,6 @@ public class Product implements Serializable  {
 				+ productQty + ", productDiscount=" + productDiscount + "]";
 	}
 
-		
 	
-
-		
-	
-
 
 }
