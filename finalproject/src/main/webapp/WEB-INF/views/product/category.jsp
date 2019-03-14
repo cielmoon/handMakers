@@ -178,8 +178,10 @@
       <div class="category-page-wrapper">
         <div class="col-md-6 list-grid-wrapper">
           <div class="btn-group btn-list-grid">
-            <button type="button" id="list-view" class="btn btn-default list" data-toggle="tooltip" title="List"><i class="fa fa-th-list"></i></button>
-            <button type="button" id="grid-view" class="btn btn-default grid" data-toggle="tooltip" title="Grid"><i class="fa fa-th"></i></button>
+            <!-- <button type="button" id="list-view" class="btn btn-default list" data-toggle="tooltip" title="List"><i class="fa fa-th-list"></i></button>
+            <button type="button" id="grid-view" class="btn btn-default grid" data-toggle="tooltip" title="Grid"><i class="fa fa-th"></i></button> -->
+            <div class="result-inner">(총 ${contentCount }건의 상품)</div>
+            <div id="grid-view" class="btn btn-default grid"></div><!-- <i class="fa fa-th"></i> -->
           </div>
           <!-- <a href="#" id="compare-total">Product Compare (0)</a> -->
           </div>
@@ -195,7 +197,7 @@
             </select>
           </div>
         </div>
-        <div class="col-md-2 text-right sort-wrapper">
+        <!-- <div class="col-md-2 text-right sort-wrapper">
           <label class="control-label" for="input-sort">Sort By :</label>
           <div class="sort-inner">
             <select id="input-sort" class="form-control">
@@ -210,7 +212,7 @@
               <option value="DESC">Model (Z - A)</option>
             </select>
           </div>
-        </div>
+        </div> -->
       </div>
       <br />
       
@@ -243,8 +245,9 @@
             <div class="caption product-detail">
               <h4 class="product-name">
               <a href="${path }/product/productView.do?productNo=${product.productNo}" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
+                                    <p class="rating">${product.productComment }</p><!-- div? -->
               <!-- 상품상세페이지 링크 , title=product_title , value = product_title -->
-              <p class="product-desc">${product.productComment }</p>
+              <div class="product-desc">${product.productComment }</div>
                 <!-- product_comment -->
               <p class="price product-price"><span class="price-old">$272.00</span> ${product.productPrice } <span class="price-tax">Ex Tax: $100.00</span> </p>
               <!-- product_price -->
@@ -263,11 +266,10 @@
        
        </c:forEach>
        <!-- 작업중 -->
-       <h1>asdjasldjaskljdklasjkldaklsjdlasjldakl-----${cPage }++++ ${contentCount }</h1>
           
       </div>
       <div class="category-page-wrapper">
-        <div class="result-inner">Showing 1 to 8 of 10 (${cPage } Pages)</div>
+        <%-- <div class="result-inner">Showing 1 to 8 of 10 (${cPage } Pages)</div> --%>
         
         <div class="pagination-inner">
           <ul class="pagination">
