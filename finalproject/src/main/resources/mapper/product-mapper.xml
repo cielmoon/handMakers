@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="product">
-<resultMap type="product" id="productMap">
-<result column="product_no" property="productNo"/>
-<result column="product_title" property="productTitle"/>
-<result column="product_enrolldate" property="productEnrollDate"/>
-<result column="product_update" property="productUpdate"/>
-<result column="product_profile" property="productProfile"/>
-<result column="product_enddate" property="productEndDate"/>
-<result column="product_detail" property="productDetail"/>
-<result column="product_comment" property="productComment"/>
-<result column="product_state" property="productState"/>
-<result column="product_step" property="productStep"/>
-<result column="product_price" property="productPrice"/>
-<result column="product_stock" property="productStock"/>
-<result column="product_min" property="productMin"/>
-<result column="sc_no" property="scNo"/>
-<result column="bc_no" property="bcNo"/>
-<result column="brand_no" property="brandNo"/>
-<result column="admin_no" property="adminNo"/>
-<result column="member_no" property="memberNo"/>
-<result column="product_cursell" property="productCurSell"/>
-<result column="product_totalsell" property="productTotalSell"/>
-</resultMap>
+	<resultMap type="product" id="productMap">
+		<result column="product_no" property="productNo" />
+		<result column="product_title" property="productTitle" />
+		<result column="product_enrolldate"
+			property="productEnrollDate" />
+		<result column="product_update" property="productUpdate" />
+		<result column="product_profile" property="productProfile" />
+		<result column="product_enddate" property="productEndDate" />
+		<result column="product_detail" property="productDetail" />
+		<result column="product_comment" property="productComment" />
+		<result column="product_state" property="productState" />
+		<result column="product_step" property="productStep" />
+		<result column="product_price" property="productPrice" />
+		<result column="product_stock" property="productStock" />
+		<result column="product_min" property="productMin" />
+		<result column="sc_no" property="scNo" />
+		<result column="bc_no" property="bcNo" />
+		<result column="brand_no" property="brandNo" />
+		<result column="admin_no" property="adminNo" />
+		<result column="member_no" property="memberNo" />
+		<result column="product_cursell" property="productCurSell" />
+		<result column="product_totalsell" property="productTotalSell" />
+	</resultMap>
 
- <!-- JOIN PRODUCT_DETAIL USING(PRODUCT_NO) -->
-<select id="selectProductList" resultMap="productMap" parameterType="string">
-SELECT * FROM PRODUCT
-</select>
+	<!-- JOIN PRODUCT_DETAIL USING(PRODUCT_NO) -->
+	<select id="selectProductList" resultMap="productMap" parameterType="string">
+		SELECT * FROM PRODUCT
+	</select>
 
-<select id="selectProductCount" resultType="_int">
-SELECT COUNT(*) FROM PRODUCT
-</select>
+	<select id="selectProductCount" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT
+	</select>
 
 </mapper>
