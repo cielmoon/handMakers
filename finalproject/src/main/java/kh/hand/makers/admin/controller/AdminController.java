@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.admin.model.service.AdminService;
+import kh.hand.makers.admin.model.vo.AdminProduct;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.common.PageFactory;
-import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
 
@@ -143,9 +143,9 @@ public class AdminController {
 		int numPerPage=5;
 		ModelAndView mv=new ModelAndView();
 		int contentCount=service.selectProductCount();
-		List<Product> productList=service.selectProductList(cPage,numPerPage);
+		List<AdminProduct> adminProductList=service.selectProductList(cPage,numPerPage);
 		mv.addObject("pageBar",PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageProduct.do"));
-		mv.addObject("productList",productList);
+		mv.addObject("adminProductList",adminProductList);
 		mv.setViewName("admin/manageProduct");
 		return mv;
 	}

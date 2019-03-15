@@ -12,18 +12,18 @@
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="index.html"><i class="fa fa-home"></i></a></li>
-    <li><a href="${path }/product/category.do">${product.BC_TITLE }</a></li>
-    <li><a href="${path }/product/productView.do">${product.SC_TITLE }</a></li>
+    <li><a href="${path }/product/category.do">${productList.BC_TITLE }</a></li>
+    <li><a href="${path }/product/productView.do">${productList.SC_TITLE }</a></li>
   </ul>
   <!-- nav -->
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
       <div class="column-block">
         <div class="column-block">
-          <div class="columnblock-title">${product.BC_TITLE }</div>
+          <div class="columnblock-title">${productList.BC_TITLE }</div>
           <div class="category_block">
             <ul class="box-category treeview-list treeview">
-              <li><a href="#">${product.SC_TITLE }</a></li>
+              <li><a href="#">${productList.SC_TITLE }</a></li>
             </ul>
           </div>
         </div>
@@ -76,7 +76,7 @@
         <!-- 상품 설명 -->
         <div class="col-sm-6">
         <form id="productViewFrm" action="${path }/order/orderEnroll.do" method="post">
-          <h1 class="productpage-title">${product.PRODUCT_TITLE }</h1>
+          <h1 class="productpage-title">${productList.PRODUCT_TITLE }</h1>
           
           <!-- 별 찍는 거 -->
           <div class="rating product"> 
@@ -109,11 +109,11 @@
           <ul class="list-unstyled productinfo-details-top">
             <li>
             <!-- 가격 -->
-              <h2 class="productpage-price">${product.PRODUCT_PRICE }</h2>
+              <h2 class="productpage-price">${productList.PRODUCT_PRICE }</h2>
             </li>
             
             <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
-            <li><span class="productinfo-tax">10%</span></li>
+            <li><span class="productinfo-tax">${productList.PRODUCT_DISCOUNT }</span></li>
             
           </ul>
           <hr>
@@ -121,41 +121,53 @@
           <ul class="list-unstyled product_info">
             <li>
               <label>brand:</label>
-              <span> ${product.BRAND_TITLE}</span></li>
-            <li>
+              <span> ${productList.BRAND_TITLE}</span></li>
+            <%-- <li>
               <label>상품 :</label>
-              <span> ${product.PRODUCT_TITLE }</span></li>
+              <span> ${productList.PRODUCT_TITLE }</span></li> --%>
             <li>
-              <label>재고:</label>
-              <span> ${product.PRODUCT_STOCK }</span></li>
+              <label>판매수량:</label>
+              <span> ${productList.PRODUCT_STOCK }</span></li>
           </ul>
           <hr>
-             
-          <p class="product-desc"> 핵심적인 간단한 상품 설명</p>
+          <h2>${productList.PRODUCT_OPTION }</h2>   
+          <p class="product-desc">${productList.PRODUCT_COMMENT }</p>
           <div id="product">
             <div class="form-group">
-            	<select class="form-control">
-            		<option value="1">2</option>
-            		<option value="3">5</option>
-            		<option value="4">6</option>
-            	</select>
+            	<!-- <select class="form-control"> -->
+            	<c:if test="${productList.PRODUCT_OPTION_NO!=null }">
+            	<c:forEach items="${productList.PRODUCT_OPTION }" var="p" varStatus="vs">
+            		<c:if test="${vs.first }">
+            			<c:forEach var="item" items="${p }">
+            				${item.key },
+            			</c:forEach>
+            			<br/>
+            		</c:if>
+            		<c:forEach items="${p }" var="item">
+            			${item.value },
+            		</c:forEach>
+            		<br/>
+            		<%-- <option value="${vs.key }">${vs.key}</option> --%>
+            	</c:forEach>
+            	</c:if>
+            	<!-- </select> -->
             </div>
             <div class="form-group">
               <label class="control-label qty-label" for="input-qty">수량</label>
-              <input type="number" name="quantity" value="${product.PRODUCT_PRICE }" size="2" id="input-quantity" class="form-control productpage-qty" />
-              <input type="hidden" name="productNo" value="${product.PRODUCT_NO }" />
-              <input type="hidden" name="productNo" value="${product.BRAND_NO }" />
+              <input type="number" name="quantity" value="${productList.PRODUCT_PRICE }" size="2" id="input-quantity" class="form-control productpage-qty" />
+              <input type="hidden" name="productNo" value="${productList.PRODUCT_NO }" />
+              <input type="hidden" name="productNo" value="${productList.BRAND_NO }" />
               <div class="btn-group">
               
               <!-- 찜 버튼 ajax 처리 wish list 저장 -->
-              <!-- data-toggle="tooltip"은 호버 했을 경우 title의 내용이 말 풍선으로 나옴 -->
-                <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" ><i class="fa fa-heart-o"></i></button>
+              <!-- data-toggle="tooltip"은 호버 했'을 경우 title의 내용이 말 풍선으로 나옴 -->
+                <button type="button" onclick="fn_wish();"id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" ><i class="fa fa-heart-o"></i></button>
                 <!-- 결재 버튼 -->
                 <input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결재하기"/>
                 <!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
               </div>
             </div>
-            
+            <input type="hidden" name="wishCk" id="wishCk" value="0">
           </div>
           </form>
         </div>
@@ -175,7 +187,7 @@
           <div class="tab-pane active" id="tab-description">
             <div class="cpt_product_description ">
               <div>
-                <p>${product.PRODUCT_DETAIL }</p>
+                <p>디테일</p>
               </div>
             </div>
             <!-- cpt_container_end -->

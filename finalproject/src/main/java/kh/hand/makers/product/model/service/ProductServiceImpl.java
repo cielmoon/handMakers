@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kh.hand.makers.product.model.dao.ProductDao;
 import kh.hand.makers.product.model.vo.Product;
+import kh.hand.makers.product.model.vo.Wish;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -37,10 +38,24 @@ public class ProductServiceImpl implements ProductService {
 
 	// 3월 14일 상세상품 보여주기 위함
 	@Override
-	public Map<String,String> selectProduct(String productNo) {
+	public List<Map<String,String>> selectProduct(String productNo) {
 		
 		return dao.selectProduct(productNo);
 	}
+
+	@Override
+	public List<Map<String, String>> selectCategory(String productNo) {
+		
+		return dao.selectCategory(productNo);
+	}
+
+	@Override
+	public Map<String,String> selectWish(Map<String,String> wish) {
+		
+		return dao.selectWish(wish);
+	}
+	
+	
 	
 	
 	

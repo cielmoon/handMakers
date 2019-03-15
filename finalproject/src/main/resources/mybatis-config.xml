@@ -11,11 +11,13 @@
       <typeAlias type="kh.hand.makers.shop.model.vo.Brand" alias="brand"/> 
       <typeAlias type="kh.hand.makers.admin.model.vo.managePreProduct" alias="managepreproduct"/> 
       <typeAlias type="kh.hand.makers.shop.model.vo.PreProduct" alias="preproduct"/>
+      <typeAlias type="kh.hand.makers.admin.model.vo.AdminProduct" alias="adminproduct"/>
       <typeAlias type="kh.hand.makers.shop.model.vo.BigCategory" alias="bigcategory"/>
       <typeAlias type="kh.hand.makers.shop.model.vo.SmallCategory" alias="smallcategory"/>
       <typeAlias type="kh.hand.makers.product.model.vo.Product" alias="product"/>
       <typeAlias type="kh.hand.makers.order.model.vo.Order" alias="order"/>
       <typeAlias type="kh.hand.makers.order.model.vo.Delivery" alias="delivery"/>
+      <typeAlias type="kh.hand.makers.product.model.vo.Wish" alias="wish"/>
    </typeAliases>
    <typeHandlers>
       <package name="kh.hand.makers.common"/>
