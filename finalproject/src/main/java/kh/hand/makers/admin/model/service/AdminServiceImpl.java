@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kh.hand.makers.admin.model.dao.AdminDao;
+import kh.hand.makers.admin.model.vo.AdminProduct;
 import kh.hand.makers.admin.model.vo.managePreProduct;
-import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
 @Service
@@ -64,7 +64,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Product> selectProductList(int cPage, int numPerPage) {
+	public List<AdminProduct> selectProductList(int cPage, int numPerPage) {
 		// TODO Auto-generated method stub
 		return dao.selectProductList(cPage, numPerPage);
 	}

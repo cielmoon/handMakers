@@ -62,134 +62,82 @@
       <br /> -->
       <div class="grid-list-wrapper">
       
-      <div class="product-layout product-list col-xs-12">
-						<div class="product-thumb">
-							<div class="image product-imageblock">
-								<a href="product.html"> <img
-									src="${path }/resources/image/product/pro-2-220x294.jpg"
-									alt="women's New Wine is an alcoholic stores"
-									title="lorem ippsum dolor dummy" class="img-responsive" />
-								</a>
-								<div class="button-group">
-									<button type="button" class="wishlist" data-toggle="tooltip"
-										title="주문하기">주문하기</button>
-								</div>
-							</div>
-							<div class="caption product-detail">
-								<h4 class="product-name">
-									<a href="product.html" title="상품명 위치"> 상품명 </a>
-								</h4>
-								<p class="product-desc">상품 간략 설명</p>
-								<p class="price product-price">
-									<span class="price-old">$272.00</span> $122.00 <span
-										class="price-tax">Ex Tax: $100.00</span>
-								</p>
-								<div class="rating">
-									<span class="fa fa-stack"><i
-										class="fa fa-star fa-stack-2x"></i><i
-										class="fa fa-star-o fa-stack-2x"></i></span> <span
-										class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i
-										class="fa fa-star-o fa-stack-2x"></i></span> <span
-										class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i
-										class="fa fa-star-o fa-stack-2x"></i></span> <span
-										class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-									<span class="fa fa-stack"><i
-										class="fa fa-star-o fa-stack-2x"></i></span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="product-layout product-list col-xs-12">
-						<div class="product-thumb">
-							<div class="image product-imageblock">
-								<a href="product.html"> <img
-									src="${path }/resources/image/product/pro-2-220x294.jpg"
-									alt="women's New Wine is an alcoholic stores"
-									title="lorem ippsum dolor dummy" class="img-responsive" />
-								</a>
-								<div class="button-group">
-									<button type="button" class="wishlist" data-toggle="tooltip"
-										title="주문하기">주문하기</button>
-								</div>
-							</div>
-							<div class="caption product-detail">
-								<h4 class="product-name">
-									<a href="product.html" title="상품명 위치"> 상품명 </a>
-								</h4>
-								<p class="product-desc">상품 간략 설명</p>
-								<p class="price product-price">
-									<span class="price-old">$272.00</span> $122.00 <span
-										class="price-tax">Ex Tax: $100.00</span>
-								</p>
-								<div class="rating">
-									<span class="fa fa-stack"><i
-										class="fa fa-star fa-stack-2x"></i><i
-										class="fa fa-star-o fa-stack-2x"></i></span> <span
-										class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i
-										class="fa fa-star-o fa-stack-2x"></i></span> <span
-										class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i
-										class="fa fa-star-o fa-stack-2x"></i></span> <span
-										class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-									<span class="fa fa-stack"><i
-										class="fa fa-star-o fa-stack-2x"></i></span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="product-layout product-list col-xs-12">
-						<div class="product-thumb">
-							<div class="image product-imageblock">
-								<a href="product.html"> <img
-									src="${path }/resources/image/product/pro-2-220x294.jpg"
-									alt="women's New Wine is an alcoholic stores"
-									title="lorem ippsum dolor dummy" class="img-responsive" />
-								</a>
-								<div class="button-group">
-									<button type="button" class="wishlist" data-toggle="tooltip"
-										title="주문하기">주문하기</button>
-								</div>
-							</div>
-							<div class="caption product-detail">
-								<h4 class="product-name">
-									<a href="product.html" title="상품명 위치"> 상품명 </a>
-								</h4>
-								<p class="product-desc">상품 간략 설명</p>
-								<p class="price product-price">
-									<span class="price-old">$272.00</span> $122.00 <span
-										class="price-tax">Ex Tax: $100.00</span>
-								</p>
-								<div class="rating">
-									<span class="fa fa-stack"><i
-										class="fa fa-star fa-stack-2x"></i><i
-										class="fa fa-star-o fa-stack-2x"></i></span> <span
-										class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i
-										class="fa fa-star-o fa-stack-2x"></i></span> <span
-										class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i
-										class="fa fa-star-o fa-stack-2x"></i></span> <span
-										class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-									<span class="fa fa-stack"><i
-										class="fa fa-star-o fa-stack-2x"></i></span>
-								</div>
-							</div>
-						</div>
-					</div>
-      
-      
-        <div class="product-layout product-list col-xs-12">
+<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-2-220x294.jpg" alt="women's New Wine is an alcoholic stores" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+            <div class="image product-imageblock"> 
+          		<a href="product.html"> 
+           			<img src="${path }/resources/image/product/pro-3-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> 
+           	  	</a>
               <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="주문하기">주문하기</button>
+                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>        
               </div>
             </div>
             <div class="caption product-detail">
               <h4 class="product-name"> <a href="product.html" title="상품명 위치"> 상품명 </a> </h4>
               <p class="product-desc">상품 간략 설명</p>
-
               <p class="price product-price"><span class="price-old">$272.00</span> $122.00 <span class="price-tax">Ex Tax: $100.00</span> </p>
               <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
             </div>
-
+ 
+          </div>
+        </div>
+<div class="product-layout product-list col-xs-12">
+          <div class="product-thumb">
+            <div class="image product-imageblock"> 
+          		<a href="product.html"> 
+           			<img src="${path }/resources/image/product/pro-3-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> 
+           	  	</a>
+              <div class="button-group">
+                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>        
+              </div>
+            </div>
+            <div class="caption product-detail">
+              <h4 class="product-name"> <a href="product.html" title="상품명 위치"> 상품명 </a> </h4>
+              <p class="product-desc">상품 간략 설명</p>
+              <p class="price product-price"><span class="price-old">$272.00</span> $122.00 <span class="price-tax">Ex Tax: $100.00</span> </p>
+              <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
+            </div>
+ 
+          </div>
+        </div>
+					<div class="product-layout product-list col-xs-12">
+          <div class="product-thumb">
+            <div class="image product-imageblock"> 
+          		<a href="product.html"> 
+           			<img src="${path }/resources/image/product/pro-3-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> 
+           	  	</a>
+              <div class="button-group">
+                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>        
+              </div>
+            </div>
+            <div class="caption product-detail">
+              <h4 class="product-name"> <a href="product.html" title="상품명 위치"> 상품명 </a> </h4>
+              <p class="product-desc">상품 간략 설명</p>
+              <p class="price product-price"><span class="price-old">$272.00</span> $122.00 <span class="price-tax">Ex Tax: $100.00</span> </p>
+              <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
+            </div>
+ 
+          </div>
+        </div>
+      
+      
+   <div class="product-layout product-list col-xs-12">
+          <div class="product-thumb">
+            <div class="image product-imageblock"> 
+          		<a href="product.html"> 
+           			<img src="${path }/resources/image/product/pro-3-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> 
+           	  	</a>
+              <div class="button-group">
+                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>        
+              </div>
+            </div>
+            <div class="caption product-detail">
+              <h4 class="product-name"> <a href="product.html" title="상품명 위치"> 상품명 </a> </h4>
+              <p class="product-desc">상품 간략 설명</p>
+              <p class="price product-price"><span class="price-old">$272.00</span> $122.00 <span class="price-tax">Ex Tax: $100.00</span> </p>
+              <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
+            </div>
+ 
           </div>
         </div>
         
@@ -225,7 +173,6 @@
       </div>
     </div>
   </div>
-</div>
 </div>
 </section>
 

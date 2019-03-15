@@ -7,31 +7,32 @@
 		<result column="product_enrolldate" property="productEnrollDate" />
 		<result column="product_update" property="productUpdate" />
 		<result column="product_profile" property="productProfile" />
-		<result column="product_enddate" property="productEndDate" />
-		<result column="product_detail" property="productDetail" />
 		<result column="product_comment" property="productComment" />
 		<result column="product_state" property="productState" />
 		<result column="product_step" property="productStep" />
 		<result column="product_price" property="productPrice" />
-		<result column="product_stock" property="productStock" />
+		<result column="product_max" property="productMax" />
 		<result column="product_min" property="productMin" />
+		<result column="product_enddate" property="productEndDate" />
 		<result column="sc_no" property="scNo" />
 		<result column="bc_no" property="bcNo" />
 		<result column="brand_no" property="brandNo" />
-		<result column="admin_no" property="adminNo" />
 		<result column="member_no" property="memberNo" />
-		<result column="product_cursell" property="productCurSell" />
+		<result column="admin_no" property="adminNo" />
 		<result column="product_totalsell" property="productTotalSell" />
-	</resultMap>
+		<result column="product_cursell" property="productCurSell" />		
+		<result column="product_qty" property="productQty" />
+		<result column="product_discount" property="productDiscount" />
+		</resultMap>
 
 	<!-- JOIN PRODUCT_DETAIL USING(PRODUCT_NO) -->
 	<select id="selectProductList" resultMap="productMap" parameterType="string">
-		SELECT * FROM PRODUCT
+		SELECT * FROM PRODUCT where BC_NO = #{category}
 	</select>
 
 	<select id="selectProductCount" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
-	</select>
+	</select> <!-- where BC_NO = #{category} -->
 	
 	<select id="selectProduct" parameterType="string" resultType="map">
 		SELECT * FROM PRODUCT JOIN BRAND USING(BRAND_NO) JOIN PRODUCT_OPTION USING(PRODUCT_NO) JOIN PRODUCT_IMG USING(PRODUCT_NO) WHERE PRODUCT_NO=#{productNo}
@@ -44,5 +45,5 @@
 	<select id="selectWish" parameterType="map" resultType="map">
 		SELECT * FROM WISH WHERE PRODUCT_NO=#{productNo} AND MEMBER_NO=#{memberNo}
 	</select>
-
+	
 </mapper>

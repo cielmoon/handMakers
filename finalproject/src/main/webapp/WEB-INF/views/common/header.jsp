@@ -17,6 +17,7 @@
 <meta name="description"
 	content="e-commerce site well design with responsive view." />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
 <link href="${path }/resources/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet" media="screen" />
 <link href="${path }/resources/font-awesome/css/font-awesome.min.css"
@@ -144,10 +145,11 @@
 					</div>
 					<div class="navbar-collapse">
 						<ul class="main-navigation">
-							<li><a href="#" class="active parent">카테고리</a>
+							<li> <a href="" class="active parent">카테고리</a>
+							<!-- <li> <a href="" class="active parent" style="pointer-events: none">카테고리</a> -->
 								<ul>
-									<li><a href="${path }/product/category.do?category=electronics">IT/가전</a></li>
-									<li><a href="${path }/product/category.do">푸드</a></li>
+									<li><a href="${path }/product/category.do?category=B_C_NO_1">IT/가전(B_C_NO_1)</a></li>
+									<li><a href="${path }/product/category.do?category=B_C_NO_2">푸드IT/가전(B_C_NO_2)</a></li>
 									<li><a href="${path }/product/category.do">악세서리</a></li>
 									<li><a href="${path }/product/productTest.do">상세테스트-가방/지갑</a></li>
 								</ul></li>

@@ -39,31 +39,16 @@
 		<result column="sc_no" property="scNo" />
 	</resultMap>
 
-	<resultMap type="product" id="productMap">
-		<result column="product_no" property="productNo" />
-		<result column="product_title" property="productTitle" />
-		<result column="product_enrolldate" property="productEnrollDate" />
-		<result column="product_update" property="productUpdate" />
-		<result column="product_profile" property="productProfile" />
-		<result column="product_comment" property="productComment" />
-		<result column="product_state" property="productState" />
-		<result column="product_step" property="productStep" />
-		
-		<result column="product_price" property="productPrice" />
-		<result column="product_max" property="productMax" />
-		<result column="product_min" property="productMin" />
+	<resultMap type="adminproduct" id="adminProductMap">
+		<result column="product_bc_title" property="productBcTitle" />
+		<result column="product_sc_title" property="productScTitle" />
+		<result column="product_product_title" property="productTitle" />
+		<result column="product_brand_title"
+			property="productBrandTitle" />
+		<result column="product_enrolldate"
+			property="productEnrollDate" />
 		<result column="product_enddate" property="productEndDate" />
-		<result column="sc_no" property="scNo" />
-		<result column="bc_no" property="bcNo" />
-		<result column="brand_no" property="brandNo" />
-		
-		<result column="member_no" property="memberNo" />
-		<result column="admin_no" property="adminNo" />
-		<result column="product_totalsell" property="productTotalSell" />
-		<result column="product_cursell" property="productCurSell" />		
-
-		<result column="product_qty" property="productQty" />
-		<result column="product_discount" property="productDiscount" />
+		<result column="product_no" property="productNo" />
 	</resultMap>
 
 	<!-- javaType="string" -->
@@ -113,9 +98,23 @@
 		SELECT * FROM PRE_PRODUCT WHERE PRE_PRODUCT_NO =
 		#{preProductNo}
 	</select>
-			
-	<select id="selectProductList" resultMap="productMap">
-		SELECT * FROM PRODUCT order by product_update desc 
+
+	<select id="selectProductList" resultMap="adminProductMap">
+		select
+		big_category.bc_title as "product_bc_title",
+		small_category.sc_title as "product_sc_title",
+		product.product_title as "product_product_title",
+		brand.brand_title as "product_brand_title",
+		product.product_enrolldate as "product_enrolldate",
+		product.product_enddate as "product_enddate" , product.product_no as "product_no" from
+		product join big_category on (big_category.bc_no = product.bc_no) join
+		brand on (brand.brand_no = product.brand_no) join small_category on
+		(small_category.sc_no = product.sc_no) order by product_update desc
+	</select>
+
+	<select id="selectProductCount" resultType="_int">
+		select count(*) from
+		product
 	</select>
 
 </mapper>
