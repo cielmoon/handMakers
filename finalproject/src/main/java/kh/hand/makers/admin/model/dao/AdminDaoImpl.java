@@ -8,8 +8,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.hand.makers.admin.model.vo.AdminProduct;
 import kh.hand.makers.admin.model.vo.managePreProduct;
-import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
 
@@ -67,7 +67,7 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public List<Product> selectProductList(int cPage, int numPerPage) {
+	public List<AdminProduct> selectProductList(int cPage, int numPerPage) {
 		RowBounds rb=new RowBounds((cPage-1)*numPerPage,numPerPage);
 		return session.selectList("admin.selectProductList",null,rb);
 	}	

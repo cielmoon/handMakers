@@ -38,45 +38,25 @@
 					<div class="col-sm-12">					
 						<table id='tbl-board' class='table table-striped table-hover'>
 							<tr>
-								<th>사업자 등록번호</th>
-								<th>브랜드명</th>								
-								<th>브랜드 카테고리</th>
-								<th>승인상태</th>
+								<th>카테고리(대)</th>
+								<th>카테고리(소)</th>								
+								<th>상품명</th>
+								<th>브랜드명</th>
 								<th>등록날짜</th>
-								<th>요청관리</th>
-								<th></th>
+								<th>마감날짜</th>	
+								<th></th>								
 							</tr>
- 							<c:forEach var="p" items="${productList }">
+ 							<c:forEach var="a" items="${adminProductList }">
 								<tr>
-									<td>${p.brandLicense }</td>
-									<td>${p.brandTitle }</td>
-									<td>${p.brandType }</td>									
-									<c:choose>
-										<c:when test="${b.brandState eq '1' }">
-											<td>승인</td>		
-										</c:when>
-										<c:when test="${b.brandState eq '2' }">
-											<td>반려</td>											
-										</c:when>
-										<c:otherwise>
-											<td>검토중</td>		
-										</c:otherwise>						
-									</c:choose>
+									<td>${a.productBcTitle }</td>
+									<td>${a.productScTitle }</td>
+									<td>${a.productTitle }</td>	
+									<td>${a.productBrandTitle }</td>	
+									<td>${a.productEnrollDate }</td>	
+									<td>${a.productEndDate }</td>	
+									<td><a href="${path}/admin/updateProduct.do?productNo=${a.productNo}"><button class="btn btn-primary">상품수정</button></a></td>	
 									
-															
-									<td>${b.brandEnrollDate}</td>
-									<c:choose>
-										<c:when test="${b.brandState eq '1' }">
-											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,1"><button class="btn btn-primary">승인취소</button></a></td>					
-										</c:when>
-										<c:when test="${b.brandState eq '2' }">
-											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,3"><button class="btn btn-primary">반려취소</button></a></td>											
-										</c:when>
-										<c:otherwise>
-											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,1"><button class="btn btn-primary">승인</button></a></td>
-											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,2"><button class="btn btn-primary">반려</button></a></td>	
-										</c:otherwise>								
-									</c:choose>
+											
 								</tr>
 							</c:forEach>
 						</table>

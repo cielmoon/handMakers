@@ -17,6 +17,7 @@
 <meta name="description"
 	content="e-commerce site well design with responsive view." />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
 <link href="${path }/resources/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet" media="screen" />
 <link href="${path }/resources/font-awesome/css/font-awesome.min.css"
