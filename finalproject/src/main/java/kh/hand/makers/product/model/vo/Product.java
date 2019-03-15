@@ -31,10 +31,11 @@ public class Product implements Serializable {
 	private int productTotalSell;
 	private int productQty; // 상품 주문 수량
 	private double productDiscount; // 상품 할인율
-
+	
 	public Product() {
 
 	}
+	
 	public Product(String productNo, String productTitle, String productProfile, Date productEnrollDate,
 			Date productUpdate, Date productEndDate, String productDetail, String productComment, int productState,
 			int productStep, int productPrice, int productMax, int productMin, String scNo, String bcNo, String brandNo,
@@ -63,18 +64,6 @@ public class Product implements Serializable {
 		this.productTotalSell = productTotalSell;
 		this.productQty = productQty;
 		this.productDiscount = productDiscount;
-	}
-
-	@Override
-	public String toString() {
-		return "Product [productNo=" + productNo + ", productTitle=" + productTitle + ", productProfile="
-				+ productProfile + ", productEnrollDate=" + productEnrollDate + ", productUpdate=" + productUpdate
-				+ ", productEndDate=" + productEndDate + ", productDetail=" + productDetail + ", productComment="
-				+ productComment + ", productState=" + productState + ", productStep=" + productStep + ", productPrice="
-				+ productPrice + ", productMax=" + productMax + ", productMin=" + productMin + ", scNo=" + scNo
-				+ ", bcNo=" + bcNo + ", brandNo=" + brandNo + ", adminNo=" + adminNo + ", memberNo=" + memberNo
-				+ ", productCurSell=" + productCurSell + ", productTotalSell=" + productTotalSell + ", productQty="
-				+ productQty + ", productDiscount=" + productDiscount + "]";
 	}
 
 	public String getProductNo() {
@@ -257,5 +246,18 @@ public class Product implements Serializable {
 		return serialVersionUID;
 	}
 
+	@Override
+	public String toString() {
+		return "Product [productNo=" + productNo + ", productTitle=" + productTitle + ", productProfile="
+				+ productProfile + ", productEnrollDate=" + productEnrollDate + ", productUpdate=" + productUpdate
+				+ ", productEndDate=" + productEndDate + ", productDetail=" + productDetail + ", productComment="
+				+ productComment + ", productState=" + productState + ", productStep=" + productStep + ", productPrice="
+				+ productPrice + ", productMax=" + productMax + ", productMin=" + productMin + ", scNo=" + scNo
+				+ ", bcNo=" + bcNo + ", brandNo=" + brandNo + ", adminNo=" + adminNo + ", memberNo=" + memberNo
+				+ ", productCurSell=" + productCurSell + ", productTotalSell=" + productTotalSell + ", productQty="
+				+ productQty + ", productDiscount=" + productDiscount + "]";
+	}
+
+	
 
 }

@@ -10,7 +10,7 @@
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="/makers"><i class="fa fa-home"></i></a></li>
-    <li><a href="#">Electronics</a></li>
+    <li><a href="#">대 카테고리</a></li>
   </ul>
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">

@@ -113,7 +113,7 @@
             </li>
             
             <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
-            <!-- <li><span class="productinfo-tax">Ex Tax: $100.00</span></li> -->
+            <li><span class="productinfo-tax">10%</span></li>
             
           </ul>
           <hr>
@@ -134,10 +134,11 @@
           <p class="product-desc"> 핵심적인 간단한 상품 설명</p>
           <div id="product">
             <div class="form-group">
-            	<label class="control-label">${product.PRODUCT_OPTION }</label>
-            	<input type="number" id="color" name="input-optionType"/>색상
-            	<input type="number" id="food" name="input-optionType"/>맛
-            	<input type="number" id="option" name="input-optionType"/>옵션2
+            	<select class="form-control">
+            		<option value="1">2</option>
+            		<option value="3">5</option>
+            		<option value="4">6</option>
+            	</select>
             </div>
             <div class="form-group">
               <label class="control-label qty-label" for="input-qty">수량</label>
