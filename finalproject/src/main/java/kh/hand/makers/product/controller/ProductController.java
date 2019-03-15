@@ -86,7 +86,9 @@ public class ProductController {
 //		List<Map<String, String>> list = service.productList(category);
 		List<Map<String, String>> list = service.productList(category, cPage, numPerPage);
 		
+		
 		mv.addObject("productList", list);
+		/*mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"+category));*/
 		mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"));
 		System.out.println(list);
 		mv.addObject("cPage", cPage);
