@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kh.hand.makers.product.model.dao.ProductDao;
 import kh.hand.makers.product.model.vo.Product;
+import kh.hand.makers.product.model.vo.Wish;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -42,6 +43,22 @@ public class ProductServiceImpl implements ProductService {
 		return dao.selectProduct(productNo);
 	}
 
+<<<<<<< HEAD
+=======
+	@Override
+	public List<Map<String, String>> selectCategory(String productNo) {
+		
+		return dao.selectCategory(productNo);
+	}
+
+	@Override
+	public String selectBcTitle(String bcNo) {
+		
+		return dao.selectBcTitle(bcNo);
+	}
+	
+	
+>>>>>>> branch 'dev_branch' of https://github.com/cielmoon/handMakers.git
 	
 	
 	

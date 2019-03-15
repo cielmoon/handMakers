@@ -12,19 +12,21 @@
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="index.html"><i class="fa fa-home"></i></a></li>
-    <li><a href="${path }/product/category.do">${product.BC_TITLE }</a></li>
-    <li><a href="${path }/product/productView.do">${product.SC_TITLE }</a></li>
+<%--     <li><a href="${path }/product/category.do">${category.BC_TITLE }</a></li>
+    <li><a href="${path }/product/productView.do">${category.SC_TITLE }</a></li> --%>
   </ul>
   <!-- nav -->
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
       <div class="column-block">
         <div class="column-block">
-          <div class="columnblock-title">${product.BC_TITLE }</div>
+          <div class="columnblock-title">${bcTitle }</div>
           <div class="category_block">
             <ul class="box-category treeview-list treeview">
-              <li><a href="#">${product.SC_TITLE }</a></li>
-            </ul>
+            <c:forEach items="${scList }" var="sc"> 
+              	<li><a href="#">${sc.scTitle}</a></li>
+              </c:forEach>
+     		</ul>
           </div>
         </div>
        </div>
@@ -113,7 +115,7 @@
             </li>
             
             <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
-            <li><span class="productinfo-tax">10%</span></li>
+            <li><span class="productinfo-tax">${product.PRODUCT_DISCOUNT }</span></li>
             
           </ul>
           <hr>
@@ -122,23 +124,21 @@
             <li>
               <label>brand:</label>
               <span> ${product.BRAND_TITLE}</span></li>
-            <li>
+            <%-- <li>
               <label>상품 :</label>
-              <span> ${product.PRODUCT_TITLE }</span></li>
+              <span> ${productList.PRODUCT_TITLE }</span></li> --%>
             <li>
-              <label>재고:</label>
-              <span> ${product.PRODUCT_STOCK }</span></li>
+              <label>판매수량:</label>
+              <span> ${product.PRODUCT_MAX }</span></li>
           </ul>
           <hr>
-             
-          <p class="product-desc"> 핵심적인 간단한 상품 설명</p>
+          <h2>${product.PRODUCT_OPTION }</h2>   
+          <p class="product-desc">${product.PRODUCT_COMMENT }</p>
           <div id="product">
             <div class="form-group">
-            	<select class="form-control">
-            		<option value="1">2</option>
-            		<option value="3">5</option>
-            		<option value="4">6</option>
-            	</select>
+            	<!-- <select class="form-control"> -->
+            	
+            	<!-- </select> -->
             </div>
             <div class="form-group">
               <label class="control-label qty-label" for="input-qty">수량</label>
@@ -148,14 +148,14 @@
               <div class="btn-group">
               
               <!-- 찜 버튼 ajax 처리 wish list 저장 -->
-              <!-- data-toggle="tooltip"은 호버 했을 경우 title의 내용이 말 풍선으로 나옴 -->
-                <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" ><i class="fa fa-heart-o"></i></button>
+              <!-- data-toggle="tooltip"은 호버 했'을 경우 title의 내용이 말 풍선으로 나옴 -->
+                <button type="button" onclick="fn_wish();"id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" ><i class="fa fa-heart-o"></i></button>
                 <!-- 결재 버튼 -->
                 <input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결재하기"/>
                 <!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
               </div>
             </div>
-            
+            <input type="hidden" name="wishCk" id="wishCk" value="0">
           </div>
           </form>
         </div>
@@ -175,7 +175,7 @@
           <div class="tab-pane active" id="tab-description">
             <div class="cpt_product_description ">
               <div>
-                <p>${product.PRODUCT_DETAIL }</p>
+                <p>디테일</p>
               </div>
             </div>
             <!-- cpt_container_end -->

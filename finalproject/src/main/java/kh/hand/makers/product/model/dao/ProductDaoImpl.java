@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.product.model.vo.Product2;
+import kh.hand.makers.product.model.vo.Wish;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
@@ -62,6 +63,33 @@ public class ProductDaoImpl implements ProductDao {
 		
 		return session.selectOne("product.selectProduct",productNo);
 	}
+
+	@Override
+	public List<Map<String, String>> selectCategory(String productNo) {
+		
+		return session.selectList("product.selectCategory", productNo);
+	}
+
+	@Override
+	public Wish selectWish(Wish wish) {
+		
+		return session.selectOne("product.selectWish",wish);
+	}
+
+	@Override
+	public int insertWish(Wish wish) {
+		
+		return session.insert("product.insertWish",wish);
+	}
+
+	@Override
+	public String selectBcTitle(String bcNo) {
+		
+		return session.selectOne("product.selectBcTitle", bcNo);
+	}
+	
+	
+	
 	
 	
 

@@ -3,6 +3,8 @@ package kh.hand.makers.product.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +14,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.common.PageFactory;
+import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.product.model.service.ProductService;
-import kh.hand.makers.product.model.vo.Product;
+import kh.hand.makers.product.model.vo.Wish;
+import kh.hand.makers.shop.model.service.ShopService;
+import kh.hand.makers.shop.model.vo.SmallCategory;
 
 @Controller
 public class ProductController {
 	
 	@Autowired
 	ProductService service;
+	@Autowired
+	ShopService shopService;
 	
+	public static String categoryNo;
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
 	//상품 상세화면 보여주는 서블릿
@@ -32,13 +40,14 @@ public class ProductController {
 		
 		logger.debug(productNo);
 		
-		Map<String,String> map = service.selectProduct(productNo);
-
-		System.out.println("찍나?");
+		Map<String,String> product = service.selectProduct(productNo);
+		List<SmallCategory> scList = shopService.selectScList(product.get("BC_NO"));
 		
-		System.out.println(map);
+		String bcTitle = service.selectBcTitle(product.get("BC_NO"));
 		
-		mv.addObject("product",map);
+		mv.addObject("bcTitle", bcTitle);
+		mv.addObject("scList",scList);
+		mv.addObject("product",product);
 		mv.setViewName("/product/productView");
 
 		return mv;
@@ -73,7 +82,9 @@ public class ProductController {
 	
 		int numPerPage=8;
 		int contentCount = service.selectProductCount();
-		
+		if(category != null ) {
+			categoryNo = category;
+		}
 		ModelAndView mv = new ModelAndView();
 		//ModelAndView mv = new ModelAndView("product/category");
 		logger.debug("ProductController In -");
@@ -84,9 +95,11 @@ public class ProductController {
 		//System.out.println(list);
 		
 //		List<Map<String, String>> list = service.productList(category);
-		List<Map<String, String>> list = service.productList(category, cPage, numPerPage);
+		List<Map<String, String>> list = service.productList(categoryNo, cPage, numPerPage);
+		
 		
 		mv.addObject("productList", list);
+		/*mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"+category));*/
 		mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"));
 		System.out.println(list);
 		mv.addObject("cPage", cPage);
