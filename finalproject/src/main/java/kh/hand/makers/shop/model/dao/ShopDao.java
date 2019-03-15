@@ -3,8 +3,11 @@ package kh.hand.makers.shop.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import kh.hand.makers.order.model.vo.Order;
+import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
+import kh.hand.makers.shop.model.vo.PreProduct;
 import kh.hand.makers.shop.model.vo.SmallCategory;
 
 public interface ShopDao {
@@ -23,4 +26,19 @@ public interface ShopDao {
 
 	int updateBrand(Map<String, String> map);
 
+	List<PreProduct> selectPreProductList(String brandNo, int cPage, int numPerPage);
+
+	PreProduct selectPreProduct(String preNo);
+
+	int selectPreProductCount(String brandNo);
+
+	int selectBrandProductCount(Map<String, Object> map);
+
+	List<Product> selectBrandProductList(Map<String, Object> map, int cPage, int numPerPage);
+
+	List<Order> selectOrderList(String productNo, int cPage, int numPerPage);
+
+	int selectOrderCount(String productNo);
+
+	
 }

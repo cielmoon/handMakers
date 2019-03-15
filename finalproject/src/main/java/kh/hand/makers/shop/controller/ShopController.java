@@ -13,9 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import kh.hand.makers.common.PageFactory;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.order.model.vo.Order;
+import kh.hand.makers.product.model.service.ProductService;
+import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.service.ShopService;
 import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
@@ -28,6 +33,8 @@ public class ShopController {
 	
 	@Autowired
 	ShopService service;
+	@Autowired
+	ProductService productService;
 	
 	@RequestMapping("/shop/shopCart.do")
 	public String shopCart()
@@ -110,12 +117,13 @@ public class ShopController {
 
 	// 상품 제안 페이지
 	@RequestMapping("/shop/productEnroll.do")
-	public ModelAndView productEnroll(String brandNo)
+	public ModelAndView productEnroll(String brandNo, String preNo)
 	{
 		ModelAndView mv = new ModelAndView();
 		Brand brand = service.selectBrand(brandNo);	
 		List<BigCategory> bcList = service.selectBcList();
 		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
+		
 		mv.addObject("brand", brand);
 		mv.addObject("bcList", bcList);
 		mv.addObject("scList", scList);
@@ -165,13 +173,78 @@ public class ShopController {
 	}
 	
 	@RequestMapping("/shop/brandHome.do")
-	public ModelAndView brandHome(String brandNo)
+	public ModelAndView brandHome(String brandNo, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage)
 	{
 		ModelAndView mv = new ModelAndView();
-
 		Brand brand = service.selectBrand(brandNo);	
+		
+		int numPerPage = 5;
+		int contentCount = service.selectPreProductCount(brandNo);
+		List<PreProduct> preList = service.selectPreProductList(brandNo, cPage, numPerPage);
+		
+		List<BigCategory> bcList = service.selectBcList();
+		
 		mv.addObject("brand", brand);
+		mv.addObject("preList", preList);
+		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandHome.do?brandNo=" + brandNo));
+		mv.addObject("bcList", bcList);
 		mv.setViewName("shop/brandHome");
+		
 		return mv;
+	}
+	
+	@RequestMapping("/shop/preProductView.do")
+	public ModelAndView preProductView(String preNo)
+	{
+		ModelAndView mv = new ModelAndView();
+		PreProduct pre = service.selectPreProduct(preNo);				
+		mv.addObject("pre", pre);
+		mv.setViewName("jsonView");
+		return mv;
+	}
+	
+	//현재 판매중인 상품 목록
+	@RequestMapping("/shop/brandSaleProduct.do")
+	public ModelAndView brandSaleProduct(String brandNo, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage)
+	{
+		ModelAndView mv = new ModelAndView();
+		Map<String, Object> map = new HashMap<>();
+		map.put("brandNo", brandNo);
+		map.put("productState", 0); //현재 판매중인 상태
+		
+		int numPerPage = 6;
+		int contentCount = service.selectBrandProductCount(map);
+		List<Product> productList = service.selectBrandProductList(map, cPage, numPerPage);	
+		List<BigCategory> bcList = service.selectBcList();
+		
+		Brand brand = service.selectBrand(brandNo);	
+		
+		mv.addObject("brand", brand);
+		mv.addObject("productList", productList);
+		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandSaleProduct.do?brandNo=" + brandNo));
+		mv.addObject("bcList", bcList);
+		mv.setViewName("shop/brandSaleProduct");
+		return mv;
+	}
+	
+	@RequestMapping("/shop/brandProductHome.do")
+	public ModelAndView brandProductHome(String productNo, String brandNo, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage)
+	{
+		ModelAndView mv = new ModelAndView();
+		Brand brand = service.selectBrand(brandNo);	
+		
+		Map<String, String> product = productService.selectProduct(productNo);
+		int numPerPage = 5;
+		int contentCount = service.selectOrderCount(productNo);
+		List<Order> orderList = service.selectOrderList(productNo, cPage, numPerPage);
+		
+		mv.addObject("brand", brand);		
+		mv.addObject("product", product);
+		mv.addObject("orderList", orderList);
+		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandProductHome.do?productNo=" + productNo));
+		mv.setViewName("shop/brandProductHome");
+		
+		return mv;
+
 	}
 }

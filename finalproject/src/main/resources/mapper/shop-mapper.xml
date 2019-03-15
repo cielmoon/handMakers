@@ -12,14 +12,49 @@
    		<result column="brand_state" property="brandState"/>
    		<result column="member_no" property="memberNo"/>
 	</resultMap>
-	<resultMap type="BigCategory" id="bcMap">
+	<resultMap type="bigcategory" id="bcMap">
 		<result column="bc_no" property="bcNo"/>
    		<result column="bc_title" property="bcTitle"/>
 	</resultMap>
-	<resultMap type="SmallCategory" id="scMap">
+	<resultMap type="smallcategory" id="scMap">
 		<result column="sc_no" property="scNo"/>
    		<result column="sc_title" property="scTitle"/>
    		<result column="bc_no" property="bcNo"/>
+	</resultMap>
+	<resultMap type="preproduct" id="preproductMap">
+		<result column="pre_product_no" property="preProductNo"/>
+   		<result column="pre_product_title" property="preProductTitle"/>
+   		<result column="pre_product_discript" property="preProductDiscript"/>
+		<result column="pre_product_state" property="preProductState"/>
+   		<result column="pre_product_date" property="preProductDate"/>
+   		<result column="brand_no" property="bcNo"/>
+		<result column="bc_no" property="bcNo"/>
+  		<result column="sc_no" property="scNo"/>
+  		<result column="bc_title" property="bcTitle" />
+		<result column="sc_title" property="scTitle" />
+	</resultMap>
+	<resultMap type="product" id="productMap">
+		<result column="product_no" property="productNo" />
+		<result column="product_title" property="productTitle" />
+		<result column="product_enrolldate" property="productEnrollDate" />
+		<result column="product_update" property="productUpdate" />
+		<result column="product_profile" property="productProfile" />
+		<result column="product_comment" property="productComment" />
+		<result column="product_state" property="productState" />
+		<result column="product_step" property="productStep" />
+		<result column="product_price" property="productPrice" />
+		<result column="product_max" property="productMax" />
+		<result column="product_min" property="productMin" />
+		<result column="product_enddate" property="productEndDate" />
+		<result column="sc_no" property="scNo" />
+		<result column="bc_no" property="bcNo" />
+		<result column="brand_no" property="brandNo" />
+		<result column="member_no" property="memberNo" />
+		<result column="admin_no" property="adminNo" />
+		<result column="product_totalsell" property="productTotalSell" />
+		<result column="product_cursell" property="productCurSell" />		
+		<result column="product_qty" property="productQty" />
+		<result column="product_discount" property="productDiscount" />
 	</resultMap>
 	
 	<select id="selectBrandList" resultMap="brandMap" parameterType="string">
@@ -46,4 +81,27 @@
 		UPDATE BRAND SET BRAND_ADDR = #{brandAddr}, BRAND_DETAILADDR = #{brandDetailAddr}, BRAND_TYPE = #{brandType}, BRAND_STATE = 0
 		WHERE BRAND_NO = #{brandNo}
 	</update>
+	<select id="selectPreProductCount" resultType="_int" parameterType="string">
+		SELECT COUNT(*) FROM PRE_PRODUCT WHERE BRAND_NO = #{brandNo}
+	</select>
+	<select id="selectPreProductList" resultMap="preproductMap" parameterType="string">
+		SELECT PRE_PRODUCT.*, BIG_CATEGORY.BC_TITLE, SMALL_CATEGORY.SC_TITLE FROM PRE_PRODUCT JOIN BIG_CATEGORY ON (BIG_CATEGORY.BC_NO = PRE_PRODUCT.BC_NO)
+		JOIN SMALL_CATEGORY ON (SMALL_CATEGORY.SC_NO = PRE_PRODUCT.SC_NO) WHERE BRAND_NO = #{brandNo} ORDER BY PRE_PRODUCT.PRE_PRODUCT_DATE DESC
+	</select>
+	<select id="selectPreProduct" resultMap="preproductMap" parameterType="string">
+		SELECT PRE_PRODUCT.*, BIG_CATEGORY.BC_TITLE, SMALL_CATEGORY.SC_TITLE FROM PRE_PRODUCT JOIN BIG_CATEGORY ON (BIG_CATEGORY.BC_NO = PRE_PRODUCT.BC_NO)
+		JOIN SMALL_CATEGORY ON (SMALL_CATEGORY.SC_NO = PRE_PRODUCT.SC_NO) WHERE PRE_PRODUCT.PRE_PRODUCT_NO = #{preNo}
+	</select>
+	<select id="selectBrandProductCount" resultType="_int" parameterType="map">
+		SELECT COUNT(*) FROM PRODUCT WHERE BRAND_NO = #{brandNo} AND PRODUCT_STATE = #{productState}
+	</select>
+	<select id="selectBrandProductList" resultMap="productMap" parameterType="map">
+		SELECT * FROM PRODUCT WHERE BRAND_NO = #{brandNo} AND PRODUCT_STATE = #{productState} ORDER BY PRODUCT_ENROLLDATE DESC
+	</select>
+	<select id="selectOrderCount" resultType="_int" parameterType="string">
+		SELECT COUNT(*) FROM PRODUCT_ORDER WHERE PRODUCT_NO = #{productNo} AND ORDER_STATE = '0'
+	</select>
+	<select id="selectOrderList" resultType="map" parameterType="string">
+		SELECT * FROM PRODUCT_ORDER WHERE PRODUCT_NO = #{productNo} AND ORDER_STATE = '0' ORDER BY ORDER_DATE DESC
+	</select>
 </mapper>

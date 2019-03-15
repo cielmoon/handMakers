@@ -23,7 +23,7 @@
 		<result column="product_cursell" property="productCurSell" />		
 		<result column="product_qty" property="productQty" />
 		<result column="product_discount" property="productDiscount" />
-		</resultMap>
+	</resultMap>
 
 	<!-- JOIN PRODUCT_DETAIL USING(PRODUCT_NO) -->
 	<select id="selectProductList" resultMap="productMap" parameterType="string">
