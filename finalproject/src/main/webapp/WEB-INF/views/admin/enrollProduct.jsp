@@ -8,7 +8,78 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <%-- <jsp:param value="" name="pageTitle"/> --%>
 
+<script>
+	
+	function validate() {
+		if ($("#adminProductName").val() == "") {
+			alert("상품명을 입력해주세요.");
+			$("#adminProductName").focus();
 
+			return false;
+		}
+
+		if ($("#adminProductComment").val() == "") {
+			alert("한줄설명을 입력해주세요.");
+			$("#adminProductComment").focus();
+
+			return false;
+		}
+
+		if ($("#adminProductMemberId").val() == "") {
+			alert("판매자의 아이디를 입력해주세요.");
+			$("#adminProductMemberId").focus();
+
+			return false;
+		}
+
+		if ($("#adminProductPrice").val() == "") {
+			alert("상품가격을 입력해주세요.");
+			$("#adminProductPrice").focus();
+
+			return false;
+		}
+
+		if ($("#adminProductSale").val() == "") {
+			alert("할인율을 입력해주세요.");
+			$("#adminProductSale").focus();
+
+			return false;
+		}
+
+		/*
+		등록, 마감날짜
+		if ($("#adminProductSale").val() == "") {
+			alert("할인율을 입력해주세요.");
+			$("#adminProductSale").focus();
+			
+			return false;
+		}
+		
+		if ($("#adminProductSale").val() == "") {
+			alert("할인율을 입력해주세요.");
+			$("#adminProductSale").focus();
+			
+			return false;
+		}
+		 */
+
+		if ($("#adminProductMin").val() == "") {
+			alert("최소주문량을 입력해주세요.");
+			$("#adminProductMin").focus();
+
+			return false;
+		}
+
+		if ($("#adminProductMax").val() == "") {
+			alert("최대주문량을 입력해주세요.");
+			$("#adminProductMax").focus();
+
+			return false;
+		}
+	
+		return true;
+	};
+</script>
 
 <section>
 	<div class="container">
@@ -44,7 +115,7 @@
 			<div class="col-sm-9" id="content">
 				<div class="row">
 					<div class="col-sm-12">
-						<form class="form-horizontal" enctype="multipart/form-data"	method="post" action="#">
+						<form class="form-horizontal" enctype="multipart/form-data"	method="post" action="#" onsubmit="return validate();">
 						
 							<fieldset id="productField0">
 							</fieldset>
