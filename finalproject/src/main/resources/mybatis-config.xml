@@ -17,7 +17,7 @@
       <typeAlias type="kh.hand.makers.product.model.vo.Product" alias="product"/>
       <typeAlias type="kh.hand.makers.order.model.vo.Order" alias="order"/>
       <typeAlias type="kh.hand.makers.order.model.vo.Delivery" alias="delivery"/>
-      <typeAlias type="kh.hand.makers.order.model.vo.Wish" alias="wish"/>
+      <typeAlias type="kh.hand.makers.product.model.vo.Wish" alias="wish"/>
    </typeAliases>
    <typeHandlers>
       <package name="kh.hand.makers.common"/>
