@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.product.model.vo.Product2;
+import kh.hand.makers.product.model.vo.Wish;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
@@ -58,10 +59,24 @@ public class ProductDaoImpl implements ProductDao {
 
 	// 3월 14일 상세상품 보여주기 위함
 	@Override
-	public Map<String,String> selectProduct(String productNo) {
+	public List<Map<String,String>> selectProduct(String productNo) {
 		
-		return session.selectOne("product.selectProduct",productNo);
+		return session.selectList("product.selectProduct",productNo);
 	}
+
+	@Override
+	public List<Map<String, String>> selectCategory(String productNo) {
+		
+		return session.selectList("product.selectCategory", productNo);
+	}
+
+	@Override
+	public Map<String,String> selectWish(Map<String,String> wish) {
+		
+		return session.selectOne("product.selectWish",wish);
+	}
+	
+	
 	
 	
 

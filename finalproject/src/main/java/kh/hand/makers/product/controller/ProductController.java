@@ -1,7 +1,10 @@
 package kh.hand.makers.product.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.common.PageFactory;
+import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.product.model.service.ProductService;
-import kh.hand.makers.product.model.vo.Product;
+import kh.hand.makers.product.model.vo.Wish;
 
 @Controller
 public class ProductController {
@@ -26,19 +30,34 @@ public class ProductController {
 	//상품 상세화면 보여주는 서블릿
 	// 3월 14일 상세상품 보여주기 위함
 	@RequestMapping("/product/productView.do")
-	public ModelAndView productView(String productNo) {
+	public ModelAndView productView(String productNo, HttpSession session) {
+		
+		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
 		
 		ModelAndView mv = new ModelAndView();
 		
 		logger.debug(productNo);
 		
-		Map<String,String> map = service.selectProduct(productNo);
-
+		List<Map<String,String>> category = service.selectCategory(productNo);
+		
+		List<Map<String,String>> product = service.selectProduct(productNo);
+		
+		Map<String,String> wish = new HashMap();
+		
+		wish.put("memberNo", memberNo);
+		wish.put("productNo", productNo);
+		
+		wish = service.selectWish(wish);
+		
+		System.out.println(wish);
+		
 		System.out.println("찍나?");
+		System.out.println(product);
+		System.out.println(category);
 		
-		System.out.println(map);
-		
-		mv.addObject("product",map);
+		mv.addObject("wish",wish);
+		mv.addObject("category",category);
+		mv.addObject("productList",product);
 		mv.setViewName("/product/productView");
 
 		return mv;
