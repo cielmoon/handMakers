@@ -144,7 +144,8 @@
 					</div>
 					<div class="navbar-collapse">
 						<ul class="main-navigation">
-							<li><a href="#" class="active parent">카테고리</a>
+							<li> <a href="" class="active parent">카테고리</a>
+							<!-- <li> <a href="" class="active parent" style="pointer-events: none">카테고리</a> -->
 								<ul>
 									<li><a href="${path }/product/category.do?category=B_C_NO_1">IT/가전(B_C_NO_1)</a></li>
 									<li><a href="${path }/product/category.do?category=B_C_NO_2">푸드IT/가전(B_C_NO_2)</a></li>
