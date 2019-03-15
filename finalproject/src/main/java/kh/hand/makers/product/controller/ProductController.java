@@ -24,7 +24,7 @@ public class ProductController {
 	
 	@Autowired
 	ProductService service;
-	
+	public static String categoryNo;
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
 	//상품 상세화면 보여주는 서블릿
@@ -92,7 +92,9 @@ public class ProductController {
 	
 		int numPerPage=8;
 		int contentCount = service.selectProductCount();
-		
+		if(category != null ) {
+			categoryNo = category;
+		}
 		ModelAndView mv = new ModelAndView();
 		//ModelAndView mv = new ModelAndView("product/category");
 		logger.debug("ProductController In -");
@@ -103,9 +105,11 @@ public class ProductController {
 		//System.out.println(list);
 		
 //		List<Map<String, String>> list = service.productList(category);
-		List<Map<String, String>> list = service.productList(category, cPage, numPerPage);
+		List<Map<String, String>> list = service.productList(categoryNo, cPage, numPerPage);
+		
 		
 		mv.addObject("productList", list);
+		/*mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"+category));*/
 		mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"));
 		System.out.println(list);
 		mv.addObject("cPage", cPage);
