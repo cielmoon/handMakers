@@ -1,6 +1,5 @@
 package kh.hand.makers.product.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,46 +17,36 @@ import kh.hand.makers.common.PageFactory;
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.product.model.service.ProductService;
 import kh.hand.makers.product.model.vo.Wish;
+import kh.hand.makers.shop.model.service.ShopService;
+import kh.hand.makers.shop.model.vo.SmallCategory;
 
 @Controller
 public class ProductController {
 	
 	@Autowired
 	ProductService service;
+	@Autowired
+	ShopService shopService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
 	//상품 상세화면 보여주는 서블릿
 	// 3월 14일 상세상품 보여주기 위함
 	@RequestMapping("/product/productView.do")
-	public ModelAndView productView(String productNo, HttpSession session) {
-		
-		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
+	public ModelAndView productView(String productNo) {
 		
 		ModelAndView mv = new ModelAndView();
 		
 		logger.debug(productNo);
 		
-		List<Map<String,String>> category = service.selectCategory(productNo);
+		Map<String,String> product = service.selectProduct(productNo);
+		List<SmallCategory> scList = shopService.selectScList(product.get("BC_NO"));
 		
-		List<Map<String,String>> product = service.selectProduct(productNo);
+		String bcTitle = service.selectBcTitle(product.get("BC_NO"));
 		
-		Map<String,String> wish = new HashMap();
-		
-		wish.put("memberNo", memberNo);
-		wish.put("productNo", productNo);
-		
-		wish = service.selectWish(wish);
-		
-		System.out.println(wish);
-		
-		System.out.println("찍나?");
-		System.out.println(product);
-		System.out.println(category);
-		
-		mv.addObject("wish",wish);
-		mv.addObject("category",category);
-		mv.addObject("productList",product);
+		mv.addObject("bcTitle", bcTitle);
+		mv.addObject("scList",scList);
+		mv.addObject("product",product);
 		mv.setViewName("/product/productView");
 
 		return mv;

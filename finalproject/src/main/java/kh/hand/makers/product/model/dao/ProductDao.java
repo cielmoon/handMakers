@@ -11,7 +11,9 @@ public interface ProductDao {
 	//List<Map<String, String>> productList(String category);
 	List<Map<String, String>> productList(String category, int cPage, int numPerPage);
 	int selectProductCount();
-	List<Map<String,String>> selectProduct(String productNo);
+	Map<String,String> selectProduct(String productNo);
 	List<Map<String,String>> selectCategory(String productNo);
-	Map<String,String> selectWish(Map<String,String> wish);
+	Wish selectWish(Wish wish);
+	int insertWish(Wish wish);
+	String selectBcTitle(String bcNo);
 }

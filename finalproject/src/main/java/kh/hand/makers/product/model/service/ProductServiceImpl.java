@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
 
 	// 3월 14일 상세상품 보여주기 위함
 	@Override
-	public List<Map<String,String>> selectProduct(String productNo) {
+	public Map<String,String> selectProduct(String productNo) {
 		
 		return dao.selectProduct(productNo);
 	}
@@ -50,9 +50,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Map<String,String> selectWish(Map<String,String> wish) {
+	public String selectBcTitle(String bcNo) {
 		
-		return dao.selectWish(wish);
+		return dao.selectBcTitle(bcNo);
 	}
 	
 	

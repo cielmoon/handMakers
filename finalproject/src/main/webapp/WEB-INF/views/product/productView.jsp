@@ -12,19 +12,21 @@
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="index.html"><i class="fa fa-home"></i></a></li>
-    <li><a href="${path }/product/category.do">${productList.BC_TITLE }</a></li>
-    <li><a href="${path }/product/productView.do">${productList.SC_TITLE }</a></li>
+<%--     <li><a href="${path }/product/category.do">${category.BC_TITLE }</a></li>
+    <li><a href="${path }/product/productView.do">${category.SC_TITLE }</a></li> --%>
   </ul>
   <!-- nav -->
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
       <div class="column-block">
         <div class="column-block">
-          <div class="columnblock-title">${productList.BC_TITLE }</div>
+          <div class="columnblock-title">${bcTitle }</div>
           <div class="category_block">
             <ul class="box-category treeview-list treeview">
-              <li><a href="#">${productList.SC_TITLE }</a></li>
-            </ul>
+            <c:forEach items="${scList }" var="sc"> 
+              	<li><a href="#">${sc.scTitle}</a></li>
+              </c:forEach>
+     		</ul>
           </div>
         </div>
        </div>
@@ -76,7 +78,7 @@
         <!-- 상품 설명 -->
         <div class="col-sm-6">
         <form id="productViewFrm" action="${path }/order/orderEnroll.do" method="post">
-          <h1 class="productpage-title">${productList.PRODUCT_TITLE }</h1>
+          <h1 class="productpage-title">${product.PRODUCT_TITLE }</h1>
           
           <!-- 별 찍는 거 -->
           <div class="rating product"> 
@@ -109,11 +111,11 @@
           <ul class="list-unstyled productinfo-details-top">
             <li>
             <!-- 가격 -->
-              <h2 class="productpage-price">${productList.PRODUCT_PRICE }</h2>
+              <h2 class="productpage-price">${product.PRODUCT_PRICE }</h2>
             </li>
             
             <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
-            <li><span class="productinfo-tax">${productList.PRODUCT_DISCOUNT }</span></li>
+            <li><span class="productinfo-tax">${product.PRODUCT_DISCOUNT }</span></li>
             
           </ul>
           <hr>
@@ -121,42 +123,28 @@
           <ul class="list-unstyled product_info">
             <li>
               <label>brand:</label>
-              <span> ${productList.BRAND_TITLE}</span></li>
+              <span> ${product.BRAND_TITLE}</span></li>
             <%-- <li>
               <label>상품 :</label>
               <span> ${productList.PRODUCT_TITLE }</span></li> --%>
             <li>
               <label>판매수량:</label>
-              <span> ${productList.PRODUCT_STOCK }</span></li>
+              <span> ${product.PRODUCT_MAX }</span></li>
           </ul>
           <hr>
-          <h2>${productList.PRODUCT_OPTION }</h2>   
-          <p class="product-desc">${productList.PRODUCT_COMMENT }</p>
+          <h2>${product.PRODUCT_OPTION }</h2>   
+          <p class="product-desc">${product.PRODUCT_COMMENT }</p>
           <div id="product">
             <div class="form-group">
             	<!-- <select class="form-control"> -->
-            	<c:if test="${productList.PRODUCT_OPTION_NO!=null }">
-            	<c:forEach items="${productList.PRODUCT_OPTION }" var="p" varStatus="vs">
-            		<c:if test="${vs.first }">
-            			<c:forEach var="item" items="${p }">
-            				${item.key },
-            			</c:forEach>
-            			<br/>
-            		</c:if>
-            		<c:forEach items="${p }" var="item">
-            			${item.value },
-            		</c:forEach>
-            		<br/>
-            		<%-- <option value="${vs.key }">${vs.key}</option> --%>
-            	</c:forEach>
-            	</c:if>
+            	
             	<!-- </select> -->
             </div>
             <div class="form-group">
               <label class="control-label qty-label" for="input-qty">수량</label>
-              <input type="number" name="quantity" value="${productList.PRODUCT_PRICE }" size="2" id="input-quantity" class="form-control productpage-qty" />
-              <input type="hidden" name="productNo" value="${productList.PRODUCT_NO }" />
-              <input type="hidden" name="productNo" value="${productList.BRAND_NO }" />
+              <input type="number" name="quantity" value="${product.PRODUCT_PRICE }" size="2" id="input-quantity" class="form-control productpage-qty" />
+              <input type="hidden" name="productNo" value="${product.PRODUCT_NO }" />
+              <input type="hidden" name="productNo" value="${product.BRAND_NO }" />
               <div class="btn-group">
               
               <!-- 찜 버튼 ajax 처리 wish list 저장 -->

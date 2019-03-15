@@ -59,9 +59,9 @@ public class ProductDaoImpl implements ProductDao {
 
 	// 3월 14일 상세상품 보여주기 위함
 	@Override
-	public List<Map<String,String>> selectProduct(String productNo) {
+	public Map<String,String> selectProduct(String productNo) {
 		
-		return session.selectList("product.selectProduct",productNo);
+		return session.selectOne("product.selectProduct",productNo);
 	}
 
 	@Override
@@ -71,10 +71,23 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public Map<String,String> selectWish(Map<String,String> wish) {
+	public Wish selectWish(Wish wish) {
 		
 		return session.selectOne("product.selectWish",wish);
 	}
+
+	@Override
+	public int insertWish(Wish wish) {
+		
+		return session.insert("product.insertWish",wish);
+	}
+
+	@Override
+	public String selectBcTitle(String bcNo) {
+		
+		return session.selectOne("product.selectBcTitle", bcNo);
+	}
+	
 	
 	
 	
