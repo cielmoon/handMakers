@@ -116,18 +116,27 @@
 							</fieldset>
 							
 							<fieldset id="productField2">
-								<label for="adminProductProfile" class="col-sm-2 control-label">메인사진</label>
-								<div class="col-sm-12">
-									<input type="text" class="form-control" id="adminProductSale" name="adminProductSale" placeholder="">				
+								<div class="form-group required">
+									<label for="adminProductProfile" class="col-sm-2 control-label">메인사진</label>
+									<div class="col-sm-4">
+										<img id="adminProductProfileMainImg" src="${path }/resources/image/noImg.png">										
+									</div>	
+									
+								</div>
+								<div class="form-group required" id="adminProductFiles">
+									<label for="adminProductProfileImg" class="inputSrc1">메인사진 추가하기</label>
+                 					<input type="file" name="adminProductProfileImg" id="adminProductProfileImg" >
+								</div>
+								<div class="form-group required" id="filesAddBtn">
+									<input type="button" class="btn btn-primary" value="파일추가하기">
 								</div>
 								
-								<input type="file" name="file_upload" title="파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능" multiple="multiple">	
 							</fieldset>
 							
 							
 							<div class="buttons">
 								<div class="pull-right">
-									<input type="submit" value="Submit" class="btn btn-primary" value="등록하기">
+									<input type="submit" class="btn btn-primary" value="등록하기">
 								</div>
 							</div>
 						</form>

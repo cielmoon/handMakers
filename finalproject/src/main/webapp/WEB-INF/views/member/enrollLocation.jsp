@@ -6,24 +6,13 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
-<script>
-function selectBrand(brandNo, brandState)
-{
-	if(brandState == '0' || brandState == '2')
-	{
-		alert("승인되지 않은 브랜드입니다.");
-	}
-	else
-	{
-		location.href="${path}/shop/brandHome.do?brandNo="+brandNo;
-	}
-}
-</script>
 
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
-			<li><a href="<%=request.getContextPath()%>/index.jsp"><i class="fa fa-home"></i></a></li>
+			<li><a href="${path }"><i
+					class="fa fa-home"></i></a></li>
+			<li><a href="${path }/member/memberMyPage">마이페이지</a></li>
 			<li><a href="<%=request.getContextPath()%>/memberMyPage">마이페이지</a></li>
 		</ul>
 		<br />
