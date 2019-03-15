@@ -23,7 +23,8 @@ function selectBrand(brandNo, brandState)
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
-			<li><a href="<%=request.getContextPath()%>/index.jsp"><i class="fa fa-home"></i></a></li>
+			<li><a href="<%=request.getContextPath()%>/index.jsp"><i
+					class="fa fa-home"></i></a></li>
 			<li><a href="<%=request.getContextPath()%>/memberMyPage">마이페이지</a></li>
 		</ul>
 		<br />
