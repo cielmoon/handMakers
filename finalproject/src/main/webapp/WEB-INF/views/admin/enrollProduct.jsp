@@ -8,7 +8,78 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <%-- <jsp:param value="" name="pageTitle"/> --%>
 
+<script>
+	
+	function validate() {
+		if ($("#adminProductName").val() == "") {
+			alert("상품명을 입력해주세요.");
+			$("#adminProductName").focus();
 
+			return false;
+		}
+
+		if ($("#adminProductComment").val() == "") {
+			alert("한줄설명을 입력해주세요.");
+			$("#adminProductComment").focus();
+
+			return false;
+		}
+
+		if ($("#adminProductMemberId").val() == "") {
+			alert("판매자의 아이디를 입력해주세요.");
+			$("#adminProductMemberId").focus();
+
+			return false;
+		}
+
+		if ($("#adminProductPrice").val() == "") {
+			alert("상품가격을 입력해주세요.");
+			$("#adminProductPrice").focus();
+
+			return false;
+		}
+
+		if ($("#adminProductSale").val() == "") {
+			alert("할인율을 입력해주세요.");
+			$("#adminProductSale").focus();
+
+			return false;
+		}
+
+		/*
+		등록, 마감날짜
+		if ($("#adminProductSale").val() == "") {
+			alert("할인율을 입력해주세요.");
+			$("#adminProductSale").focus();
+			
+			return false;
+		}
+		
+		if ($("#adminProductSale").val() == "") {
+			alert("할인율을 입력해주세요.");
+			$("#adminProductSale").focus();
+			
+			return false;
+		}
+		 */
+
+		if ($("#adminProductMin").val() == "") {
+			alert("최소주문량을 입력해주세요.");
+			$("#adminProductMin").focus();
+
+			return false;
+		}
+
+		if ($("#adminProductMax").val() == "") {
+			alert("최대주문량을 입력해주세요.");
+			$("#adminProductMax").focus();
+
+			return false;
+		}
+	
+		return true;
+	};
+</script>
 
 <section>
 	<div class="container">
@@ -44,7 +115,7 @@
 			<div class="col-sm-9" id="content">
 				<div class="row">
 					<div class="col-sm-12">
-						<form class="form-horizontal" enctype="multipart/form-data"	method="post" action="#">
+						<form class="form-horizontal" enctype="multipart/form-data"	method="post" action="#" onsubmit="return validate();">
 						
 							<fieldset id="productField0">
 							</fieldset>
@@ -116,18 +187,27 @@
 							</fieldset>
 							
 							<fieldset id="productField2">
-								<label for="adminProductProfile" class="col-sm-2 control-label">메인사진</label>
-								<div class="col-sm-12">
-									<input type="text" class="form-control" id="adminProductSale" name="adminProductSale" placeholder="">				
+								<div class="form-group required">
+									<label for="adminProductProfile" class="col-sm-2 control-label">메인사진</label>
+									<div class="col-sm-4">
+										<img id="adminProductProfileMainImg" src="${path }/resources/image/noImg.png">										
+									</div>	
+									
+								</div>
+								<div class="form-group required" id="adminProductFiles">
+									<label for="adminProductProfileImg" class="inputSrc1">메인사진 추가하기</label>
+                 					<input type="file" name="adminProductProfileImg" id="adminProductProfileImg" >
+								</div>
+								<div class="form-group required" id="filesAddBtn">
+									<input type="button" class="btn btn-primary" value="파일추가하기">
 								</div>
 								
-								<input type="file" name="file_upload" title="파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능" multiple="multiple">	
 							</fieldset>
 							
 							
 							<div class="buttons">
 								<div class="pull-right">
-									<input type="submit" value="Submit" class="btn btn-primary" value="등록하기">
+									<input type="submit" class="btn btn-primary" value="등록하기">
 								</div>
 							</div>
 						</form>
