@@ -43,8 +43,6 @@ public class ProductServiceImpl implements ProductService {
 		return dao.selectProduct(productNo);
 	}
 
-<<<<<<< HEAD
-=======
 	@Override
 	public List<Map<String, String>> selectCategory(String productNo) {
 		
@@ -56,13 +54,6 @@ public class ProductServiceImpl implements ProductService {
 		
 		return dao.selectBcTitle(bcNo);
 	}
-	
-	
->>>>>>> branch 'dev_branch' of https://github.com/cielmoon/handMakers.git
-	
-	
-	
-	
 	
 
 }
