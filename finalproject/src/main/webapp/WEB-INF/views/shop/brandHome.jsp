@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 <style>
-#delete-brand {
+.bottom-0 {
 	position: absolute;
 	bottom: 0;
 }
@@ -117,7 +117,7 @@ function preProductView(preNo)
 							<a class="list-group-item" href="${path }/shop/brandSaleProduct.do?brandNo=${brand.brandNo}">판매중</a>	
 							<a class="list-group-item" href="${path }/shop/brandStopProduct.do?brandNo=${brand.brandNo}">판매중지</a>	
 							<a class="list-group-item" href="${path }/shop/brandEndProduct.do?brandNo=${brand.brandNo}">판매종료</a>	
-							<a class="list-group-item" id="delete-brand" href="javascript:deleteBrand();">폐점신고&nbsp;<i class="fa fa-trash-o" style="font-size:24px;"></i>
+							<a class="list-group-item bottom-0" href="javascript:deleteBrand();">폐점신고&nbsp;<i class="fa fa-trash-o" style="font-size:24px;"></i>
 							</a>	
 						</div>
 					</div>
@@ -145,14 +145,16 @@ function preProductView(preNo)
 					<div class="col-sm-12 mt-10">					
 						<table id='tbl-board' class='table table-striped table-hover'>
 							<tr>
+								<th>번호</th>					
 								<th>카테고리(대)</th>
 								<th>카테고리(소)</th>								
 								<th>상품명</th>
 								<th>제안일</th>
 								<th>상태</th>					
 							</tr>
- 							<c:forEach var="p" items="${preList }">
+ 							<c:forEach var="p" items="${preList }" varStatus="vs">
 								<tr>
+									<td>${vs.count }</td>							
 									<td>${p.bcTitle }</td>
 									<td>${p.scTitle }</td>
 									<td><a href="javascript:void(0);" onclick="preProductView('${p.preProductNo}');">${p.preProductTitle }</a></td>	

@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 <style>
-#delete-brand {
+.bottom-0 {
 	position: absolute;
 	bottom: 0;
 }
@@ -94,7 +94,7 @@ function deleteBrand()
 							<a class="list-group-item" href="${path }/shop/brandSaleProduct.do?brandNo=${brand.brandNo}">판매중</a>	
 							<a class="list-group-item" href="${path }/shop/brandStopProduct.do?brandNo=${brand.brandNo}">판매중지</a>	
 							<a class="list-group-item" href="${path }/shop/brandEndProduct.do?brandNo=${brand.brandNo}">판매종료</a>	
-							<a class="list-group-item" id="delete-brand" href="javascript:deleteBrand();">폐점신고&nbsp;<i class="fa fa-trash-o" style="font-size:24px;"></i>
+							<a class="list-group-item bottom-0" href="javascript:deleteBrand();">폐점신고&nbsp;<i class="fa fa-trash-o" style="font-size:24px;"></i>
 							</a>	
 						</div>
 					</div>
@@ -105,7 +105,18 @@ function deleteBrand()
 				<div class="row">
 					<div class="col-sm-12">			
 						<label>판매중</label>
-						<span class="float-right">(총 ${productList.size() }건의 상품)</span>
+					</div>
+					<div class="col-sm-3">
+						<select class="form-control" id="select-bigCategory">
+							<option value="allList" selected>전체</option>
+							<c:forEach items="${bcList }" var="b" varStatus="vs">
+									<option value="${b.bcNo }">${b.bcTitle}</option>
+							</c:forEach>	
+						</select>
+					</div>
+					<div class="col-sm-6"></div>
+					<div class="col-sm-3">
+						<span class="float-right">(총 ${productList.size() }건의 상품)</span>				
 					</div>
 					<div class="col-sm-12">
 						<div class="category-page-wrapper">
@@ -120,22 +131,22 @@ function deleteBrand()
 								<div class="product-layout product-list col-xs-4">
 									<div class="product-thumb">
 										<div class="image product-imageblock">
-											<a href="${path }/shop/brandProductHome.do?productNo=${p.productNo}&brandNo=${brand.brandNo}"> 
-												<img src="${path }/resources/image/product/${p.productProfile}" class="img-responsive" />
+											<a href="${path }/shop/brandProductHome.do?productNo=${p.PRODUCT_NO}&brandNo=${brand.brandNo}"> 
+												<img src="${path }/resources/image/product/${p.PRODUCT_PROFILE}" class="img-responsive" />
 											</a>
 											<div class="button-group">
-												<button type="button" class="wishlist" data-toggle="tooltip" title="판매중단 요청" onclick="stopSale('${p.productNo}','${p.productTitle }');">
+												<button type="button" class="wishlist" data-toggle="tooltip" title="판매중단 요청" onclick="stopSale('${p.PRODUCT_NO}','${p.PRODUCT_TITLE }');">
 													<i class="fas fa-ban"></i>
 												</button>
 											</div>
 										</div>
 										<div class="caption product-detail">
 											<h4 class="product-name">
-												<a href="${path }">${p.productTitle }</a>
+												<a href="${path }/shop/brandProductHome.do?productNo=${p.PRODUCT_NO}&brandNo=${brand.brandNo}">${p.PRODUCT_TITLE }</a>
 											</h4>
 											<p>
-												<span>현재 판매량 ${p.productCurSell}/${p.productMax}개</span><br/>
-												<span>마감일 <fmt:formatDate value="${p.productEndDate}" pattern="yyyy-MM-dd HH:mm"/></span>
+												<span>${p.BC_TITLE}/${p.SC_TITLE}</span><br/>
+												<span>마감일 <fmt:formatDate value="${p.PRODUCT_ENDDATE}" pattern="yyyy-MM-dd HH:mm"/></span>
 											</p>
 										</div>
 									</div>
