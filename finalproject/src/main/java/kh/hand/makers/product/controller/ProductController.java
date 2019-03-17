@@ -29,6 +29,7 @@ public class ProductController {
 	ShopService shopService;
 	
 	public static String categoryNo;
+	/*public static String numPerPage;*/
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
 	//상품 상세화면 보여주는 서블릿
@@ -77,32 +78,31 @@ public class ProductController {
 		return "product/category";
 	}*/
 	@RequestMapping("/product/category.do")
-	public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, String category)
+	public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, String numPerPages, String category)
 	{
-	
-		int numPerPage=8;
-		int contentCount = service.selectProductCount();
-		if(category != null ) {
-			categoryNo = category;
-		}
+		
+		if(category != null ) { categoryNo = category;	}
+		int numPerPage = 9;
+		/*if( numPerPages == null ) { numPerPages = numPerPage; }*/
+		if( numPerPages != null ) { numPerPage = Integer.parseInt(numPerPages);}
+		
+		/*int numPerPage = 9;
+		if( numPerPages != null ) { numPerPage = Integer.parseInt(numPerPages);}*/
+		
+		logger.debug(numPerPage+"nomal");
+		logger.debug(numPerPages+"s");
+		int contentCount = service.selectProductCount(categoryNo);
 		ModelAndView mv = new ModelAndView();
-		//ModelAndView mv = new ModelAndView("product/category");
-		logger.debug("ProductController In -");
-		logger.debug("+_+_+_+query : "+category);
-		
-		//List<Map<String, Object>> list = service.selectCategoryTemp(category);
-		//mv.addObject("productList", list);
-		//System.out.println(list);
-		
-//		List<Map<String, String>> list = service.productList(category);
+		/*logger.debug("ProductController In -");
+		logger.debug("+_+_+_+query : "+category);*/
 		List<Map<String, String>> list = service.productList(categoryNo, cPage, numPerPage);
 		
 		
 		mv.addObject("productList", list);
-		/*mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"+category));*/
 		mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"));
 		System.out.println(list);
 		mv.addObject("cPage", cPage);
+		mv.addObject("numPerPage", numPerPage);
 		mv.addObject("contentCount", contentCount);
 		
 		return mv;

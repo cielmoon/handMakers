@@ -25,9 +25,9 @@ public class ProductDaoImpl implements ProductDao {
 	
 	
 	@Override
-	public int selectProductCount() {
+	public int selectProductCount(String category) {
 		// TODO Auto-generated method stub
-		return session.selectOne("product.selectProductCount");
+		return session.selectOne("product.selectProductCount", category);
 	}
 
 
