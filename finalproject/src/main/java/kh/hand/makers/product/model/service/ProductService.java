@@ -3,6 +3,7 @@ package kh.hand.makers.product.model.service;
 import java.util.List;
 import java.util.Map;
 
+import kh.hand.makers.product.model.vo.ProductImg;
 import kh.hand.makers.product.model.vo.Wish;
 
 public interface ProductService {
@@ -14,4 +15,11 @@ public interface ProductService {
 	Map<String,String> selectProduct(String productNo);
 	List<Map<String,String>> selectCategory(String productNo);
 	String selectBcTitle(String bcNo);
+	List<ProductImg> selectProductImg(String productNo);
+	Map<String,String> selectProductDetail(String productNo);
+	int selectWishCount(Wish wish);
+	int insertWish(Wish wish);
+	int deleteWish(Wish wish);
+	int selectCommentCount(String commentType);
+	List<Map<String,String>> selectComment(Map<String,String> map, int cPage, int numPerPage);
 }

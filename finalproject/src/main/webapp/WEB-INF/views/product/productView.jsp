@@ -12,8 +12,8 @@
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="index.html"><i class="fa fa-home"></i></a></li>
-<%--     <li><a href="${path }/product/category.do">${category.BC_TITLE }</a></li>
-    <li><a href="${path }/product/productView.do">${category.SC_TITLE }</a></li> --%>
+	<li><a href="${path }/product/category.do?category="${product.BC_NO }>${bcTitle }</a></li>
+    <li><a href="#">${product.PRODUCT_TITLE }</a></li>
   </ul>
   <!-- nav -->
   <div class="row">
@@ -24,14 +24,14 @@
           <div class="category_block">
             <ul class="box-category treeview-list treeview">
             <c:forEach items="${scList }" var="sc"> 
-              	<li><a href="#">${sc.scTitle}</a></li>
+              	<li><a href="${path }/product/category.do?category=${sc.scNo}">${sc.scTitle}</a></li>
               </c:forEach>
      		</ul>
           </div>
         </div>
        </div>
        </div>
-        
+
     <div id="content" class="col-sm-9">
       <div class="row">
         
@@ -40,36 +40,19 @@
           
           <div class="thumbnails">
             
-            <div><a class="thumbnail" href="image/product/product8.jpg" title="lorem ippsum dolor dummy"><img src="${path }/resources/image/product/product1.jpg" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
+            <div><a class="thumbnail" href="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="lorem ippsum dolor dummy"><img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
             
             <div id="product-thumbnail" class="owl-carousel">
-
+				
               <div class="item">
-                <div class="image-additional"><a class="thumbnail  " href="image/product/product1.jpg" title="lorem ippsum dolor dummy"> <img src="${path }/resources/image/product/ciel1.png" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
+                <div class="image-additional"><a class="thumbnail  " href="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="lorem ippsum dolor dummy"> <img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
               </div>
               
-              <div class="item">
-                <div class="image-additional"><a class="thumbnail  " href="image/product/product2.jpg" title="lorem ippsum dolor dummy"> <img src="${path }/resources/image/product/pro-2-220x294.jpg" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
-              </div>
-              
-              <div class="item">
-                <div class="image-additional"><a class="thumbnail  " href="image/product/product3.jpg" title="lorem ippsum dolor dummy"> <img src="${path }/resources/image/product/pro-3-220x294.jpg" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
-              </div>
-              
-              <div class="item">
-                <div class="image-additional"><a class="thumbnail  " href="image/product/product4.jpg" title="lorem ippsum dolor dummy"> <img src="${path }/resources/image/product/pro-4-220x294.jpg" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
-              </div>
-              
-              <div class="item">
-                <div class="image-additional"><a class="thumbnail  " href="image/product/product5.jpg" title="lorem ippsum dolor dummy"> <img src="${path }/resources/image/product/pro-5-220x294.jpg" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
-              </div>
-              <div class="item">
-                <div class="image-additional"><a class="thumbnail  " href="image/product/product6.jpg" title="lorem ippsum dolor dummy"> <img src="${path }/resources/image/product/pro-6-220x294.jpg" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
-              </div>
-              <div class="item">
-                <div class="image-additional"><a class="thumbnail  " href="image/product/product7.jpg" title="lorem ippsum dolor dummy"> <img src="${path }/resources/image/product/pro-7-220x294.jpg" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
-              </div>
-              
+              <c:forEach items="${productImg }" var="pi">
+              	<div class="item">
+                	<div class="image-additional"><a class="thumbnail  " href="${path }/resources/image/product/${pi.productSubImg}" title="lorem ippsum dolor dummy"> <img src="${path }/resources/image/product/${pi.productSubImg}" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
+              	</div>
+              </c:forEach>
             </div>
           </div>
         </div>
@@ -142,40 +125,172 @@
             </div>
             <div class="form-group">
               <label class="control-label qty-label" for="input-qty">수량</label>
-              <input type="number" name="quantity" value="${product.PRODUCT_PRICE }" size="2" id="input-quantity" class="form-control productpage-qty" />
-              <input type="hidden" name="productNo" value="${product.PRODUCT_NO }" />
-              <input type="hidden" name="productNo" value="${product.BRAND_NO }" />
-              <div class="btn-group">
+              <input type="number" name="productQty" value="1" size="2" id="input-quantity" class="form-control productpage-qty" />
+              <input type="hidden" name="productNo" id="input-productNo" value="${product.PRODUCT_NO }" />
+              <input type="hidden" name="brandNo" value="${product.BRAND_NO }" />
+              <input type="hidden" name="wishCount" value="${wishCount }"/>
+              <div class="btn-group" id="divBtn">
               
               <!-- 찜 버튼 ajax 처리 wish list 저장 -->
               <!-- data-toggle="tooltip"은 호버 했'을 경우 title의 내용이 말 풍선으로 나옴 -->
-                <button type="button" onclick="fn_wish();"id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" ><i class="fa fa-heart-o"></i></button>
+              <c:if test="${wishCount eq 1}">
+                <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" onclick="fn_wishCk();">
+                	<i class="fa fa-heart"></i>
+               	</button>
+               </c:if>
+               <c:if test="${wishCount eq 0}">
+                <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" onclick="fn_wishCk();">
+                	<i class="fa fa-heart-o"></i>
+               	</button>
+               </c:if>
                 <!-- 결재 버튼 -->
                 <input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결재하기"/>
                 <!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
               </div>
             </div>
-            <input type="hidden" name="wishCk" id="wishCk" value="0">
           </div>
           </form>
         </div>
       </div>
-      
+      <script>
+      	 /* $(function(){
+      		var wishBtn = $('#wishBtn');
+      		wishBtn.click(function(){
+      			var wishCount = $('input[name=wishCount]').val();
+          		console.log("처음에 왔을 때 확인 : "+wishCount);
+          		var productNo = $('#input-productNo').val();
+          		var divBtn = $('#divBtn');
+      			alert(wishCount);
+      			$.ajax({
+      				url:"${path}/product/selectWish.do",
+      				data:{"productNo":productNo,"wishCount":wishCount},
+      				success:function(data){
+      					console.log(data);
+      					console.log(wishBtn);
+      					if(data["wishCount"]==0){
+      						console.log("이벤트 발생 후 0 : "+data["wishCount"]);
+      						wishBtn.html('<i class="fa fa-heart-o"></i>');
+      						$('input[name=wishCount]').val(data["wishCount"]);
+      					}
+      					if(data["wishCount"]!=0){
+      						console.log("이벤트 발생 후 1 : "+data["wishCount"]);
+      						wishBtn.html('<i class="fa fa-heart"></i>');
+      						$('input[name=wishCount]').val(data["wishCount"]);
+      					}
+      				}
+      			})
+      		});
+      	}); */
+      	 
+      	function fn_wishCk(){
+      		var wishBtn = $('#wishBtn');
+      		var wishCount = $('input[name=wishCount]').val();
+      		console.log("처음에 왔을 때 확인 : "+wishCount);
+      		var productNo = $('#input-productNo').val();
+      		$.ajax({
+  				url:"${path}/product/selectWish.do",
+  				data:{"productNo":productNo,"wishCount":wishCount},
+  				success:function(data){
+  					console.log(data);
+  					console.log(wishBtn);
+  					if(data["wishCount"]==0){
+  						console.log("이벤트 발생 후 0 : "+data["wishCount"]);
+  						wishBtn.html('<i class="fa fa-heart-o"></i>');
+  						$('input[name=wishCount]').val(data["wishCount"]);
+  					}
+  					if(data["wishCount"]!=0){
+  						console.log("이벤트 발생 후 1 : "+data["wishCount"]);
+  						wishBtn.html('<i class="fa fa-heart"></i>');
+  						$('input[name=wishCount]').val(data["wishCount"]);
+  					}
+  				}
+  			});
+      	};
+      	
+      	/* $('li a').on("click",function(e){
+      		e.preventDefault();
+      		alert('들어오니?');
+      		var productNo = $('#input-productNo').val();
+      		var productinfoContent = $('#productinfoContent');
+      		$.ajax({
+      			url:"${path}/product/productDetail.do",
+      			data:{"productNo":productNo},
+      			success:function(data){
+      				console.log(data);
+      				productinfoContent.html(data["PRODUCT_DETAIL"]);
+      				return true;
+      			}
+      		});
+      	}); */
+      	
+      	function fn_description(){
+      		/* event.preventDefault(); */
+      		var productNo = $('#input-productNo').val();
+      		var productinfoContent = $('#productinfoContent');
+      		$.ajax({
+      			url:"${path}/product/productDetail.do",
+      			data:{"productNo":productNo},
+      			success:function(data){
+      				console.log(data);
+      				$('#descript').attr('href',"#tab-description");
+      				productinfoContent.html(data["PRODUCT_DETAIL"]);
+      				
+      				return true;
+      			}
+      		});
+      	};
+      	
+      	function fn_review(evnet){
+      		event.preventDefault();
+      		var productNo = $('#input-productNo').val();
+      		var commentType = $('input[name=review]').val();
+      		alert('들어오니?'+commentType);
+      		$.ajax({
+      			url:"${path}/product/selectComment.do",
+      			data:{"productNo":productNo, "commentType":commentType},
+      			success:function(data){
+      				console.log(data);
+      				var a = data.pageBar;
+      				var b = data.commentList;
+      				console.log(a);
+      				console.log(b);
+      				var table = $("<table id='tbl-board' class='table table-striped table-hover'>");
+      				for(var i = 0; i<b.length; i++){
+      					console.log(b[i]);
+      					var tr = $('<tr>');
+      					for(var key in b[i]){
+      						console.log("으잉??"+key);
+      						console.log("ㅁㅇ롸ㅓㅇ놈ㄹㅇ"+b[i][key]);
+      						var td = $('<td>');      						
+    						td.append(b[i][key]);
+      						tr.append(td);
+      					}
+      					table.append(tr);
+      				}
+      				$('#reviewComment').html(table).append(a);
+      				return true;
+      			}
+      		});
+      	};
+      </script>
       <!-- 상품 설명//댓글 창 List-->
       <div class="productinfo-tab">
         <ul class="nav nav-tabs">
-          <li class="active"><a href="#tab-description" data-toggle="tab">상세설명</a></li>
-          <li><a href="#tab-review" data-toggle="tab">상품후기</a></li>
-          <li><a href="#tab-question" data-toggle="tab">상품문의</a></li>
-          <li><a href="#tab-sallerInfo" data-toggle="tab">판매자 정보</a></li>	
+          <li class="active">
+          	<a href="#tab-description" data-toggle="tab" onclick="fn_description();" id="descript">상세설명</a>
+          </li>
+          <li><a href="#tab-review" data-toggle="tab" onclick="fn_review();">상품후기</a></li>
+          <li><a href="#tab-question" data-toggle="tab" id="product-question">상품문의</a></li>
+          <li><a href="#tab-sallerInfo" data-toggle="tab" id="product-sallerInfo">판매자 정보</a></li>	
         </ul>
-        
+        <input type="hidden" name="review" value="R"/>
+        <input type="hidden" name="review" value="Q"/>
         <!-- 상품 설명 탭 -->
         <div class="tab-content">
           <div class="tab-pane active" id="tab-description">
             <div class="cpt_product_description ">
-              <div>
-                <p>디테일</p>
+              <div id="productinfoContent">
+                ${productDetail.PRODUCT_DETAIL }
               </div>
             </div>
             <!-- cpt_container_end -->
@@ -183,11 +298,8 @@
           
           <!-- 후기 댓글 등록 창 -->
           <div class="tab-pane" id="tab-review">
-         	<div class="form-group" style="border:1px solid red">
-         	작성된 댓글 넣기 
-         		<!-- <table border="1">
-         			<tr><td>실험</td></tr>
-         		</table> -->
+         	<div id="reviewComment" class="form-group" style="border:1px solid red">
+         	 	${pageBar }
          	</div>
          	
             <form class="form-horizontal">
@@ -196,7 +308,9 @@
               <div class="form-group required">
                 <div class="col-sm-12">
                   <label class="control-label" for="input-name">후기 작성자ID</label>
-                  <input type="text" name="name" value="" id="input-name" class="form-control" />
+                  <c:if test="${member != null}">
+                  	<input type="text" name="name" id="input-name" class="form-control" value="${member.memberName }" readonly/>
+                  </c:if>
                 </div>
               </div>
               <div class="form-group required">
@@ -209,7 +323,9 @@
               <div class="buttons clearfix">
                 <div class="pull-right">
                 <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
-                  <c:if test="${product_order.order_state eq '2'}"><button type="button" id="button-review" data-loading-text="Loading..." class="btn btn-primary">후기등록</button></c:if>
+                  <%-- <c:if test="${product_order.order_state eq '2'}"> --%>
+                  	<input type="button" id="button-review" data-loading-text="Loading..." class="btn btn-primary" value="후기등록"/>
+                  <%-- </c:if> --%>
                 </div>
               </div>
             </form>

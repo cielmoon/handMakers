@@ -1,6 +1,6 @@
 package kh.hand.makers.common;
 
-public class PageFactory {
+public class PageFactoryComment {
 
 	public static String getPageBar(int totalCon, int cPage, int numPerPage, String url)
 	{
@@ -63,14 +63,28 @@ public class PageFactory {
 		pageBar+="</ul>";
 		
 		//paging처리 script작성
+		/*pageBar+="<script>";
+		pageBar+="function fn_paging(cPage){";
+		pageBar+="location.href='"+url+"&cPage='+cPage";
+		pageBar+="}";
+		pageBar+="</script>";*/
+		
 		pageBar+="<script>";
 		pageBar+="function fn_paging(cPage){";
-		pageBar+="location.href='"+url+"?cPage='+cPage";
+		pageBar+="$.ajax({";
+		pageBar+="url:'${path}/product/selectComment.do',";
+		pageBar+="data:{'productNo':productNo, 'commentType':commentType},";
+		pageBar+="success:function(data){";
+		pageBar+="console.log(data);";
+		pageBar+="});}";
+		pageBar+="location.href='"+url+"&cPage='+cPage";
 		pageBar+="}";
 		pageBar+="</script>";
-				
+		
 		return pageBar;		
 		
+		
+		
+		
 	}
-	
 }

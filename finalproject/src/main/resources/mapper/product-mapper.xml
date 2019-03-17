@@ -24,6 +24,12 @@
 		<result column="product_qty" property="productQty" />
 		<result column="product_discount" property="productDiscount" />
 		</resultMap>
+		
+	<resultMap type="ProductImg" id="productImgMap">
+		<result column="product_img_no" property="productImgNo"/>
+		<result column="product_subimg" property="productSubImg"/>
+		<result column="product_no" property="productNo"/>
+	</resultMap>	
 
 	<!-- JOIN PRODUCT_DETAIL USING(PRODUCT_NO) -->
 	<select id="selectProductList" resultMap="productMap" parameterType="string">
@@ -35,10 +41,9 @@
 	</select> <!-- where BC_NO = #{category} -->
 	
 	<select id="selectProduct" parameterType="string" resultType="map">
-		SELECT P.BC_NO, P.PRODUCT_TITLE, B.BRAND_TITLE, P.PRODUCT_MAX, P.PRODUCT_MIN, P.PRODUCT_QTY, P.PRODUCT_PRICE, P.PRODUCT_COMMENT, P.PRODUCT_PROFILE, PI.PRODUCT_SUBIMG , B.BRAND_NO, P.PRODUCT_NO
+		SELECT P.BC_NO, P.PRODUCT_TITLE, B.BRAND_TITLE, P.PRODUCT_MAX, P.PRODUCT_MIN, P.PRODUCT_QTY, P.PRODUCT_PRICE, P.PRODUCT_COMMENT, P.PRODUCT_PROFILE, B.BRAND_NO, P.PRODUCT_NO, P.MEMBER_NO
 		FROM PRODUCT P
 		JOIN BRAND B ON(B.BRAND_NO=P.BRAND_NO)
-		JOIN PRODUCT_IMG PI ON(P.PRODUCT_NO=PI.PRODUCT_NO)
 		WHERE P.PRODUCT_NO = #{productNo}
 	</select>
 	
@@ -50,22 +55,41 @@
 		where product_no =  #{productNo}
 	</select>
 	
-	<resultMap type="wish" id="wishMap">
+	<resultMap type="Wish" id="wishMap">
 		<result column="product_no" property="productNo"/>
 		<result column="member_no" property="memberNo"/>
-		<result column="wish_state" property="wishState"/>
 	</resultMap>
 	
-	<select id="selectWish" parameterType="wish" resultMap="wishMap">
-		SELECT * FROM WISH WHERE PRODUCT_NO=#{productNo} AND MEMBER_NO=#{memberNo}
+	<select id="selectWish" parameterType="wish" resultType="_int">
+		SELECT COUNT(*) FROM WISH WHERE PRODUCT_NO=#{productNo} AND MEMBER_NO=#{memberNo}
 	</select>
 	
-	<insert id="insertWish" parameterType="map">
-		INSERT INTO WISH VALUES(#{productNo}, #{memberNo}, DEFAULT)
+	<insert id="insertWish" parameterType="wish">
+		INSERT INTO WISH VALUES('W_NO_'||SEQ_WISH_NO.NEXTVAL,#{productNo}, #{memberNo})
 	</insert>
 	
 	<select id="selectBcTitle" parameterType="string" resultType="string">
 		SELECT BC_TITLE FROM BIG_CATEGORY WHERE BC_NO = #{bcNo} 
+	</select>
+	
+	<select id="selectProductImg" parameterType="string" resultMap="productImgMap">
+		SELECT * FROM PRODUCT_IMG WHERE PRODUCT_NO=#{productNo}
+	</select>
+	
+	<select id="selectProductDetail" parameterType="string" resultType="map">
+		SELECT * FROM PRODUCT_DETAIL WHERE PRODUCT_NO=#{productNo}
+	</select>
+	
+	<delete id="deleteWish" parameterType="wish">
+		DELETE WISH WHERE PRODUCT_NO=#{productNo} AND MEMBER_NO=#{memberNo}
+	</delete>
+	
+	<select id="selectCommentCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType}
+	</select>
+	
+	<select id="selectComment" parameterType="map" resultType="map">
+		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} 
 	</select>
 	
 </mapper>
