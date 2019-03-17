@@ -29,6 +29,7 @@ public class ProductController {
 	ShopService shopService;
 	
 	public static String categoryNo;
+	public static int nper;
 	/*public static String numPerPage;*/
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
@@ -78,23 +79,28 @@ public class ProductController {
 		return "product/category";
 	}*/
 	@RequestMapping("/product/category.do")
+	/*public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, String numPerPages, String category)*/
 	public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, String numPerPages, String category)
 	{
 		
 		if(category != null ) { categoryNo = category;	}
 		int numPerPage = 9;
+		/*if(Integer.parseInt(numPerPages) != 9) { numPerPage = Integer.parseInt(numPerPages);}*/
+		
+		if(numPerPages != null && numPerPages != "9") { numPerPage = Integer.parseInt(numPerPages);}
+		
+		//int numPerPage = 9;
 		/*if( numPerPages == null ) { numPerPages = numPerPage; }*/
-		if( numPerPages != null ) { numPerPage = Integer.parseInt(numPerPages);}
+		/*if( numPerPage != null ) { numPerPage = Integer.parseInt(numPerPage);}*/
 		
 		/*int numPerPage = 9;
 		if( numPerPages != null ) { numPerPage = Integer.parseInt(numPerPages);}*/
 		
+		logger.debug(numPerPages+"pages");
 		logger.debug(numPerPage+"nomal");
-		logger.debug(numPerPages+"s");
 		int contentCount = service.selectProductCount(categoryNo);
 		ModelAndView mv = new ModelAndView();
-		/*logger.debug("ProductController In -");
-		logger.debug("+_+_+_+query : "+category);*/
+		/*logger.debug("ProductController In -");logger.debug("+_+_+_+query : "+category);*/
 		List<Map<String, String>> list = service.productList(categoryNo, cPage, numPerPage);
 		
 		
@@ -115,8 +121,3 @@ public class ProductController {
 	}
 
 }
-
-
-
-
-
