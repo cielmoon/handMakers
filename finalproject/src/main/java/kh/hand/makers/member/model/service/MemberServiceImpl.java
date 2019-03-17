@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kh.hand.makers.member.model.dao.MemberDao;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.order.model.vo.Delivery;
 
 
 
@@ -41,4 +42,36 @@ public class MemberServiceImpl implements MemberService {
 	public int checkId(String memberId) {
 		return dao.checkId(memberId);
 	}
+
+	@Override
+	public int memberUpdate(Member m) {
+		// TODO Auto-generated method stub
+		return dao.memberUpdate(m);
+	}
+
+	@Override
+	public int memberWithdrawal(String memberNo) {
+		// TODO Auto-generated method stub
+		return dao.memberWithdrawal(memberNo);
+	}
+
+	@Override
+	public List<Delivery> selectDeliveryList(String memberNo) {
+		// TODO Auto-generated method stub
+		return dao.selectDeliveryList(memberNo);
+	}
+
+	@Override
+	public int enrollLocation(Delivery delivery) {
+		// TODO Auto-generated method stub
+		return dao.enrollLocation(delivery);
+	}
+
+	@Override
+	public int memberPwdUpdate(Member m) {
+		// TODO Auto-generated method stub
+		return dao.memberPwdUpdate(m);
+	}
+	
+	
 }

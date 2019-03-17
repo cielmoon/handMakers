@@ -34,12 +34,12 @@ function selectBrand(brandNo, brandState)
 					<div class="columnblock-title">마이페이지</div>
 					<div class="account-block">
 						<div class="list-group">
-							<a class="list-group-item" href="#">홈</a> 
-							<a class="list-group-item" href="#">내정보 관리</a>
-							<a class="list-group-item" href="#">배송지 설정</a>				
-							<a class="list-group-item" href="#">비밀번호 변경</a> 
-							<a class="list-group-item" href="#">주문/배송내역 조회</a>			
-							<a class="list-group-item" href="#">회원탈퇴</a>
+							<a class="list-group-item" href="${path }/member/myPage.do">홈</a> 
+							<a class="list-group-item" href="${path }/member/checkPassword.do?checkNo=2">내정보 관리</a>
+							<a class="list-group-item" href="${path }/member/checkPassword.do?checkNo=3">배송지 설정</a>				
+							<a class="list-group-item" href="${path }/member/checkPassword.do?checkNo=1">비밀번호 변경</a> 
+							<a class="list-group-item" href="${path }/member/manageOrder.do">주문/배송내역 조회</a>			
+							<a class="list-group-item" href="${path }/member/checkPassword.do?checkNo=0">회원탈퇴</a>
 						</div>
 					</div>
 				</div>

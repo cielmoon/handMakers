@@ -7,6 +7,7 @@
    <typeAliases>
 <!--       <typeAlias type="com.kh.spring.demo.model.vo.Dev" alias="dev"/>
       <typeAlias type="com.kh.spring.common.StringArrayTypeHandler" alias="strArray"/>-->
+      <typeAlias type="kh.hand.makers.order.model.vo.Delivery" alias="delivery"/>
       <typeAlias type="kh.hand.makers.member.model.vo.Member" alias="member"/>
       <typeAlias type="kh.hand.makers.shop.model.vo.Brand" alias="brand"/> 
       <typeAlias type="kh.hand.makers.admin.model.vo.managePreProduct" alias="managepreproduct"/> 

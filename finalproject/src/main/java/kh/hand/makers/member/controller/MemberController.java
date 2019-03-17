@@ -1,8 +1,6 @@
 package kh.hand.makers.member.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kh.hand.makers.common.PageFactory;
 import kh.hand.makers.member.model.service.MemberService;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.shop.model.service.ShopService;
 import kh.hand.makers.shop.model.vo.Brand;
 
@@ -202,4 +201,230 @@ public class MemberController {
 	{
 		return "member/wishList";
 	}
+	
+	//member/memberUpdateEnd.do
+	@RequestMapping("/member/memberUpdate.do")
+	public String memberUpdate()
+	{
+		return "member/memberInfo";
+	}
+	@RequestMapping("/member/memberUpdateEnd.do")
+	public ModelAndView memberUpdateEnd(Member m)
+	{
+		ModelAndView mv=new ModelAndView();
+		System.out.println("m : "+m);
+		logger.debug("회원정보 수정");
+		
+		int result = service.memberUpdate(m);
+	
+		String msg="";
+		String loc="/";
+		if(result > 0)
+		{
+			msg="회원정보 수정이 완료되었습니다.";	
+
+		}
+		else {
+			msg="회원정보 수정에 실패하였습니다.";
+			loc="/member/myPage.do";
+		}
+
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.setViewName("common/msg");
+
+		return mv;
+	}	
+	
+	@RequestMapping("/member/manageOrder.do")
+	public String manageOrder()
+	{
+		return "member/manageOrder";
+	}
+	@RequestMapping("/member/memberWithdrawal.do")
+	public String memberWithdrawal()
+	{
+		return "member/memberWithdrawal";
+	}
+	
+	@RequestMapping("/member/checkPasswordEnd.do")
+	public ModelAndView checkPasswordEnd(int checkNo, Member m)
+	{
+		logger.debug("회원탈퇴로 들어옴");
+		ModelAndView mv=new ModelAndView();	
+		Member result = service.memberLogin(m.getMemberId());
+		String memberId = m.getMemberId();
+		String msg="";
+		String loc="/";
+		if(result!=null)
+		{
+			if(pwEncoder.matches(m.getMemberPwd(), result.getMemberPwd()))
+			{
+				msg="패스워드가 일치합니다.";
+				if(checkNo == 0) {
+					loc="/member/memberWithdrawalEnd.do";
+				}else if(checkNo == 1) {
+					loc="/member/changePassword.do";
+				}else if(checkNo == 2) {
+					loc="/member/memberUpdate.do";
+				}else if(checkNo == 3) {
+					loc="/member/enrollLocationView.do";
+				}
+
+			}
+			else
+			{
+				msg="패스워드가 일치하지 않습니다.";
+				loc="/member/checkPassword.do?checkNo="+checkNo;
+			}
+		}
+		else {
+			msg="패스워드가 일치하지 않습니다.";
+			loc="/member/checkPassword.do?checkNo="+checkNo;
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.setViewName("common/msg");
+
+		return mv;
+	}
+	
+
+	
+	
+	@RequestMapping("/member/memberWithdrawalEnd.do")
+	public String memberWithdrawalEnd()
+	{		
+		return "member/memberWithdrawalEnd";
+	}
+	
+	@RequestMapping("/member/memberWithdrawalEnds.do")
+	public ModelAndView memberWithdrawalEnds(String memberNo, SessionStatus status)
+	{		
+		logger.debug("회원탈퇴 대상 : "+memberNo);
+		ModelAndView mv=new ModelAndView();	
+		int result = service.memberWithdrawal(memberNo);
+		String msg="";
+		String loc="/";
+
+		if(result>0)
+		{
+			msg="회원탈퇴가 완료되었습니다.";
+			if(!status.isComplete())
+			{
+				status.setComplete();
+			}			
+			
+		}
+		else {
+			msg="회원탈퇴에 실패하였습니다.";
+			loc="/member/myPage.do";
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.setViewName("common/msg");
+
+		return mv;
+	}
+	
+	
+	@RequestMapping("/member/checkPassword.do")
+	public ModelAndView checkPassword(int checkNo)
+	{
+		ModelAndView mv=new ModelAndView();	
+		logger.debug("체크NO: "+checkNo);
+		mv.addObject("checkNo",checkNo);
+		mv.setViewName("/member/checkPassword");
+
+		return mv;
+	}
+	
+	@RequestMapping("/member/changePassword.do")
+	public String changePassword()
+	{
+		return "member/changePassword";
+	}
+	
+	@RequestMapping("/member/changePasswordEnd.do")
+	public ModelAndView changePasswordEnd(Member m)
+	{
+		ModelAndView mv=new ModelAndView();		
+		logger.debug("패스워드 변경");
+		logger.debug("Member: "+m);
+		m.setMemberPwd(pwEncoder.encode(m.getMemberPwd()));
+		int result = service.memberPwdUpdate(m);
+	
+		String msg="";
+		String loc="/";
+		if(result > 0)
+		{
+			msg="비밀번호 변경이 완료되었습니다.";	
+			loc="/member/myPage.do";
+		}
+		else {
+			msg="비밀번호 변경에 실패했습니다.";
+			loc="/member/changePassword.do";
+		}
+
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.setViewName("common/msg");
+
+		return mv;
+	}
+	
+	@RequestMapping("/member/enrollLocationView.do")
+	public ModelAndView enrollLocationView(Member m)
+	{
+		ModelAndView mv=new ModelAndView();		
+		List<Delivery> deliveryList=service.selectDeliveryList(m.getMemberNo());
+		mv.addObject("deliveryList",deliveryList);
+		mv.setViewName("member/enrollLocationView");
+		return mv;
+	}
+	
+	@RequestMapping("/member/enrollLocation.do")
+	public String enrollLocation()
+	{
+		
+		return "/member/enrollLocation";
+	}
+	
+	@RequestMapping("/member/enrollLocationEnd.do")
+	public ModelAndView enrollLocationEnd(Member m, Delivery delivery)
+	{
+		ModelAndView mv=new ModelAndView();
+		delivery.setMemberNo(m.getMemberNo());
+		//System.out.println("암호화후 "+pwEncoder.encode(rawPw));		
+		int result=service.enrollLocation(delivery);
+		String msg="";
+		String loc="/";
+		if(result>0)
+		{
+			msg="배송지 등록에 성공했습니다.";
+			loc="/member/myPage.do";
+		}
+		else {
+			msg="배송지 등록에 실패했습니다.";
+			loc="/member/enrollLocation.do";
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.setViewName("common/msg");
+		
+		return mv; 
+	}
+	
+	
+	@RequestMapping("/member/searchId.do")
+	public String searchId()
+	{
+		return "member/findMemberId";
+	}
+	@RequestMapping("/member/searchPassword.do")
+	public String searchPassword()
+	{
+		return "member/searchPassword";
+	}
+	
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.order.model.vo.Delivery;
 
 @Repository
 public class MemberDaoImpl implements MemberDao {
@@ -40,4 +41,36 @@ public class MemberDaoImpl implements MemberDao {
 	public int checkId(String memberId) {
 		return sqlSession.selectOne("member.checkId", memberId);
 	}
+
+	@Override
+	public int memberUpdate(Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.memberUpdate",m);
+	}
+
+	@Override
+	public int memberWithdrawal(String memberNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("member.memberWithdrawal",memberNo);
+	}
+
+	@Override
+	public List<Delivery> selectDeliveryList(String memberNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("member.selectDeliveryList",memberNo);
+	}
+
+	@Override
+	public int enrollLocation(Delivery delivery) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("member.enrollLocation",delivery);
+	}
+
+	@Override
+	public int memberPwdUpdate(Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.memberPwdUpdate",m);
+	}
+	
+	
 }
