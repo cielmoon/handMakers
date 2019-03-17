@@ -79,13 +79,13 @@ public class ShopDaoImpl implements ShopDao {
 	}
 
 	@Override
-	public List<Product> selectBrandProductList(Map<String, Object> map, int cPage, int numPerPage) {
+	public List<Map<String, Object>> selectBrandProductList(Map<String, Object> map, int cPage, int numPerPage) {
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
 		return sqlSession.selectList("shop.selectBrandProductList", map, rb);
 	}
 
 	@Override
-	public List<Order> selectOrderList(String productNo, int cPage, int numPerPage) {
+	public List<Map<String, String>> selectOrderList(String productNo, int cPage, int numPerPage) {
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
 		return sqlSession.selectList("shop.selectOrderList", productNo, rb);
 	}
@@ -93,6 +93,48 @@ public class ShopDaoImpl implements ShopDao {
 	@Override
 	public int selectOrderCount(String productNo) {
 		return sqlSession.selectOne("shop.selectOrderCount", productNo);
+	}
+
+	@Override
+	public Map<String, String> selectProduct(String productNo) {
+		return sqlSession.selectOne("shop.selectProduct", productNo);
+	}
+
+	@Override
+	public int selectProductQnaCount(String productNo) {
+		return sqlSession.selectOne("shop.selectProductQnaCount", productNo);
+	}
+
+	@Override
+	public List<Map<String, String>> selectProductQnaList(String productNo, int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return sqlSession.selectList("shop.selectProductQnaList", productNo, rb);
+	}
+
+	@Override
+	public List<Map<String, String>> selectProductAnswerList(String productNo) {
+		return sqlSession.selectList("shop.selectProductAnswerList", productNo);
+
+	}
+
+	@Override
+	public Map<String, String> selectProductQnaAnswer(String refNo) {
+		return sqlSession.selectOne("shop.selectProductQnaAnswer", refNo);
+
+	}
+
+	@Override
+	public int productQnaAnswer(Map<String, String> map) {
+		String state = (String) map.get("state");
+		if(state.equals("insert")) 
+		{
+			return sqlSession.insert("shop.insertProductQnaAnswer", map);
+		}
+		else
+		{
+			return sqlSession.insert("shop.updateProductQnaAnswer", map);	
+		}
+
 	}
 	
 	

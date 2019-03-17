@@ -34,11 +34,23 @@ public interface ShopService {
 
 	int selectBrandProductCount(Map<String, Object> map);
 
-	List<Product> selectBrandProductList(Map<String, Object> map, int cPage, int numPerPage);
+	List<Map<String, Object>> selectBrandProductList(Map<String, Object> map, int cPage, int numPerPage);
 
 	int selectOrderCount(String productNo);
 
-	List<Order> selectOrderList(String productNo, int cPage, int numPerPage);
+	List<Map<String, String>> selectOrderList(String productNo, int cPage, int numPerPage);
+
+	Map<String, String> selectProduct(String productNo);
+
+	int selectProductQnaCount(String productNo);
+
+	List<Map<String, String>> selectProductQnaList(String productNo, int cPage, int numPerPage);
+
+	List<Map<String, String>> selectProductAnswerList(String productNo);
+
+	Map<String, String> selectProductQnaAnswer(String refNo);
+
+	int productQnaAnswer(Map<String, String> map);
 
 	
 

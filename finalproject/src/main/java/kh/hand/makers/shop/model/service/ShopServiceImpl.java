@@ -77,7 +77,7 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public List<Product> selectBrandProductList(Map<String, Object> map, int cPage, int numPerPage) {
+	public List<Map<String, Object>> selectBrandProductList(Map<String, Object> map, int cPage, int numPerPage) {
 		return dao.selectBrandProductList(map, cPage, numPerPage);
 
 	}
@@ -88,9 +88,39 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public List<Order> selectOrderList(String productNo, int cPage, int numPerPage) {
+	public List<Map<String, String>> selectOrderList(String productNo, int cPage, int numPerPage) {
 		return dao.selectOrderList(productNo, cPage, numPerPage);
 
+	}
+
+	@Override
+	public Map<String, String> selectProduct(String productNo) {
+		return dao.selectProduct(productNo);
+	}
+
+	@Override
+	public int selectProductQnaCount(String productNo) {
+		return dao.selectProductQnaCount(productNo);
+	}
+
+	@Override
+	public List<Map<String, String>> selectProductQnaList(String productNo, int cPage, int numPerPage) {
+		return dao.selectProductQnaList(productNo, cPage, numPerPage);
+	}
+
+	@Override
+	public List<Map<String, String>> selectProductAnswerList(String productNo) {
+		return dao.selectProductAnswerList(productNo);
+	}
+
+	@Override
+	public Map<String, String> selectProductQnaAnswer(String refNo) {
+		return dao.selectProductQnaAnswer(refNo);
+	}
+
+	@Override
+	public int productQnaAnswer(Map<String, String> map) {
+		return dao.productQnaAnswer(map);
 	}
 	
 	
