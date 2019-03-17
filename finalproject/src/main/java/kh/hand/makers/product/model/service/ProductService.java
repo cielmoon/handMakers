@@ -11,7 +11,7 @@ public interface ProductService {
 	List<Map<String, Object>> selectCategoryTemp(String category);
 	//List<Map<String, String>> productList(String category);
 	List<Map<String, String>> productList(String category, int cPage, int numPerPage);
-	int selectProductCount();
+	int selectProductCount(String category);
 	Map<String,String> selectProduct(String productNo);
 	List<Map<String,String>> selectCategory(String productNo);
 	String selectBcTitle(String bcNo);

@@ -37,7 +37,7 @@
 	</select>
 
 	<select id="selectProductCount" resultType="_int">
-		SELECT COUNT(*) FROM PRODUCT
+		SELECT COUNT(*) FROM PRODUCT where BC_NO = #{category}
 	</select> <!-- where BC_NO = #{category} -->
 	
 	<select id="selectProduct" parameterType="string" resultType="map">

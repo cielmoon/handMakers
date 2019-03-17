@@ -13,9 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import kh.hand.makers.common.PageFactory;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.order.model.vo.Order;
+import kh.hand.makers.product.model.service.ProductService;
+import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.service.ShopService;
 import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
@@ -28,6 +33,8 @@ public class ShopController {
 	
 	@Autowired
 	ShopService service;
+	@Autowired
+	ProductService productService;
 	
 	@RequestMapping("/shop/shopCart.do")
 	public String shopCart()
@@ -56,7 +63,6 @@ public class ShopController {
 		if(brandNo != null) //반려된 브랜드 재등록 요청일 경우
 		{
 			Brand brand = service.selectBrand(brandNo);
-			mv.addObject("brand", brand);
 		}
 		
 		mv.setViewName("shop/brandEnroll");
@@ -110,12 +116,13 @@ public class ShopController {
 
 	// 상품 제안 페이지
 	@RequestMapping("/shop/productEnroll.do")
-	public ModelAndView productEnroll(String brandNo)
+	public ModelAndView productEnroll(String brandNo, String preNo)
 	{
 		ModelAndView mv = new ModelAndView();
 		Brand brand = service.selectBrand(brandNo);	
 		List<BigCategory> bcList = service.selectBcList();
 		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
+		
 		mv.addObject("brand", brand);
 		mv.addObject("bcList", bcList);
 		mv.addObject("scList", scList);
@@ -164,14 +171,150 @@ public class ShopController {
 		return mv;
 	}
 	
+	// 판매자 브랜드 메인 페이지
 	@RequestMapping("/shop/brandHome.do")
-	public ModelAndView brandHome(String brandNo)
+	public ModelAndView brandHome(String brandNo, @RequestParam(value="cPage", required=false, defaultValue="1") int cPage)
 	{
 		ModelAndView mv = new ModelAndView();
-
 		Brand brand = service.selectBrand(brandNo);	
+		
+		int numPerPage = 5;
+		int contentCount = service.selectPreProductCount(brandNo);
+		List<PreProduct> preList = service.selectPreProductList(brandNo, cPage, numPerPage);
+		
+		List<BigCategory> bcList = service.selectBcList();
+		
 		mv.addObject("brand", brand);
+		mv.addObject("preList", preList);
+		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandHome.do?brandNo=" + brandNo));
+		mv.addObject("bcList", bcList);
 		mv.setViewName("shop/brandHome");
+		
 		return mv;
+	}
+	
+	// 상품 제안 상세 정보
+	@RequestMapping("/shop/preProductView.do")
+	public ModelAndView preProductView(String preNo)
+	{
+		ModelAndView mv = new ModelAndView();
+		PreProduct pre = service.selectPreProduct(preNo);				
+		mv.addObject("pre", pre);
+		mv.setViewName("jsonView");
+		return mv;
+	}
+	
+	// 현재 판매중인 상품 목록 페이지
+	@RequestMapping("/shop/brandSaleProduct.do")
+	public ModelAndView brandSaleProduct(String brandNo, @RequestParam(value="cPage", required=false, defaultValue="1") int cPage)
+	{
+		ModelAndView mv = new ModelAndView();
+		Map<String, Object> map = new HashMap<>();
+		map.put("brandNo", brandNo);
+		map.put("productState", 0); //현재 판매중인 상태
+		
+		int numPerPage = 6;
+		int contentCount = service.selectBrandProductCount(map);
+		List<Map<String, Object>> productList = service.selectBrandProductList(map, cPage, numPerPage);	
+		List<BigCategory> bcList = service.selectBcList();
+		
+		Brand brand = service.selectBrand(brandNo);	
+		
+		mv.addObject("brand", brand);
+		mv.addObject("productList", productList);
+		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandSaleProduct.do?brandNo=" + brandNo));
+		mv.addObject("bcList", bcList);
+		mv.setViewName("shop/brandSaleProduct");
+		return mv;
+	}
+	
+	// 상품 상세 메인 페이지
+	@RequestMapping("/shop/brandProductHome.do")
+	public ModelAndView brandProductHome(String productNo, String brandNo, @RequestParam(value="cPage", required=false, defaultValue="1") int cPage)
+	{
+		ModelAndView mv = new ModelAndView();
+		Brand brand = service.selectBrand(brandNo);	
+		
+		Map<String, String> product = service.selectProduct(productNo);
+		int numPerPage = 5;
+		int contentCount = service.selectOrderCount(productNo);
+		List<Map<String, String>> orderList = service.selectOrderList(productNo, cPage, numPerPage);
+		
+		mv.addObject("brand", brand);
+		mv.addObject("product", product);
+		mv.addObject("orderList", orderList);
+		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandProductHome.do?productNo=" + productNo + "&brandNo=" + brandNo));
+		mv.setViewName("shop/brandProductHome");
+		
+		return mv;
+
+	}
+	
+	// 상품 상세 문의관리 페이지
+	@RequestMapping("/shop/brandProductQna.do")
+	public ModelAndView brandProductQna(String productNo, String brandNo, @RequestParam(value="cPage", required=false, defaultValue="1") int cPage)
+	{
+		ModelAndView mv = new ModelAndView();
+		Brand brand = service.selectBrand(brandNo);	
+		
+		Map<String, String> product = service.selectProduct(productNo);
+		int numPerPage = 5;
+		int contentCount = service.selectProductQnaCount(productNo);
+		List<Map<String, String>> qnaList = service.selectProductQnaList(productNo, cPage, numPerPage);
+		List<Map<String, String>> answerList = service.selectProductAnswerList(productNo);
+		
+		mv.addObject("brand", brand);
+		mv.addObject("product", product);
+		mv.addObject("qnaList", qnaList);
+		mv.addObject("answerList", answerList);
+		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandProductQna.do?productNo=" + productNo + "&brandNo=" + brandNo));
+		mv.setViewName("shop/brandProductQna");
+		
+		return mv;
+
+	}
+	
+	//상품 답변 가져오기
+	@RequestMapping("/shop/selectProductQnaAnswer.do")
+	public ModelAndView selectProductQnaAnswer(String refNo)
+	{
+		ModelAndView mv = new ModelAndView();
+		Map<String, String> answer = service.selectProductQnaAnswer(refNo);				
+		mv.addObject("answer", answer);
+		mv.setViewName("jsonView");
+		return mv;
+	}
+	
+	@RequestMapping("/shop/productQnaAnswer.do")
+	public ModelAndView productQnaAnswer(String state, String brandNo,
+			@RequestParam(value="commentRef") String commentRef, 
+			@RequestParam(value="sellerNo") String sellerNo, 
+			@RequestParam(value="productNo") String productNo, 
+			@RequestParam(value="content") String content)
+	{
+		ModelAndView mv = new ModelAndView();
+		Map<String, String> map = new HashMap<>();
+		map.put("commentRef", commentRef);
+		map.put("sellerNo", sellerNo);
+		map.put("productNo", productNo);
+		map.put("content", content);
+		map.put("state", state);
+		
+		int result = service.productQnaAnswer(map);
+
+		String msg="";
+		String loc="/shop/brandProductQna.do?productNo=" + productNo + "&brandNo=" + brandNo;
+		if(result>0)
+		{
+			msg="답변이 정상적으로 등록되었습니다.";
+		}
+		else {
+			msg="답변 등록에 실패하였습니다.";
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.setViewName("common/msg");
+		return mv;
+
 	}
 }

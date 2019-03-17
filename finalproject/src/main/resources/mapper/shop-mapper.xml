@@ -12,14 +12,26 @@
    		<result column="brand_state" property="brandState"/>
    		<result column="member_no" property="memberNo"/>
 	</resultMap>
-	<resultMap type="BigCategory" id="bcMap">
+	<resultMap type="bigcategory" id="bcMap">
 		<result column="bc_no" property="bcNo"/>
    		<result column="bc_title" property="bcTitle"/>
 	</resultMap>
-	<resultMap type="SmallCategory" id="scMap">
+	<resultMap type="smallcategory" id="scMap">
 		<result column="sc_no" property="scNo"/>
    		<result column="sc_title" property="scTitle"/>
    		<result column="bc_no" property="bcNo"/>
+	</resultMap>
+	<resultMap type="preproduct" id="preproductMap">
+		<result column="pre_product_no" property="preProductNo"/>
+   		<result column="pre_product_title" property="preProductTitle"/>
+   		<result column="pre_product_discript" property="preProductDiscript"/>
+		<result column="pre_product_state" property="preProductState"/>
+   		<result column="pre_product_date" property="preProductDate"/>
+   		<result column="brand_no" property="bcNo"/>
+		<result column="bc_no" property="bcNo"/>
+  		<result column="sc_no" property="scNo"/>
+  		<result column="bc_title" property="bcTitle" />
+		<result column="sc_title" property="scTitle" />
 	</resultMap>
 	
 	<select id="selectBrandList" resultMap="brandMap" parameterType="string">
@@ -46,4 +58,49 @@
 		UPDATE BRAND SET BRAND_ADDR = #{brandAddr}, BRAND_DETAILADDR = #{brandDetailAddr}, BRAND_TYPE = #{brandType}, BRAND_STATE = 0
 		WHERE BRAND_NO = #{brandNo}
 	</update>
+	<select id="selectPreProductCount" resultType="_int" parameterType="string">
+		SELECT COUNT(*) FROM PRE_PRODUCT WHERE BRAND_NO = #{brandNo}
+	</select>
+	<select id="selectPreProductList" resultMap="preproductMap" parameterType="string">
+		SELECT PRE_PRODUCT.*, BIG_CATEGORY.BC_TITLE, SMALL_CATEGORY.SC_TITLE FROM PRE_PRODUCT JOIN BIG_CATEGORY ON (BIG_CATEGORY.BC_NO = PRE_PRODUCT.BC_NO)
+		JOIN SMALL_CATEGORY ON (SMALL_CATEGORY.SC_NO = PRE_PRODUCT.SC_NO) WHERE BRAND_NO = #{brandNo} ORDER BY PRE_PRODUCT.PRE_PRODUCT_DATE DESC
+	</select>
+	<select id="selectPreProduct" resultMap="preproductMap" parameterType="string">
+		SELECT PRE_PRODUCT.*, BIG_CATEGORY.BC_TITLE, SMALL_CATEGORY.SC_TITLE FROM PRE_PRODUCT JOIN BIG_CATEGORY ON (BIG_CATEGORY.BC_NO = PRE_PRODUCT.BC_NO)
+		JOIN SMALL_CATEGORY ON (SMALL_CATEGORY.SC_NO = PRE_PRODUCT.SC_NO) WHERE PRE_PRODUCT.PRE_PRODUCT_NO = #{preNo}
+	</select>
+	<select id="selectBrandProductCount" resultType="_int" parameterType="map">
+		SELECT COUNT(*) FROM PRODUCT WHERE BRAND_NO = #{brandNo} AND PRODUCT_STATE = #{productState}
+	</select>
+	<select id="selectBrandProductList" resultType="map" parameterType="map">
+		SELECT PRODUCT.*, BIG_CATEGORY.BC_TITLE, SMALL_CATEGORY.SC_TITLE FROM PRODUCT JOIN BIG_CATEGORY ON (BIG_CATEGORY.BC_NO = PRODUCT.BC_NO)
+		JOIN SMALL_CATEGORY ON (SMALL_CATEGORY.SC_NO = PRODUCT.SC_NO) WHERE BRAND_NO = #{brandNo} AND PRODUCT_STATE = #{productState} ORDER BY PRODUCT_ENROLLDATE DESC
+	</select>
+	<select id="selectOrderCount" resultType="_int" parameterType="string">
+		SELECT COUNT(*) FROM PRODUCT_ORDER WHERE PRODUCT_NO = #{productNo} AND ORDER_STATE = '0'
+	</select>
+	<select id="selectOrderList" resultType="map" parameterType="string">
+   		SELECT P.*, M.MEMBER_ID FROM PRODUCT_ORDER P JOIN MEMBER M ON(P.MEMBER_NO=M.MEMBER_NO) WHERE PRODUCT_NO = #{productNo} AND ORDER_STATE = '0' ORDER BY ORDER_DATE DESC
+	</select>
+	<select id="selectProduct" resultType="map" parameterType="string">
+		SELECT * FROM PRODUCT WHERE PRODUCT_NO = #{productNo}
+	</select>
+	<select id="selectProductQnaCount" resultType="_int" parameterType="string">
+		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE = 'Q' AND COMMENT_LEVEL = 1 AND PRODUCT_NO = #{productNo}
+	</select>
+	<select id="selectProductQnaList" resultType="map" parameterType="string">
+		SELECT P.*, M.MEMBER_ID FROM PRODUCT_COMMENT P JOIN MEMBER M ON(P.MEMBER_NO=M.MEMBER_NO) WHERE COMMENT_TYPE = 'Q' AND COMMENT_LEVEL = 1 AND PRODUCT_NO = #{productNo} ORDER BY COMMENT_DATE DESC
+	</select>
+	<select id="selectProductAnswerList" resultType="map" parameterType="string">
+		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_TYPE = 'Q' AND COMMENT_LEVEL = 2 AND PRODUCT_NO = #{productNo} ORDER BY COMMENT_DATE DESC
+	</select>
+	<select id="selectProductQnaAnswer" resultType="map" parameterType="string">
+		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_REF = #{refNo}
+	</select>
+	<update id="updateProductQnaAnswer" parameterType="map">
+		UPDATE PRODUCT_COMMENT SET COMMENT_CONTENT = #{content} WHERE COMMENT_REF = #{commentRef}
+	</update>
+	<insert id="insertProductQnaAnswer" parameterType="map">
+		INSERT INTO PRODUCT_COMMENT VALUES('P_COMMENT_NO_' ||SEQ_COMMENT_NO.NEXTVAL, #{content}, DEFAULT, 'Q', 2, #{commentRef}, #{sellerNo}, #{productNo})
+	</insert>
 </mapper>

@@ -3,8 +3,11 @@ package kh.hand.makers.shop.model.service;
 import java.util.List;
 import java.util.Map;
 
+import kh.hand.makers.order.model.vo.Order;
+import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
+import kh.hand.makers.shop.model.vo.PreProduct;
 import kh.hand.makers.shop.model.vo.SmallCategory;
 
 public interface ShopService {
@@ -22,5 +25,33 @@ public interface ShopService {
 	List<SmallCategory> selectScList(String bcNo);
 
 	int updateBrand(Map<String, String> map);
+
+	List<PreProduct> selectPreProductList(String brandNo, int cPage, int numPerPage);
+
+	PreProduct selectPreProduct(String preNo);
+
+	int selectPreProductCount(String brandNo);
+
+	int selectBrandProductCount(Map<String, Object> map);
+
+	List<Map<String, Object>> selectBrandProductList(Map<String, Object> map, int cPage, int numPerPage);
+
+	int selectOrderCount(String productNo);
+
+	List<Map<String, String>> selectOrderList(String productNo, int cPage, int numPerPage);
+
+	Map<String, String> selectProduct(String productNo);
+
+	int selectProductQnaCount(String productNo);
+
+	List<Map<String, String>> selectProductQnaList(String productNo, int cPage, int numPerPage);
+
+	List<Map<String, String>> selectProductAnswerList(String productNo);
+
+	Map<String, String> selectProductQnaAnswer(String refNo);
+
+	int productQnaAnswer(Map<String, String> map);
+
+	
 
 }

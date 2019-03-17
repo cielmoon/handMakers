@@ -3,12 +3,16 @@ package kh.hand.makers.shop.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.hand.makers.order.model.vo.Order;
+import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
+import kh.hand.makers.shop.model.vo.PreProduct;
 import kh.hand.makers.shop.model.vo.SmallCategory;
 
 @Repository
@@ -52,5 +56,87 @@ public class ShopDaoImpl implements ShopDao {
 	public int updateBrand(Map<String, String> map) {
 		return sqlSession.update("shop.updateBrand", map);
 	}
+
+	@Override
+	public List<PreProduct> selectPreProductList(String brandNo, int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return sqlSession.selectList("shop.selectPreProductList", brandNo, rb);
+	}
+
+	@Override
+	public PreProduct selectPreProduct(String preNo) {
+		return sqlSession.selectOne("shop.selectPreProduct", preNo);
+	}
+
+	@Override
+	public int selectPreProductCount(String brandNo) {
+		return sqlSession.selectOne("shop.selectPreProductCount", brandNo);
+	}
+
+	@Override
+	public int selectBrandProductCount(Map<String, Object> map) {
+		return sqlSession.selectOne("shop.selectBrandProductCount", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectBrandProductList(Map<String, Object> map, int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return sqlSession.selectList("shop.selectBrandProductList", map, rb);
+	}
+
+	@Override
+	public List<Map<String, String>> selectOrderList(String productNo, int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return sqlSession.selectList("shop.selectOrderList", productNo, rb);
+	}
+
+	@Override
+	public int selectOrderCount(String productNo) {
+		return sqlSession.selectOne("shop.selectOrderCount", productNo);
+	}
+
+	@Override
+	public Map<String, String> selectProduct(String productNo) {
+		return sqlSession.selectOne("shop.selectProduct", productNo);
+	}
+
+	@Override
+	public int selectProductQnaCount(String productNo) {
+		return sqlSession.selectOne("shop.selectProductQnaCount", productNo);
+	}
+
+	@Override
+	public List<Map<String, String>> selectProductQnaList(String productNo, int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return sqlSession.selectList("shop.selectProductQnaList", productNo, rb);
+	}
+
+	@Override
+	public List<Map<String, String>> selectProductAnswerList(String productNo) {
+		return sqlSession.selectList("shop.selectProductAnswerList", productNo);
+
+	}
+
+	@Override
+	public Map<String, String> selectProductQnaAnswer(String refNo) {
+		return sqlSession.selectOne("shop.selectProductQnaAnswer", refNo);
+
+	}
+
+	@Override
+	public int productQnaAnswer(Map<String, String> map) {
+		String state = (String) map.get("state");
+		if(state.equals("insert")) 
+		{
+			return sqlSession.insert("shop.insertProductQnaAnswer", map);
+		}
+		else
+		{
+			return sqlSession.insert("shop.updateProductQnaAnswer", map);	
+		}
+
+	}
+	
+	
 	
 }

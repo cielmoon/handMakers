@@ -7,16 +7,97 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 <style>
-#delete-brand 
-{
+.bottom-0 {
 	position: absolute;
 	bottom: 0;
 }
-.min-height-400{
+
+.min-height-400 {
 	min-height: 400px;
+}
+
+.modal-dialog {
+	z-index: 1050;
+}
+
+.modal-body {
+	padding-top: 5px;
+}
+
+#input-productDiscript {
+	min-height: 100px;
+}
+
+.float-left {
+	float: left;
+}
+
+.float-right {
+	float: right;
+}
+
+.mt-10 {
+	margin-top: 10px;
+}
+#input-requestReason {
+	resize: none;
 }
 </style>
 
+<script>
+$(function(){
+	$("#select-bigCategory").change(function(){
+		var bcNo = $("#select-bigCategory").find(":selected").val();
+		
+		
+	});
+});
+
+function deleteBrand()
+{
+	$("#modalTitle").text("폐점신고");
+	$("#input-requestTitle").val("");
+	$("#input-requestReason").val("");
+	$("#frm-requestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
+	$("#requestModal").modal();
+}
+
+function preProductView(preNo)
+{
+	$.ajax({
+		url:"${path}/shop/preProductView.do",
+		data:{"preNo" : preNo},
+		success:function(data){
+			var date = data.pre.preProductDate;
+			var dateText = (date.year + 1900)  + "년" + (date.month + 1) + "월" + (date.date) + "일 " + date.hours + ":" + date.minutes;
+			$("#input-productTitle").text(data.pre.preProductTitle);
+			$("#input-productDate").text(dateText);
+			$("#input-bcTitle").text(data.pre.bcTitle);
+			$("#input-scTitle").text(data.pre.scTitle);
+			$("#input-productDiscript").text(data.pre.preProductDiscript);
+			
+			var state = data.pre.preProductState;
+			if(state == '0'){
+				$("#input-productState").text("검토중");
+				$("#input-productState").append("&nbsp; <i class='fa fa-clock-o' style='font-size:20px;'></i>");
+			}else if(state == '1')
+			{
+				$("#input-productState").text("수락");
+				$("#input-productState").append("&nbsp; <i class='fa fa-check-circle-o' style='font-size:20px; color:green;'></i>");
+			}else
+			{
+				$("#input-productState").text("거절");
+				$("#input-productState").append("&nbsp; <i class='fa fa-exclamation-circle' style='font-size:20px; color: firebrick; float: right;'></i>");
+			}
+
+			$("#preProductViewModal").modal();
+			
+		}
+	}); 
+	
+}
+
+</script>
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
@@ -32,37 +113,137 @@
 					<div class="columnblock-title">${brand.brandTitle }</div>
 					<div class="account-block">
 						<div class="list-group">
-							<a class="list-group-item" href="${path }/shop/brandHome.do?brandNo=${brand.brandNo}">판매중</a>	
-							<a class="list-group-item" href="${path }/shop/brandHome.do?brandNo=${brand.brandNo}">판매중지</a>	
-							<a class="list-group-item" href="${path }/shop/brandHome.do?brandNo=${brand.brandNo}">판매종료</a>	
-							<a class="list-group-item" id="delete-brand" href="${path }/shop/brandHome.do?brandNo=${brand.brandNo}">
-								폐점신고&nbsp;<i class="fa fa-trash-o" style="font-size:24px;"></i>
+							<a class="list-group-item" href="${path }/shop/brandHome.do?brandNo=${brand.brandNo}">입점제안</a>						
+							<a class="list-group-item" href="${path }/shop/brandSaleProduct.do?brandNo=${brand.brandNo}">판매중</a>	
+							<a class="list-group-item" href="${path }/shop/brandStopProduct.do?brandNo=${brand.brandNo}">판매중지</a>	
+							<a class="list-group-item" href="${path }/shop/brandEndProduct.do?brandNo=${brand.brandNo}">판매종료</a>	
+							<a class="list-group-item bottom-0" href="javascript:deleteBrand();">폐점신고&nbsp;<i class="fa fa-trash-o" style="font-size:24px;"></i>
 							</a>	
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- 정보 변경 전에 다시 비밀번호 확인 -->
+			
 			<div class="col-sm-9" id="content">
 				<div class="row">
-					<div class="col-sm-12">
-						<div class="well min-height-400">
-							<div id="home" class="tab-pane fade in active">
-								<h3>HOME</h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-									sed do eiusmod tempor incididunt ut labore et dolore magna
-									aliqua.</p>
-							</div>
-							<div id="menu1" class="tab-pane fade">
-								<h3>Menu 1</h3>
-								<p>Ut enim ad minim veniam, quis nostrud exercitation
-									ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-							</div>
+					<div class="col-sm-12">			
+						<label>입점제안 목록</label>
+					</div>
+					<div class="tbl-header">
+						<div class="col-sm-3">
+							<select class="form-control" id="select-bigCategory">
+								<option value="allList" selected>전체</option>
+								<c:forEach items="${bcList }" var="b" varStatus="vs">
+										<option value="${b.bcNo }">${b.bcTitle}</option>
+								</c:forEach>	
+							</select>
 						</div>
-
+						<div class="col-sm-9">
+							<button class="btn btn-primary float-right" onclick="location.href='${path}/shop/productEnroll.do?brandNo=${brand.brandNo }'">상품 제안하기</button>
+						</div>
+					</div>
+					<div class="col-sm-12 mt-10">					
+						<table id='tbl-board' class='table table-striped table-hover'>
+							<tr>
+								<th>번호</th>					
+								<th>카테고리(대)</th>
+								<th>카테고리(소)</th>								
+								<th>상품명</th>
+								<th>제안일</th>
+								<th>상태</th>					
+							</tr>
+ 							<c:forEach var="p" items="${preList }" varStatus="vs">
+								<tr>
+									<td>${vs.count }</td>							
+									<td>${p.bcTitle }</td>
+									<td>${p.scTitle }</td>
+									<td><a href="javascript:void(0);" onclick="preProductView('${p.preProductNo}');">${p.preProductTitle }</a></td>	
+									<td><fmt:formatDate value="${p.preProductDate }" pattern="yyyy-MM-dd HH:mm"/></td>
+									<td>${p.preProductState.toString()=='0'? "검토중" : p.preProductState.toString()=='1'? '수락' : '거절'}</td>
+								</tr>
+							</c:forEach>
+						</table>
+					</div>
+					<div class="col-sm-12 text-center">
+						${pageBar }
 					</div>
 				</div>
 			</div>
+			
+			<!-- 상품제안 상태 Modal -->
+			<div class="modal fade" tabindex="-1" role="dialog" id="preProductViewModal">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			        	<span aria-hidden="true">×</span>
+			        </button>
+			        <h4 class="modal-title" id="modalTitle">상품제안 상세정보</h4>
+			      </div>
+			      <div class="modal-body" style="overflow: auto; height: 250px;">
+					<div class="row">
+						<div class="col-sm-6">
+							<label class="control-label">상품명</label> 
+							<span class="form-control" id="input-productTitle"></span>
+						</div>
+						<div class="col-sm-6">
+							<label class="control-label">제안일</label> 
+							<span class="form-control" id="input-productDate"></span>
+						</div>
+					</div>
+					
+					<label class="control-label">카테고리 </label>
+					<div class="row">
+						<div class="col-sm-6"><span class="form-control" id="input-bcTitle"></span></div>
+						<div class="col-sm-6"><span class="form-control" id="input-scTitle"></span></div>
+					</div>
+					
+					<div class="form-group">
+						<label class="control-label">특징 소개 </label>
+						<span class="form-control" id="input-productDiscript"></span>
+					</div>
+				  </div>
+				  
+			      <div class="modal-footer">
+			      	<span id="input-productState" class="float-left"></span>
+			      	<button type="button" class="btn btn-primary float-right" data-dismiss="modal" aria-label="Close">확인</button>      
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
+			<!-- 폐점신고  Modal -->
+			<div class="modal fade" tabindex="-1" role="dialog" id="requestModal">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <form name="requestFrm" id="frm-requestModal" action="${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}" method="post">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			        	<span aria-hidden="true">×</span>
+			        </button>
+			        <h4 class="modal-title" id="modalTitle">폐점신고</h4>
+			      </div>
+			      <div class="modal-body" style="height: 250px;">
+					<div class="form-group">
+						<label class="control-label">제목</label> 
+						<input type="text" class="form-control" id="input-requestTitle" name="requestTitle" maxlength="25" 
+						placeholder="제목을 입력해주세요." required>										
+					</div>
+					<div class="form-group">
+						<label class="control-label">사유</label> 
+						<textarea class="form-control" id="input-requestReason" name="requestReason" rows="4" 
+						placeholder="사유를 입력해주세요." required></textarea>
+					</div>
+				  </div>
+			      <div class="modal-footer">
+			      	<button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">취소</button>      
+			      	<button type="submit" class="btn btn-primary float-right">완료</button>     
+			      </div>
+			      </form>
+			    </div>
+			  </div>
+			</div>
+			
 		</div>
 	</div>
 </section>
