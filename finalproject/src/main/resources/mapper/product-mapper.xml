@@ -113,5 +113,9 @@
 	<select id="selectComment" parameterType="map" resultType="map">
 		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} 
 	</select>
+	
+	<select id="selectMenuList" parameterType="string" resultType="map">
+	SELECT * FROM BIG_CATEGORY
+	</select>
 		
 </mapper>

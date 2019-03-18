@@ -109,6 +109,11 @@ public class ProductServiceImpl implements ProductService {
 		// TODO Auto-generated method stub
 		return dao.productList(map, cPage, numPerPage);
 	}
+
+	@Override
+	public List<Map<String, String>> getMenuList() {
+		return dao.getMenuList();
+	}
 	
 	
 }

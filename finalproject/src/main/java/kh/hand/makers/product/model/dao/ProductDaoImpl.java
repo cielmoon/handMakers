@@ -125,7 +125,12 @@ public class ProductDaoImpl implements ProductDao {
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		return session.selectList("product.selectProductList", map, rb);
 	}
-	
+
+	@Override
+	public List<Map<String, String>> getMenuList() {
+		// TODO Auto-generated method stub
+		return session.selectList("product.selectMenuList");
+	}
 	
 	
 
