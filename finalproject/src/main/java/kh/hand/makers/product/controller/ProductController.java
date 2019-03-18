@@ -101,32 +101,26 @@ public class ProductController {
 	}*/
 	@RequestMapping("/product/category.do")
 	/*public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, String numPerPages, String category)*/
-	public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, String numPerPages, String category)
+	public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="numPerPage", required=false, defaultValue="9") int numPerPage, String category)
 	{
 		
 		if(category != null ) { categoryNo = category;	}
-		int numPerPage = 9;
-		/*if(Integer.parseInt(numPerPages) != 9) { numPerPage = Integer.parseInt(numPerPages);}*/
 		
-		if(numPerPages != null && numPerPages != "9") { numPerPage = Integer.parseInt(numPerPages);}
-		
-		//int numPerPage = 9;
-		/*if( numPerPages == null ) { numPerPages = numPerPage; }*/
-		/*if( numPerPage != null ) { numPerPage = Integer.parseInt(numPerPage);}*/
-		
-		/*int numPerPage = 9;
-		if( numPerPages != null ) { numPerPage = Integer.parseInt(numPerPages);}*/
-		
-		logger.debug(numPerPages+"pages");
+
+		//logger.debug(numPerPages+"pages");
 		logger.debug(numPerPage+"nomal");
 		int contentCount = service.selectProductCount(categoryNo);
 		ModelAndView mv = new ModelAndView();
-		/*logger.debug("ProductController In -");logger.debug("+_+_+_+query : "+category);*/
+		logger.debug("ProductController In -");logger.debug("+_+_+_+query : "+category);
 		List<Map<String, String>> list = service.productList(categoryNo, cPage, numPerPage);
 		
 		
 		mv.addObject("productList", list);
-		mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"));
+		
+		//mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"));
+		//페이징 다른 버전 url+=cpage
+		mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do?category="+categoryNo+"&numPerPage="+numPerPage));
+		
 		System.out.println(list);
 		mv.addObject("cPage", cPage);
 		mv.addObject("numPerPage", numPerPage);

@@ -45,7 +45,7 @@
           <label class="control-label" for="input-limit">Show :</label>
           <div class="limit">
           <form name="numPerPagesFrm" id="numPerPagesFrm" action = "${path }/product/category.do">
-            <select id="input-limit" name="numPerPages" class="form-control">
+            <select id="input-limit" name="numPerPage" class="form-control">
             <c:set var="numper" value="${numPerPage }" />
 			<c:choose>
     		<c:when test="${numper eq '18'}">
