@@ -7,6 +7,9 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 <style>
+.inline {
+	display: inline;
+}
 .bottom-0 {
 	position: absolute;
 	bottom: 0;
@@ -55,11 +58,30 @@ $(function(){
 
 function deleteBrand()
 {
-	$("#modalTitle").text("폐점신고");
-	$("#input-requestTitle").val("");
-	$("#input-requestReason").val("");
-	$("#frm-requestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
-	$("#requestModal").modal();
+	$.ajax({
+		url:"${path}/shop/selectReqState.do",
+		data:{"reqRef" : '${brand.brandNo}', "reqState": '0'},
+		success:function(data){
+			var result = data.result;	
+			if(result > 0)
+			{
+				alert("이미 요청 처리중 입니다.");
+			}
+			else
+			{
+				$("#modalTitle").text("폐점신고");
+				$("#modalSubTitle").text("");
+				$("#input-requestTitle").val("");
+				$("#input-requestReason").val("");
+				$("#input-requestType").val('B');
+				$("#input-requestState").val('0');
+				$("#input-requestRef").val('${brand.brandNo}');
+				$("#input-requestLoc").val("/shop/brandHome.do?brandNo=");
+				$("#frm-requestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
+				$("#requestModal").modal();
+			}
+		}
+	});
 }
 
 function preProductView(preNo)
@@ -117,8 +139,14 @@ function preProductView(preNo)
 							<a class="list-group-item" href="${path }/shop/brandSaleProduct.do?brandNo=${brand.brandNo}">판매중</a>	
 							<a class="list-group-item" href="${path }/shop/brandStopProduct.do?brandNo=${brand.brandNo}">판매중지</a>	
 							<a class="list-group-item" href="${path }/shop/brandEndProduct.do?brandNo=${brand.brandNo}">판매종료</a>	
-							<a class="list-group-item bottom-0" href="javascript:deleteBrand();">폐점신고&nbsp;<i class="fa fa-trash-o" style="font-size:24px;"></i>
-							</a>	
+							<div class="bottom-0">
+							<a class="list-group-item inline" href="javascript:deleteBrand();">폐점신고&nbsp;<i class="fa fa-trash-o" style="font-size:24px;"></i></a>						
+								<span id="brandState" class="list-group-item inline">
+									<c:forEach items="${reqList }" var="r">
+										<c:if test="${r.SELLER_REQ_REF == brand.brandNo && r.SELLER_REQ_PROCESS eq '0'}">(처리중)</c:if>
+									</c:forEach>
+								</span>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -236,6 +264,10 @@ function preProductView(preNo)
 					</div>
 				  </div>
 			      <div class="modal-footer">
+			      	<input type="hidden" name="requestRef" id="input-requestRef"/>
+			      	<input type="hidden" name="requestType" id="input-requestType"/> 
+			      	<input type="hidden" name="requestState" id="input-requestState"/>
+			      	<input type="hidden" name="requestLoc" id="input-requestLoc"/>
 			      	<button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">취소</button>      
 			      	<button type="submit" class="btn btn-primary float-right">완료</button>     
 			      </div>
