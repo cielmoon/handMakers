@@ -45,6 +45,8 @@
 </style>
 <script>
 	$(function(){
+		var productState = ${product.PRODUCT_STATE};
+		
 		//디데이 종료 일자 설정 
 		var countDownDate = new Date('${product.PRODUCT_ENDDATE }').getTime(); 
 
@@ -57,7 +59,14 @@
 			var d = Math.floor(distance / (1000 * 60 * 60 * 24)); 
 			var h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 			
-			document.getElementById("d-day").innerHTML = d +"일 " + h + "시간  남았습니다.";
+			if(productState == '1')
+			{
+				document.getElementById("d-day").innerHTML = "";
+			}
+			else
+			{
+				document.getElementById("d-day").innerHTML = d +"일 " + h + "시간  남았습니다.";
+			}
 		});
 	});
 	function qnaView(qnaNo, qnaWriter, qnaContent, qnaDate)
@@ -125,6 +134,7 @@
 						<div class="list-group">
 							<a class="list-group-item" href="${path }/shop/brandProductHome.do?productNo=${product.PRODUCT_NO }&brandNo=${brand.brandNo}">주문목록</a>						
 							<a class="list-group-item" href="${path }/shop/brandProductQna.do?productNo=${product.PRODUCT_NO }&brandNo=${brand.brandNo}">문의관리</a>
+							<a class="list-group-item" href="${path }/shop/brandProductSalesRecords.do?productNo=${product.PRODUCT_NO }&brandNo=${brand.brandNo}">판매이력</a>
 						</div>
 						<div id="list-group">
 							<span id="d-day-title">판매종료&nbsp;<i class="fa fa-bell" style="font-size: 18px; color: gold;" aria-hidden="true"></i></span>
@@ -156,8 +166,8 @@
 								<th>번호</th>
 								<th>제목</th>
 								<th>작성자</th>
-								<th>작성일</th>
-								<th>답변여부</th>					
+								<th width="150px;">작성일</th>
+								<th width="100px;">답변여부</th>					
 							</tr>
 							<c:if test="${qnaList.size()==0 }">
 								<tr>
@@ -199,15 +209,15 @@
 			      </div>
 			      <div class="modal-body">
 			      	<div class="row">
-						<div class="col-sm-6">
+						<div class="col-sm-6 mt-10">
 							<label class="control-label">작성자</label> 
 							<span class="form-control" id="qnaWriter"></span>
 						</div>
-						<div class="col-sm-6">
+						<div class="col-sm-6 mt-10">
 							<label class="control-label">작성일</label> 
 							<span class="form-control" id="qnaDate"></span>
 						</div>
-						<div class="col-sm-12">
+						<div class="col-sm-12 mt-10">
 							<label class="control-label">내용</label> 
 							<span class="form-control" id="qnaContent" style="min-height: 100px;"></span>									
 						</div>
@@ -218,7 +228,7 @@
 							<input type="hidden" name="productNo" id="productNo" value="${product.PRODUCT_NO}"/>
 							<input type="hidden" name="brandNo" id="brandNo" value="${brand.brandNo}"/>
 							<input type="hidden" id="state"/>
-							<div class="col-sm-12">
+							<div class="col-sm-12 mt-10">
 								<label class="control-label">답변</label> 
 								<textarea class="form-control" id="input-content" name="content" rows="4" placeholder="답변을 입력해주세요." style="resize: none;"></textarea>									
 							</div>

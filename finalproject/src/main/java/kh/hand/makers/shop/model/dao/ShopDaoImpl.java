@@ -136,7 +136,55 @@ public class ShopDaoImpl implements ShopDao {
 		}
 
 	}
+
+	@Override
+	public int insertSellerRequest(Map<String, String> map) {
+		return sqlSession.insert("shop.insertSellerRequest", map);
+	}
 	
+	@Override
+	public List<Map<String, String>> selectSellerReqList(String memberNo) {
+		return sqlSession.selectList("shop.selectSellerReqList", memberNo);
+
+	}
+
+	@Override
+	public int selectReqState(Map<String, String> map) {
+		return sqlSession.selectOne("shop.selectReqState", map);
+
+	}
+
+	@Override
+	public int exportOrders(String order) {
+		return sqlSession.update("shop.exportOrders", order);
+	}
+
+	@Override
+	public Map<String, String> selectOrder(String orderNo) {
+		return sqlSession.selectOne("shop.selectOrder", orderNo);
+	}
+
+	@Override
+	public int cancelExportOrder(String orderNo) {
+		return sqlSession.update("shop.cancelExportOrder", orderNo);
+
+	}
+
+	@Override
+	public int selectSalesRecordsCount(String productNo) {
+		return sqlSession.selectOne("shop.selectSalesRecordsCount", productNo);
+	}
+
+	@Override
+	public List<Map<String, String>> selectSalesRecordsList(String productNo, int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return sqlSession.selectList("shop.selectSalesRecordsList", productNo, rb);
+	}
+
+	@Override
+	public Map<String, String> selectRecord(String recordNo) {
+		return sqlSession.selectOne("shop.selectRecord", recordNo);
+	}
 	
 	
 }

@@ -52,5 +52,23 @@ public interface ShopDao {
 
 	int productQnaAnswer(Map<String, String> map);
 
+	int insertSellerRequest(Map<String, String> map);
+
+	List<Map<String, String>> selectSellerReqList(String memberNo);
+
+	int selectReqState(Map<String, String> map);
+
+	int exportOrders(String order);
+
+	Map<String, String> selectOrder(String orderNo);
+
+	int cancelExportOrder(String orderNo);
+
+	int selectSalesRecordsCount(String productNo);
+
+	List<Map<String, String>> selectSalesRecordsList(String productNo, int cPage, int numPerPage);
+
+	Map<String, String> selectRecord(String recordNo);
+
 	
 }

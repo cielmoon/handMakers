@@ -77,10 +77,10 @@
 		JOIN SMALL_CATEGORY ON (SMALL_CATEGORY.SC_NO = PRODUCT.SC_NO) WHERE BRAND_NO = #{brandNo} AND PRODUCT_STATE = #{productState} ORDER BY PRODUCT_ENROLLDATE DESC
 	</select>
 	<select id="selectOrderCount" resultType="_int" parameterType="string">
-		SELECT COUNT(*) FROM PRODUCT_ORDER WHERE PRODUCT_NO = #{productNo} AND ORDER_STATE = '0'
+		SELECT COUNT(*) FROM PRODUCT_ORDER WHERE PRODUCT_NO = #{productNo}
 	</select>
 	<select id="selectOrderList" resultType="map" parameterType="string">
-   		SELECT P.*, M.MEMBER_ID FROM PRODUCT_ORDER P JOIN MEMBER M ON(P.MEMBER_NO=M.MEMBER_NO) WHERE PRODUCT_NO = #{productNo} AND ORDER_STATE = '0' ORDER BY ORDER_DATE DESC
+   		SELECT P.*, M.MEMBER_ID FROM PRODUCT_ORDER P JOIN MEMBER M ON(P.MEMBER_NO=M.MEMBER_NO) WHERE PRODUCT_NO = #{productNo} ORDER BY ORDER_DATE DESC
 	</select>
 	<select id="selectProduct" resultType="map" parameterType="string">
 		SELECT * FROM PRODUCT WHERE PRODUCT_NO = #{productNo}
@@ -103,4 +103,32 @@
 	<insert id="insertProductQnaAnswer" parameterType="map">
 		INSERT INTO PRODUCT_COMMENT VALUES('P_COMMENT_NO_' ||SEQ_COMMENT_NO.NEXTVAL, #{content}, DEFAULT, 'Q', 2, #{commentRef}, #{sellerNo}, #{productNo})
 	</insert>
+	<insert id="insertSellerRequest" parameterType="map">
+		INSERT INTO SELLER_REQUEST VALUES('S_REQ_NO' || SEQ_SELLER_REQ_NO.NEXTVAL, #{memberNo}, #{requestRef}, #{requestType}, #{requestState}, #{requestTitle}, #{requestReason}, DEFAULT, DEFAULT)
+	</insert>
+	<select id="selectSellerReqList" parameterType="string" resultType="map">
+		SELECT * FROM SELLER_REQUEST WHERE MEMBER_NO = #{memberNo}
+	</select>
+	<select id="selectReqState" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM SELLER_REQUEST WHERE SELLER_REQ_REF = #{reqRef} AND SELLER_REQ_STATE = #{reqState} AND SELLER_REQ_PROCESS = '0'
+	</select>
+	<update id="exportOrders" parameterType="string">
+		UPDATE PRODUCT_ORDER SET ORDER_STATE = '1' WHERE ORDER_NO = #{order}
+	</update>
+	<select id="selectOrder" parameterType="string" resultType="map">
+		SELECT P.*, D.* FROM PRODUCT_ORDER P JOIN DELIVERY D ON(P.MEMBER_NO=D.MEMBER_NO) WHERE P.MEMBER_NO = (SELECT MEMBER_NO FROM PRODUCT_ORDER WHERE ORDER_NO = #{orderNo}) AND ORDER_NO = #{orderNo}
+	</select>
+	<update id="cancelExportOrder" parameterType="string">
+		UPDATE PRODUCT_ORDER SET ORDER_STATE = '0' WHERE ORDER_NO = #{orderNo}
+	</update>
+
+	<select id="selectSalesRecordsCount" resultType="_int" parameterType="string">
+		SELECT COUNT(*) FROM SALES_RECORDS WHERE PRODUCT_NO = #{productNo}
+	</select>
+	<select id="selectSalesRecordsList" resultType="map" parameterType="string">
+		SELECT * FROM SALES_RECORDS WHERE PRODUCT_NO = #{productNo} ORDER BY PRODUCT_ENDDATE DESC
+	</select>
+	<select id="selectRecord" resultType="map" parameterType="string">
+		SELECT * FROM SALES_RECORDS WHERE SALESRECORDS_NO = #{recordNo}
+	</select>
 </mapper>
