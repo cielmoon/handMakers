@@ -17,7 +17,7 @@
 						alt="main-banner1" class="img-responsive" /></a>
 				</div>
 				<div class="item">
-					<a href="#"><img src="${path }/resources/image/banners/Main-Banner2.jpg"
+					<a href="#"><img src="${path }/resources/image/product/admin.jpg"
 						alt="main-banner2" class="img-responsive" /></a>
 				</div>
 				<div class="item">

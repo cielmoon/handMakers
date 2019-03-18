@@ -112,9 +112,25 @@ public class ProductDaoImpl implements ProductDao {
 		return session.selectList("product.selectComment", map, rb);
 	}
 	
+	@Override
+	public int selectProductCount(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return session.selectOne("product.selectProductCount", map);
+	}
 	
 	
-	
+	@Override
+	public List<Map<String, String>> productList(Map<String, String> map, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return session.selectList("product.selectProductList", map, rb);
+	}
+
+	@Override
+	public List<Map<String, String>> getMenuList() {
+		// TODO Auto-generated method stub
+		return session.selectList("product.selectMenuList");
+	}
 	
 	
 

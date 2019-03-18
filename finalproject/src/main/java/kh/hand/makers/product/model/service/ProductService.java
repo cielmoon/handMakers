@@ -11,7 +11,9 @@ public interface ProductService {
 	List<Map<String, Object>> selectCategoryTemp(String category);
 	//List<Map<String, String>> productList(String category);
 	List<Map<String, String>> productList(String category, int cPage, int numPerPage);
+	List<Map<String, String>> productList(Map<String, String> map, int cPage, int numPerPage);
 	int selectProductCount(String category);
+	int selectProductCount(Map<String, String> map);
 	Map<String,String> selectProduct(String productNo);
 	List<Map<String,String>> selectCategory(String productNo);
 	String selectBcTitle(String bcNo);
@@ -22,4 +24,5 @@ public interface ProductService {
 	int deleteWish(Wish wish);
 	int selectCommentCount(String commentType);
 	List<Map<String,String>> selectComment(Map<String,String> map, int cPage, int numPerPage);
+	List<Map<String, String>> getMenuList();
 }

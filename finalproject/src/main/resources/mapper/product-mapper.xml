@@ -32,13 +32,35 @@
 	</resultMap>	
 
 	<!-- JOIN PRODUCT_DETAIL USING(PRODUCT_NO) -->
-	<select id="selectProductList" resultMap="productMap" parameterType="string">
-		SELECT * FROM PRODUCT where BC_NO = #{category}
+	<select id="selectProductList" resultMap="productMap">
+		SELECT * FROM PRODUCT
+		<where>
+		<if test="category != null">
+		 BC_NO = #{category}
+		</if>
+		<if test="sCategory != null">
+		SC_NO = #{sCategory}
+		</if>
+		<if test="productStep != null">
+		PRODUCT_STEP = #{productStep}
+		</if>
+		</where>
 	</select>
 
-	<select id="selectProductCount" resultType="_int">
+	<!-- <select id="selectProductCount" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT where BC_NO = #{category}
-	</select> <!-- where BC_NO = #{category} -->
+	</select> -->
+	<select id="selectProductCount" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT
+		<where>
+		<if test="category != null">
+		BC_NO = #{category}
+		</if>
+		<if test="productStep != null">
+		PRODUCT_STEP = #{productStep}
+		</if>
+		</where>
+	</select>
 	
 	<select id="selectProduct" parameterType="string" resultType="map">
 		SELECT P.BC_NO, P.PRODUCT_TITLE, B.BRAND_TITLE, P.PRODUCT_MAX, P.PRODUCT_MIN, P.PRODUCT_QTY, P.PRODUCT_PRICE, P.PRODUCT_COMMENT, P.PRODUCT_PROFILE, B.BRAND_NO, P.PRODUCT_NO, P.MEMBER_NO
@@ -92,4 +114,8 @@
 		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} 
 	</select>
 	
+	<select id="selectMenuList" parameterType="string" resultType="map">
+	SELECT * FROM BIG_CATEGORY
+	</select>
+		
 </mapper>
