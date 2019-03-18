@@ -10,7 +10,7 @@
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="/makers"><i class="fa fa-home"></i></a></li>
-    <li><a href="#b?">대 카테고리</a></li>
+    <li><a href="#b?">${numPerPage } 대 카테고리 ${numPerPages }</a></li>
   </ul>
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
@@ -44,13 +44,33 @@
         <div class="col-md-1 text-right page-wrapper">
           <label class="control-label" for="input-limit">Show :</label>
           <div class="limit">
-            <select id="input-limit" class="form-control">
-              <option value="8" selected="selected">8</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="75">75</option>
-              <option value="100">100</option>
+          <form name="numPerPagesFrm" id="numPerPagesFrm" action = "${path }/product/category.do">
+            <select id="input-limit" name="numPerPage" class="form-control">
+            <c:set var="numper" value="${numPerPage }" />
+			<c:choose>
+    		<c:when test="${numper eq '18'}">
+        	<option value="9">9</option><!-- selected="selected" -->
+              <option value="18" selected="selected">18</option>
+              <option value="27">27</option>
+    		</c:when>
+    		<c:when test="${numper eq '27'}">
+        	<option value="9">9</option><!-- selected="selected" -->
+              <option value="18">18</option>
+              <option value="27" selected="selected">27</option>
+    		</c:when>
+    		<c:otherwise>
+       		<option value="9" selected="selected">9</option>
+              <option value="18">18</option>
+              <option value="27">27</option>
+    		</c:otherwise>
+			</c:choose>
+            
+            
+              <!-- <option value="9">9</option>selected="selected"
+              <option value="18">18</option>
+              <option value="27">27</option> -->
             </select>
+          </form>
           </div>
         </div>
       </div>
@@ -65,9 +85,6 @@
        <!-- 작업중 --><!-- 리스트는 input-limit 갯수 만큼. -->
        <c:forEach items="${productList }" var="product" varStatus="vs">
        
-      
-       
-		
 		<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
          <div class="image product-imageblock" style="height:220px;">
@@ -123,6 +140,23 @@
   </div>
 </div>
 </section>
+
+<!-- <script type="text/javascript">
+window.onload=function()
+{
+	 var numPerPages = document.querySelector('#input-limit');
+	 input-limit.addEventListener("change",function(){
+   	 document.numPerPageFrm.submit(); 
+     });
+}
+</script> -->
+
+<script>
+$('#input-limit').on('change', function(){
+/* console.log($('#input-limit').val()); */
+$('#numPerPagesFrm').submit();
+});
+</script>
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

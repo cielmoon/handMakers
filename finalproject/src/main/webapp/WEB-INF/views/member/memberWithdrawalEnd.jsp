@@ -10,7 +10,11 @@
 	margin-bottom: 10px;
 	margin-top: 10px;	
 }
-
+#widh1{
+	text-align: center;
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
 
 </style>
 <section>
@@ -44,51 +48,22 @@
 				<div class="row">
 					<div class="col-sm-3"></div>
 					<div class="col-sm-6">
-					<form name="memberUpdateFrm" action="${path}/member/memberUpdateEnd.do" method="post" onsubmit="return validate();">
-						<div class="form-group required" id="memberInfo">
-							<label for="input-id" class="col-sm-4 control-label" id="memberId">아이디</label>
-							<div class="col-sm-8">
-									<input type="text" class="form-control"  name="memberId" id="memberId" 
-									value="${member.memberId }" readonly>
-							</div>
-						</div>
+						<div class="form-group required">
 						
-						<div class="form-group required" id="memberInfo">
-							<label for="input-id" class="col-sm-4 control-label" id="memberName">이름</label>
-							<div class="col-sm-8">
-									<input type="text" class="form-control"  name="memberName" id="memberName"  
-									value="${member.memberName }">
-							</div>
+							<h1 class="col-sm-12" id= "widh1">정말로 회원탈퇴 하시겠습니까?</h1>
+							
 						</div>
-						<div class="form-group required" id="memberInfo">
-							<label for="input-id" class="col-sm-4 control-label" id="memberEmail">이메일</label>
-							<div class="col-sm-8">
-									<input type="email" class="form-control"  name="memberEmail" id="memberEmail" 
-									value="${member.memberEmail }">
-							</div>
-						</div>
-						<div class="form-group required" id="memberInfo">
-							<label for="input-id" class="col-sm-4 control-label" id="memberPhone" >핸드폰번호</label>
-							<div class="col-sm-8">
-									<input type="text" class="form-control"  name="memberPhone" id="memberPhone"  
-									value="${member.memberPhone }">
-							</div>
-						</div>
-						<div class="form-group required" id="memberInfo">						
-							<div class="col-sm-12">
-									<input type="hidden" class="form-control"  name="memberNo" id="memberNo"  
-									value="${member.memberNo }">
-							</div>
-						</div>
-						<div class="form-group required" id="memberInfo">
-							<div class="col-sm-4"></div>							
+						<div class="form-group required">
+							<div class="col-sm-2"></div>
 							<div class="col-sm-4">
-									<input type="submit" class="form-control"  id="memberUpdate" name="memberUpdate"  
-									value="수정하기">
+								<input type="button" class="form-control" onclick='location.href="${path}/member/memberWithdrawalEnds.do?memberNo=${member.memberNo}"' value="예">
+							</div>							
+							
+							<div class="col-sm-4">
+								<input type="button" class="form-control" onclick='location.href="${path}/member/myPage.do"' value="아니오">
 							</div>
-							<div class="col-sm-4"></div>
+							<div class="col-sm-2"></div>
 						</div>
-					</form>
 					</div>
 					<div class="col-sm-3"></div>
 					

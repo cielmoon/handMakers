@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kh.hand.makers.product.model.dao.ProductDao;
 import kh.hand.makers.product.model.vo.Product;
+import kh.hand.makers.product.model.vo.ProductImg;
 import kh.hand.makers.product.model.vo.Wish;
 
 @Service
@@ -19,9 +20,9 @@ public class ProductServiceImpl implements ProductService {
 	
 	
 	@Override
-	public int selectProductCount() {
+	public int selectProductCount(String category) {
 		// TODO Auto-generated method stub
-		return dao.selectProductCount();
+		return dao.selectProductCount(category);
 	}
 
 	@Override
@@ -55,5 +56,64 @@ public class ProductServiceImpl implements ProductService {
 		return dao.selectBcTitle(bcNo);
 	}
 	
+	@Override
+	public List<ProductImg> selectProductImg(String productNo) {
+		
+		return dao.selectProductImg(productNo);
+	}
 
+	@Override
+	public Map<String, String> selectProductDetail(String productNo) {
+		
+		return dao.selectProductDetail(productNo);
+	}
+
+	@Override
+	public int selectWishCount(Wish wish) {
+		
+		return dao.selectWishCount(wish);
+	}
+
+	@Override
+	public int insertWish(Wish wish) {
+		
+		return dao.insertWish(wish);
+	}
+
+	@Override
+	public int deleteWish(Wish wish) {
+		
+		return dao.deleteWish(wish);
+	}
+
+	@Override
+	public int selectCommentCount(String commentType) {
+		
+		return dao.selectCommentCount(commentType);
+	}
+
+	@Override
+	public List<Map<String, String>> selectComment(Map<String, String> map, int cPage, int numPerPage) {
+		
+		return dao.selectComment(map,cPage,numPerPage);
+	}
+	
+	@Override
+	public int selectProductCount(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.selectProductCount(map);
+	}
+	
+	@Override
+	public List<Map<String, String>> productList(Map<String, String> map, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.productList(map, cPage, numPerPage);
+	}
+
+	@Override
+	public List<Map<String, String>> getMenuList() {
+		return dao.getMenuList();
+	}
+	
+	
 }

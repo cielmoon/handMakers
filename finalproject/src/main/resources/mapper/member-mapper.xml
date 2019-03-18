@@ -1,60 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="member">
-   	<resultMap type="member" id="memberType">
-   		<result column="member_no" property="memberNo"/>
-   		<result column="member_id" property="memberId"/>	
-   		<result column="member_pwd" property="memberPwd"/>	
-   		<result column="member_name" property="memberName"/>
-   		<result column="member_addr" property="memberAddr"/>		
-   		<result column="member_email" property="memberEmail"/>	
-   		<result column="member_phone" property="memberPhone"/>	
-   		<result column="member_profile" property="memberProfile"/>	
-   		<result column="member_state" property="memberState"/>	
-   		<result column="member_authority" property="memberAuthority"/>		
-   		<result column="member_enrolldate" property="memberEnrollDate"/>	
+	<resultMap type="member" id="memberType">
+		<result column="member_no" property="memberNo" />
+		<result column="member_id" property="memberId" />
+		<result column="member_pwd" property="memberPwd" />
+		<result column="member_name" property="memberName" />
+		<result column="member_addr" property="memberAddr" />
+		<result column="member_email" property="memberEmail" />
+		<result column="member_phone" property="memberPhone" />
+		<result column="member_profile" property="memberProfile" />
+		<result column="member_state" property="memberState" />
+		<result column="member_authority" property="memberAuthority" />
+		<result column="member_enrolldate" property="memberEnrollDate" />
 	</resultMap>
 
-   <select id="checkId" parameterType="string" resultType="_int">
-      select count(*) from member where MEMBER_ID=#{memberId}
-   </select>
-	
-   <select id="login" parameterType="string" resultMap="memberType">
-      SELECT * FROM MEMBER WHERE MEMBER_ID=#{memberId}
-   </select>
-   
-   <insert id="insertMember" parameterType="member">
-      INSERT INTO MEMBER VALUES('M_NO_'||SEQ_MEMBER_NO.nextval, #{memberId}, #{memberPwd}, #{memberName}, default, #{memberEmail}, #{memberPhone}, default, default, default, default)
-   </insert>
-   
-   <select id="selectBrandCloseCount" resultType="_int">
-      SELECT COUNT(*) FROM BRANDCLOSE
-   </select>
-   
-   <select id="selectBoardList" resultType="map">
-  	select a.*,(select count(*) 
-  			from attachment 
-  			where boardno=a.boardno) as ATTACHCOUNT 
-  	from board a  order by boarddate desc
-  </select>
-  
-  <select id="selectBrandCloseList" resultType="map">
-      SELECT A.*,(SELECT COUNT(*)
-      		FROM ATTACHMENT
-      		WHERE BRANDCLOSENO=A.BRANDCLOSENO) AS ATTACHCOUNT
-      FROM BRANDCLOSE A ORDER BY BRANDCLOSEDATE DESC
-  </select>
-<!--    <resultMap type="member" id="memberType">
-      <result column='hobby' property="hobby" typeHandler="strArray"/>
-   </resultMap>
-   
-   <select id="selectOne" parameterType="string" resultMap="memberType">
-      SELECT * FROM MEMBER WHERE USERID=#{userId}
-   </select>
-   
-   <update id="updateMember" parameterType="member">
-      UPDATE MEMBER SET USERNAME=#{userName}, GENDER=#{gender}, AGE=#{age}, EMAIL=#{email}, PHONE=#{phone}, ADDRESS=#{address},
-      HOBBY=#{hobby, typeHandler=strArray}
-      WHERE USERID=#{userId}
-   </update> -->
+	<resultMap type="delivery" id="deliveryType">
+		<result column="delivery_no" property="deliveryNo" />
+		<result column="delivery_postcode" property="deliveryPostCode" />
+		<result column="delivery_addr" property="deliveryAddr" />
+		<result column="delivery_detailaddr"
+			property="deliveryDetailAddr" />
+		<result column="member_no" property="memberNo" />
+
+	</resultMap>
+
+ 	<resultMap type="order" id="orderType">
+		<result column="order_no" property="orderNo" />
+		<result column="order_paystate" property="orderPayState" />
+		<result column="order_state" property="orderState" />
+		<result column="order_total_price" property="orderTotalPrice" />
+		<result column="order_paytype" property="orderPayType" />
+		<result column="delivery_no" property="deliveryNo" />
+		<result column="order_date" property="orderDate" />
+		<result column="imp_uid" property="imp_uid" />
+		<result column="merchant_uid" property="merchant_uid" />
+		<result column="product_option" property="productOptionSubject" />
+		<result column="product_option_qty" property="productOptionQty" />
+		<result column="product_no" property="productNo" />
+		<result column="member_no" property="memberNo" />
+
+	</resultMap>
+	<resultMap type="managerorder" id="managerOrderType">
+		<result column="order_no" property="orderNo" />
+		<result column="product_name" property="productName" />
+		<result column="product_option" property="productOption" />
+		<result column="product_option_qty" property="productOptionQty" />
+		<result column="order_total_price" property="orderTotalPrice" />
+		<result column="order_date" property="orderDate" />
+		<result column="order_state" property="orderState" />
+		<result column="order_paystate" property="orderPayState" />
+
+
+	</resultMap>
+	<select id="checkId" parameterType="string" resultType="_int">
+		select
+		count(*) from member where MEMBER_ID=#{memberId}
+	</select>
+
+	<select id="login" parameterType="string" resultMap="memberType">
+		SELECT *
+		FROM MEMBER WHERE MEMBER_ID=#{memberId}
+	</select>
+
+	<insert id="insertMember" parameterType="member">
+		INSERT INTO MEMBER
+		VALUES('M_NO_'||SEQ_MEMBER_NO.nextval, #{memberId},
+		#{memberPwd},
+		#{memberName}, default, #{memberEmail}, #{memberPhone},
+		default,
+		default, default, default)
+	</insert>
+
+	<select id="selectBrandCloseCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BRANDCLOSE
+	</select>
+
+	<!-- <select id="selectBoardList" resultType="map"> select a.*,(select count(*) 
+		from attachment where boardno=a.boardno) as ATTACHCOUNT from board a order 
+		by boarddate desc </select> <select id="selectBrandCloseList" resultType="map"> 
+		SELECT A.*,(SELECT COUNT(*) FROM ATTACHMENT WHERE BRANDCLOSENO=A.BRANDCLOSENO) 
+		AS ATTACHCOUNT FROM BRANDCLOSE A ORDER BY BRANDCLOSEDATE DESC </select> -->
+
+	<update id="memberUpdate" parameterType="member">
+		UPDATE MEMBER SET
+		member_name=#{memberName},
+		member_email=#{memberEmail},
+		member_phone=#{memberPhone}
+		where member_no=#{memberNo}
+	</update>
+
+	<delete id="memberWithdrawal" parameterType="string">
+		DELETE FROM MEMBER
+		WHERE MEMBER_NO=#{memberNo}
+	</delete>
+
+	<select id="selectDeliveryList" parameterType="string"
+		resultMap="deliveryType">
+		select * from delivery where member_no = #{memberNo} order
+		by delivery_no
+	</select>
+	<insert id="enrollLocation" parameterType="delivery">
+		INSERT INTO DELIVERY
+		VALUES('D_NO_'||SEQ_DELIVERY_NO.nextval, #{deliveryPostCode},
+		#{deliveryAddr}, #{deliveryDetailAddr}, #{memberNo})
+	</insert>
+
+	<update id="memberPwdUpdate" parameterType="member">
+		UPDATE MEMBER SET
+		member_pwd=#{memberPwd}
+		where member_no=#{memberNo}
+	</update>
+
+	<select id="selectOrderList" parameterType="member" resultMap="managerOrderType">
+		select product_order.order_no as "order_no", product.product_title as "product_name", product_order.product_option as "product_option", product_order.product_option_qty as "product_option_qty", product_order.ORDER_TOTAL_PRICE as "ORDER_TOTAL_PRICE", product_order.ORDER_DATE as "ORDER_DATE", product_order.ORDER_STATE as "ORDER_STATE",product_order.ORDER_PAYSTATE as "ORDER_PAYSTATE" from product_order join product on (product_order.product_no = product.product_no) where product_order.member_no = #{memberNo} order by ORDER_DATE desc
+	</select>
+
+	<select id="selectOrderCount" resultType="_int">
+		select count(*) from product_order
+	</select>
 </mapper>

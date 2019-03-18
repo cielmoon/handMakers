@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.product.model.vo.Product2;
+import kh.hand.makers.product.model.vo.ProductImg;
 import kh.hand.makers.product.model.vo.Wish;
 
 @Repository
@@ -20,18 +21,12 @@ public class ProductDaoImpl implements ProductDao {
 	
 	@Autowired
 	SqlSession session;
-
-
-	
 	
 	@Override
-	public int selectProductCount() {
+	public int selectProductCount(String category) {
 		// TODO Auto-generated method stub
-		return session.selectOne("product.selectProductCount");
+		return session.selectOne("product.selectProductCount", category);
 	}
-
-
-
 
 	@Override
 	public List<Map<String, String>> productList(String category, int cPage, int numPerPage) {
@@ -39,9 +34,6 @@ public class ProductDaoImpl implements ProductDao {
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		return session.selectList("product.selectProductList", category, rb);
 	}
-
-
-
 
 	@Override
 	public List<Map<String, Object>> selectCategoryTemp(String category) {
@@ -71,7 +63,7 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public Wish selectWish(Wish wish) {
+	public int selectWishCount(Wish wish) {
 		
 		return session.selectOne("product.selectWish",wish);
 	}
@@ -87,9 +79,58 @@ public class ProductDaoImpl implements ProductDao {
 		
 		return session.selectOne("product.selectBcTitle", bcNo);
 	}
+
+	@Override
+	public List<ProductImg> selectProductImg(String productNo) {
+		
+		return session.selectList("product.selectProductImg",productNo);
+	}
+
+	@Override
+	public Map<String, String> selectProductDetail(String productNo) {
+		
+		return session.selectOne("product.selectProductDetail",productNo);
+	}
+
+	@Override
+	public int deleteWish(Wish wish) {
+		
+		return session.delete("product.deleteWish", wish);
+	}
+
+	@Override
+	public int selectCommentCount(String commentType) {
+		
+		return session.selectOne("product.selectCommentCount",commentType);
+	}
+
+	@Override
+	public List<Map<String, String>> selectComment(Map<String, String> map, int cPage, int numPerPage) {
+		
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		
+		return session.selectList("product.selectComment", map, rb);
+	}
+	
+	@Override
+	public int selectProductCount(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return session.selectOne("product.selectProductCount", map);
+	}
 	
 	
-	
+	@Override
+	public List<Map<String, String>> productList(Map<String, String> map, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return session.selectList("product.selectProductList", map, rb);
+	}
+
+	@Override
+	public List<Map<String, String>> getMenuList() {
+		// TODO Auto-generated method stub
+		return session.selectList("product.selectMenuList");
+	}
 	
 	
 

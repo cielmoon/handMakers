@@ -7,6 +7,8 @@
    <typeAliases>
 <!--       <typeAlias type="com.kh.spring.demo.model.vo.Dev" alias="dev"/>
       <typeAlias type="com.kh.spring.common.StringArrayTypeHandler" alias="strArray"/>-->
+      <typeAlias type="kh.hand.makers.order.model.vo.Delivery" alias="delivery"/>
+      <typeAlias type="kh.hand.makers.member.model.vo.ManageOrder" alias="managerorder"/>
       <typeAlias type="kh.hand.makers.member.model.vo.Member" alias="member"/>
       <typeAlias type="kh.hand.makers.shop.model.vo.Brand" alias="brand"/> 
       <typeAlias type="kh.hand.makers.admin.model.vo.managePreProduct" alias="managepreproduct"/> 
@@ -18,6 +20,7 @@
       <typeAlias type="kh.hand.makers.order.model.vo.Order" alias="order"/>
       <typeAlias type="kh.hand.makers.order.model.vo.Delivery" alias="delivery"/>
       <typeAlias type="kh.hand.makers.product.model.vo.Wish" alias="wish"/>
+      <typeAlias type="kh.hand.makers.product.model.vo.ProductImg" alias="productImg"/>
    </typeAliases>
    <typeHandlers>
       <package name="kh.hand.makers.common"/>
