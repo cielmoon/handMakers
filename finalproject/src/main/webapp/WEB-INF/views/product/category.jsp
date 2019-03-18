@@ -10,12 +10,12 @@
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="/makers"><i class="fa fa-home"></i></a></li>
-    <li><a href="#b?">${numPerPage } 대 카테고리 ${numPerPages }</a></li>
+    <li><a href="${path }/product/category.do?category=${category}">${bcTitle }</a></li>
   </ul>
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
       <div class="column-block">
-        <div class="columnblock-title">Categories</div>
+        <div class="columnblock-title">${bcTitle }</div>
         <div class="category_block">
           
           <ul class="box-category treeview-list treeview">
@@ -30,7 +30,7 @@
       </div>
     </div>
     <div id="content" class="col-sm-9">
-      <h2 class="category-title">Desktops</h2>
+      <!-- <h2 class="category-title">Desktops</h2> -->
       <div class="category-page-wrapper">
         <div class="col-md-6 list-grid-wrapper">
           <div class="btn-group btn-list-grid">
@@ -50,8 +50,8 @@
 			<c:choose>
     		<c:when test="${numper eq '18'}">
         	<option value="9">9</option><!-- selected="selected" -->
-              <option value="18" selected="selected">18</option>
-              <option value="27">27</option>
+             <option value="18" selected="selected">18</option>
+             <option value="27">27</option>
     		</c:when>
     		<c:when test="${numper eq '27'}">
         	<option value="9">9</option><!-- selected="selected" -->

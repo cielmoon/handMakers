@@ -170,6 +170,9 @@
 									</c:if>
 								</ul></li>
 						</ul>
+						<table id="level1" style="border : 1px solid tomato">
+						
+						</table>
 					</div>
 				</div>
 			</nav>
@@ -177,11 +180,14 @@
 	</header>
 	<script type="text/javascript">
 	$(function(){
+		/* var ttt='sadasd';
+		ttt+=ttt.append('1231233123');
+		console.log(ttt); */
 /* 		console.log("로드-"); */
 		$.ajax({
 			url:"${path}/common/menuList.do",
 			success: function(data){
-				/* console.log(data); */
+			/* 	console.log(data); */
 				/* alert(data); */
 				/* console.log(data.length); */
 				/* console.log("끝-"); */
@@ -191,6 +197,13 @@
 					$('#menuList').append('<li><a href="${path }/product/category.do?category='+data[i].BC_NO+'">'+data[i].BC_TITLE+'</a></li>');
 				}
 				/* $('#menuList').append('</ul>'); */
+				/* for(var i = 0 ; i < data.length ; i++){
+					$('#level1').append('<tr><td>'+(i+1)+'번째'+data[i].BC_NO+'</td><td>'+data[i].BC_TITLE+'</td></tr>'); */
+					/* $('#level1').append('<tr><td>'+(i+1));
+					$('#level1').append('번째'+data[i].BC_NO+'</td><td>');
+					$('#level1').append(data[i].BC_TITLE+'</td></tr>'); 
+				}*/
+				
 			}
 		});
 	});

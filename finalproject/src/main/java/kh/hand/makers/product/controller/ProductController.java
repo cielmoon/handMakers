@@ -134,10 +134,11 @@ public class ProductController {
 		//logger.debug(numPerPages+"pages");
 		//logger.debug(numPerPage+"nomal");
 		//int contentCount = service.selectProductCount(categoryNo);
-		int contentCount = service.selectProductCount(map);
 		ModelAndView mv = new ModelAndView();
+		int contentCount = service.selectProductCount(map);
 		//logger.debug("ProductController In -");logger.debug("+_+_+_+query : "+category);
 		List<Map<String, String>> list = service.productList(map, cPage, numPerPage);
+		String bcTitle = service.selectBcTitle(categoryNo);
 		
 		mv.addObject("productList", list);
 		//mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"));
@@ -146,6 +147,8 @@ public class ProductController {
 		mv.addObject("cPage", cPage);
 		mv.addObject("numPerPage", numPerPage);
 		mv.addObject("contentCount", contentCount);
+		mv.addObject("bcTitle", bcTitle);
+		mv.addObject("category", categoryNo);
 		
 		return mv;
 	}
