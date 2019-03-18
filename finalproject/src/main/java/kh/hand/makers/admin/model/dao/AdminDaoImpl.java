@@ -37,8 +37,7 @@ public class AdminDaoImpl implements AdminDao {
 
 	@Override
 	public int brandStateUpdate(Map<String,String> bs) {
-		// TODO Auto-generated method stub
-		System.out.println("DAO왔음 업데이트");
+	
 		return session.update("admin.brandStateUpdate",bs);
 	}
 

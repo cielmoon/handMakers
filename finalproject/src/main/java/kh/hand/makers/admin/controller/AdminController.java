@@ -137,8 +137,8 @@ public class AdminController {
 	}
 	
 	//상품 관리
-	@RequestMapping("/admin/manageProduct.do")
-	public ModelAndView manageProduct(@RequestParam(value="cPage",required=false, defaultValue="0") int cPage)
+	@RequestMapping("/admin/manageEnrollProduct.do")
+	public ModelAndView manageEnrollProduct(@RequestParam(value="cPage",required=false, defaultValue="0") int cPage)
 	{
 		int numPerPage=5;
 		ModelAndView mv=new ModelAndView();
@@ -147,6 +147,19 @@ public class AdminController {
 		mv.addObject("pageBar",PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageProduct.do"));
 		mv.addObject("adminProductList",adminProductList);
 		mv.setViewName("admin/manageProduct");
+		return mv;
+	}
+	//상품 관리
+	@RequestMapping("/admin/manageProduct.do")
+	public ModelAndView manageProduct(@RequestParam(value="cPage",required=false, defaultValue="0") int cPage)
+	{
+		int numPerPage=5;
+		ModelAndView mv=new ModelAndView();
+/*		int contentCount=service.selectProductCount();
+		List<> adminProductList=service.selectProductReqMsgList(cPage,numPerPage);
+		mv.addObject("pageBar",PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageProduct.do"));
+		mv.addObject("adminProductList",adminProductList);
+		mv.setViewName("admin/manageProduct");*/
 		return mv;
 	}
 	

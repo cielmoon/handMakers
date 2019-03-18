@@ -1,6 +1,7 @@
 package kh.hand.makers.order.model.vo;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class Order implements Serializable{
 	
@@ -11,10 +12,12 @@ public class Order implements Serializable{
 	private String orderNo; // 주문번호
 	private int orderTotalPrice; // 토탈가격
 	private String orderPayType; // 결제타입
-	private String productNo; // 상품번호
+	private String orderPayState; //주문상태
+	private String productNo; // 상품번호	
 	private String memberNo; // 주문 회원
 	private String deliveryNo; // 배송지 번호
-	private String orderDate; // 주문날짜
+	private String orderState; //배송상태
+	private Date orderDate; // 주문날짜
 	private String imp_uid; //아임포트 고유번호
 	private String merchant_uid; // 주문고유 번호
 	private String productOptionSubject; // 상품 옵션
@@ -23,21 +26,13 @@ public class Order implements Serializable{
 	public Order() {
 	}
 
-	public Order(String orderNo, int orderTotalPrice, String orderPayType, String productNo, String memberNo,
-			String deliveryNo, String orderDate, String imp_uid, String merchant_uid, String productOptionSubject,
-			int productOptionQty) {
-		super();
-		this.orderNo = orderNo;
-		this.orderTotalPrice = orderTotalPrice;
-		this.orderPayType = orderPayType;
-		this.productNo = productNo;
-		this.memberNo = memberNo;
-		this.deliveryNo = deliveryNo;
-		this.orderDate = orderDate;
-		this.imp_uid = imp_uid;
-		this.merchant_uid = merchant_uid;
-		this.productOptionSubject = productOptionSubject;
-		this.productOptionQty = productOptionQty;
+	@Override
+	public String toString() {
+		return "Order [orderNo=" + orderNo + ", orderTotalPrice=" + orderTotalPrice + ", orderPayType=" + orderPayType
+				+ ", orderPayState=" + orderPayState + ", productNo=" + productNo + ", memberNo=" + memberNo
+				+ ", deliveryNo=" + deliveryNo + ", orderState=" + orderState + ", orderDate=" + orderDate
+				+ ", imp_uid=" + imp_uid + ", merchant_uid=" + merchant_uid + ", productOptionSubject="
+				+ productOptionSubject + ", productOptionQty=" + productOptionQty + "]";
 	}
 
 	public String getOrderNo() {
@@ -64,6 +59,14 @@ public class Order implements Serializable{
 		this.orderPayType = orderPayType;
 	}
 
+	public String getOrderPayState() {
+		return orderPayState;
+	}
+
+	public void setOrderPayState(String orderPayState) {
+		this.orderPayState = orderPayState;
+	}
+
 	public String getProductNo() {
 		return productNo;
 	}
@@ -88,11 +91,19 @@ public class Order implements Serializable{
 		this.deliveryNo = deliveryNo;
 	}
 
-	public String getOrderDate() {
+	public String getOrderState() {
+		return orderState;
+	}
+
+	public void setOrderState(String orderState) {
+		this.orderState = orderState;
+	}
+
+	public Date getOrderDate() {
 		return orderDate;
 	}
 
-	public void setOrderDate(String orderDate) {
+	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
 
@@ -128,12 +139,27 @@ public class Order implements Serializable{
 		this.productOptionQty = productOptionQty;
 	}
 
-	@Override
-	public String toString() {
-		return "Order [orderNo=" + orderNo + ", orderTotalPrice=" + orderTotalPrice + ", orderPayType=" + orderPayType
-				+ ", productNo=" + productNo + ", memberNo=" + memberNo + ", deliveryNo=" + deliveryNo + ", orderDate="
-				+ orderDate + ", imp_uid=" + imp_uid + ", merchant_uid=" + merchant_uid + ", productOptionSubject="
-				+ productOptionSubject + ", productOptionQty=" + productOptionQty + "]";
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Order(String orderNo, int orderTotalPrice, String orderPayType, String orderPayState, String productNo,
+			String memberNo, String deliveryNo, String orderState, Date orderDate, String imp_uid, String merchant_uid,
+			String productOptionSubject, int productOptionQty) {
+		super();
+		this.orderNo = orderNo;
+		this.orderTotalPrice = orderTotalPrice;
+		this.orderPayType = orderPayType;
+		this.orderPayState = orderPayState;
+		this.productNo = productNo;
+		this.memberNo = memberNo;
+		this.deliveryNo = deliveryNo;
+		this.orderState = orderState;
+		this.orderDate = orderDate;
+		this.imp_uid = imp_uid;
+		this.merchant_uid = merchant_uid;
+		this.productOptionSubject = productOptionSubject;
+		this.productOptionQty = productOptionQty;
 	}
 
 		

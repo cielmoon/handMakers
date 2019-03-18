@@ -19,14 +19,16 @@
 					<div class="columnblock-title">관리자페이지</div>
 					<div class="account-block">
 						<div class="list-group">
-							<a class="list-group-item" href="${path}/admin/adminPage.do">홈</a> <a
-								class="list-group-item" href="#">공지사항 관리</a> <a
-								class="list-group-item" href="#">메인배너 관리</a> <a
-								class="list-group-item" href="${path}/admin/manageMember.do">회원 관리</a> <a
-								class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 관리</a> <a	
-								class="list-group-item" href="${path}/admin/managePreProduct.do">입점문의 관리</a> <a							
-								class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a> <a 						
-								class="list-group-item" href="${path}/admin/manageEndProduct.do">상품 재등록 관리</a>
+							<a class="list-group-item" href="${path}/admin/adminPage.do">홈</a> 
+							<a class="list-group-item" href="#">공지사항 관리</a> 
+							<a class="list-group-item" href="#">메인배너 관리</a> 
+							<a class="list-group-item" href="${path}/admin/manageMember.do">회원 관리</a>
+							<a class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 등록관리</a>
+							<a class="list-group-item"	href="${path}/admin/manageBrandClose.do">브랜드 폐점관리</a>  
+							<a class="list-group-item" href="${path}/admin/managePreProduct.do">입점 제안관리</a>
+							<a class="list-group-item" href="${path}/admin/manageEnrollProduct.do">상품 등록</a>
+							<a class="list-group-item"	href="${path}/admin/managProduct.do">상품 판매관리</a>							 
+							<a class="list-group-item" href="${path}/admin/manageEndProduct.do">상품 재등록 관리</a>
 						</div>
 					</div>
 				</div>
