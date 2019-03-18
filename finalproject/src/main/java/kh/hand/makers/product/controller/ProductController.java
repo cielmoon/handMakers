@@ -32,7 +32,6 @@ public class ProductController {
 	ShopService shopService;
 	
 	public static String categoryNo;
-	public static int nper;
 	/*public static String numPerPage;*/
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
@@ -83,45 +82,67 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/product/newList.do")
-	public String productNewList()
+	public ModelAndView productNewList(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="numPerPage", required=false, defaultValue="8") int numPerPage)
 	{
-		return "product/newList";
+		
+		Map<String, String> map = new HashMap();
+		map.put("productStep", "1");//1= 신규
+		int contentCount = service.selectProductCount(map);
+		logger.debug(contentCount+"ㄳ");
+		
+		
+		ModelAndView mv = new ModelAndView();
+		List<Map<String, String>> list = service.productList(map, cPage, numPerPage);
+		
+		mv.addObject("productList", list);
+		mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/newList.do?numPerPage="+numPerPage));
+		mv.addObject("cPage", cPage);
+		mv.addObject("numPerPage", numPerPage);
+		mv.addObject("contentCount", contentCount);
+		
+		return mv;
 	}
 	
 	@RequestMapping("/product/preList.do")
-	public String productPreList()
+	public ModelAndView productPreList(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="numPerPage", required=false, defaultValue="8") int numPerPage)
 	{
-		return "product/preList";
-	}
+		Map<String, String> map = new HashMap();
+		map.put("productStep", "0");//입점예정
+		int contentCount = service.selectProductCount(map);
+		logger.debug(contentCount+"ㄳ");
+		
+		
+		ModelAndView mv = new ModelAndView();
+		List<Map<String, String>> list = service.productList(map, cPage, numPerPage);
+		
+		mv.addObject("productList", list);
+		mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/newList.do?numPerPage="+numPerPage));
+		mv.addObject("cPage", cPage);
+		mv.addObject("numPerPage", numPerPage);
+		mv.addObject("contentCount", contentCount);
+		
+		return mv;	
+		}
 	
-	/*@RequestMapping("/product/category.do")
-	public String productCategory()
-	{
-		return "product/category";
-	}*/
 	@RequestMapping("/product/category.do")
-	/*public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, String numPerPages, String category)*/
 	public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="numPerPage", required=false, defaultValue="9") int numPerPage, String category)
 	{
 		
 		if(category != null ) { categoryNo = category;	}
-		
-
+		Map<String, String> map = new HashMap();
+		map.put("category", categoryNo);
 		//logger.debug(numPerPages+"pages");
-		logger.debug(numPerPage+"nomal");
-		int contentCount = service.selectProductCount(categoryNo);
+		//logger.debug(numPerPage+"nomal");
+		//int contentCount = service.selectProductCount(categoryNo);
+		int contentCount = service.selectProductCount(map);
 		ModelAndView mv = new ModelAndView();
-		logger.debug("ProductController In -");logger.debug("+_+_+_+query : "+category);
-		List<Map<String, String>> list = service.productList(categoryNo, cPage, numPerPage);
-		
+		//logger.debug("ProductController In -");logger.debug("+_+_+_+query : "+category);
+		List<Map<String, String>> list = service.productList(map, cPage, numPerPage);
 		
 		mv.addObject("productList", list);
-		
 		//mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"));
 		//페이징 다른 버전 url+=cpage
 		mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do?category="+categoryNo+"&numPerPage="+numPerPage));
-		
-		System.out.println(list);
 		mv.addObject("cPage", cPage);
 		mv.addObject("numPerPage", numPerPage);
 		mv.addObject("contentCount", contentCount);

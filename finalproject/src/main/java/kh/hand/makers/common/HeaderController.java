@@ -12,12 +12,13 @@ public class HeaderController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HeaderController.class);
 	
-	/*@RequestMapping("/product/bestList.do")
-	public String productBestList()
+	@RequestMapping("/")
+	public String getBCategoryList()
 	{
-		return "product/bestList";
+		logger.debug("asdasdasdasdasdshdafhkjasdhfjksadhfljshdkjfhlskdhfksdhfhsd");
+		return "/";
 	}
-	
+	/*
 	@RequestMapping("/product/newList.do")
 	public String productNewList()
 	{

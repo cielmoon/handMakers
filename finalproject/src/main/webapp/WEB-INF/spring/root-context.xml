@@ -42,5 +42,20 @@
    <!-- 트랜 잭션 처리하기 위해서 등록 -->
    <tx:annotation-driven transaction-manager="transactionManager"/>
    
+ 	<!-- 공통 기능을 제공할 클래스를 빈으로 등록 -->
+	<!-- <bean id="headerMenuCaller" class="kh.hand.makers.common.aop.HeaderAspect">
+	</bean>
+	
+	<aop:config>
+		<aop:aspect id="headerAspect" ref="headerMenuCaller">
+			<aop:pointcut id="publicMethod" expression="execution(* kh.hand.makers.*.*(..))" />
+			<aop:before pointcut-ref="publicMethod" method="myBefore"/>
+		</aop:aspect>
+	</aop:config>  어렵네 AOP-->
+	<!-- Aspect 설정: Advice를 어떤 Pointcut에 적용할 지 설정 -->
+
+	
+	
+	
 	
 </beans>
