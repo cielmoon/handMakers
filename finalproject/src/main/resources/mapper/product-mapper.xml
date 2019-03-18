@@ -32,7 +32,7 @@
 	</resultMap>	
 
 	<!-- JOIN PRODUCT_DETAIL USING(PRODUCT_NO) -->
-	<select id="selectProductList" resultMap="productMap" parameterType="string">
+	<select id="selectProductList" resultMap="productMap">
 		SELECT * FROM PRODUCT where BC_NO = #{category}
 	</select>
 
@@ -91,5 +91,5 @@
 	<select id="selectComment" parameterType="map" resultType="map">
 		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} 
 	</select>
-	
+		
 </mapper>
