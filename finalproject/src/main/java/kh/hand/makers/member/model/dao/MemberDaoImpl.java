@@ -52,7 +52,7 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public int memberWithdrawal(String memberNo) {
 		// TODO Auto-generated method stub
-		return sqlSession.delete("member.memberWithdrawal",memberNo);
+		return sqlSession.update("member.memberWithdrawal",memberNo);
 	}
 
 	@Override

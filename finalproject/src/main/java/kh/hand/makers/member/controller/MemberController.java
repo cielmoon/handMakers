@@ -100,11 +100,10 @@ public class MemberController {
 		logger.debug("파라미터확인 memberId : " + m.getMemberId() + " memberPwd : " + m.getMemberPwd());
 
 		Member result = service.memberLogin(m.getMemberId());
-		System.out.println("result : " + result);
 		logger.debug("로그인결과 : " + result);
 		String msg = "";
 		String loc = "/";
-		if (result != null) {
+		if (result != null && result.getMemberState().equals("1")) {
 			if (pwEncoder.matches(m.getMemberPwd(), result.getMemberPwd())) {
 				msg = "로그인성공";
 
@@ -214,7 +213,7 @@ public class MemberController {
 	@RequestMapping("/member/checkPasswordEnd.do")
 	public ModelAndView checkPasswordEnd(int checkNo, Member m) {
 		logger.debug("회원탈퇴로 들어옴");
-		ModelAndView mv = new ModelAndView();
+		ModelAndView mv = new ModelAndView();	
 		Member result = service.memberLogin(m.getMemberId());
 		String memberId = m.getMemberId();
 		String msg = "";
