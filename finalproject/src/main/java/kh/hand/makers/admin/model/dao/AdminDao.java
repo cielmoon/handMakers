@@ -12,6 +12,9 @@ import kh.hand.makers.shop.model.vo.PreProduct;
 
 public interface AdminDao {
 
+	int selectReProductCount();
+	List<AdminProduct> selectReProductList(int cPage,int numPerPage);
+	
 	List<AdminProduct> selectProductList(int cPage,int numPerPage);
 	List<Brand> selectBrandList(int cPage, int numPerPage);
 	int selectProductCount();

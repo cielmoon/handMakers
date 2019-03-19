@@ -24,4 +24,6 @@ public interface MemberService {
 	int selectOrderCount();
 	List<Wish> selectWishList(String memberNo, int cPage, int numPerPage);
 	int selectWishCount(String memberNo);
+	
+	int deleteLocation(String deliveryNo);
 }

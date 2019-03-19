@@ -32,6 +32,30 @@ function searchAddr(){
       		});
 }
 
+function validate() {
+	if ($("#input-deliveryPostCode").val() == "") {
+		alert("우편번호(배송지)를 입력해주세요.");
+		$("#input-deliveryPostCode").focus();
+
+		return false;
+	}
+
+	if ($("#input-deliveryAddr").val() == "") {
+		alert("우편번호(배송지)를 입력해주세요.");
+		$("#input-deliveryAddr").focus();
+
+		return false;
+	}
+	
+	if ($("#input-deliveryDetailAddr").val() == "") {
+		alert("상세주소를 입력해주세요.");
+		$("#input-deliveryDetailAddr").focus();
+
+		return false;
+	}
+	
+	return true;
+}
 </script>
 <style>
 #input-deliveryDetailAddr, #enrollBtn{
@@ -137,7 +161,7 @@ function searchAddr(){
 						<div class="form-group required">
 							<div class="col-sm-10 pr-0">
 								<input type="text" class="form-control"	id="input-deliveryDetailAddr" 
-								name="deliveryDetailAddr" placeholder="상세주소" maxlength="30" required>
+								name="deliveryDetailAddr" placeholder="상세주소" maxlength="30">
 							</div>
 							<div class="col-sm-2 pr-0">
 								<input type="submit" class="btn btn-primary btn-120" id="enrollBtn" value="등록하기" />

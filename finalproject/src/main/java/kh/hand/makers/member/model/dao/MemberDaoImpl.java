@@ -98,6 +98,12 @@ public class MemberDaoImpl implements MemberDao {
 		
 		return sqlSession.selectOne("member.selectWishCount",memberNo);
 	}
+
+	@Override
+	public int deleteLocation(String deliveryNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("member.deleteLocation", deliveryNo);
+	}
 	
 	
 }

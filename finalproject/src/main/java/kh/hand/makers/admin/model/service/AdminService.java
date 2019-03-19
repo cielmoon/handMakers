@@ -13,6 +13,11 @@ import kh.hand.makers.shop.model.vo.PreProduct;
 public interface AdminService {	
 	
 	int selectProductCount();
+	List<AdminProduct> selectProductList(int cPage,int numPerPage);
+	
+	int selectReProductCount();
+	List<AdminProduct> selectReProductList(int cPage,int numPerPage);
+	
 	List<Brand> selectBrandList(int cPage,int numPerPage);
 	int selectBrandCount();
 	int brandStateUpdate(Map<String,String> bs);
@@ -26,7 +31,7 @@ public interface AdminService {
 	PreProduct selectPreProduct(String preProductNo);
 	int selectPreProductCount();
 	int preProductStateUpdate(Map<String,String> ps);
-	List<AdminProduct> selectProductList(int cPage,int numPerPage);
+	
 	int selectMemberCount();
 	List<Member> selectMemberList(int cPage,int numPerPage);
 	

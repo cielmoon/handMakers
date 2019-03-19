@@ -124,5 +124,17 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.productStateUpdate(ps);
 	}
+
+	@Override
+	public int selectReProductCount() {
+		// TODO Auto-generated method stub
+		return dao.selectReProductCount();
+	}
+
+	@Override
+	public List<AdminProduct> selectReProductList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectReProductList(cPage, numPerPage);
+	}
 	
 }

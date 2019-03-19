@@ -98,7 +98,11 @@ public class MemberServiceImpl implements MemberService {
 		
 		return dao.selectWishCount(memberNo);
 	}
-	
-	
+
+	@Override
+	public int deleteLocation(String deliveryNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteLocation(deliveryNo);
+	}
 	
 }
