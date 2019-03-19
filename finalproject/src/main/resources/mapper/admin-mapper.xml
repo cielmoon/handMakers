@@ -72,7 +72,16 @@
 		<result column="seller_req_process" property="sellerReqProcess" />
 		<result column="member_id" property="memberId" />
 	</resultMap>
-
+	
+	<resultMap type="bigcategory" id="bcMap">
+		<result column="bc_no" property="bcNo"/>
+   		<result column="bc_title" property="bcTitle"/>
+	</resultMap>
+	<resultMap type="smallcategory" id="scMap">
+		<result column="sc_no" property="scNo"/>
+   		<result column="sc_title" property="scTitle"/>
+   		<result column="bc_no" property="bcNo"/>
+	</resultMap>
 
 	<!-- javaType="string" -->
 	<select id="selectBrandList" resultMap="brandMap">
@@ -228,5 +237,12 @@
 		update SELLER_REQUEST set
 		SELLER_REQ_STATE = #{sellerReqState} where SELLER_REQ_NO = #{sellerReqNo}
 	</update>
-
+	
+	<select id="selectBcList" resultMap="bcMap">
+		SELECT * FROM BIG_CATEGORY
+	</select>
+	<select id="selectScList" resultMap="scMap" parameterType="string">
+		SELECT * FROM SMALL_CATEGORY WHERE BC_NO = #{bcNo}
+	</select>
+	
 </mapper>

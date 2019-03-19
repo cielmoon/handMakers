@@ -1,5 +1,4 @@
 package kh.hand.makers.admin.controller;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +17,10 @@ import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.common.PageFactory;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
+import kh.hand.makers.shop.model.vo.SmallCategory;
 
 @Controller
 public class AdminController {
@@ -149,22 +150,54 @@ public class AdminController {
 
 	// 상품 관리
 	@RequestMapping("/admin/manageProduct.do")
-	public ModelAndView manageEnrollProduct(
+	public ModelAndView manageProduct(
 			@RequestParam(value = "cPage", required = false, defaultValue = "0") int cPage) {
 		int numPerPage = 5;
 		ModelAndView mv = new ModelAndView();
 		int contentCount = service.selectProductCount();
 		List<AdminProduct> adminProductList = service.selectProductList(cPage, numPerPage);
+		
+		List<BigCategory> bcList = service.selectBcList();
+		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
+		
+		mv.addObject("bcList", bcList);
+		mv.addObject("scList", scList);
+		
+		
 		mv.addObject("pageBar",
 				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageProduct.do"));
 		mv.addObject("adminProductList", adminProductList);
 		mv.setViewName("admin/manageProduct");
 		return mv;
 	}
+	@RequestMapping("/admin/productEnrollScSet.do")
+	public ModelAndView productEnrollScSet(String bcNo)
+	{
+		ModelAndView mv = new ModelAndView();
 
+		List<SmallCategory> scList = service.selectScList(bcNo);
+		mv.addObject("scList", scList);
+		
+		mv.setViewName("jsonView");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/productEnrollBrandSet.do")
+	public ModelAndView productEnrollBrandSet(String scNo)
+	{
+		ModelAndView mv = new ModelAndView();
+
+		/*List<Brand> brandList = service.selectBrandList(scNo);
+		mv.addObject("brandList", brandList);*/
+		
+		mv.setViewName("jsonView");
+		return mv;
+	}
+	
+	
 	// 상품재등록 관리
 	@RequestMapping("/admin/manageReProduct.do")
-	public ModelAndView manageProduct(@RequestParam(value = "cPage", required = false, defaultValue = "0") int cPage) {
+	public ModelAndView manageReProduct(@RequestParam(value = "cPage", required = false, defaultValue = "0") int cPage) {
 		int numPerPage = 5;
 		
 		ModelAndView mv = new ModelAndView();
