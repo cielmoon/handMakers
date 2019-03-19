@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.admin.model.service.AdminService;
 import kh.hand.makers.admin.model.vo.AdminProduct;
+import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.common.PageFactory;
 import kh.hand.makers.member.model.vo.Member;
@@ -25,6 +26,7 @@ public class AdminController {
 	private Logger logger = LoggerFactory.getLogger(AdminController.class);
 	@Autowired
 	AdminService service;
+	private String sReqState = "B";
 
 	@RequestMapping("/admin/memberList.do")
 	public ModelAndView manageMember(@RequestParam(value = "cPage", required = false, defaultValue = "0") int cPage) {
@@ -32,8 +34,7 @@ public class AdminController {
 		ModelAndView mv = new ModelAndView();
 		int contentCount = service.selectMemberCount();
 		List<Member> memberList = service.selectMemberList(cPage, numPerPage);
-		mv.addObject("pageBar",
-				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/memberList.do"));
+		mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/memberList.do"));
 		mv.addObject("memberList", memberList);
 		mv.setViewName("admin/memberList");
 		return mv;
@@ -186,4 +187,74 @@ public class AdminController {
 	public String enrollProductEnd() {
 		return "admin/enrollProductEnd";
 	}
+
+	@RequestMapping("/admin/manageRequest.do")
+	public ModelAndView manageRequest(@RequestParam(value = "cPage", required = false, defaultValue = "0") int cPage, String sellerReqState) {		
+		if(sellerReqState != null) {
+			setsReqState(sellerReqState);
+		}else {
+			setsReqState("B");
+		}
+		int numPerPage = 5;
+		ModelAndView mv = new ModelAndView();
+		int contentCount = service.selectRequestCount(getsReqState());
+		List<SellerRequest> requestList = service.selectRequestList(getsReqState(), cPage, numPerPage);
+		for (SellerRequest sellerRequest : requestList) {
+			if(sellerRequest.equals("B")) {
+				String reqBrandName = service.selectBrandName(sellerRequest.getSellerReqRef());
+				sellerRequest.setRefName(reqBrandName);
+			}else if(sellerRequest.equals("P")){
+				String reqProductName = service.selectProductName(sellerRequest.getSellerReqRef());
+				sellerRequest.setRefName(reqProductName);
+			}
+			
+		}
+		mv.addObject("pageBar",	PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageRequest.do"));
+		mv.addObject("requestList", requestList);
+		mv.setViewName("admin/manageRequest");
+
+		return mv;
+	}
+	
+	@RequestMapping("/admin/changeReqProcess.do")
+	public ModelAndView changeReqProcess(String sellerReqNo) {		
+
+		ModelAndView mv = new ModelAndView();
+		System.out.println("지금 받아온 값:" + sellerReqNo);
+		String[] rNoSplit = sellerReqNo.split(",");
+		String msg = "";
+		String loc = "";
+		Map<String, String> sr1 = new HashMap<String, String>();//process
+		Map<String, String> sr2 = new HashMap<String, String>();//state
+		sr1.put("brandNo", rNoSplit[0].trim());
+		sr1.put("brandState", rNoSplit[1]);
+		
+		sr2.put("brandNo", rNoSplit[0].trim());
+		sr2.put("brandState", rNoSplit[2]);		
+/*
+		int result1 = service.reqProcessUpdate(sr1);
+		int result2 = service.reqStateUpdate(sr2);
+		if (result > 0 && result2 > 0) {
+			msg = "수정완료";
+			loc = "/admin/manageBrand.do";
+		} else {
+			msg = "수정실패";
+			loc = "/admin/manageBrand.do";
+		}
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");*/
+		return mv;
+	}
+	
+	public String getsReqState() {
+		return sReqState;
+	}
+
+	public void setsReqState(String sReqState) {
+		this.sReqState = sReqState;
+	}
+
+
 }
