@@ -7,8 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 <style>
-#select-bigCategory {
-	margin-top: 10px;
+#select-bigCategory, #select-smallCategory {
 	margin-bottom: 10px;
 }
 </style>
@@ -20,7 +19,8 @@ $(function() {
 		/* 소카테고리 리스트 초기화  */
 		$("#select-smallCategory")[0].options.length = 0;
 		$.ajax({
-			url:"${path}/shop/productEnrollScSet.do",
+			//${path}/admin/productEnrollB randSet.do
+			url:"${path}/admin/productEnrollScSet.do",
 			data:{"bcNo" : bcNo},
 			success:function(data){
 				for(var i=0; i<data.scList.length; i++)
@@ -66,6 +66,7 @@ $(function() {
 			<div class="col-sm-9" id="content">
 				<div class="row">
 					<div class="col-sm-12">
+						<label class="control-label">카테고리 *</label>
 						<div class="col-sm-3">
 						<select class="form-control" id="select-bigCategory" name="bcNo" required>
 							<c:forEach items="${bcList }" var="b" varStatus="vs">
@@ -81,9 +82,9 @@ $(function() {
 						</select>
 						</div>
 						<div class="col-sm-3">
-						<select class="form-control" id="select-smallCategory" name="scNo" required>
-							<c:forEach items="${scList }" var="s" varStatus="vs">
-								<option ${vs.count==1? "selected" : ""} value="${s.scNo }">${s.scTitle}</option>
+						<select class="form-control" id="select-brand" name="brandNo" required>
+							<c:forEach items="${brandList }" var="b" varStatus="vs">
+								<option ${vs.count==1? "selected" : ""} value="${b.brandNo }">${b.brandTitle}</option>
 							</c:forEach>
 						</select>
 						</div>

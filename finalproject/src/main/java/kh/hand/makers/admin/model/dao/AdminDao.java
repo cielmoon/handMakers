@@ -7,8 +7,10 @@ import kh.hand.makers.admin.model.vo.AdminProduct;
 import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
+import kh.hand.makers.shop.model.vo.SmallCategory;
 
 public interface AdminDao {
 
@@ -36,4 +38,7 @@ public interface AdminDao {
 	List<SellerRequest> selectRequestList(String reqRefType, int cPage,int numPerPage);
 	String selectBrandName(String reqRef);
 	String selectProductName(String reqRef);
+	
+	List<BigCategory> selectBcList();
+	List<SmallCategory> selectScList(String bcNo);
 }
