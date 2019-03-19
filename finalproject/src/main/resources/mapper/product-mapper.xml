@@ -35,7 +35,10 @@
 	<select id="selectProductList" resultMap="productMap">
 		SELECT * FROM PRODUCT
 		<where>
-		<if test="category != null">
+		<if test="category != null and sc != null">
+		(BC_NO = #{category}) AND (SC_NO = #{sc}) 
+		</if>
+		<if test="category != null and sc == null">
 		 BC_NO = #{category}
 		</if>
 		<if test="sCategory != null">
@@ -53,7 +56,10 @@
 	<select id="selectProductCount" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
 		<where>
-		<if test="category != null">
+		<if test="category != null and sc != null">
+		(BC_NO = #{category}) AND (SC_NO = #{sc}) 
+		</if>
+		<if test="category != null and sc == null">
 		BC_NO = #{category}
 		</if>
 		<if test="productStep != null">
@@ -116,6 +122,10 @@
 	
 	<select id="selectMenuList" parameterType="string" resultType="map">
 	SELECT * FROM BIG_CATEGORY
+	</select>
+	
+	<select id="sCategoryList" parameterType="string" resultType="map">
+	SELECT * FROM SMALL_CATEGORY WHERE BC_NO = #{bCategory}
 	</select>
 		
 </mapper>

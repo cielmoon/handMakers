@@ -114,6 +114,14 @@ public class ProductServiceImpl implements ProductService {
 	public List<Map<String, String>> getMenuList() {
 		return dao.getMenuList();
 	}
+
+	@Override
+	public List<Map<String, String>> sCategoryList(String bCategory) {
+		// TODO Auto-generated method stub
+		return dao.sCategoryList(bCategory);
+	}
+	
+	
 	
 	
 }

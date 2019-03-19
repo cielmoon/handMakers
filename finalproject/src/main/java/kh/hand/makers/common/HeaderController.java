@@ -1,7 +1,5 @@
 package kh.hand.makers.common;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +25,7 @@ public class HeaderController {
 	public List<Map<String, String>> getMenuList()
 	{	
 		List<Map<String, String>> list = service.getMenuList();
-		logger.debug("가져온거?"+list);
+		logger.debug("Menu-List : "+list);
 		return list;
 	}
 	/*
