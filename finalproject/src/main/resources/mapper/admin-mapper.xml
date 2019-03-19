@@ -84,7 +84,10 @@
 		brand
 	</select>
 
-
+	<update id="productStateUpdate" parameterType="map">
+		update product set product_state = #{productState} where product_no = #{productNo}
+	</update>
+	
 	<update id="brandStateUpdate" parameterType="map">
 		update brand set
 		brand_state = #{brandState} where brand_no = #{brandNo}
@@ -175,7 +178,8 @@
 		"seller_req_content", SELLER_REQUEST.SELLER_REQ_DATE as
 		"seller_req_date", SELLER_REQUEST.SELLER_REQ_PROCESS as
 		"seller_req_process", MEMBER.MEMBER_ID as "member_id" from
-		SELLER_REQUEST join member on (member.member_no = SELLER_REQUEST.member_no) 
+		SELLER_REQUEST join member on (member.member_no =
+		SELLER_REQUEST.member_no)
 		where SELLER_REQ_TYPE = #{reqRefType}
 		order by SELLER_REQ_DATE
 	</select>
@@ -191,4 +195,14 @@
 		select PRODUCT_TITLE from PRODUCT where PRODUCT_NO =
 		#{reqRef}
 	</select>
+
+	<update id="reqProcessUpdate" parameterType="map">
+		update SELLER_REQUEST set
+		SELLER_REQ_PROCESS = #{sellerReqProcess} where SELLER_REQ_NO = #{sellerReqNo}
+	</update>
+	<update id="reqStateUpdate" parameterType="map">
+		update SELLER_REQUEST set
+		SELLER_REQ_STATE = #{sellerReqState} where SELLER_REQ_NO = #{sellerReqNo}
+	</update>
+
 </mapper>

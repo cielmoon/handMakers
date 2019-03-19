@@ -17,6 +17,11 @@ public interface AdminDao {
 	int selectProductCount();
 	int selectBrandCount();
 	int brandStateUpdate(Map<String,String> bs);
+	int productStateUpdate(Map<String,String> ps);
+	
+	int reqProcessUpdate(Map<String,String> sr1);
+	int reqStateUpdate(Map<String,String> sr2);
+	
 	List<managePreProduct> selectPreProductList(int cPage,int numPerPage);
 	PreProduct selectPreProduct(String preProductNo);
 	int selectPreProductCount();
