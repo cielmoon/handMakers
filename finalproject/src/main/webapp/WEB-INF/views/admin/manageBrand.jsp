@@ -51,17 +51,20 @@
 									<td>${b.brandTitle }</td>
 									<td>${b.brandType }</td>																
 									<c:choose>
-										<c:when test="${b.brandState.toString() == '1' }">
+										<c:when test="${b.brandState.toString() == 'b' }">
 											<td>승인</td>		
 										</c:when>
-										<c:when test="${b.brandState.toString() == '2' }">
+										<c:when test="${b.brandState.toString() == 'c' }">
 											<td>반려</td>											
 										</c:when>
-										<c:when test="${b.brandState.toString() == '3' }">
+										<c:when test="${b.brandState.toString() == 'd' }">
 											<td>폐점요청</td>											
 										</c:when>
-										<c:when test="${b.brandState.toString() == '4' }">
-											<td>폐점</td>											
+										<c:when test="${b.brandState.toString() == 'e' }">
+											<td>폐점완료</td>											
+										</c:when>
+										<c:when test="${b.brandState.toString() == 'f' }">
+											<td>폐점반려</td>											
 										</c:when>
 										<c:otherwise>
 											<td>승인요청</td>		
@@ -70,22 +73,18 @@
 															
 									<td>${b.brandEnrollDate}</td>
 									<c:choose>
-										<c:when test="${b.brandState.toString() == '1' }">
+										<c:when test="${b.brandState.toString() == 'b' }">
 											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,0"><button class="AgreeBtn">승인취소</button></a></td>					
 										</c:when>
-										<c:when test="${b.brandState.toString() == '2' }">
+										<c:when test="${b.brandState.toString() == 'c' }">
 											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,0"><button class="AgreeBtn">반려취소</button></a></td>											
 										</c:when>
-										<c:when test="${b.brandState.toString() == '3' }">
+										<c:when test="${b.brandState.toString() == 'a' }">
 											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,4"><button class="AgreeBtn">승인</button></a>
 											<a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,0"><button class="AgreeBtn">반려</button></a></td>											
-										</c:when>
-										<c:when test="${b.brandState.toString() == '4' }">
-											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,0"><button class="AgreeBtn">재등록</button></a></td>											
-										</c:when>
+										</c:when>									
 										<c:otherwise>
-											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,1"><button class="AgreeBtn">승인</button></a>
-											<a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,2"><button class="AgreeBtn">반려</button></a></td>	
+											<td></td>	
 										</c:otherwise>								
 									</c:choose>
 								</tr>

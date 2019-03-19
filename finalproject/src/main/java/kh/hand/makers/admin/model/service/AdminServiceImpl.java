@@ -106,5 +106,23 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectProductName(reqRef);
 	}
+
+	@Override
+	public int reqProcessUpdate(Map<String, String> sr1) {
+		// TODO Auto-generated method stub
+		return dao.reqProcessUpdate(sr1);
+	}
+
+	@Override
+	public int reqStateUpdate(Map<String, String> sr2) {
+		// TODO Auto-generated method stub
+		return dao.reqStateUpdate(sr2);
+	}
+
+	@Override
+	public int productStateUpdate(Map<String, String> ps) {
+		// TODO Auto-generated method stub
+		return dao.productStateUpdate(ps);
+	}
 	
 }

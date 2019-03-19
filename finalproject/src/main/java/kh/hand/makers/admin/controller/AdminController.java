@@ -220,31 +220,47 @@ public class AdminController {
 	public ModelAndView changeReqProcess(String sellerReqNo) {		
 
 		ModelAndView mv = new ModelAndView();
-		System.out.println("지금 받아온 값:" + sellerReqNo);
+		logger.debug("지금 받아온 값:" + sellerReqNo);	
 		String[] rNoSplit = sellerReqNo.split(",");
 		String msg = "";
 		String loc = "";
+		String reqType = rNoSplit[3].trim();//B or P
+		String reqRef = rNoSplit[4].trim();//브랜드 or 상품 no
 		Map<String, String> sr1 = new HashMap<String, String>();//process
 		Map<String, String> sr2 = new HashMap<String, String>();//state
-		sr1.put("brandNo", rNoSplit[0].trim());
-		sr1.put("brandState", rNoSplit[1]);
+		sr1.put("sellerReqNo", rNoSplit[0].trim());
+		sr1.put("sellerReqProcess", rNoSplit[1]);
 		
-		sr2.put("brandNo", rNoSplit[0].trim());
-		sr2.put("brandState", rNoSplit[2]);		
-/*
+		sr2.put("sellerReqNo", rNoSplit[0].trim());
+		sr2.put("sellerReqState", rNoSplit[2]);		
+
 		int result1 = service.reqProcessUpdate(sr1);
 		int result2 = service.reqStateUpdate(sr2);
-		if (result > 0 && result2 > 0) {
+		int r = 0;
+		Map<String, String> bs = new HashMap<String, String>();//brand상태 바꾸기
+		Map<String, String> ps = new HashMap<String, String>();//product상태 바꾸기
+		
+		if(reqType.equals("B")) {
+			bs.put("brandNo", reqRef);
+			bs.put("brandState",rNoSplit[2] );
+			r = service.brandStateUpdate(bs);
+		}else if(reqType.equals("P")){
+			ps.put("productNo", reqRef);
+			ps.put("productState", rNoSplit[2]);
+			r = service.productStateUpdate(ps);
+		}
+		
+		if (r > 0 && result1 > 0 && result2 > 0) {
 			msg = "수정완료";
-			loc = "/admin/manageBrand.do";
+			loc = "/admin/manageRequest.do";
 		} else {
 			msg = "수정실패";
-			loc = "/admin/manageBrand.do";
+			loc = "/admin/manageRequest.do";
 		}
-		ModelAndView mv = new ModelAndView();
+	
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
-		mv.setViewName("common/msg");*/
+		mv.setViewName("common/msg");
 		return mv;
 	}
 	
