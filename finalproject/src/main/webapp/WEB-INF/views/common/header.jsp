@@ -45,6 +45,19 @@
 	type="text/javascript"></script>
 <script src="${path }/resources/owl-carousel/owl.carousel.min.js"
 	type="text/javascript"></script>
+
+<!-- 부트스트랩 달력용 -->
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/> -->
+<!-- ***중복*** <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script> -->
+<!-- <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
+<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+<script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script> -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="${path }/resources/datepicker/bootstrap-datepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="${path }/resources/datepicker/bootstrap-datepicker.css"/>
+<!--  -->
+
 </head>
 <body>
 	<header>

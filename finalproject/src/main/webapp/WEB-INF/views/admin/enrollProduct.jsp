@@ -8,6 +8,25 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <%-- <jsp:param value="" name="pageTitle"/> --%>
 
+<!-- 부트스트랩 달력용 -->
+<!-- <link rel="stylesheet" href="/css/jquery-ui.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/> -->
+<!--  -->
+
+
+<!-- <script type='text/javascript'>
+	$(function() {
+		$("#input-group.date").datepicker({
+			calendarWeeks : false,
+			todayHighlight : true,
+			autoclose : true,
+			format : "yyyy/mm/dd",
+			language : "kr"
+		});
+	});
+</script> -->
+<script src="http://jonthornton.github.io/Datepair.js/dist/datepair.js"></script>
+<script src="http://jonthornton.github.io/Datepair.js/dist/jquery.datepair.js"></script>
 <style>
 #inputAdminProductProfileImg {
 	padding-top: 7px;
@@ -18,6 +37,25 @@
 <script>
 	$(document).ready(function() {
 		$("#inputAdminProductProfileImg").on("change", enrollMainImg);
+	
+		// 상품 등록날짜, 마감날짜 
+		// 날짜에서 추가할 내용 : 마감날짜는 등록날짜 이후만 클릭되도록 설정해줘야 함
+		$("#adminProductSaleStart").datepicker({
+			'language' : 'ko',
+			'format' : 'yyyy/mm/dd',
+			'autoclose' : true,
+			'calendarWeeks' : false,
+			'todayHighlight' : true
+		});
+		
+		$("#adminProductSaleEnd").datepicker({
+			'language' : 'ko',
+			'format' : 'yyyy/mm/dd',
+			'autoclose' : true,
+			'calendarWeeks' : false,
+			'todayHighlight' : true
+		});
+		
 	});
 	
 	function validate() {
@@ -56,22 +94,19 @@
 			return false;
 		}
 
-		/*
-		등록, 마감날짜
-		if ($("#adminProductSale").val() == "") {
-			alert("할인율을 입력해주세요.");
+		if ($("#adminProductSaleStart").val() == "") {
+			alert("상품 등록날짜를 입력해주세요.");
 			$("#adminProductSale").focus();
 			
 			return false;
 		}
 		
-		if ($("#adminProductSale").val() == "") {
-			alert("할인율을 입력해주세요.");
+		if ($("#adminProductSaleEnd").val() == "") {
+			alert("상품 마감날짜를 입력해주세요.");
 			$("#adminProductSale").focus();
 			
 			return false;
 		}
-		 */
 
 		if ($("#adminProductMin").val() == "") {
 			alert("최소주문량을 입력해주세요.");
@@ -86,7 +121,7 @@
 
 			return false;
 		}
-	
+		
 		return true;
 	};
 	
@@ -196,11 +231,11 @@
 								<div class="form-group required">
 									<label for="adminProductId" class="col-sm-2 control-label">등록날짜</label>
 									<div class="col-sm-4">
-										<input type="text" class="form-control" id="adminProductSale" name="adminProductSale" placeholder="">						
+										<input type="text" class="form-control" id="adminProductSaleStart" name="adminProductSale" placeholder="등록날짜">
 									</div>								
 									<label for="adminProductMemberId" class="col-sm-2 control-label">마감날짜</label>
 									<div class="col-sm-4">
-										<input type="text" class="form-control" id="adminProductSale" name="adminProductSale" placeholder="">
+										<input type="text" class="form-control" id="adminProductSaleEnd" name="adminProductSale" placeholder="마감날짜" onclick="checkDate();">
 									</div>
 								</div>
 								<!-- 최소주문량 ~ 최대주문량 -->
@@ -230,14 +265,6 @@
 								</div>
 								<div class="col-sm-3">
 								</div>
-								<!-- <div class="form-group required" id="adminProductFiles">
-									<label for="inputAdminProductProfileImg" class="inputSrc1">메인사진 추가하기</label>
-                 					<input type="file" name="inputAdminProductProfileImg" id="inputAdminProductProfileImg" >
-								</div> -->
-								<!-- <div class="form-group required" id="filesAddBtn">
-									<input type="button" class="btn btn-primary" value="파일추가하기">
-								</div> -->
-								
 							</fieldset>
 							
 							

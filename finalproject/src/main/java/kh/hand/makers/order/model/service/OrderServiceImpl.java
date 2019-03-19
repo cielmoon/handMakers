@@ -69,10 +69,10 @@ public class OrderServiceImpl implements OrderService {
 			Order order = new Order();
 			
 			//배송지 번호 FK 이기 떄문에 가져 와서 넣어줌
-			order.setDeliveryNo(del.getDeliveryNo());
+			/*order.setDeliveryNo(del.getDeliveryNo());*/
 			
 			logger.debug(del.getDeliveryNo());
-			logger.debug(order.getDeliveryNo());
+			/*logger.debug(order.getDeliveryNo());*/
 			
 			order.setOrderTotalPrice(orderTotalPrice);
 			order.setOrderPayType(orderPayType);
