@@ -6,6 +6,37 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
+<style>
+#select-bigCategory {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+</style>
+
+<script>
+$(function() {
+	$("#select-bigCategory").change(function(){
+		var bcNo = $("#select-bigCategory").find(":selected").val();
+		/* 소카테고리 리스트 초기화  */
+		$("#select-smallCategory")[0].options.length = 0;
+		$.ajax({
+			url:"${path}/shop/productEnrollScSet.do",
+			data:{"bcNo" : bcNo},
+			success:function(data){
+				for(var i=0; i<data.scList.length; i++)
+				{
+					$('#select-smallCategory').append($('<option>',
+					{
+				        value: data.scList[i]['scNo'],
+				        text : data.scList[i]['scTitle']
+				    }));
+				}
+			}
+		});
+	});
+});
+</script>
+
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
@@ -34,13 +65,37 @@
 			<!-- 정보 변경 전에 다시 비밀번호 확인 -->
 			<div class="col-sm-9" id="content">
 				<div class="row">
-					<div class="col-sm-12">					
+					<div class="col-sm-12">
+						<div class="col-sm-3">
+						<select class="form-control" id="select-bigCategory" name="bcNo" required>
+							<c:forEach items="${bcList }" var="b" varStatus="vs">
+								<option ${vs.count==1? "selected" : ""} value="${b.bcNo }">${b.bcTitle}</option>
+							</c:forEach>	
+						</select>
+						</div>
+						<div class="col-sm-3">
+						<select class="form-control" id="select-smallCategory" name="scNo" required>
+							<c:forEach items="${scList }" var="s" varStatus="vs">
+								<option ${vs.count==1? "selected" : ""} value="${s.scNo }">${s.scTitle}</option>
+							</c:forEach>
+						</select>
+						</div>
+						<div class="col-sm-3">
+						<select class="form-control" id="select-smallCategory" name="scNo" required>
+							<c:forEach items="${scList }" var="s" varStatus="vs">
+								<option ${vs.count==1? "selected" : ""} value="${s.scNo }">${s.scTitle}</option>
+							</c:forEach>
+						</select>
+						</div>
+						<div class="col-sm-3">
+						</div>
 						<table id='tbl-board' class='table table-striped table-hover'>
 							<tr>
 								<th>카테고리(대)</th>
 								<th>카테고리(소)</th>								
 								<th>상품명</th>
 								<th>브랜드명</th>
+								<th>상품상태</th>
 								<th>등록날짜</th>
 								<th>마감날짜</th>	
 								<th></th>								
@@ -50,12 +105,14 @@
 									<td>${a.productBcTitle }</td>
 									<td>${a.productScTitle }</td>
 									<td>${a.productTitle }</td>	
-									<td>${a.productBrandTitle }</td>	
+									<td>${a.productBrandTitle }</td>
+									<td>정상판매</td>									
 									<td>${a.productEnrollDate }</td>	
 									<td>${a.productEndDate }</td>	
 									<td><a href="${path}/admin/updateProduct.do?productNo=${a.productNo}"><button class="btn btn-primary">상품수정</button></a></td>						
 											
-								</tr>
+								</tr>										
+						
 							</c:forEach>
 						</table>
 						${pageBar }

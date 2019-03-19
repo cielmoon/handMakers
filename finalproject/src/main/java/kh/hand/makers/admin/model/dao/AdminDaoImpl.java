@@ -128,5 +128,17 @@ public class AdminDaoImpl implements AdminDao {
 		return session.update("admin.productStateUpdate", ps);
 	}
 
+	@Override
+	public int selectReProductCount() {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectReProductCount");
+	}
+
+	@Override
+	public List<AdminProduct> selectReProductList(int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage - 1) * numPerPage, numPerPage);
+		return session.selectList("admin.selectReProductList", null, rb);
+	}
+
 	
 }

@@ -11,7 +11,7 @@
 		<ul class="breadcrumb">
 			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
 			<li><a href="${path}/admin/adminPage.do">관리자페이지</a></li>
-			<li><a href="${path}/admin/manageReProduct.do">상품 재등록 관리</a></li>
+			<li><a href="${path}/admin/manageProduct.do">상품 관리</a></li>
 		</ul>
 		<br />
 		<div class="row">
@@ -41,20 +41,36 @@
 								<th>카테고리(소)</th>								
 								<th>상품명</th>
 								<th>브랜드명</th>
+								<th>상품상태</th>
 								<th>등록날짜</th>
 								<th>마감날짜</th>	
 								<th></th>								
 							</tr>
  							<c:forEach var="a" items="${adminProductList }">
-								<tr>
+ 								<tr>
 									<td>${a.productBcTitle }</td>
 									<td>${a.productScTitle }</td>
 									<td>${a.productTitle }</td>	
-									<td>${a.productBrandTitle }</td>	
+									<td>${a.productBrandTitle }</td>
+									<c:choose>
+										<c:when test="${a.productState == '1' }">
+											<td>판매중지요청</td>
+										</c:when>
+										<c:when test="${a.productState == '2' }">
+											<td>판매중지</td>
+										</c:when>
+										<c:when test="${a.productState == '3' }">
+											<td>판매완료</td>
+										</c:when>
+										<c:when test="${a.productState == '4' }">
+											<td>판매 재등록요청</td>
+										</c:when>
+									</c:choose>		
 									<td>${a.productEnrollDate }</td>	
-									<td>${a.productEndDate }</td>	
-									<td><a href="${path}/admin/updateProduct.do?productNo=${a.productNo}"><button class="btn btn-primary">상품수정</button></a></td>	
-									
+									<td>${a.productEndDate }</td>
+									<td></td>
+							
+															
 											
 								</tr>
 							</c:forEach>

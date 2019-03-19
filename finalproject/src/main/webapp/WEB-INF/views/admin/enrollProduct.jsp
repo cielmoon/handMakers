@@ -40,7 +40,7 @@
 	
 		// 상품 등록날짜, 마감날짜 
 		// 날짜에서 추가할 내용 : 마감날짜는 등록날짜 이후만 클릭되도록 설정해줘야 함
-		$("#adminProductSaleStart").datepicker({
+		$("#adminProductSaleStart, #adminProductSaleEnd").datepicker({
 			'language' : 'ko',
 			'format' : 'yyyy/mm/dd',
 			'autoclose' : true,
@@ -48,14 +48,16 @@
 			'todayHighlight' : true
 		});
 		
-		$("#adminProductSaleEnd").datepicker({
-			'language' : 'ko',
-			'format' : 'yyyy/mm/dd',
-			'autoclose' : true,
-			'calendarWeeks' : false,
-			'todayHighlight' : true
+		$("#adminProductSaleStart").datepicker("option", "maxDate", $("#adminProductSaleEnd").val());
+		$("#adminProductSaleStart").datepicker("option", "onClose", function(selectedDate) {
+			$("#adminProductSaleEnd").datepicker("option", "minDate", selectedDate);
 		});
 		
+		/* $("#adminProductSaleEnd").datepicker();
+		$("#adminProductSaleEnd").datepicker("option", "minDate", $("#adminProductSaleStart").val());
+		$("#adminProductSaleEnd").datepicker("option", "onClose", function(selectedDate) {
+			$("#adminProductSaleStart").datepicker("option", "maxDate", selectedDate);
+		}); */
 	});
 	
 	function validate() {
