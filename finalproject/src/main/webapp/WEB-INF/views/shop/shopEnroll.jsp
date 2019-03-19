@@ -126,7 +126,7 @@
 									<select class="form-control" name="brandNo" id="select-brand">
 										<option selected disabled value="-1">브랜드를 선택해주세요.</option>
 										<c:forEach items="${list }" var="b" varStatus="vs">
-											<option class="${b.brandState.toString()=='0'? 'state0': b.brandState.toString()=='2'?'state2':'state1'}" value="${b.brandNo }">${b.brandTitle }</option>
+											<option class="${b.brandState.toString()=='a'? 'state0': b.brandState.toString()=='c'?'state2':'state1'}" value="${b.brandNo }">${b.brandTitle }</option>
 										</c:forEach>										
 									</select>
 								</div>

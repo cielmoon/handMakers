@@ -63,8 +63,8 @@ public class ShopController {
 		if(brandNo != null) //반려된 브랜드 재등록 요청일 경우
 		{
 			Brand brand = service.selectBrand(brandNo);
-		}
-		
+			mv.addObject("brand", brand);
+		}	
 		mv.setViewName("shop/brandEnroll");
 		return mv;
 	}
