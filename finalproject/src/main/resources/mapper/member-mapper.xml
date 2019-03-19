@@ -67,7 +67,7 @@
 		INSERT INTO MEMBER
 		VALUES('M_NO_'||SEQ_MEMBER_NO.nextval, #{memberId},
 		#{memberPwd},
-		#{memberName}, default, #{memberEmail}, #{memberPhone},
+		#{memberName}, #{memberEmail}, #{memberPhone},
 		default,
 		default, default, default)
 	</insert>
@@ -91,10 +91,11 @@
 		where member_no=#{memberNo}
 	</update>
 
-	<delete id="memberWithdrawal" parameterType="string">
-		DELETE FROM MEMBER
-		WHERE MEMBER_NO=#{memberNo}
-	</delete>
+	<update id="memberWithdrawal" parameterType="string">
+		UPDATE MEMBER SET
+		member_state=0
+		where member_no=#{memberNo}
+	</update>
 
 	<select id="selectDeliveryList" parameterType="string"
 		resultMap="deliveryType">

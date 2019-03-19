@@ -10,7 +10,7 @@
 	<div class="container">
 		<ul class="breadcrumb">
 			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
-			<li><a href="#">관리자페이지</a></li>
+			<li><a href="${path}/admin/adminPage.do">관리자페이지</a></li>
 		</ul>
 		<br />
 		<div class="row">		
@@ -22,7 +22,7 @@
 							<a class="list-group-item" href="${path}/admin/adminPage.do">홈</a> 
 							<a class="list-group-item" href="#">공지사항 관리</a> 
 							<a class="list-group-item" href="#">메인배너 관리</a> 
-							<a class="list-group-item" href="${path}/admin/manageMember.do">회원 관리</a>
+							<a class="list-group-item" href="${path}/admin/memberList.do">회원목록</a>
 							<a class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 등록관리</a>
 							<a class="list-group-item"	href="${path}/admin/manageBrandClose.do">브랜드 폐점관리</a>  
 							<a class="list-group-item" href="${path}/admin/managePreProduct.do">입점 제안관리</a>
