@@ -17,6 +17,7 @@ import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.service.OrderService;
 import kh.hand.makers.order.model.service.OrderServiceImpl;
 import kh.hand.makers.order.model.vo.Delivery;
+import kh.hand.makers.order.model.vo.Order;
 
 @Controller
 public class OrderController {
@@ -49,10 +50,52 @@ public class OrderController {
 		
 		ModelAndView mv = new ModelAndView();
 		
+		String memberNo = (String)map.get("member_no"); // 회원 번호
+		String productNo = (String)map.get("product_no"); // 상품 번호
+		String imp_uid = (String)map.get("imp_uid"); // 아임포트 고유 번호
+		String merchant_uid = (String)map.get("merchant_uid"); // 아임포트 주문번호
+		int orderTotalPrice = Integer.parseInt((String)map.get("order_total_price")); // 결제 총 금액
+		String orderPayType = (String)map.get("order_payType"); // 상품 결제 타입	
+		int productOptionQty = Integer.parseInt((String)map.get("productOptionQty")); // 상품 수량
+		String productOption = (String)map.get("productOption"); // 상품 옵션
+		String orderPayStatus = (String)map.get("order_payStatus");
+		String postCode = (String)map.get("postCode"); // 우편번호
+		String deliveryAddr = (String)map.get("addr"); // 주소
+		String deliveryDetailAddr = (String)map.get("detailAddr"); // 상세주소
+		
+		logger.debug(orderPayStatus);
+		logger.debug(memberNo);
+		logger.debug(productNo);
+		logger.debug(imp_uid);
+		logger.debug(merchant_uid);
+		logger.debug(orderTotalPrice+"");
+		logger.debug(orderPayType);
+		logger.debug(productOptionQty+"");
+		logger.debug(productOption);
+		logger.debug(postCode);
+		logger.debug(deliveryAddr);
+		logger.debug(deliveryDetailAddr);
+		
+		Order order = new Order();
+		
+		order.setOrderTotalPrice(orderTotalPrice);
+		order.setOrderPayType(orderPayType);
+		order.setOrderPayStatus(orderPayStatus);
+		order.setProductNo(productNo);
+		order.setMemberNo(memberNo);
+		order.setImp_uid(imp_uid);
+		order.setMerchant_uid(merchant_uid);
+		order.setProductOption(productOption);
+		order.setProductOptionQty(productOptionQty);
+		
+		order.setDeliveryPostCode(postCode);
+		order.setDeliveryAddr(deliveryAddr);
+		order.setDeliveryDetailAddr(deliveryDetailAddr);
+		
+		int result = service.insertOrderEnroll(order);
+		
 		String msg="";
 		String loc ="";
-		
-		int result = service.insertOrderEnroll(map);
 		
 		if(result>0) {
 			msg = "결재 완료되었습니다 이용해주셔서 감사합니다.";
