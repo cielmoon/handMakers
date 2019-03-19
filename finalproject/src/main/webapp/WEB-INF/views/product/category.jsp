@@ -97,8 +97,22 @@
          <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
         <!-- 상품 프로필 사진 product_profile, alt=? product_title, title=product_title -->
               <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List">
-                <i class="fa fa-heart-o"></i></button><!-- title 툴팁정보 -->
+               <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List">
+                <i class="fa fa-heart-o"></i></button>
+               
+               
+                <%-- <c:if test="${wishCount eq 1}">
+                <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" onclick="fn_wishCk();">
+                	<i class="fa fa-heart"></i>
+               	</button>
+               </c:if>
+               <c:if test="${wishCount eq 0}">
+                <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" onclick="fn_wishCk();">
+                	<i class="fa fa-heart-o"></i>
+               	</button>
+               </c:if> --%>
+               
+               
                 <button type="button" class="addtocart-btn">Add to Cart</button>
               </div>
             </div>
@@ -161,7 +175,35 @@ $('#input-limit').on('change', function(){
 /* console.log($('#input-limit').val()); */
 $('#numPerPagesFrm').submit();
 });
+
+
+function fn_wishCk(){
+      		var wishBtn = $('#wishBtn');
+      		var wishCount = $('input[name=wishCount]').val();
+       		console.log("처음에 왔을 때 확인 : "+wishCount);
+      		var productNo = $('#input-productNo').val();
+      		$.ajax({
+  				url:"${path}/product/selectWish.do",
+  				data:{"productNo":productNo,"wishCount":wishCount},
+  				success:function(data){
+  					console.log(data);
+  					console.log(wishBtn);
+  					if(data["wishCount"]==0){
+  						console.log("이벤트 발생 후 0 : "+data["wishCount"]);
+  						wishBtn.html('<i class="fa fa-heart-o"></i>');
+  						$('input[name=wishCount]').val(data["wishCount"]);
+  					}
+  					if(data["wishCount"]!=0){
+  						console.log("이벤트 발생 후 1 : "+data["wishCount"]);
+  						wishBtn.html('<i class="fa fa-heart"></i>');
+  						$('input[name=wishCount]').val(data["wishCount"]);
+  					}
+  				}
+  			});
+      	};
+      	
 </script>
+
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
