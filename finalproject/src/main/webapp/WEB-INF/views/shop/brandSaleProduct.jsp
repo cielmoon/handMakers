@@ -198,7 +198,7 @@ function deleteBrand()
 												<a href="${path }/shop/brandProductHome.do?productNo=${p.PRODUCT_NO}&brandNo=${brand.brandNo}">${p.PRODUCT_TITLE }</a>
 											</h4>
 											<p>
-												<span>${p.BC_TITLE}/${p.SC_TITLE}</span><br/>
+												<span>${p.BC_TITLE} ${p.SC_TITLE}</span><br/>
 												<span>마감일 <fmt:formatDate value="${p.PRODUCT_ENDDATE}" pattern="yyyy-MM-dd HH:mm"/></span>
 											</p>
 										</div>
