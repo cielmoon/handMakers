@@ -7,7 +7,7 @@
 
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <%-- <jsp:param value="" name="pageTitle"/> --%>
-<<script >
+<script>
 
 $(function(){
 	$("#select-bigCategory").change(function(){
