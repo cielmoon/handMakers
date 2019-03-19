@@ -8,7 +8,17 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <%-- <jsp:param value="" name="pageTitle"/> --%>
 
+<style>
+#inputAdminProductProfileImg {
+	padding-top: 7px;
+	border: none;
+}
+</style>
+
 <script>
+	$(document).ready(function() {
+		$("#inputAdminProductProfileImg").on("change", enrollMainImg);
+	});
 	
 	function validate() {
 		if ($("#adminProductName").val() == "") {
@@ -79,6 +89,30 @@
 	
 		return true;
 	};
+	
+	// 메인사진 등록
+	function enrollMainImg(e) {
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+		
+		filesArr.forEach(function(f) {
+			if (!f.type.match("image.*")) {
+				alert("이미지 확장자만 등록해주세요.")
+				
+				return;
+			}
+			
+			sel_file = f;
+			
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#adminProductProfileMainImg").attr("src", e.target.result).css('width', '100%').css('height', '100%');
+				console.log("메인사진" + $("#adminProductProfileMainImg").val());
+			}
+			
+			reader.readAsDataURL(f);
+		});
+	}
 </script>
 
 <section>
@@ -188,18 +222,24 @@
 							<fieldset id="productField2">
 								<div class="form-group required">
 									<label for="adminProductProfile" class="col-sm-2 control-label">메인사진</label>
-									<div class="col-sm-4">
-										<img id="adminProductProfileMainImg" src="${path }/resources/image/noImg.png">										
+									<div class="col-sm-2">
+									<input type="file" name="inputAdminProductProfileImg" id="inputAdminProductProfileImg" >
 									</div>	
-									
 								</div>
-								<div class="form-group required" id="adminProductFiles">
-									<label for="adminProductProfileImg" class="inputSrc1">메인사진 추가하기</label>
-                 					<input type="file" name="adminProductProfileImg" id="adminProductProfileImg" >
+								<div class="col-sm-3">
 								</div>
-								<div class="form-group required" id="filesAddBtn">
+								<div class="col-sm-6">
+										<img id="adminProductProfileMainImg" src="${path }/resources/image/noImg.png">										
+								</div>
+								<div class="col-sm-3">
+								</div>
+								<!-- <div class="form-group required" id="adminProductFiles">
+									<label for="inputAdminProductProfileImg" class="inputSrc1">메인사진 추가하기</label>
+                 					<input type="file" name="inputAdminProductProfileImg" id="inputAdminProductProfileImg" >
+								</div> -->
+								<!-- <div class="form-group required" id="filesAddBtn">
 									<input type="button" class="btn btn-primary" value="파일추가하기">
-								</div>
+								</div> -->
 								
 							</fieldset>
 							

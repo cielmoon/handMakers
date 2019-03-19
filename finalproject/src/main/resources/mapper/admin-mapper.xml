@@ -132,6 +132,6 @@
 	
 	<select id="selectMemberList" resultMap="viewMemberListMap">
 		select member_id, member_name, member_email, member_phone, member_enrolldate
-		from member where member_no != 'M_NO_1' order by member_no asc 
+		from member where member_no != 'M_NO_1' order by member_enrolldate asc 
 	</select>
 </mapper>
