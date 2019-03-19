@@ -13,35 +13,12 @@
     <li><a href="${path }/product/bestList.do">베스트</a></li>
   </ul>
   <div class="row">
+    
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
       <div class="column-block">
         <div class="columnblock-title">Categories</div>
         <div class="category_block">
           <ul class="box-category treeview-list treeview">
-            <!-- <li><a href="#" class="activSub">Desktops</a>
-              <ul>
-                <li><a href="#">PC</a></li>
-                <li><a href="#">MAC</a></li>
-              </ul>
-            </li> -->
-            <!-- <li><a href="#" class="activSub">Laptops &amp; Notebooks</a>
-              <ul>
-                <li><a href="#">Macs</a></li>
-                <li><a href="#">Windows</a></li>
-              </ul>
-            </li> -->
-            <!-- <li><a href="#" class="activSub">Components</a>
-              <ul>
-                <li><a href="#">Mice and Trackballs</a></li> -->
-                <!-- <li><a href="#" class="activSub" >Monitors</a>
-                  <ul>
-                    <li><a href="#"  >test 1</a></li>
-                    <li><a href="#"  >test 2</a></li>
-                  </ul>
-                </li>
-                <li><a href="#">Windows</a></li>
-              </ul> 
-            </li>-->
             <li><a href="#">Tablets</a></li>
             <li><a href="#">Software</a></li>
             <li><a href="#">Phones & PDAs</a></li>
@@ -51,18 +28,18 @@
         </div>
       </div>
     </div>
+    
     <div id="content" class="col-sm-9">
       <!-- <h2 class="category-title">카테고리</h2> -->
       <div class="category-page-wrapper">
         <div class="col-md-6 list-grid-wrapper">
           <div class="btn-group btn-list-grid">
-            <!-- <button type="button" id="list-view" class="btn btn-default list" data-toggle="tooltip" title="List"><i class="fa fa-th-list"></i></button>
-            <button type="button" id="grid-view" class="btn btn-default grid" data-toggle="tooltip" title="Grid"><i class="fa fa-th"></i></button> -->
             <div class="result-inner">(총 ${contentCount }건의 상품)</div>
-            <div id="grid-view" class="btn btn-default grid"></div><!-- <i class="fa fa-th"></i> -->
+            <div id="grid-view" class="btn btn-default grid"></div>
           </div>
           <!-- <a href="#" id="compare-total">Product Compare (0)</a> -->
           </div>
+          
         <div class="col-md-1 text-right page-wrapper">
           <label class="control-label" for="input-limit">Show :</label>
           <div class="limit">
@@ -75,22 +52,7 @@
             </select>
           </div>
         </div>
-        <!-- <div class="col-md-2 text-right sort-wrapper">
-          <label class="control-label" for="input-sort">Sort By :</label>
-          <div class="sort-inner">
-            <select id="input-sort" class="form-control">
-              <option value="ASC" selected="selected">Default</option>
-              <option value="ASC">Name (A - Z)</option>
-              <option value="DESC">Name (Z - A)</option>
-              <option value="ASC">Price (Low &gt; High)</option>
-              <option value="DESC">Price (High &gt; Low)</option>
-              <option value="DESC">Rating (Highest)</option>
-              <option value="ASC">Rating (Lowest)</option>
-              <option value="ASC">Model (A - Z)</option>
-              <option value="DESC">Model (Z - A)</option>
-            </select>
-          </div>
-        </div> -->
+        
       </div>
       <br />
       
@@ -144,19 +106,15 @@
        
        </c:forEach>
        <!-- 작업중 -->
+       
           
       </div>
       <div class="category-page-wrapper">
-        <%-- <div class="result-inner">Showing 1 to 8 of 10 (${cPage } Pages)</div> --%>
         
         <div class="pagination-inner">
           <ul class="pagination">
             <li class="active">
             ${pageBar }
-            <!-- <span>1</span></li>
-            <li><a href="category.html">2</a></li>
-            <li><a href="category.html">&gt;</a></li>
-            <li><a href="category.html">&gt;|</a></li> -->
           </ul>
         </div>
         
@@ -168,4 +126,3 @@
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-
