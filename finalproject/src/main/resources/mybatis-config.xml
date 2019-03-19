@@ -11,7 +11,8 @@
       <typeAlias type="kh.hand.makers.member.model.vo.ManageOrder" alias="managerorder"/>
       <typeAlias type="kh.hand.makers.member.model.vo.Member" alias="member"/>
       <typeAlias type="kh.hand.makers.shop.model.vo.Brand" alias="brand"/> 
-      <typeAlias type="kh.hand.makers.admin.model.vo.managePreProduct" alias="managepreproduct"/> 
+      <typeAlias type="kh.hand.makers.admin.model.vo.managePreProduct" alias="managepreproduct"/>
+      <typeAlias type="kh.hand.makers.admin.model.vo.ViewMemberList" alias="viewmemberList"/> 
       <typeAlias type="kh.hand.makers.shop.model.vo.PreProduct" alias="preproduct"/>
       <typeAlias type="kh.hand.makers.admin.model.vo.AdminProduct" alias="adminproduct"/>
       <typeAlias type="kh.hand.makers.shop.model.vo.BigCategory" alias="bigcategory"/>

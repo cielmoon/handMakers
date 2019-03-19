@@ -5,6 +5,7 @@ import java.util.Map;
 
 import kh.hand.makers.admin.model.vo.AdminProduct;
 import kh.hand.makers.admin.model.vo.managePreProduct;
+import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
 
@@ -19,4 +20,6 @@ public interface AdminDao {
 	PreProduct selectPreProduct(String preProductNo);
 	int selectPreProductCount();
 	int preProductStateUpdate(Map<String,String> ps);
+	int selectMemberCount();
+	List<Member> selectMemberList(int cPage,int numPerPage);
 }
