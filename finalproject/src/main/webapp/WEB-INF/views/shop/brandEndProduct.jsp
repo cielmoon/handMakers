@@ -8,6 +8,10 @@
 <%@page import="java.util.*" %>
 
 <style>
+.sale-modal-body {
+    position: relative;
+    padding: 20px;
+}
 .inline {
 	display: inline;
 }
@@ -47,6 +51,7 @@
 #input-requestReason {
 	resize: none;
 }
+
 </style>
 
 <script>
@@ -59,11 +64,11 @@ $(function(){
 	});
 });
 
-function stopSale(productNo, productTitle)
+function reSale(productNo, productTitle)
 {
 	$.ajax({
 		url:"${path}/shop/selectReqState.do",
-		data:{"reqRef" : productNo, "reqState": '2'},
+		data:{"reqRef" : productNo, "reqState": '1'},
 		success:function(data){
 			var result = data.result;		
 			if(result > 0)
@@ -71,17 +76,17 @@ function stopSale(productNo, productTitle)
 				alert("이미 요청 처리중 입니다.");
 			}
 			else
-			{
-				$("#modalTitle").text("판매중단 요청");
-				$("#modalSubTitle").text("(" + productTitle + ")");
-				$("#input-requestTitle").val("");
-				$("#input-requestReason").val("");
-				$("#input-requestType").val('P');
-				$("#input-requestState").val('2');
-				$("#input-requestRef").val(productNo);
-				$("#input-requestLoc").val("/shop/brandSaleProduct.do?brandNo=");
-				$("#frm-requestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
-				$("#requestModal").modal();
+			{					
+				$("#saleModalTitle").text("재판매 요청");
+				$("#saleModalSubTitle").text("(" + productTitle + ")");
+				$("#input-sale-requestTitle").val("");
+				$("#input-sale-requestReason").val("");
+				$("#input-sale-requestType").val('P');
+				$("#input-sale-requestState").val('1');
+				$("#input-sale-requestRef").val(productNo);
+				$("#input-sale-requestLoc").val("/shop/brandEndProduct.do?brandNo=");
+				$("#frm-saleRequestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
+				$("#saleRequestModal").modal();
 			}
 		}
 	});
@@ -110,7 +115,7 @@ function deleteBrand()
 				$("#input-requestType").val('B');
 				$("#input-requestState").val('0');
 				$("#input-requestRef").val('${brand.brandNo}');
-				$("#input-requestLoc").val("/shop/brandSaleProduct.do?brandNo=");
+				$("#input-requestLoc").val("/shop/brandEndProduct.do?brandNo=");
 				$("#frm-requestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
 				$("#requestModal").modal();
 			}
@@ -156,7 +161,7 @@ function deleteBrand()
 			<div class="col-sm-9" id="content">
 				<div class="row">
 					<div class="col-sm-3">			
-						<label>판매중</label>
+						<label>판매종료</label>
 					</div>
 					<div class="col-sm-5"></div>
 					<div class="col-sm-4">
@@ -167,7 +172,6 @@ function deleteBrand()
 							</c:forEach>	
 						</select>
 					</div>
-					<div class="col-sm-9"></div>
 					<div class="col-sm-12">
 						<div class="category-page-wrapper">
 							<div class="col-md-6 list-grid-wrapper">
@@ -185,7 +189,7 @@ function deleteBrand()
 												<img src="${path }/resources/image/product/${p.PRODUCT_PROFILE}" class="img-responsive" />
 											</a>
 											<div class="button-group">
-												<button type="button" class="wishlist" data-toggle="tooltip" title="판매중단 요청" onclick="stopSale('${p.PRODUCT_NO}','${p.PRODUCT_TITLE }');">
+												<button type="button" class="wishlist" data-toggle="tooltip" title="재판매 요청" onclick="reSale('${p.PRODUCT_NO}','${p.PRODUCT_TITLE }');">
 													<i class="fas fa-ban"></i>
 												</button>
 											</div>
@@ -208,6 +212,36 @@ function deleteBrand()
 						${pageBar }
 					</div>
 				</div>
+			</div>
+			
+			<!-- 재판매 요청  Modal -->
+			<div class="modal fade" tabindex="-1" role="dialog" id="saleRequestModal">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <form name="saleRequestFrm" id="frm-saleRequestModal" method="post">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			        	<span aria-hidden="true">×</span>
+			        </button>
+			        <h4 class="modal-title" id="saleModalTitle" style="display: inline;"></h4>
+			        <h4 class="modal-title" id="saleModalSubTitle" style="display: inline;"></h4>
+			      </div>
+			      <div class="sale-modal-body">
+					<span>해당 상품을 재판매 요청할까요?</span>
+				  </div>
+				  <input type="hidden" id="input-saleRequestTitle" name="requestTitle" value="재판매 요청"/>
+				  <input type="hidden" id="input-saleRequestReason" name="requestReason" value="상품 재판매 요청입니다."/>
+				 
+			      <div class="modal-footer" style="padding-top: 9px; padding-bottom: 9px;">
+			      	<input type="hidden" name="requestRef" id="input-sale-requestRef"/>
+			      	<input type="hidden" name="requestType" id="input-sale-requestType"/> 
+			      	<input type="hidden" name="requestState" id="input-sale-requestState"/>
+			      	<input type="hidden" name="requestLoc" id="input-sale-requestLoc"/>   
+			      	<button type="submit" class="btn btn-primary float-right">완료</button>     
+			      </div>
+			      </form>
+			    </div>
+			  </div>
 			</div>
 			
 			<!-- 폐점신고  Modal -->

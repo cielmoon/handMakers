@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import kh.hand.makers.admin.model.dao.AdminDao;
 import kh.hand.makers.admin.model.vo.AdminProduct;
+import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
+import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
 @Service
@@ -68,6 +70,41 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectProductList(cPage, numPerPage);
 	}
-	
+
+	@Override
+	public int selectMemberCount() {
+		// TODO Auto-generated method stub
+		return dao.selectMemberCount();
+	}
+
+	@Override
+	public List<Member> selectMemberList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectMemberList(cPage, numPerPage);
+	}
+
+	@Override
+	public int selectRequestCount(String reqRefType) {
+		// TODO Auto-generated method stub
+		return dao.selectRequestCount(reqRefType);
+	}
+
+	@Override
+	public List<SellerRequest> selectRequestList(String reqRefType, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectRequestList(reqRefType, cPage, numPerPage);
+	}
+
+	@Override
+	public String selectBrandName(String reqRef) {
+		// TODO Auto-generated method stub
+		return dao.selectBrandName(reqRef);
+	}
+
+	@Override
+	public String selectProductName(String reqRef) {
+		// TODO Auto-generated method stub
+		return dao.selectProductName(reqRef);
+	}
 	
 }

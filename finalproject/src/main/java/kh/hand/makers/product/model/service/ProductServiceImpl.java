@@ -104,6 +104,29 @@ public class ProductServiceImpl implements ProductService {
 		return dao.selectProductOption(productNo);
 	}
 	
+	@Override
+	public int selectProductCount(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.selectProductCount(map);
+	}
+	
+	@Override
+	public List<Map<String, String>> productList(Map<String, String> map, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.productList(map, cPage, numPerPage);
+	}
+
+	@Override
+	public List<Map<String, String>> getMenuList() {
+		return dao.getMenuList();
+	}
+
+	@Override
+	public List<Map<String, String>> sCategoryList(String bCategory) {
+		// TODO Auto-generated method stub
+		return dao.sCategoryList(bCategory);
+	}
+	
 	
 	
 	

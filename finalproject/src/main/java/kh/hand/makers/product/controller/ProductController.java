@@ -33,7 +33,6 @@ public class ProductController {
 	ShopService shopService;
 	
 	public static String categoryNo;
-	public static int nper;
 	/*public static String numPerPage;*/
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
@@ -90,54 +89,80 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/product/newList.do")
-	public String productNewList()
-	{
-		return "product/newList";
-	}
-	
-	@RequestMapping("/product/preList.do")
-	public String productPreList()
-	{
-		return "product/preList";
-	}
-	
-	/*@RequestMapping("/product/category.do")
-	public String productCategory()
-	{
-		return "product/category";
-	}*/
-	@RequestMapping("/product/category.do")
-	/*public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, String numPerPages, String category)*/
-	public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, String numPerPages, String category)
+	public ModelAndView productNewList(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="numPerPage", required=false, defaultValue="8") int numPerPage)
 	{
 		
-		if(category != null ) { categoryNo = category;	}
-		int numPerPage = 9;
-		/*if(Integer.parseInt(numPerPages) != 9) { numPerPage = Integer.parseInt(numPerPages);}*/
+		Map<String, String> map = new HashMap();
+		map.put("productStep", "1");//1= 신규
+		int contentCount = service.selectProductCount(map);
+		logger.debug(contentCount+"ㄳ");
 		
-		if(numPerPages != null && numPerPages != "9") { numPerPage = Integer.parseInt(numPerPages);}
 		
-		//int numPerPage = 9;
-		/*if( numPerPages == null ) { numPerPages = numPerPage; }*/
-		/*if( numPerPage != null ) { numPerPage = Integer.parseInt(numPerPage);}*/
-		
-		/*int numPerPage = 9;
-		if( numPerPages != null ) { numPerPage = Integer.parseInt(numPerPages);}*/
-		
-		logger.debug(numPerPages+"pages");
-		logger.debug(numPerPage+"nomal");
-		int contentCount = service.selectProductCount(categoryNo);
 		ModelAndView mv = new ModelAndView();
-		/*logger.debug("ProductController In -");logger.debug("+_+_+_+query : "+category);*/
-		List<Map<String, String>> list = service.productList(categoryNo, cPage, numPerPage);
-		
+		List<Map<String, String>> list = service.productList(map, cPage, numPerPage);
 		
 		mv.addObject("productList", list);
-		mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"));
-		System.out.println(list);
+		mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/newList.do?numPerPage="+numPerPage));
 		mv.addObject("cPage", cPage);
 		mv.addObject("numPerPage", numPerPage);
 		mv.addObject("contentCount", contentCount);
+		
+		return mv;
+	}
+	
+	@RequestMapping("/product/preList.do")
+	public ModelAndView productPreList(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="numPerPage", required=false, defaultValue="8") int numPerPage)
+	{
+		Map<String, String> map = new HashMap();
+		map.put("productStep", "0");//입점예정
+		int contentCount = service.selectProductCount(map);
+		logger.debug(contentCount+"ㄳ");
+		
+		
+		ModelAndView mv = new ModelAndView();
+		List<Map<String, String>> list = service.productList(map, cPage, numPerPage);
+		
+		mv.addObject("productList", list);
+		mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/newList.do?numPerPage="+numPerPage));
+		mv.addObject("cPage", cPage);
+		mv.addObject("numPerPage", numPerPage);
+		mv.addObject("contentCount", contentCount);
+		
+		return mv;	
+		}
+	
+	@RequestMapping("/product/category.do")
+	public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="numPerPage", required=false, defaultValue="9") int numPerPage, String category, String sc)
+	{
+		
+		if(category != null ) { categoryNo = category;	}
+		
+		//logger.debug(numPerPages+"pages");
+		//logger.debug(numPerPage+"nomal");
+		//int contentCount = service.selectProductCount(categoryNo);
+		ModelAndView mv = new ModelAndView();
+		//logger.debug("ProductController In -");logger.debug("+_+_+_+query : "+category);
+		Map<String, String> map = new HashMap();
+		map.put("category", categoryNo);
+		if( sc != null)	{ map.put("sc", sc); }
+		logger.debug("가져온 sc 있니? : "+sc);
+		String bcTitle = service.selectBcTitle(categoryNo);
+		List<Map<String, String>> sCategoryList = service.sCategoryList(categoryNo);
+		int contentCount = service.selectProductCount(map);
+		List<Map<String, String>> productList = service.productList(map, cPage, numPerPage);
+		logger.debug("P.C- sCategoryList : "+sCategoryList);
+		
+		
+		mv.addObject("productList", productList);
+		mv.addObject("sCategoryList", sCategoryList);
+		//mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"));
+		//페이징 다른 버전 url+=cpage
+		mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do?category="+categoryNo+"&numPerPage="+numPerPage));
+		mv.addObject("cPage", cPage);
+		mv.addObject("numPerPage", numPerPage);
+		mv.addObject("contentCount", contentCount);
+		mv.addObject("bcTitle", bcTitle);
+		mv.addObject("category", categoryNo);
 		
 		return mv;
 	}

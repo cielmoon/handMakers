@@ -14,155 +14,247 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.admin.model.service.AdminService;
 import kh.hand.makers.admin.model.vo.AdminProduct;
+import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.common.PageFactory;
+import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
 
 @Controller
 public class AdminController {
-	private Logger logger=LoggerFactory.getLogger(AdminController.class);
+	private Logger logger = LoggerFactory.getLogger(AdminController.class);
 	@Autowired
 	AdminService service;
-	//관리자페이지 홈
-	@RequestMapping("/admin/adminPage.do")
-	public String adminMyPage()
-	{
-		return "admin/adminPage";
-	}
-	
-	//브랜드 관리
-	@RequestMapping("/admin/manageBrand.do")
-	public ModelAndView manageBrand(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage)
-	{
-		int numPerPage=5;
-		ModelAndView mv=new ModelAndView();
-		int contentCount=service.selectBrandCount();
-		List<Brand> brandList=service.selectBrandList(cPage,numPerPage);
-		mv.addObject("pageBar",PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageBrand.do"));
-		mv.addObject("brandList",brandList);
-		mv.setViewName("admin/manageBrand");
+	private String sReqState = "B";
+
+	@RequestMapping("/admin/memberList.do")
+	public ModelAndView manageMember(@RequestParam(value = "cPage", required = false, defaultValue = "0") int cPage) {
+		int numPerPage = 5;
+		ModelAndView mv = new ModelAndView();
+		int contentCount = service.selectMemberCount();
+		List<Member> memberList = service.selectMemberList(cPage, numPerPage);
+		mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/memberList.do"));
+		mv.addObject("memberList", memberList);
+		mv.setViewName("admin/memberList");
 		return mv;
-	}	
-	@RequestMapping("/admin/changeBrandState.do")
-	public ModelAndView changeBrandState(String brandNo) {
-		
-		System.out.println("지금 받아온 값:"+brandNo);
-		String[] bNoSplit = brandNo.split(",");	
-		String msg="";
-		String loc="";		
-		Map<String,String> bs = new HashMap<String,String>();
-		
-	
-		bs.put("brandNo",bNoSplit[0].trim());
-		bs.put("brandState",bNoSplit[1]);
-		if(bNoSplit[1].equals("0") || bNoSplit[1].equals("2") ) {
-			//입점제안 승인취소 또 반려 + 상품도 재등록으로 이동
-			//입점제안 상태와 상품의 상태를 조작해야함
-			//int results=service.preProductStateUpdate(bs);
-			//int results=service.productStateUpdate(bs);
-		}
-		int result=service.brandStateUpdate(bs);
-		if(result>0)
-		{
-			msg="수정완료";
-			loc="/admin/manageBrand.do";
-		}
-		else {
-			msg="수정실패";
-			loc="/admin/manageBrand.do";
-		}
-		ModelAndView mv=new ModelAndView();
-		mv.addObject("msg",msg);
-		mv.addObject("loc",loc);
-		mv.setViewName("common/msg");
-		return mv;		
 	}
 
-	
-	//입점 관리
+	// 관리자페이지 홈
+	@RequestMapping("/admin/adminPage.do")
+	public String adminMyPage() {
+		return "admin/adminPage";
+	}
+
+	// 브랜드 관리
+	@RequestMapping("/admin/manageBrand.do")
+	public ModelAndView manageBrand(@RequestParam(value = "cPage", required = false, defaultValue = "0") int cPage) {
+		int numPerPage = 5;
+		ModelAndView mv = new ModelAndView();
+		int contentCount = service.selectBrandCount();
+		List<Brand> brandList = service.selectBrandList(cPage, numPerPage);
+		mv.addObject("pageBar",
+				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageBrand.do"));
+		mv.addObject("brandList", brandList);
+		mv.setViewName("admin/manageBrand");
+		return mv;
+	}
+
+	@RequestMapping("/admin/changeBrandState.do")
+	public ModelAndView changeBrandState(String brandNo) {
+
+		System.out.println("지금 받아온 값:" + brandNo);
+		String[] bNoSplit = brandNo.split(",");
+		String msg = "";
+		String loc = "";
+		Map<String, String> bs = new HashMap<String, String>();
+
+		bs.put("brandNo", bNoSplit[0].trim());
+		bs.put("brandState", bNoSplit[1]);
+		if (bNoSplit[1].equals("0") || bNoSplit[1].equals("2")) {
+			// 입점제안 승인취소 또 반려 + 상품도 재등록으로 이동
+			// 입점제안 상태와 상품의 상태를 조작해야함
+			// int results=service.preProductStateUpdate(bs);
+			// int results=service.productStateUpdate(bs);
+		}
+		int result = service.brandStateUpdate(bs);
+		if (result > 0) {
+			msg = "수정완료";
+			loc = "/admin/manageBrand.do";
+		} else {
+			msg = "수정실패";
+			loc = "/admin/manageBrand.do";
+		}
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+
+	// 입점 관리
 	@RequestMapping("/admin/managePreProduct.do")
-	public ModelAndView managePreProduct(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage)
-	{
-		int numPerPage=5;
-		ModelAndView mv=new ModelAndView();
-		int contentCount=service.selectPreProductCount();
-		List<managePreProduct> preProductList=service.selectPreProductList(cPage,numPerPage);
-		mv.addObject("pageBar",PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/managePreProduct.do"));
-		mv.addObject("preProductList",preProductList);
+	public ModelAndView managePreProduct(
+			@RequestParam(value = "cPage", required = false, defaultValue = "0") int cPage) {
+		int numPerPage = 5;
+		ModelAndView mv = new ModelAndView();
+		int contentCount = service.selectPreProductCount();
+		List<managePreProduct> preProductList = service.selectPreProductList(cPage, numPerPage);
+		mv.addObject("pageBar",
+				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/managePreProduct.do"));
+		mv.addObject("preProductList", preProductList);
 		mv.setViewName("admin/managePreProduct");
 		return mv;
 	}
-	
+
 	@RequestMapping("/admin/changePreProductState.do")
 	public ModelAndView changePreProductState(String preProductNo) {
-		
-		String[] pNoSplit = preProductNo.split(",");	
-		String msg="";
-		String loc="";		
-		Map<String,String> ps = new HashMap<String,String>();
-		
-	
-		ps.put("preProductNo",pNoSplit[0].trim());
-		ps.put("preProductState",pNoSplit[1]);
-		if(pNoSplit[1].equals("0") || pNoSplit[1].equals("2") ) {
-			//입점제안 승인취소 또 반려 + 상품도 재등록으로 이동
-			//입점제안 상태와 상품의 상태를 조작해야함
-			//int results=service.preProductStateUpdate(bs);
-			//int results=service.productStateUpdate(bs);
+
+		String[] pNoSplit = preProductNo.split(",");
+		String msg = "";
+		String loc = "";
+		Map<String, String> ps = new HashMap<String, String>();
+
+		ps.put("preProductNo", pNoSplit[0].trim());
+		ps.put("preProductState", pNoSplit[1]);
+		if (pNoSplit[1].equals("0") || pNoSplit[1].equals("2")) {
+			// 입점제안 승인취소 또 반려 + 상품도 재등록으로 이동
+			// 입점제안 상태와 상품의 상태를 조작해야함
+			// int results=service.preProductStateUpdate(bs);
+			// int results=service.productStateUpdate(bs);
 		}
-		int result=service.preProductStateUpdate(ps);
-		if(result>0)
-		{
-			msg="수정완료";
-			loc="/admin/managePreProduct.do";
+		int result = service.preProductStateUpdate(ps);
+		if (result > 0) {
+			msg = "수정완료";
+			loc = "/admin/managePreProduct.do";
+		} else {
+			msg = "수정실패";
+			loc = "/admin/managePreProduct.do";
 		}
-		else {
-			msg="수정실패";
-			loc="/admin/managePreProduct.do";
-		}
-		ModelAndView mv=new ModelAndView();
-		mv.addObject("msg",msg);
-		mv.addObject("loc",loc);
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
 		mv.setViewName("common/msg");
-		return mv;		
+		return mv;
 	}
+
 	@RequestMapping("/admin/preProductView.do")
 	public ModelAndView preProductView(String preProductNo) {
-		ModelAndView mv=new ModelAndView();
+		ModelAndView mv = new ModelAndView();
 		PreProduct pProduct = service.selectPreProduct(preProductNo);
-		mv.addObject("preProduct",pProduct);
+		mv.addObject("preProduct", pProduct);
 		mv.setViewName("admin/preProductView");
 		return mv;
 	}
-	
-	//상품 관리
-	@RequestMapping("/admin/manageProduct.do")
-	public ModelAndView manageProduct(@RequestParam(value="cPage",required=false, defaultValue="0") int cPage)
-	{
-		int numPerPage=5;
-		ModelAndView mv=new ModelAndView();
-		int contentCount=service.selectProductCount();
-		List<AdminProduct> adminProductList=service.selectProductList(cPage,numPerPage);
-		mv.addObject("pageBar",PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageProduct.do"));
-		mv.addObject("adminProductList",adminProductList);
+
+	// 상품 관리
+	@RequestMapping("/admin/manageEnrollProduct.do")
+	public ModelAndView manageEnrollProduct(
+			@RequestParam(value = "cPage", required = false, defaultValue = "0") int cPage) {
+		int numPerPage = 5;
+		ModelAndView mv = new ModelAndView();
+		int contentCount = service.selectProductCount();
+		List<AdminProduct> adminProductList = service.selectProductList(cPage, numPerPage);
+		mv.addObject("pageBar",
+				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageProduct.do"));
+		mv.addObject("adminProductList", adminProductList);
 		mv.setViewName("admin/manageProduct");
 		return mv;
 	}
-	
+
+	// 상품 관리
+	@RequestMapping("/admin/manageProduct.do")
+	public ModelAndView manageProduct(@RequestParam(value = "cPage", required = false, defaultValue = "0") int cPage) {
+		int numPerPage = 5;
+		ModelAndView mv = new ModelAndView();
+		/*
+		 * int contentCount=service.selectProductCount(); List<>
+		 * adminProductList=service.selectProductReqMsgList(cPage,numPerPage);
+		 * mv.addObject("pageBar",PageFactory.getPageBar(contentCount, cPage,
+		 * numPerPage, "/makers/admin/manageProduct.do"));
+		 * mv.addObject("adminProductList",adminProductList);
+		 * mv.setViewName("admin/manageProduct");
+		 */
+		return mv;
+	}
+
 	@RequestMapping("/admin/enrollProduct.do")
-	public String enrollProduct()
-	{
+	public String enrollProduct() {
 		return "admin/enrollProduct";
 	}
-	
+
 	@RequestMapping("/admin/enrollProductEnd.do")
-	public String enrollProductEnd()
-	{
+	public String enrollProductEnd() {
 		return "admin/enrollProductEnd";
 	}
-	
 
+	@RequestMapping("/admin/manageRequest.do")
+	public ModelAndView manageRequest(@RequestParam(value = "cPage", required = false, defaultValue = "0") int cPage, String sellerReqState) {		
+		if(sellerReqState != null) {
+			setsReqState(sellerReqState);
+		}else {
+			setsReqState("B");
+		}
+		int numPerPage = 5;
+		ModelAndView mv = new ModelAndView();
+		int contentCount = service.selectRequestCount(getsReqState());
+		List<SellerRequest> requestList = service.selectRequestList(getsReqState(), cPage, numPerPage);
+		for (SellerRequest sellerRequest : requestList) {
+			if(sellerRequest.equals("B")) {
+				String reqBrandName = service.selectBrandName(sellerRequest.getSellerReqRef());
+				sellerRequest.setRefName(reqBrandName);
+			}else if(sellerRequest.equals("P")){
+				String reqProductName = service.selectProductName(sellerRequest.getSellerReqRef());
+				sellerRequest.setRefName(reqProductName);
+			}
+			
+		}
+		mv.addObject("pageBar",	PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageRequest.do"));
+		mv.addObject("requestList", requestList);
+		mv.setViewName("admin/manageRequest");
+
+		return mv;
+	}
 	
+	@RequestMapping("/admin/changeReqProcess.do")
+	public ModelAndView changeReqProcess(String sellerReqNo) {		
+
+		ModelAndView mv = new ModelAndView();
+		System.out.println("지금 받아온 값:" + sellerReqNo);
+		String[] rNoSplit = sellerReqNo.split(",");
+		String msg = "";
+		String loc = "";
+		Map<String, String> sr1 = new HashMap<String, String>();//process
+		Map<String, String> sr2 = new HashMap<String, String>();//state
+		sr1.put("brandNo", rNoSplit[0].trim());
+		sr1.put("brandState", rNoSplit[1]);
+		
+		sr2.put("brandNo", rNoSplit[0].trim());
+		sr2.put("brandState", rNoSplit[2]);		
+/*
+		int result1 = service.reqProcessUpdate(sr1);
+		int result2 = service.reqStateUpdate(sr2);
+		if (result > 0 && result2 > 0) {
+			msg = "수정완료";
+			loc = "/admin/manageBrand.do";
+		} else {
+			msg = "수정실패";
+			loc = "/admin/manageBrand.do";
+		}
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");*/
+		return mv;
+	}
 	
+	public String getsReqState() {
+		return sReqState;
+	}
+
+	public void setsReqState(String sReqState) {
+		this.sReqState = sReqState;
+	}
+
+
 }

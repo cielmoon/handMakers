@@ -33,12 +33,12 @@ function selectBrand(brandNo, brandState)
 					<div class="columnblock-title">마이페이지</div>
 					<div class="account-block">
 						<div class="list-group">
-							<a class="list-group-item" href="#">홈</a> 
-							<a class="list-group-item" href="#">내정보 관리</a>
-							<a class="list-group-item" href="#">배송지 설정</a>				
-							<a class="list-group-item" href="#">비밀번호 변경</a> 
-							<a class="list-group-item" href="#">주문/배송내역 조회</a>			
-							<a class="list-group-item" href="#">회원탈퇴</a>
+							<a class="list-group-item" href="${path }/member/myPage.do">홈</a> 
+							<a class="list-group-item" href="${path }/member/checkPassword.do?checkNo=2">내정보 관리</a>
+							<a class="list-group-item" href="${path }/member/checkPassword.do?checkNo=3">배송지 설정</a>				
+							<a class="list-group-item" href="${path }/member/checkPassword.do?checkNo=1">비밀번호 변경</a> 
+							<a class="list-group-item" href="${path }/member/manageOrder.do">주문/배송내역 조회</a>			
+							<a class="list-group-item" href="${path }/member/checkPassword.do?checkNo=0">회원탈퇴</a>
 						</div>
 					</div>
 				</div>
@@ -65,24 +65,7 @@ function selectBrand(brandNo, brandState)
 						</div>	
 					</div>					
 				</div>
-<%-- 				<div class="column-block">		
-					<c:if test="${brandList == null }">		
-					<div class="columnblock-title">판매자페이지</div>
-					<div class="account-block">
-						<div class="list-group">							
-								<a class="list-group-item" href="${path }/shop/brandEnroll.do">브랜드 등록하기</a>
-							</c:if>
-							<c:forEach items="${brandList }" var="b">
-								<a class="list-group-item brand-list" href="javascript:selectBrand('${b.brandNo }', '${b.brandState }');">${b.brandTitle }				
-									<c:if test="${b.brandState.toString()=='0'}">
-										<i class="fa fa-clock-o" style="font-size:20px; float: right;"></i>
-									</c:if>
-									<c:if test="${b.brandState.toString()=='2'}">
-										<i class="fa fa-exclamation-circle" style="font-size:20px; color: firebrick; float: right;"></i>
-									</c:if>
-								</a>
-							</c:forEach>
-						</div> --%>
+
 			
 			</div>
 			<!-- 정보 변경 전에 다시 비밀번호 확인 -->

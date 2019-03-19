@@ -10,27 +10,32 @@
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="/makers"><i class="fa fa-home"></i></a></li>
-    <li><a href="#b?">${numPerPage } 대 카테고리 ${numPerPages }</a></li>
+    <li><a href="${path }/product/category.do?category=${category}">${bcTitle }</a></li>
   </ul>
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
       <div class="column-block">
-        <div class="columnblock-title">Categories</div>
+        <div class="columnblock-title"><a href="${path }/product/category.do?category=${category}">${bcTitle }</a></div>
         <div class="category_block">
-          
+          <%-- <h1>${sCategoryList}</h1> --%>
           <ul class="box-category treeview-list treeview">
-            <li><a href="#s1" class="activSub">Desktops</a>
+            <!-- <li><a href="#s1" class="activSub">Desktops</a>
             <li><a href="#s2">Tablets</a></li>
             <li><a href="#s3">Software</a></li>
             <li><a href="#s4">Phones & PDAs</a></li>
             <li><a href="#s5">Cameras</a></li>
-            <li><a href="#s6">MP3 Players</a></li>
+            <li><a href="#s6">MP3 Players</a></li> -->
+            
+            
+            <c:forEach items="${sCategoryList}" var="scList" varStatus="vs">
+            <li><a href="${path }/product/category.do?category=${category}&sc=${scList.SC_NO}">${scList.SC_TITLE }</a></li>
+            </c:forEach>
           </ul>
         </div>
       </div>
     </div>
     <div id="content" class="col-sm-9">
-      <h2 class="category-title">Desktops</h2>
+      <!-- <h2 class="category-title">Desktops</h2> -->
       <div class="category-page-wrapper">
         <div class="col-md-6 list-grid-wrapper">
           <div class="btn-group btn-list-grid">
@@ -45,13 +50,13 @@
           <label class="control-label" for="input-limit">Show :</label>
           <div class="limit">
           <form name="numPerPagesFrm" id="numPerPagesFrm" action = "${path }/product/category.do">
-            <select id="input-limit" name="numPerPages" class="form-control">
+            <select id="input-limit" name="numPerPage" class="form-control">
             <c:set var="numper" value="${numPerPage }" />
 			<c:choose>
     		<c:when test="${numper eq '18'}">
         	<option value="9">9</option><!-- selected="selected" -->
-              <option value="18" selected="selected">18</option>
-              <option value="27">27</option>
+             <option value="18" selected="selected">18</option>
+             <option value="27">27</option>
     		</c:when>
     		<c:when test="${numper eq '27'}">
         	<option value="9">9</option><!-- selected="selected" -->

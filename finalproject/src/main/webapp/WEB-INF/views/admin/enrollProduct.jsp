@@ -8,7 +8,17 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <%-- <jsp:param value="" name="pageTitle"/> --%>
 
+<style>
+#inputAdminProductProfileImg {
+	padding-top: 7px;
+	border: none;
+}
+</style>
+
 <script>
+	$(document).ready(function() {
+		$("#inputAdminProductProfileImg").on("change", enrollMainImg);
+	});
 	
 	function validate() {
 		if ($("#adminProductName").val() == "") {
@@ -79,6 +89,30 @@
 	
 		return true;
 	};
+	
+	// 메인사진 등록
+	function enrollMainImg(e) {
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+		
+		filesArr.forEach(function(f) {
+			if (!f.type.match("image.*")) {
+				alert("이미지 확장자만 등록해주세요.")
+				
+				return;
+			}
+			
+			sel_file = f;
+			
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#adminProductProfileMainImg").attr("src", e.target.result).css('width', '100%').css('height', '100%');
+				console.log("메인사진" + $("#adminProductProfileMainImg").val());
+			}
+			
+			reader.readAsDataURL(f);
+		});
+	}
 </script>
 
 <section>
@@ -96,17 +130,13 @@
 					<div class="columnblock-title">관리자페이지</div>
 					<div class="account-block">
 						<div class="list-group">
-							<a class="list-group-item" href="${path}/admin/adminPage.do">홈</a>
-							<a class="list-group-item" href="#">공지사항 관리</a> <a
-								class="list-group-item" href="#">메인배너 관리</a> <a
-								class="list-group-item" href="${path}/admin/manageMember.do">회원
-								관리</a> <a class="list-group-item"
-								href="${path}/admin/manageBrand.do">브랜드 관리</a> <a
-								class="list-group-item" href="${path}/admin/managePreProduct.do">입점문의
-								관리</a> <a class="list-group-item"
-								href="${path}/admin/manageProduct.do">상품 관리</a> <a
-								class="list-group-item" href="${path}/admin/manageEndProduct.do">상품
-								재등록 관리</a>
+							<a class="list-group-item" href="${path}/admin/adminPage.do">홈</a>					
+							<a class="list-group-item" href="${path}/admin/memberList.do">회원목록</a>
+							<a class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 등록관리</a>							
+							<a class="list-group-item" href="${path}/admin/managePreProduct.do">입점 제안관리</a>
+							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a>												 
+							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 재등록 관리</a>
+							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고 및 상품 판매중지 요청</a>					 
 						</div>
 					</div>
 				</div>
@@ -189,18 +219,24 @@
 							<fieldset id="productField2">
 								<div class="form-group required">
 									<label for="adminProductProfile" class="col-sm-2 control-label">메인사진</label>
-									<div class="col-sm-4">
-										<img id="adminProductProfileMainImg" src="${path }/resources/image/noImg.png">										
+									<div class="col-sm-2">
+									<input type="file" name="inputAdminProductProfileImg" id="inputAdminProductProfileImg" >
 									</div>	
-									
 								</div>
-								<div class="form-group required" id="adminProductFiles">
-									<label for="adminProductProfileImg" class="inputSrc1">메인사진 추가하기</label>
-                 					<input type="file" name="adminProductProfileImg" id="adminProductProfileImg" >
+								<div class="col-sm-3">
 								</div>
-								<div class="form-group required" id="filesAddBtn">
+								<div class="col-sm-6">
+										<img id="adminProductProfileMainImg" src="${path }/resources/image/noImg.png">										
+								</div>
+								<div class="col-sm-3">
+								</div>
+								<!-- <div class="form-group required" id="adminProductFiles">
+									<label for="inputAdminProductProfileImg" class="inputSrc1">메인사진 추가하기</label>
+                 					<input type="file" name="inputAdminProductProfileImg" id="inputAdminProductProfileImg" >
+								</div> -->
+								<!-- <div class="form-group required" id="filesAddBtn">
 									<input type="button" class="btn btn-primary" value="파일추가하기">
-								</div>
+								</div> -->
 								
 							</fieldset>
 							

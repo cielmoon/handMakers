@@ -143,7 +143,7 @@
 					<div class="col-sm-3"></div>
 					<div class="col-sm-6">
 						<div class="well">
-							<form name="memberEnrollFrm" action="${pageContext.request.contextPath}/member/memberEnrollEnd.do" method="post" onsubmit="return validate();" >
+							<form name="memberEnrollFrm" action="${path}/member/memberEnrollEnd.do" method="post" onsubmit="return validate();" >
 								<div class="form-group">
 									<input type="text" class="form-control" id="memberId"
 										placeholder="아이디 (4글자이상)" name="memberId" required>

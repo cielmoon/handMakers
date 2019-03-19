@@ -122,6 +122,53 @@ public class ShopServiceImpl implements ShopService {
 	public int productQnaAnswer(Map<String, String> map) {
 		return dao.productQnaAnswer(map);
 	}
+
+	@Override
+	public int insertSellerRequest(Map<String, String> map) {
+		return dao.insertSellerRequest(map);
+	}
+
+	@Override
+	public List<Map<String, String>> selectSellerReqList(String memberNo) {
+		return dao.selectSellerReqList(memberNo);
+	}
+
+	@Override
+	public int selectReqState(Map<String, String> map) {
+		return dao.selectReqState(map);
+
+	}
+
+	@Override
+	public int exportOrders(String order) {
+		return dao.exportOrders(order);
+	}
+
+	@Override
+	public Map<String, String> selectOrder(String orderNo) {
+		return dao.selectOrder(orderNo);
+	}
+
+	@Override
+	public int cancelExportOrder(String orderNo) {
+		return dao.cancelExportOrder(orderNo);
+	}
+
+	@Override
+	public int selectSalesRecordsCount(String productNo) {
+		return dao.selectSalesRecordsCount(productNo);
+	}
+
+	@Override
+	public List<Map<String, String>> selectSalesRecordsList(String productNo, int cPage, int numPerPage) {
+		return dao.selectSalesRecordsList(productNo, cPage, numPerPage);
+	}
+
+	@Override
+	public Map<String, String> selectRecord(String recordNo) {
+		return dao.selectRecord(recordNo);
+	}
+	
 	
 	
 	

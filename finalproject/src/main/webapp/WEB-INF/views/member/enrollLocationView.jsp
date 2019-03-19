@@ -5,55 +5,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<!-- 다음 주소검색 API -->
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script>
-/* 사업장 주소 검색 버튼 클릭 시 실행 */
-function searchAddr(){
-	var width = 500; //팝업의 너비
-	var height = 600; //팝업의 높이
-	new daum.Postcode({
-           oncomplete: function(data) {
-    	    if(data.autoRoadAddress) {
-                var expRoadAddr = data.autoRoadAddress;
-            } else {
-            	var expRoadAddr = data.roadAddress;
-            	var postCode = data.zonecode;
-            }
-    	   
-    	   document.getElementById("input-deliveryPostCode").value = postCode;
-           document.getElementById("input-deliveryAddr").value = expRoadAddr;
-           },
-           shorthand : false //'시','도' 부분을 축약 표시
-        	}).open({
-  				popupName: 'postcodePopup',
-				left: (window.screen.width / 2) - (width / 2),
-			    top: (window.screen.height / 2) - (height / 2)
-      		});
-}
 
-</script>
-<style>
-#input-deliveryDetailAddr, #enrollBtn{
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-.mt-1 {
-	margin-top: 10px;
-}
 
-.float-right {
-	float: right;
-}
-
-.pr-0 {
-	padding-right: 0;
-}
-
-.btn-120 {
-	width: 120px;
-}
-</style>
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
@@ -112,47 +65,40 @@ function searchAddr(){
 			<!-- 정보 변경 전에 다시 비밀번호 확인 -->
 			<div class="col-sm-9" id="content">
 				<div class="row">
-					<div class="col-sm-2 pr-0"></div>
-					<div class="col-sm-8 pr-0">
-					<label class="control-label mt-1">배송지 </label>
-					<form name="enrollLocationFrm"
-						action="${path}/member/enrollLocationEnd.do" method="post"
-						onsubmit="return validate();">
-						<div class="form-group required">
-							<div class="col-sm-4 pr-0">
-								<input type="text" class="form-control"
-									id="input-deliveryPostCode" name="deliveryPostCode"
-									placeholder="우편번호" readonly> 
-							</div>
-							<div class="col-sm-6 pr-0">
-								<input type="text"
-									class="form-control" id="input-deliveryAddr"
-									name="deliveryAddr" placeholder="주소" readonly>
-							</div>
-							<div class="col-sm-2 text-right">
-								<input type="button" class="btn btn-primary btn-120"
-									id="button-searchAddr" value="주소검색" onclick="searchAddr();">
-							</div>
-						</div>
-						<div class="form-group required">
-							<div class="col-sm-10 pr-0">
-								<input type="text" class="form-control"	id="input-deliveryDetailAddr" 
-								name="deliveryDetailAddr" placeholder="상세주소" maxlength="30" required>
-							</div>
-							<div class="col-sm-2 pr-0">
-								<input type="submit" class="btn btn-primary btn-120" id="enrollBtn" value="등록하기" />
-							</div>							
-						</div>
-					
-					</form>
+					<div class="col-sm-12">
+
+						<table id='tbl-board' class='table table-striped table-hover'>
+							<tr>
+								<th>번호</th>
+								<th>배송지 우편번호</th>
+								<th>배송지 주소</th>
+								<th>배송지 상세주소</th>								
+								<th></th>
+							</tr>
+							<c:forEach var="d" items="${deliveryList }" varStatus="status">
+								<tr>
+									<td>${status.count }</td>
+									<td>${d.deliveryPostCode }</td>
+									<td>${d.deliveryAddr }</td>
+									<td>${d.deliveryDetailAddr }</td>
+									<td><a href="${path}/member/deleteLocation.do?deliveryNo=${d.deliveryNo}">
+									<button	class="btn btn-primary">삭제</button></a></td>						
+								</tr>
+							</c:forEach>
+						</table>
+						
 					</div>
-					<div class="col-sm-2 pr-0"></div>
+ 					<div class="col-sm-12">
+						<div class="col-sm-9"></div>
+						<div class="col-sm-3">
+							<input type="button" class="btn btn-primary" onclick='location.href="${path}/member/enrollLocation.do"'
+								value="배송지 등록하기" />
+						</div>
+					</div>
+
 				</div>
-
-
 			</div>
 		</div>
-	</div>
 	</div>
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

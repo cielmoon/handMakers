@@ -5,36 +5,75 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<style>
+#memberPwd, #pwdCheck{
+	margin-bottom: 10px;
+	margin-top: 10px;	
+}
 
+
+</style>
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
-			<li><a href="path"><i class="fa fa-home"></i></a></li>
-			<li><a href="#">°ü¸®ÀÚÆäÀÌÁö</a></li>
-			<li><a href="#">ÀÔÁ¡¹®ÀÇ °ü¸®</a></li>
+			<li><a href="<%=request.getContextPath()%>/index.jsp"><i class="fa fa-home"></i></a></li>
+			<li><a href="<%=request.getContextPath()%>/memberMyPage">ë§ˆì´íŽ˜ì´ì§€</a></li>
 		</ul>
 		<br />
 		<div class="row">
 			<div class="col-sm-3 hidden-xs column-left" id="column-left">
 				<div class="column-block">
-					<div class="columnblock-title">°ü¸®ÀÚÆäÀÌÁö</div>
+					<div class="columnblock-title">ë§ˆì´íŽ˜ì´ì§€</div>
 					<div class="account-block">
 						<div class="list-group">
-							<a class="list-group-item" href="#">È¨</a> 
-							<a class="list-group-item" href="#">°øÁö»çÇ× °ü¸®</a>
-							<a class="list-group-item" href="#">¸ÞÀÎ¹è³Ê °ü¸®</a>
-							<a class="list-group-item" href="#">È¸¿ø °ü¸®</a>				
-							<a class="list-group-item" href="#">ÀÔÁ¡¹®ÀÇ °ü¸®</a>												
-							
+							<a class="list-group-item" href="${path }/member/myPage.do">í™ˆ</a> 
+							<a class="list-group-item" href="${path }/member/checkPassword.do?checkNo=2">ë‚´ì •ë³´ ê´€ë¦¬</a>
+							<a class="list-group-item" href="${path }/member/checkPassword.do?checkNo=3">ë°°ì†¡ì§€ ì„¤ì •</a>				
+							<a class="list-group-item" href="${path }/member/checkPassword.do?checkNo=1">ë¹„ë°€ë²ˆí˜¸ ë³€ê²½</a> 
+							<a class="list-group-item" href="${path }/member/manageOrder.do">ì£¼ë¬¸/ë°°ì†¡ë‚´ì—­ ì¡°íšŒ</a>			
+							<a class="list-group-item" href="${path }/member/checkPassword.do?checkNo=0">íšŒì›íƒˆí‡´</a>
 						</div>
 					</div>
 				</div>
+				
+
+			
 			</div>
-			<!-- Á¤º¸ º¯°æ Àü¿¡ ´Ù½Ã ºñ¹Ð¹øÈ£ È®ÀÎ -->
+			<!-- ì •ë³´ ë³€ê²½ ì „ì— ë‹¤ì‹œ ë¹„ë°€ë²ˆí˜¸ í™•ì¸ -->
 			<div class="col-sm-9" id="content">
 				<div class="row">
-
-
+					<div class="col-sm-3"></div>
+					<div class="col-sm-6">						
+					<form name="memberUpdateFrm" action="${path}/member/checkPasswordEnd.do?checkNo=${checkNo}" method="post" onsubmit="return validate();">
+						<div class="form-group required" id="memberInfo">
+					 		<h1 class="col-sm-3"></h1>
+							<h1 class="col-sm-6">ë¹„ë°€ë²ˆí˜¸ í™•ì¸í•˜ê¸°</h1>
+							<h1 class="col-sm-3"></h1>
+				
+						</div>
+						<div class="form-group required" id="memberInfo">							
+							<div class="col-sm-12">
+									<input type="hidden" class="form-control"  name="memberId" id="memberId" value="${member.memberId }" >
+							</div>
+						</div>	
+						<div class="form-group required" id="memberInfo">
+							<label for="input-id" class="col-sm-4 control-label" id="memberPwd">ë¹„ë°€ë²ˆí˜¸</label>
+							<div class="col-sm-8">
+									<input type="password" class="form-control"  name="memberPwd" id="memberPwd" >
+							</div>
+						</div>
+			
+						<div class="form-group required" id="memberInfo">
+							<div class="col-sm-4"></div>							
+							<div class="col-sm-4">
+								<input type="submit" class="form-control"  id="pwdCheck" name="pwdCheck" value="í™•ì¸í•˜ê¸°">
+							</div>
+							<div class="col-sm-4"></div>
+						</div>
+					</form>
+					</div>
+					<div class="col-sm-3"></div>
+					
 				</div>
 			</div>
 		</div>

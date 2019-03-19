@@ -5,15 +5,16 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-
+<%-- <jsp:param value="" name="pageTitle"/> --%>
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
 			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
 			<li><a href="${path}/admin/adminPage.do">관리자페이지</a></li>
+			<li><a href="${path}/admin/memberList.do">회원목록</a></li>
 		</ul>
 		<br />
-		<div class="row">		
+		<div class="row">
 			<div class="col-sm-3 hidden-xs column-left" id="column-left">
 				<div class="column-block">
 					<div class="columnblock-title">관리자페이지</div>
@@ -33,43 +34,26 @@
 			<!-- 정보 변경 전에 다시 비밀번호 확인 -->
 			<div class="col-sm-9" id="content">
 				<div class="row">
-					<div class="col-sm-8">
-						<div class="well">
-							<h1 style="vertical-align: middle; padding-top: 10px">관리자페이지 홈</h1>
-
-						</div>
-
-						<p style="text-align: center; width: 100%; margin-top: 50px;">
-							<strong>&nbsp;</strong>
-						</p>
-
-					</div>
-					<div class="col-sm-4">
-						<div class="well">
-							<div>
-								<h2>관리자 프로필</h2>
-								<!-- 라운드로 꾸며야함 style로 -->
-								<div class="well">
-									<%-- <a href="<%=request.getContextPath()%>/memberProfileChange"> --%>
-									<a href="#" onclick="return false;"> 
-										<img src="${path }/resources/image/profile/admin.png" width="100" height="100" style="border-radius: 50%;"onclick="fileUpload()" />
-									
-									</a>
-
-
-								</div>
-							</div>
-							<div>
-								<input type="button" class="btn btn-primary" value="변경" onclick="fileUpload()">
-<%-- 
-								<form action="<%=request.getContextPath()%>/FileUpload"
-									method="post" enctype="multipart/form-data" id="fileUploadForm">
-									<input type="file" class="btn btn-primary" id="file"
-										name="file" style="display: none;">
-
-								</form> --%>
-							</div>
-						</div>
+					<div class="col-sm-12">					
+						<table id='tbl-board' class='table table-striped table-hover'>
+							<tr>
+								<th>아이디</th>
+								<th>이름</th>								
+								<th>이메일</th>
+								<th>핸드폰 번호</th>
+								<th>회원가입일</th>
+							</tr>
+ 							<c:forEach var="m" items="${memberList }">
+								<tr>
+									<td>${m.memberId }</td>
+									<td>${m.memberName }</td>
+									<td>${m.memberEmail }</td>
+									<td>${m.memberPhone }</td>
+									<td>${m.memberEnrollDate }</td>	
+								</tr>
+							</c:forEach>
+						</table>
+						${pageBar }
 					</div>
 				</div>
 			</div>

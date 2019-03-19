@@ -12,7 +12,7 @@
 		<ul class="breadcrumb">
 			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
 			<li><a href="${path}/admin/adminPage.do">관리자페이지</a></li>
-			<li><a href="${path}/admin/manageBrand.do">브랜드 관리</a></li>
+			<li><a href="${path}/admin/manageBrand.do">브랜드 등록관리</a></li>
 		</ul>
 		<br />
 		<div class="row">
@@ -21,19 +21,16 @@
 					<div class="columnblock-title">관리자페이지</div>
 					<div class="account-block">
 						<div class="list-group">
-						<div class="list-group">
-							<a class="list-group-item" href="${path}/admin/adminPage.do">홈</a> <a
-								class="list-group-item" href="#">공지사항 관리</a> <a
-								class="list-group-item" href="#">메인배너 관리</a> <a
-								class="list-group-item" href="${path}/admin/manageMember.do">회원 관리</a> <a
-								class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 관리</a> <a	
-								class="list-group-item" href="${path}/admin/managePreProduct.do">입점문의 관리</a> <a							
-								class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a> <a 						
-								class="list-group-item" href="${path}/admin/manageEndProduct.do">상품 재등록 관리</a>
+							<a class="list-group-item" href="${path}/admin/adminPage.do">홈</a>					
+							<a class="list-group-item" href="${path}/admin/memberList.do">회원목록</a>
+							<a class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 등록관리</a>							
+							<a class="list-group-item" href="${path}/admin/managePreProduct.do">입점 제안관리</a>
+							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a>												 
+							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 재등록 관리</a>
+							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고 및 상품 판매중지 요청</a>					 
 						</div>
 					</div>
 				</div>
-			</div>
 			</div>
 			<!-- 정보 변경 전에 다시 비밀번호 확인 -->
 			<div class="col-sm-9" id="content">
