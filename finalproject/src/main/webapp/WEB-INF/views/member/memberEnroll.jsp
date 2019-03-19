@@ -34,7 +34,7 @@
 		*/
 		
 		if (memberId.val().length < 4) {
-			alert("아이디는 최소 4자리 이상 입력하세요!");
+			alert("아이디는 최소 4자리 이상 입력하세요.");
 			memberId.focus();
 			
 			return false;
@@ -43,6 +43,18 @@
 		if ($("#memberName").val() == "") {
 			alert("이름을 입력해주세요.");
 			$("#memberName").focus();
+			return false;
+		}
+		
+		if ($("#memberPwd").val() == "") {
+			alert("비밀번호를 입력해주세요.");
+			$("#memberPwd").focus();
+			return false;
+		}
+		
+		if ($("#memberPwdCheck").val() == "") {
+			alert("비밀번호 확인을 해주세요.");
+			$("#memberPwd").focus();
 			return false;
 		}
 		
@@ -63,14 +75,6 @@
 			$("#memberPhone").focus();
 			return false;
 		}
-		
-		/* if ((memberAge < 0 || memberAge > 101) || isNaN(memberAge)) {
-			alert("나이는 1~100사이 숫자만 입력해주세요.");
-			// 왜 memberBirth.focus()라 하면 alert창 한 번 띄운 후 자동으로 회원가입이 될까?
-			$("#memberBirth").focus();
-			
-			return false;
-		} */
 		
 		if (!emailRegex.test(memberEmail)) {
 			alert("잘못된 이메일 형식입니다. 다시 입력해주세요.")
@@ -146,7 +150,7 @@
 							<form name="memberEnrollFrm" action="${path}/member/memberEnrollEnd.do" method="post" onsubmit="return validate();" >
 								<div class="form-group">
 									<input type="text" class="form-control" id="memberId"
-										placeholder="아이디 (4글자이상)" name="memberId" required>
+										placeholder="아이디 (4글자이상)" name="memberId">
 									<span class="guide ok">이 아이디는 사용할 수 있습니다. </span>
             						<span class="guide error">이 아이디는 사용할 수 없습니다. </span>
             						<input type="hidden" name="checkId" value="0"/>
@@ -181,7 +185,7 @@
 								
 								<div class="form-group">
 									<input type="text" class="form-control" id="memberPhone"
-										placeholder="핸드폰번호 (-제외)" name="memberPhone">
+										placeholder="핸드폰번호 (-제외)" name="memberPhone" maxlength="11">
 								</div>
 								<input type="submit" id="submit" class="btn btn-primary" value="회원가입">
 							</form>

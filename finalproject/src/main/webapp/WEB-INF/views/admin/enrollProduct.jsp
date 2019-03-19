@@ -8,23 +8,6 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <%-- <jsp:param value="" name="pageTitle"/> --%>
 
-<!-- 부트스트랩 달력용 -->
-<!-- <link rel="stylesheet" href="/css/jquery-ui.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/> -->
-<!--  -->
-
-
-<!-- <script type='text/javascript'>
-	$(function() {
-		$("#input-group.date").datepicker({
-			calendarWeeks : false,
-			todayHighlight : true,
-			autoclose : true,
-			format : "yyyy/mm/dd",
-			language : "kr"
-		});
-	});
-</script> -->
 <script src="http://jonthornton.github.io/Datepair.js/dist/datepair.js"></script>
 <script src="http://jonthornton.github.io/Datepair.js/dist/jquery.datepair.js"></script>
 <style>
@@ -40,25 +23,30 @@
 	
 		// 상품 등록날짜, 마감날짜 
 		// 날짜에서 추가할 내용 : 마감날짜는 등록날짜 이후만 클릭되도록 설정해줘야 함
-		$("#adminProductSaleStart, #adminProductSaleEnd").datepicker({
-			'language' : 'ko',
-			'format' : 'yyyy/mm/dd',
-			'autoclose' : true,
-			'calendarWeeks' : false,
-			'todayHighlight' : true
+		$("#adminProductSaleStart").datepicker({
+			language : 'ko',
+			format : 'yyyy/mm/dd',
+			autoclose : true,
+			calendarWeeks : false,
+			todayHighlight : true
 		});
 		
-		$("#adminProductSaleStart").datepicker("option", "maxDate", $("#adminProductSaleEnd").val());
-		$("#adminProductSaleStart").datepicker("option", "onClose", function(selectedDate) {
-			$("#adminProductSaleEnd").datepicker("option", "minDate", selectedDate);
+		$("#adminProductSaleEnd").datepicker({
+			language : 'ko',
+			format : 'yyyy/mm/dd',
+			autoclose : true,
+			calendarWeeks : false,
+			todayHighlight : true
 		});
-		
-		/* $("#adminProductSaleEnd").datepicker();
-		$("#adminProductSaleEnd").datepicker("option", "minDate", $("#adminProductSaleStart").val());
-		$("#adminProductSaleEnd").datepicker("option", "onClose", function(selectedDate) {
-			$("#adminProductSaleStart").datepicker("option", "maxDate", selectedDate);
-		}); */
 	});
+	
+	function checkDate() {
+		var startDate = $("#adminProductSaleStart").val();
+		var endDate = $("#adminProductSaleEnd").val();
+		
+		console.log("startDate : " + startDate);
+		console.log("endDate : " + endDate);
+	}
 	
 	function validate() {
 		if ($("#adminProductName").val() == "") {
@@ -182,7 +170,7 @@
 			<div class="col-sm-9" id="content">
 				<div class="row">
 					<div class="col-sm-12">
-						<form class="form-horizontal" enctype="multipart/form-data"	method="post" action="#" onsubmit="return validate();">
+						<form class="form-horizontal" id="enrollProductFrm" enctype="multipart/form-data"	method="post" action="#" onsubmit="return validate();">
 						
 							<fieldset id="productField0">
 							</fieldset>
@@ -233,7 +221,7 @@
 								<div class="form-group required">
 									<label for="adminProductId" class="col-sm-2 control-label">등록날짜</label>
 									<div class="col-sm-4">
-										<input type="text" class="form-control" id="adminProductSaleStart" name="adminProductSale" placeholder="등록날짜">
+										<input type="text" class="form-control" id="adminProductSaleStart" name="adminProductSale" placeholder="등록날짜" onclick="checkDate();">
 									</div>								
 									<label for="adminProductMemberId" class="col-sm-2 control-label">마감날짜</label>
 									<div class="col-sm-4">
