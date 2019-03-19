@@ -63,7 +63,7 @@ function stopSale(productNo, productTitle)
 {
 	$.ajax({
 		url:"${path}/shop/selectReqState.do",
-		data:{"reqRef" : productNo, "reqState": '2'},
+		data:{"reqRef" : productNo, "reqState": '1'},
 		success:function(data){
 			var result = data.result;		
 			if(result > 0)
@@ -77,7 +77,7 @@ function stopSale(productNo, productTitle)
 				$("#input-requestTitle").val("");
 				$("#input-requestReason").val("");
 				$("#input-requestType").val('P');
-				$("#input-requestState").val('2');
+				$("#input-requestState").val('1');
 				$("#input-requestRef").val(productNo);
 				$("#input-requestLoc").val("/shop/brandSaleProduct.do?brandNo=");
 				$("#frm-requestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
@@ -94,7 +94,7 @@ function deleteBrand()
 {
 	$.ajax({
 		url:"${path}/shop/selectReqState.do",
-		data:{"reqRef" : '${brand.brandNo}', "reqState": '0'},
+		data:{"reqRef" : '${brand.brandNo}', "reqState": 'd'},
 		success:function(data){
 			var result = data.result;	
 			if(result > 0)
@@ -108,7 +108,7 @@ function deleteBrand()
 				$("#input-requestTitle").val("");
 				$("#input-requestReason").val("");
 				$("#input-requestType").val('B');
-				$("#input-requestState").val('0');
+				$("#input-requestState").val('d');
 				$("#input-requestRef").val('${brand.brandNo}');
 				$("#input-requestLoc").val("/shop/brandSaleProduct.do?brandNo=");
 				$("#frm-requestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
@@ -161,7 +161,7 @@ function deleteBrand()
 					<div class="col-sm-5"></div>
 					<div class="col-sm-4">
 						<select class="form-control" id="select-bigCategory">
-							<option value="allList" selected>전체</option>
+							<option value="allList" selected>전체 카테고리</option>
 							<c:forEach items="${bcList }" var="b" varStatus="vs">
 									<option value="${b.bcNo }">${b.bcTitle}</option>
 							</c:forEach>	
@@ -177,6 +177,9 @@ function deleteBrand()
 							</div>
 						</div>
 						<div class="grid-list-wrapper mt-0">
+							<c:if test="${productList.size() == 0 }">
+								<div class='col-xs-12 text-center'><span>판매중인 상품이 없습니다.</span></div>
+							</c:if>
 							<c:forEach items="${productList }" var="p">
 								<div class="product-layout product-list col-xs-4">
 									<div class="product-thumb">
@@ -205,7 +208,9 @@ function deleteBrand()
 						</div>
 					</div>
 					<div class="col-sm-12 text-center">
+					<c:if test="${productList.size() != 0 }">
 						${pageBar }
+					</c:if>
 					</div>
 				</div>
 			</div>

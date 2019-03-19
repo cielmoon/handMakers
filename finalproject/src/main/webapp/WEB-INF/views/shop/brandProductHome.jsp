@@ -60,7 +60,7 @@ $(function(){
 		var d = Math.floor(distance / (1000 * 60 * 60 * 24)); 
 		var h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 		
-		if(productState == '1')
+		if(productState != '0')
 		{
 			document.getElementById("d-day").innerHTML = "";
 		}
@@ -132,7 +132,7 @@ function orderView(orderNo)
 			$("#input-orderOption").text(data.order.PRODUCT_OPTION);
 			$("#input-orderQty").text(data.order.PRODUCT_OPTION_QTY + "개");
 			$("#input-orderPrice").text(data.order.ORDER_TOTAL_PRICE + "원");
-			if(data.order.ORDER_STATE == '1')
+			if(data.order.ORDER_STATE == '3')
 			{
 				$("#button-cancel-export").css("display", "inline");
 			}
@@ -189,7 +189,7 @@ function orderView(orderNo)
 					<div class="col-sm-12 mt-10">					
 						<table id='tbl-board' class='table table-striped table-hover'>
 							<tr>
-								<c:if test="${product.PRODUCT_STATE == '1' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">
+								<c:if test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">
 									<th>
 										<a id="check-all-order" href="javascript:void(0);" onclick="checkAllOrder(1);"><i class="fa fa-check" style="color: gray;"></i></a>
 										<a id="uncheck-all-order" href="javascript:void(0);" onclick="checkAllOrder(0);"><i class="fa fa-check" style="color: lightgray;"></i></a>	
@@ -209,11 +209,11 @@ function orderView(orderNo)
 							</c:if>
  							<c:forEach var="o" items="${orderList }" varStatus="vs">
 								<tr>
-									<c:if test="${product.PRODUCT_STATE == '1' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">
+									<c:if test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">
 										<td><input type="checkbox" name="checkOrders" id="check-order" value="${o.ORDER_NO }"/></td>
 									</c:if>
 									<td>${vs.count }</td>
-									<td>${fn:replace(o.MEMBER_ID, fn:substring(o.MEMBER_ID, o.MEMBER_ID.length()-3, o.MEMBER_ID.length()), '***')}</td>
+									<td>${fn:replace(o.MEMBER_ID, fn:substring(o.MEMBER_ID, o.MEMBER_ID.length()-2, o.MEMBER_ID.length()), '**')}</td>
 									<td>${o.PRODUCT_OPTION }</td>
 									<td>${o.PRODUCT_OPTION_QTY }개</td>
 									<td><fmt:formatDate value="${o.ORDER_DATE}" pattern="yyyy-MM-dd HH:mm"/></td>
@@ -228,7 +228,9 @@ function orderView(orderNo)
 						</table>
 					</div>
 					<div class="col-sm-2 float-right">
-						<button class="btn btn-primary" onclick="exportOrders();">출고처리</button>
+						<c:if test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">
+							<button class="btn btn-primary" onclick="exportOrders();">출고처리</button>
+						</c:if>
 					</div>
 					<div class="col-sm-12 text-center">
 						${pageBar }

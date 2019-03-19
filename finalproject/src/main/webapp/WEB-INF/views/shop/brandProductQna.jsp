@@ -59,7 +59,7 @@
 			var d = Math.floor(distance / (1000 * 60 * 60 * 24)); 
 			var h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 			
-			if(productState == '1')
+			if(productState != '0')
 			{
 				document.getElementById("d-day").innerHTML = "";
 			}
@@ -178,7 +178,7 @@
 								<tr>
 									<td>${vs.count }</td>
 									<td><a href="javascript:void(0);" onclick="qnaView('${q.COMMENT_NO}', '${q.MEMBER_ID}','${q.COMMENT_CONTENT }','<fmt:formatDate value="${q.COMMENT_DATE}" pattern="yyyy-MM-dd HH:mm"/>');">상품 문의입니다.</a></td>
-									<td>${fn:replace(q.MEMBER_ID, fn:substring(q.MEMBER_ID, q.MEMBER_ID.length()-3, q.MEMBER_ID.length()), '***')}</td>
+									<td>${fn:replace(q.MEMBER_ID, fn:substring(q.MEMBER_ID, q.MEMBER_ID.length()-2, q.MEMBER_ID.length()), '**')}</td>
 									<td><fmt:formatDate value="${q.COMMENT_DATE}" pattern="yyyy-MM-dd HH:mm"/></td>
 									<td>
 									<c:forEach var="a" items="${answerList }">

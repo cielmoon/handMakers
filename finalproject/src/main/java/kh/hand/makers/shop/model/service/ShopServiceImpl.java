@@ -168,6 +168,11 @@ public class ShopServiceImpl implements ShopService {
 	public Map<String, String> selectRecord(String recordNo) {
 		return dao.selectRecord(recordNo);
 	}
+
+	@Override
+	public int updateSellerRequestRef(Map<String, String> map) {
+		return dao.updateSellerRequestRef(map);
+	}
 	
 	
 	

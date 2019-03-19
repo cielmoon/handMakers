@@ -185,6 +185,17 @@ public class ShopDaoImpl implements ShopDao {
 	public Map<String, String> selectRecord(String recordNo) {
 		return sqlSession.selectOne("shop.selectRecord", recordNo);
 	}
+
+	@Override
+	public int updateSellerRequestRef(Map<String, String> map) {
+		if(map.get("requestType").equals("B")) //브랜드 폐점요청
+		{
+			return sqlSession.update("shop.updateBrandSellerReq", map);
+		}else //상품 관련 요청
+		{
+			return sqlSession.update("shop.updateProductSellerReq", map);
+		}
+	}
 	
 	
 }

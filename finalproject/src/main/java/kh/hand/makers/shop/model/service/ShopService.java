@@ -70,6 +70,8 @@ public interface ShopService {
 
 	Map<String, String> selectRecord(String recordNo);
 
+	int updateSellerRequestRef(Map<String, String> map);
+
 	
 
 }

@@ -215,7 +215,7 @@ public class ShopController {
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("brandNo", brandNo);
-		map.put("productState", 0); //현재 판매중인 상태
+		map.put("productState", "('0', '1')"); //현재 판매중이거나 중지요청 상태
 		
 		int numPerPage = 6;
 		int contentCount = service.selectBrandProductCount(map);
@@ -345,10 +345,11 @@ public class ShopController {
 		map.put("requestState", requestState);
 		
 		int result = service.insertSellerRequest(map);
+		result += service.updateSellerRequestRef(map);
 
 		String msg="";
 		String loc= requestLoc + brandNo;
-		if(result>0)
+		if(result>1)
 		{
 			msg="요청이 정상적으로 등록되었습니다.";
 		}
@@ -385,7 +386,7 @@ public class ShopController {
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("brandNo", brandNo);
-		map.put("productState", 1); //판매종료 상태
+		map.put("productState", "('3', '4')"); //판매종료 상태
 		
 		int numPerPage = 6;
 		int contentCount = service.selectBrandProductCount(map);
