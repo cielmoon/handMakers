@@ -68,7 +68,7 @@ function reSale(productNo, productTitle)
 {
 	$.ajax({
 		url:"${path}/shop/selectReqState.do",
-		data:{"reqRef" : productNo, "reqState": '1'},
+		data:{"reqRef" : productNo, "reqState": '4'},
 		success:function(data){
 			var result = data.result;		
 			if(result > 0)
@@ -82,7 +82,7 @@ function reSale(productNo, productTitle)
 				$("#input-sale-requestTitle").val("");
 				$("#input-sale-requestReason").val("");
 				$("#input-sale-requestType").val('P');
-				$("#input-sale-requestState").val('1');
+				$("#input-sale-requestState").val('4');
 				$("#input-sale-requestRef").val(productNo);
 				$("#input-sale-requestLoc").val("/shop/brandEndProduct.do?brandNo=");
 				$("#frm-saleRequestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
@@ -99,7 +99,7 @@ function deleteBrand()
 {
 	$.ajax({
 		url:"${path}/shop/selectReqState.do",
-		data:{"reqRef" : '${brand.brandNo}', "reqState": '0'},
+		data:{"reqRef" : '${brand.brandNo}', "reqState": 'd'},
 		success:function(data){
 			var result = data.result;	
 			if(result > 0)
@@ -113,7 +113,7 @@ function deleteBrand()
 				$("#input-requestTitle").val("");
 				$("#input-requestReason").val("");
 				$("#input-requestType").val('B');
-				$("#input-requestState").val('0');
+				$("#input-requestState").val('d');
 				$("#input-requestRef").val('${brand.brandNo}');
 				$("#input-requestLoc").val("/shop/brandEndProduct.do?brandNo=");
 				$("#frm-requestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
@@ -166,7 +166,7 @@ function deleteBrand()
 					<div class="col-sm-5"></div>
 					<div class="col-sm-4">
 						<select class="form-control" id="select-bigCategory">
-							<option value="allList" selected>전체</option>
+							<option value="allList" selected>전체 카테고리</option>
 							<c:forEach items="${bcList }" var="b" varStatus="vs">
 									<option value="${b.bcNo }">${b.bcTitle}</option>
 							</c:forEach>	
@@ -181,6 +181,9 @@ function deleteBrand()
 							</div>
 						</div>
 						<div class="grid-list-wrapper mt-0">
+							<c:if test="${productList.size() == 0 }">
+								<div class='col-xs-12 text-center'><span>판매 종료된 상품이 없습니다.</span></div>
+							</c:if>
 							<c:forEach items="${productList }" var="p">
 								<div class="product-layout product-list col-xs-4">
 									<div class="product-thumb">
@@ -199,7 +202,7 @@ function deleteBrand()
 												<a href="${path }/shop/brandProductHome.do?productNo=${p.PRODUCT_NO}&brandNo=${brand.brandNo}">${p.PRODUCT_TITLE }</a>
 											</h4>
 											<p>
-												<span>${p.BC_TITLE}/${p.SC_TITLE}</span><br/>
+												<span>${p.BC_TITLE} ${p.SC_TITLE}</span><br/>
 												<span>마감일 <fmt:formatDate value="${p.PRODUCT_ENDDATE}" pattern="yyyy-MM-dd HH:mm"/></span>
 											</p>
 										</div>
@@ -209,7 +212,9 @@ function deleteBrand()
 						</div>
 					</div>
 					<div class="col-sm-12 text-center">
+					<c:if test="${productList.size() != 0 }">
 						${pageBar }
+					</c:if>
 					</div>
 				</div>
 			</div>

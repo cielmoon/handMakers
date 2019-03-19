@@ -60,7 +60,7 @@ function deleteBrand()
 {
 	$.ajax({
 		url:"${path}/shop/selectReqState.do",
-		data:{"reqRef" : '${brand.brandNo}', "reqState": '0'},
+		data:{"reqRef" : '${brand.brandNo}', "reqState": 'd'},
 		success:function(data){
 			var result = data.result;	
 			if(result > 0)
@@ -74,7 +74,7 @@ function deleteBrand()
 				$("#input-requestTitle").val("");
 				$("#input-requestReason").val("");
 				$("#input-requestType").val('B');
-				$("#input-requestState").val('0');
+				$("#input-requestState").val('d');
 				$("#input-requestRef").val('${brand.brandNo}');
 				$("#input-requestLoc").val("/shop/brandHome.do?brandNo=");
 				$("#frm-requestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
@@ -160,7 +160,7 @@ function preProductView(preNo)
 					<div class="tbl-header">
 						<div class="col-sm-3">
 							<select class="form-control" id="select-bigCategory">
-								<option value="allList" selected>전체</option>
+								<option value="allList" selected>전체 카테고리</option>
 								<c:forEach items="${bcList }" var="b" varStatus="vs">
 										<option value="${b.bcNo }">${b.bcTitle}</option>
 								</c:forEach>	
@@ -180,6 +180,11 @@ function preProductView(preNo)
 								<th>제안일</th>
 								<th>상태</th>					
 							</tr>
+							<c:if test="${preList.size() == 0 }">
+								<tr>
+									<td colspan="6" style="text-align: center;">입점제안 상품이 없습니다.</td>
+								</tr>
+							</c:if>
  							<c:forEach var="p" items="${preList }" varStatus="vs">
 								<tr>
 									<td>${vs.count }</td>							
@@ -193,7 +198,9 @@ function preProductView(preNo)
 						</table>
 					</div>
 					<div class="col-sm-12 text-center">
+					<c:if test="${preList.size() != 0 }">
 						${pageBar }
+					</c:if>
 					</div>
 				</div>
 			</div>
