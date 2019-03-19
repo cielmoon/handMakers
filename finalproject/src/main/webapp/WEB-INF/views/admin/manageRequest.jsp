@@ -66,12 +66,15 @@
 										<td>${r.sellerReqTitle }</td>
 										<td>${r.memberId }</td>
 										<c:choose>
-											<c:when test="${r.sellerReqState == '0' }">
+											<c:when test="${r.sellerReqState == 'd' }">
 												<td>폐점신고요청</td>		
 											</c:when>
-											<c:when test="${r.sellerReqState == '1' }">
+											<c:when test="${r.sellerReqState == 'e' }">
 												<td>폐점완료</td>											
-											</c:when>													
+											</c:when>		
+											<c:when test="${r.sellerReqState == 'f' }">
+												<td>폐점반려</td>											
+											</c:when>												
 										</c:choose>	
 										<c:choose>
 											<c:when test="${r.sellerReqProcess == '0' }">
@@ -87,15 +90,9 @@
 										<td>${r.sellerReqDate }</td>
 										<c:choose>
 											<c:when test="${r.sellerReqProcess == '0' }">
-												<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,1"><button class="AgreeBtn">수락</button></a>
-												<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,0"><button class="AgreeBtn">반려</button></a></td>					
-											</c:when>
-											<c:when test="${r.sellerReqProcess == '1' }">
-												<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,0,0"><button class="AgreeBtn">취소</button></a></td>					
-											</c:when>
-											<c:when test="${r.sellerReqProcess == '2' }">
-												<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,0,0"><button class="AgreeBtn">취소</button></a></td>					
-											</c:when>
+												<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,e,+${r.sellerReqType}+,+${sellerReqRef}"><button class="AgreeBtn">수락</button></a>
+												<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,f,+${r.sellerReqType}+,+${sellerReqRef}"><button class="AgreeBtn">반려</button></a></td>					
+											</c:when>						
 										</c:choose>										
 									</c:when>
 									<c:when test="${r.sellerReqType == 'P' }">
@@ -103,17 +100,17 @@
 										<td>${r.sellerReqTitle }</td>
 										<td>${r.memberId }</td>
 										<c:choose>
-											<c:when test="${r.sellerReqState == '3' }">
+											<c:when test="${r.sellerReqState == '4' }">
 												<td>재판매요청</td>		
 											</c:when>
-											<c:when test="${r.sellerReqState == '4' }">
-												<td>재판매등록</td>											
+											<c:when test="${r.sellerReqState == '0' }">
+												<td>정상등록</td>											
 											</c:when>
-											<c:when test="${r.sellerReqState == '5' }">
+											<c:when test="${r.sellerReqState == '1' }">
 												<td>판매중단요청</td>		
 											</c:when>
-											<c:when test="${r.sellerReqState == '6' }">
-												<td>판매중단</td>											
+											<c:when test="${r.sellerReqState == '2' }">
+												<td>판매종료</td>											
 											</c:when>														
 										</c:choose>	
 										<c:choose>
@@ -128,52 +125,21 @@
 											</c:when>													
 										</c:choose>
 										<td>${r.sellerReqDate }</td>
-										<c:choose>
-											<c:when test="${r.sellerReqProcess == '0' and r.sellerReqState = '3'}">
-												<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,4"><button class="AgreeBtn">수락</button></a>
-												<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,3"><button class="AgreeBtn">반려</button></a></td>					
+ 										<c:choose>
+											<c:when test="${r.sellerReqProcess == '0' and r.sellerReqState == '4'}">												
+													<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,0,+${r.sellerReqType}+,+${sellerReqRef}"><button class="AgreeBtn">수락</button></a>
+													<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,2,+${r.sellerReqType}+,+${sellerReqRef}"><button class="AgreeBtn">반려</button></a></td>	
+															
 											</c:when>
-											<c:when test="${r.sellerReqProcess == '0' and r.sellerReqState = '5'}">
-												<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,6"><button class="AgreeBtn">수락</button></a>
-												<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,5"><button class="AgreeBtn">반려</button></a></td>					
-											</c:when>
-											<c:when test="${r.sellerReqProcess == '1' and r.sellerReqState = '4' }">
-												<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,0,3"><button class="AgreeBtn">취소</button></a></td>					
-											</c:when>
-											<c:when test="${r.sellerReqProcess == '1' and r.sellerReqState = '6' }">
-												<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,0,5"><button class="AgreeBtn">취소</button></a></td>					
-											</c:when>
-											<c:when test="${r.sellerReqProcess == '2' and r.sellerReqState = '3' }">
-												<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,0,0"><button class="AgreeBtn">취소</button></a></td>					
-											</c:when>
-											<c:when test="${r.sellerReqProcess == '2' and r.sellerReqState = '5' }">
-												<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,0,0"><button class="AgreeBtn">취소</button></a></td>					
-											</c:when>
-										</c:choose>										
+											<c:when test="${r.sellerReqProcess == '0' and r.sellerReqState == '1'}">											
+													<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,2,+${r.sellerReqType}+,+${sellerReqRef}"><button class="AgreeBtn">수락</button></a>
+													<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,0,+${r.sellerReqType}+,+${sellerReqRef}"><button class="AgreeBtn">반려</button></a></td>		
+																
+											</c:when>								
+										</c:choose>								
 									</c:when>
-								</c:choose>
-		
-							
-									
-<%-- 									<c:choose>
-										<c:when test="${b.brandState.toString() == '1' }">
-											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,0"><button class="AgreeBtn">승인취소</button></a></td>					
-										</c:when>
-										<c:when test="${b.brandState.toString() == '2' }">
-											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,0"><button class="AgreeBtn">반려취소</button></a></td>											
-										</c:when>
-										<c:when test="${b.brandState.toString() == '3' }">
-											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,4"><button class="AgreeBtn">승인</button></a>
-											<a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,0"><button class="AgreeBtn">반려</button></a></td>											
-										</c:when>
-										<c:when test="${b.brandState.toString() == '4' }">
-											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,0"><button class="AgreeBtn">재등록</button></a></td>											
-										</c:when>
-										<c:otherwise>
-											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,1"><button class="AgreeBtn">승인</button></a>
-											<a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,2"><button class="AgreeBtn">반려</button></a></td>	
-										</c:otherwise>								
-									</c:choose> --%>
+								</c:choose>		
+
 								</tr>
 							</c:forEach>
 						</table>

@@ -110,5 +110,23 @@ public class AdminDaoImpl implements AdminDao {
 		return session.selectOne("admin.selectProductName",reqRef);
 	}
 
+	@Override
+	public int reqProcessUpdate(Map<String, String> sr1) {
+		// TODO Auto-generated method stub
+		return session.update("admin.reqProcessUpdate", sr1);
+	}
+
+	@Override
+	public int reqStateUpdate(Map<String, String> sr2) {
+		// TODO Auto-generated method stub
+		return session.update("admin.reqStateUpdate", sr2);
+	}
+
+	@Override
+	public int productStateUpdate(Map<String, String> ps) {
+		// TODO Auto-generated method stub
+		return session.update("admin.productStateUpdate", ps);
+	}
+
 	
 }

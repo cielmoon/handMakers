@@ -53,8 +53,7 @@
 									<td>${a.productBrandTitle }</td>	
 									<td>${a.productEnrollDate }</td>	
 									<td>${a.productEndDate }</td>	
-									<td><a href="${path}/admin/updateProduct.do?productNo=${a.productNo}"><button class="btn btn-primary">상품수정</button></a></td>	
-									
+									<td><a href="${path}/admin/updateProduct.do?productNo=${a.productNo}"><button class="btn btn-primary">상품수정</button></a></td>						
 											
 								</tr>
 							</c:forEach>

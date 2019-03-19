@@ -89,6 +89,10 @@ function changeAgree(){
 	resize: none;
 }
 .modal-dialog {z-index: 1050;}
+
+textarea{
+	resize: none;
+}
 </style>
 
 <section>
@@ -142,12 +146,6 @@ function changeAgree(){
 											<label for="input-productName" class="control-label">상품명 *</label>
 											<input type="text" class="form-control" id="input-productTitle" name="preProductTitle" maxlength="25" required>										
 										</div>
-										
-										<div class="form-group">
-											<label for="input-productFeature" class="control-label">특징 소개 *</label>
-											<textarea class="form-control" id="input-productDiscript" name="preProductDiscript"
-											rows="5" placeholder="ex) 브랜드에서 자체적으로 개발한 가죽 PML과 최고급 원단 해리스 트위드를 이용했습니다." required></textarea>										
-										</div>
 									</div>
 									<div class="col-sm-6">
 										<h2>담당자 정보</h2>
@@ -164,6 +162,13 @@ function changeAgree(){
 											<label class="control-label">E-Mail</label>
 											<input type="text" class="form-control" id="input-email" value="${member.memberEmail }" name="memberEmail" readonly>
 										</div>								
+									</div>
+									<div class="col-sm-12">										
+										<div class="form-group">
+											<label for="input-productFeature" class="control-label">특징 소개 *</label>
+											<textarea class="form-control" id="input-productDiscript" name="preProductDiscript"
+											rows="8" placeholder="ex) 브랜드에서 자체적으로 개발한 가죽 PML과 최고급 원단 해리스 트위드를 이용했습니다." required></textarea>										
+										</div>
 									</div>
 								</div>
 								<input type="button" class="btn btn-primary float-right" data-loading-text="Loading..." id="button-submit" value="등록하기" onclick="return validate();">
