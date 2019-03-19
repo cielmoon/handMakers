@@ -179,10 +179,11 @@ public class MemberController {
 		String loc = "/";
 		if (result > 0) {
 			msg = "회원정보 수정이 완료되었습니다.";
+			loc="/member/memberUpdate.do";
 
 		} else {
 			msg = "회원정보 수정에 실패하였습니다.";
-			loc = "/member/myPage.do";
+			loc = "/member/memberUpdate.do";
 		}
 
 		mv.addObject("msg", msg);
@@ -341,7 +342,7 @@ public class MemberController {
 		String loc = "/";
 		if (result > 0) {
 			msg = "배송지 등록에 성공했습니다.";
-			loc = "/member/myPage.do";
+			loc = "/member/enrollLocationView.do";
 		} else {
 			msg = "배송지 등록에 실패했습니다.";
 			loc = "/member/enrollLocation.do";

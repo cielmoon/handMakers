@@ -25,4 +25,5 @@ public interface ProductService {
 	int selectCommentCount(String commentType);
 	List<Map<String,String>> selectComment(Map<String,String> map, int cPage, int numPerPage);
 	List<Map<String, String>> getMenuList();
+	List<Map<String, String>> sCategoryList(String bCategory);
 }

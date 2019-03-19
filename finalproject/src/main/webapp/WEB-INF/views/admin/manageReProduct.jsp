@@ -5,13 +5,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<%-- <jsp:param value="" name="pageTitle"/> --%>
+
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
 			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
 			<li><a href="${path}/admin/adminPage.do">관리자페이지</a></li>
-			<li><a href="${path}/admin/memberList.do">회원목록</a></li>
+			<li><a href="${path}/admin/manageReProduct.do">상품 재등록 관리</a></li>
 		</ul>
 		<br />
 		<div class="row">
@@ -37,23 +37,37 @@
 					<div class="col-sm-12">					
 						<table id='tbl-board' class='table table-striped table-hover'>
 							<tr>
-								<th>아이디</th>
-								<th>이름</th>								
-								<th>이메일</th>
-								<th>핸드폰 번호</th>
-								<th>회원가입일</th>
+								<th>카테고리(대)</th>
+								<th>카테고리(소)</th>								
+								<th>상품명</th>
+								<th>브랜드명</th>
+								<th>등록날짜</th>
+								<th>마감날짜</th>	
+								<th></th>								
 							</tr>
- 							<c:forEach var="m" items="${memberList }">
+ 							<c:forEach var="a" items="${adminProductList }">
 								<tr>
-									<td>${m.memberId }</td>
-									<td>${m.memberName }</td>
-									<td>${m.memberEmail }</td>
-									<td>${m.memberPhone }</td>
-									<td>${m.memberEnrollDate }</td>	
+									<td>${a.productBcTitle }</td>
+									<td>${a.productScTitle }</td>
+									<td>${a.productTitle }</td>	
+									<td>${a.productBrandTitle }</td>	
+									<td>${a.productEnrollDate }</td>	
+									<td>${a.productEndDate }</td>	
+									<td><a href="${path}/admin/updateProduct.do?productNo=${a.productNo}"><button class="btn btn-primary">상품수정</button></a></td>	
+									
+											
 								</tr>
 							</c:forEach>
 						</table>
 						${pageBar }
+					</div>
+ 					<div class="col-sm-12">
+						<div class="col-sm-9"></div>
+						<div class="col-sm-3">
+							<input type="button" class="btn btn-primary"
+								onclick='location.href="${path}/admin/enrollProduct.do"'
+								value="상품등록" />
+						</div>
 					</div>
 				</div>
 			</div>

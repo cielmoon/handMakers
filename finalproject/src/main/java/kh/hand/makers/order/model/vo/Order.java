@@ -15,7 +15,9 @@ public class Order implements Serializable{
 	private String orderPayState; //주문상태
 	private String productNo; // 상품번호	
 	private String memberNo; // 주문 회원
-	private String deliveryNo; // 배송지 번호
+	//private String deliveryNo; // 배송지 번호
+	private String deliveryAddr; // 배송지 주소
+	private String deliveryDetailAddr; // 배송지 상세주소
 	private String orderState; //배송상태
 	private Date orderDate; // 주문날짜
 	private String imp_uid; //아임포트 고유번호
@@ -30,9 +32,29 @@ public class Order implements Serializable{
 	public String toString() {
 		return "Order [orderNo=" + orderNo + ", orderTotalPrice=" + orderTotalPrice + ", orderPayType=" + orderPayType
 				+ ", orderPayState=" + orderPayState + ", productNo=" + productNo + ", memberNo=" + memberNo
-				+ ", deliveryNo=" + deliveryNo + ", orderState=" + orderState + ", orderDate=" + orderDate
-				+ ", imp_uid=" + imp_uid + ", merchant_uid=" + merchant_uid + ", productOptionSubject="
-				+ productOptionSubject + ", productOptionQty=" + productOptionQty + "]";
+				+ ", deliveryAddr=" + deliveryAddr + ", deliveryDetailAddr=" + deliveryDetailAddr + ", orderState="
+				+ orderState + ", orderDate=" + orderDate + ", imp_uid=" + imp_uid + ", merchant_uid=" + merchant_uid
+				+ ", productOptionSubject=" + productOptionSubject + ", productOptionQty=" + productOptionQty + "]";
+	}
+
+	public Order(String orderNo, int orderTotalPrice, String orderPayType, String orderPayState, String productNo,
+			String memberNo, String deliveryAddr, String deliveryDetailAddr, String orderState, Date orderDate,
+			String imp_uid, String merchant_uid, String productOptionSubject, int productOptionQty) {
+		super();
+		this.orderNo = orderNo;
+		this.orderTotalPrice = orderTotalPrice;
+		this.orderPayType = orderPayType;
+		this.orderPayState = orderPayState;
+		this.productNo = productNo;
+		this.memberNo = memberNo;
+		this.deliveryAddr = deliveryAddr;
+		this.deliveryDetailAddr = deliveryDetailAddr;
+		this.orderState = orderState;
+		this.orderDate = orderDate;
+		this.imp_uid = imp_uid;
+		this.merchant_uid = merchant_uid;
+		this.productOptionSubject = productOptionSubject;
+		this.productOptionQty = productOptionQty;
 	}
 
 	public String getOrderNo() {
@@ -83,12 +105,20 @@ public class Order implements Serializable{
 		this.memberNo = memberNo;
 	}
 
-	public String getDeliveryNo() {
-		return deliveryNo;
+	public String getDeliveryAddr() {
+		return deliveryAddr;
 	}
 
-	public void setDeliveryNo(String deliveryNo) {
-		this.deliveryNo = deliveryNo;
+	public void setDeliveryAddr(String deliveryAddr) {
+		this.deliveryAddr = deliveryAddr;
+	}
+
+	public String getDeliveryDetailAddr() {
+		return deliveryDetailAddr;
+	}
+
+	public void setDeliveryDetailAddr(String deliveryDetailAddr) {
+		this.deliveryDetailAddr = deliveryDetailAddr;
 	}
 
 	public String getOrderState() {
@@ -141,25 +171,6 @@ public class Order implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-	public Order(String orderNo, int orderTotalPrice, String orderPayType, String orderPayState, String productNo,
-			String memberNo, String deliveryNo, String orderState, Date orderDate, String imp_uid, String merchant_uid,
-			String productOptionSubject, int productOptionQty) {
-		super();
-		this.orderNo = orderNo;
-		this.orderTotalPrice = orderTotalPrice;
-		this.orderPayType = orderPayType;
-		this.orderPayState = orderPayState;
-		this.productNo = productNo;
-		this.memberNo = memberNo;
-		this.deliveryNo = deliveryNo;
-		this.orderState = orderState;
-		this.orderDate = orderDate;
-		this.imp_uid = imp_uid;
-		this.merchant_uid = merchant_uid;
-		this.productOptionSubject = productOptionSubject;
-		this.productOptionQty = productOptionQty;
 	}
 
 		

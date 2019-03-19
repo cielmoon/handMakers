@@ -131,6 +131,14 @@ public class ProductDaoImpl implements ProductDao {
 		// TODO Auto-generated method stub
 		return session.selectList("product.selectMenuList");
 	}
+
+	@Override
+	public List<Map<String, String>> sCategoryList(String bCategory) {
+		// TODO Auto-generated method stub
+		return session.selectList("product.sCategoryList", bCategory);
+	}
+	
+	
 	
 	
 

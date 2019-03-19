@@ -50,7 +50,7 @@
 		<result column="product_enddate" property="productEndDate" />
 		<result column="product_no" property="productNo" />
 	</resultMap>
-	
+
 	<resultMap type="viewmemberList" id="viewMemberListMap">
 		<result column="member_id" property="memberId" />
 		<result column="member_name" property="memberName" />
@@ -58,7 +58,21 @@
 		<result column="member_phone" property="memberPhone" />
 		<result column="member_enrolldate" property="memberEnrollDate" />
 	</resultMap>
-	
+
+	<resultMap type="sellerrequest" id="sellerRequestMap">
+		<result column="seller_req_no" property="sellerReqNo" />
+		<result column="member_no" property="memberNo" />
+		<result column="seller_req_ref" property="sellerReqRef" />
+		<result column="seller_req_type" property="sellerReqType" />
+		<result column="seller_req_state" property="sellerReqState" />
+		<result column="seller_req_title" property="sellerReqTitle" />
+		<result column="seller_req_content" property="sellerReqContent" />
+		<result column="seller_req_date" property="sellerReqDate" />
+		<result column="seller_req_process" property="sellerReqProcess" />
+		<result column="member_id" property="memberId" />
+	</resultMap>
+
+
 	<!-- javaType="string" -->
 	<select id="selectBrandList" resultMap="brandMap">
 		select * from brand order
@@ -110,28 +124,70 @@
 	<select id="selectProductList" resultMap="adminProductMap">
 		select
 		big_category.bc_title as "product_bc_title",
-		small_category.sc_title as "product_sc_title",
+		small_category.sc_title as
+		"product_sc_title",
 		product.product_title as "product_product_title",
 		brand.brand_title as "product_brand_title",
-		product.product_enrolldate as "product_enrolldate",
-		product.product_enddate as "product_enddate" , product.product_no as "product_no" from
-		product join big_category on (big_category.bc_no = product.bc_no) join
-		brand on (brand.brand_no = product.brand_no) join small_category on
-		(small_category.sc_no = product.sc_no) order by product_update desc
+		product.product_enrolldate
+		as "product_enrolldate",
+		product.product_enddate as "product_enddate" ,
+		product.product_no as "product_no" from
+		product join big_category on
+		(big_category.bc_no = product.bc_no) join
+		brand on (brand.brand_no =
+		product.brand_no) join small_category on
+		(small_category.sc_no =
+		product.sc_no) order by product_update desc
 	</select>
 
 	<select id="selectProductCount" resultType="_int">
 		select count(*) from
 		product
 	</select>
-	
+
 	<select id="selectMemberCount" resultType="_int">
 		select count(*) from
 		member
 	</select>
-	
+
 	<select id="selectMemberList" resultMap="viewMemberListMap">
 		select member_id, member_name, member_email, member_phone, member_enrolldate
-		from member where member_no != 'M_NO_1' order by member_enrolldate asc 
+		from member where member_no != 'M_NO_1' order by member_enrolldate asc
+	</select>
+
+
+	<select id="selectRequestCount" resultType="_int"
+		parameterType="string">
+		select count(*) from SELLER_REQUEST where
+		SELLER_REQ_TYPE = #{reqRef}
+	</select>
+
+	<select id="selectRequestList" parameterType="string"
+		resultMap="sellerRequestMap">
+		select SELLER_REQUEST.SELLER_REQ_NO as "seller_req_no",
+		SELLER_REQUEST.MEMBER_NO as "member_no", SELLER_REQUEST.SELLER_REQ_REF
+		as "seller_req_ref", SELLER_REQUEST.SELLER_REQ_TYPE as
+		"seller_req_type", SELLER_REQUEST.SELLER_REQ_STATE as
+		"seller_req_state", SELLER_REQUEST.SELLER_REQ_TITLE as
+		"seller_req_title", SELLER_REQUEST.SELLER_REQ_CONTENT as
+		"seller_req_content", SELLER_REQUEST.SELLER_REQ_DATE as
+		"seller_req_date", SELLER_REQUEST.SELLER_REQ_PROCESS as
+		"seller_req_process", MEMBER.MEMBER_ID as "member_id" from
+		SELLER_REQUEST join member on (member.member_no = SELLER_REQUEST.member_no) 
+		where SELLER_REQ_TYPE = #{reqRefType}
+		order by SELLER_REQ_DATE
+	</select>
+
+	<select id="selectBrandName" parameterType="string"
+		resultType="string">
+		select BRAND_TITLE from brand where BRAND_NO =
+		#{reqRef}
+	</select>
+
+	<select id="selectProductName" parameterType="string"
+		resultType="string">
+		select PRODUCT_TITLE from PRODUCT where PRODUCT_NO =
+		#{reqRef}
+
 	</select>
 </mapper>
