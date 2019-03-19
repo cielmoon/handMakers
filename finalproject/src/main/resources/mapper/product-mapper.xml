@@ -89,7 +89,13 @@
 	</select>
 	
 	<select id="selectComment" parameterType="map" resultType="map">
-		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} 
+		SELECT MEMBER_NO, MEMBER_NAME, PRODUCT_NO, MEMBER_STATE, COMMENT_CONTENT, COMMENT_LEVEL, COMMENT_REF, COMMENT_NO
+		FROM PRODUCT_COMMENT JOIN MEMBER USING(MEMBER_NO) WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} 
+		ORDER BY COMMENT_DATE DESC
+	</select>
+	
+	<select id="selectProductOption" parameterType="string" resultType="map">
+		SELECT * FROM PRODUCT_OPTION WHERE PRODUCT_NO=#{productNo}
 	</select>
 	
 </mapper>

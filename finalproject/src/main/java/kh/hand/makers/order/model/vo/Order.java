@@ -17,15 +17,16 @@ public class Order implements Serializable{
 	private String orderDate; // 주문날짜
 	private String imp_uid; //아임포트 고유번호
 	private String merchant_uid; // 주문고유 번호
-	private String productOptionSubject; // 상품 옵션
+	private String productOption; // 상품 옵션
 	private int productOptionQty; // 상품수량
+	private String orderPayStatus;//주문상태
 	
 	public Order() {
 	}
 
 	public Order(String orderNo, int orderTotalPrice, String orderPayType, String productNo, String memberNo,
-			String deliveryNo, String orderDate, String imp_uid, String merchant_uid, String productOptionSubject,
-			int productOptionQty) {
+			String deliveryNo, String orderDate, String imp_uid, String merchant_uid, String productOption,
+			int productOptionQty, String orderPayStatus) {
 		super();
 		this.orderNo = orderNo;
 		this.orderTotalPrice = orderTotalPrice;
@@ -36,8 +37,9 @@ public class Order implements Serializable{
 		this.orderDate = orderDate;
 		this.imp_uid = imp_uid;
 		this.merchant_uid = merchant_uid;
-		this.productOptionSubject = productOptionSubject;
+		this.productOption = productOption;
 		this.productOptionQty = productOptionQty;
+		this.orderPayStatus = orderPayStatus;
 	}
 
 	public String getOrderNo() {
@@ -112,12 +114,12 @@ public class Order implements Serializable{
 		this.merchant_uid = merchant_uid;
 	}
 
-	public String getProductOptionSubject() {
-		return productOptionSubject;
+	public String getProductOption() {
+		return productOption;
 	}
 
-	public void setProductOptionSubject(String productOptionSubject) {
-		this.productOptionSubject = productOptionSubject;
+	public void setProductOption(String productOption) {
+		this.productOption = productOption;
 	}
 
 	public int getProductOptionQty() {
@@ -128,14 +130,22 @@ public class Order implements Serializable{
 		this.productOptionQty = productOptionQty;
 	}
 
+	public String getOrderPayStatus() {
+		return orderPayStatus;
+	}
+
+	public void setOrderPayStatus(String orderPayStatus) {
+		this.orderPayStatus = orderPayStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [orderNo=" + orderNo + ", orderTotalPrice=" + orderTotalPrice + ", orderPayType=" + orderPayType
 				+ ", productNo=" + productNo + ", memberNo=" + memberNo + ", deliveryNo=" + deliveryNo + ", orderDate="
-				+ orderDate + ", imp_uid=" + imp_uid + ", merchant_uid=" + merchant_uid + ", productOptionSubject="
-				+ productOptionSubject + ", productOptionQty=" + productOptionQty + "]";
+				+ orderDate + ", imp_uid=" + imp_uid + ", merchant_uid=" + merchant_uid + ", productOption="
+				+ productOption + ", productOptionQty=" + productOptionQty + ", orderPayStatus=" + orderPayStatus + "]";
 	}
-
+	
 		
 	
 }

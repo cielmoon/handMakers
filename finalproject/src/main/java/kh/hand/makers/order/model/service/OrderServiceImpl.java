@@ -1,5 +1,6 @@
 package kh.hand.makers.order.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -22,7 +23,6 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	OrderDao dao = new OrderDaoImpl();
 	
-	@Transactional
 	@Override
 	public int insertOrderEnroll(Map<String, Object> map) {
 		
@@ -37,12 +37,14 @@ public class OrderServiceImpl implements OrderService {
 			int orderTotalPrice = Integer.parseInt((String)map.get("order_total_price")); // 결제 총 금액
 			String orderPayType = (String)map.get("order_payType"); // 상품 결제 타입	
 			int productOptionQty = Integer.parseInt((String)map.get("productOptionQty")); // 상품 수량
-			String productOptionSubject = (String)map.get("productOptionSubject"); // 상품 옵션
+			String productOption = (String)map.get("productOption"); // 상품 옵션
+			String orderPayStatus = (String)map.get("order_payStatus");
 			
 			String postCode = (String)map.get("postCode"); // 우편번호
 			String deliveryAddr = (String)map.get("addr"); // 주소
 			String deliveryDetailAddr = (String)map.get("detailAddr"); // 상세주소
 			
+			logger.debug(orderPayStatus);
 			logger.debug(memberNo);
 			logger.debug(productNo);
 			logger.debug(imp_uid);
@@ -50,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
 			logger.debug(orderTotalPrice+"");
 			logger.debug(orderPayType);
 			logger.debug(productOptionQty+"");
-			logger.debug(productOptionSubject);
+			logger.debug(productOption);
 			logger.debug(postCode);
 			logger.debug(deliveryAddr);
 			logger.debug(deliveryDetailAddr);
@@ -62,7 +64,13 @@ public class OrderServiceImpl implements OrderService {
 			del.setDeliveryDetailAddr(deliveryDetailAddr);
 			del.setMemberNo(memberNo);
 			
+			dao.selectDelivery(del);
+			
 			result = dao.insertDeliveryEnroll(del);
+			
+			if(result==0) {	
+				throw new OrderException("Delivery 주소 저장 실패");
+			}	
 			
 			logger.debug(del.getDeliveryNo());
 			logger.debug("-------------------------");
@@ -80,18 +88,15 @@ public class OrderServiceImpl implements OrderService {
 			order.setMemberNo(memberNo);
 			order.setImp_uid(imp_uid);
 			order.setMerchant_uid(merchant_uid);
-			order.setProductOptionSubject(productOptionSubject);
+			order.setProductOption(productOption);
 			order.setProductOptionQty(productOptionQty);
+			order.setOrderPayStatus(orderPayStatus);
 			
-			if(result==0) {
-				
-				throw new OrderException("Delivery 주소 저장 실패");
-			}	
-			else {
-				result = dao.insertOrderEnroll(order);
-				
-				if(result==0) throw new OrderException("주문테이블 저장 실패");
-			}
+			
+			result = dao.insertOrderEnroll(order);
+			
+			if(result==0) throw new OrderException("주문테이블 저장 실패");
+			
 		}
 		catch(Exception e) {
 			throw e;
@@ -99,5 +104,19 @@ public class OrderServiceImpl implements OrderService {
 		
 		return result;
 	}
+
+	@Override
+	public List<Map<String, String>> selectDeliveryList(String memberNo) {
+		
+		return dao.selectDeliveryList(memberNo);
+	}
+
+	@Override
+	public Delivery selectDelivery(Delivery delivery) {
+		
+		return dao.selectDelivery(delivery);
+	}
+	
+	
 
 }

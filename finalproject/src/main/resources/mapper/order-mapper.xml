@@ -8,6 +8,22 @@
   		</selectKey>
   	</insert>
   	<insert id="insertOrder" parameterType="order">
-  		INSERT INTO PRODUCT_ORDER VALUES('P_ORDER_NO'||SEQ_ORDER_NO.NEXTVAL, DEFAULT, #{orderTotalPrice}, #{orderPayType}, #{deliveryNo}, DEFAULT, #{imp_uid}, #{merchant_uid}, #{productOptionSubject}, #{productOptionQty}, #{productNo}, #{memberNo})
+  		INSERT INTO PRODUCT_ORDER VALUES('P_ORDER_NO'||SEQ_ORDER_NO.NEXTVAL, DEFAULT, #{orderTotalPrice}, #{orderPayType}, #{orderPayStatus}, #{deliveryNo}, DEFAULT, #{imp_uid}, #{merchant_uid}, #{productOption}, #{productOptionQty}, #{productNo}, #{memberNo})
   	</insert>
+  	
+  	<select id="selectDeliveryList" parameterType="string" resultType="map">
+  		SELECT * FROM DELIVERY WHERE MEMBER_NO=#{memberNo}
+  	</select>
+  	
+  	<resultMap type="delivery" id="deliveryMap">
+  		<result column="DELIVERY_NO" property="deliveryNo"/>
+  		<result column="DELIVERY_POSTCODE" property="deliveryPostCode"/>
+  		<result column="DELIVERY_ADDR" property="deliveryAddr"/>
+  		<result column="DELIVERY_DETAILADDR" property="deliveryDetailAddr"/>
+  		<result column="MEMBER_NO" property="memberNo"/>
+  	</resultMap>
+  	
+  	<select id="selectDelivery" parameterType="delivery" resultMap="deliveryMap">
+  		SELECT * FROM DELIVERY WHERE DELIVERY_NO=#{deliveryNo} AND MEMBER_NO=#{memberNo}
+  	</select>
 </mapper>

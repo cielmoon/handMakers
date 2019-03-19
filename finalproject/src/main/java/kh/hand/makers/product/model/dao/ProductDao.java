@@ -22,4 +22,5 @@ public interface ProductDao {
 	int deleteWish(Wish wish);
 	int selectCommentCount(String commentType);
 	List<Map<String,String>> selectComment(Map<String,String> map, int cPage, int numPerPage);
+	List<Map<String,String>> selectProductOption(String productNo);
 }

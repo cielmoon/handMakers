@@ -111,6 +111,12 @@ public class ProductDaoImpl implements ProductDao {
 		
 		return session.selectList("product.selectComment", map, rb);
 	}
+
+	@Override
+	public List<Map<String, String>> selectProductOption(String productNo) {
+		
+		return session.selectList("product.selectProductOption", productNo);
+	}
 	
 	
 	
