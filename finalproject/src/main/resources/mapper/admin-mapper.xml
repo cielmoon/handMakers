@@ -154,10 +154,8 @@
 	</select>
 
 	<select id="selectMemberList" resultMap="viewMemberListMap">
-		select member_id,
-		member_name, member_email, member_phone, member_enrolldate
-		from member
-		where member_no != 'M_NO_1' order by member_no asc
+		select member_id, member_name, member_email, member_phone, member_enrolldate
+		from member where member_no != 'M_NO_1' order by member_enrolldate asc
 	</select>
 
 
@@ -194,6 +192,7 @@
 		resultType="string">
 		select PRODUCT_TITLE from PRODUCT where PRODUCT_NO =
 		#{reqRef}
+
 	</select>
 
 	<update id="reqProcessUpdate" parameterType="map">

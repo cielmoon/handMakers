@@ -1,5 +1,8 @@
 package kh.hand.makers.order.model.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,8 +25,23 @@ public class OrderDaoImpl implements OrderDao {
 	//주문테이블 인서트
 	@Override
 	public int insertOrderEnroll(Order order) {
-		
+		System.out.println("---------------------------------");
+		System.out.println(order);
 		return session.insert("order.insertOrder", order);
 	}
+
+	@Override
+	public List<Map<String, String>> selectDeliveryList(String memberNo) {
+		
+		return session.selectList("order.selectDeliveryList",memberNo);
+	}
+
+	@Override
+	public Delivery selectDelivery(Delivery delivery) {
+		
+		return session.selectOne("order.selectDelivery", delivery);
+	}
+	
+	
 
 }

@@ -95,6 +95,7 @@
             <li>
             <!-- 가격 -->
               <h2 class="productpage-price">${product.PRODUCT_PRICE }</h2>
+              <input type="hidden" name="productPrice" value="${product.PRODUCT_PRICE }"/>
             </li>
             
             <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
@@ -115,20 +116,28 @@
               <span> ${product.PRODUCT_MAX }</span></li>
           </ul>
           <hr>
-          <h2>${product.PRODUCT_OPTION }</h2>   
+             
           <p class="product-desc">${product.PRODUCT_COMMENT }</p>
           <div id="product">
             <div class="form-group">
-            	<!-- <select class="form-control"> -->
-            	
-            	<!-- </select> -->
+            	<select class="form-control" name="productOption" id="select-productOption">
+	          		<c:forEach var="option" items="${productOption }">
+	          			<option id="productOptionTag" value="${option.PRODUCT_OPTION_NO }">${option.PRODUCT_OPTION }</option>
+	          		</c:forEach>
+	          	</select>
             </div>
+            
             <div class="form-group">
               <label class="control-label qty-label" for="input-qty">수량</label>
               <input type="number" name="productQty" value="1" size="2" id="input-quantity" class="form-control productpage-qty" />
+              
               <input type="hidden" name="productNo" id="input-productNo" value="${product.PRODUCT_NO }" />
               <input type="hidden" name="brandNo" value="${product.BRAND_NO }" />
               <input type="hidden" name="wishCount" value="${wishCount }"/>
+              <input type="hidden" name="cPage" id="cPage" value="${cPage }"/>
+              <input type="hidden" name="productTitle" value="${product.PRODUCT_TITLE }"/>
+
+              <!-- <input type="hidden" name="" -->
               <div class="btn-group" id="divBtn">
               
               <!-- 찜 버튼 ajax 처리 wish list 저장 -->
@@ -240,14 +249,14 @@
       		});
       	};
       	
-      	function fn_review(evnet){
-      		event.preventDefault();
+      	function fn_review(cPage){
+      		
       		var productNo = $('#input-productNo').val();
       		var commentType = $('input[name=review]').val();
       		alert('들어오니?'+commentType);
       		$.ajax({
       			url:"${path}/product/selectComment.do",
-      			data:{"productNo":productNo, "commentType":commentType},
+      			data:{"productNo":productNo, "commentType":commentType, "cPage":cPage},
       			success:function(data){
       				console.log(data);
       				var a = data.pageBar;
@@ -271,7 +280,49 @@
       				return true;
       			}
       		});
-      	};
+      	}; 
+      	
+		/* function fn_review(cPage){
+      		var productNo = $('#input-productNo').val();
+      		var commentType = $('input[name=review]').val();
+      		$.ajax({
+      			url:"${path}/product/selectComment.do",
+      			data:{"productNo":productNo, "commentType":commentType, "cPage":cPage},
+      			success:function(data){
+      				console.log(data);
+      				var a = data.pageBar;
+      				var commentList = data.commentList;
+      				var table = $('#tbl-comment');
+      				var html = "<table id='tbl-comment' class='table table-striped table-hover'><thead><tr><td>작성자</td><td>작성내용</td></tr></thead>";
+      				var t = table.append(html);
+      				for(var i = 0; i<commentList.length; i++){
+      					console.log(commentList[i]["COMMENT_CONTENT"]);
+      					for(var key in commentList[i]){
+      						var str = "";
+      						var str2 = "";
+      						str+=" <tr id='level1'><td><strong>후기</strong><input type='text' class='form-control' id='level1-reviewWriter' value="+commentList[i]["MEMBER_NAME"]+" readonly/></td> ";
+      						str+=" <td><input type='text' class='form-control' id='level1-reviewContent' value="+commentList["COMMENT_CONTENT"]+"></td>)";
+      						str+=" <td><input type='button' class='form-control' value='수정' onclick='fn_reviewUpdate();'/></td> ";
+      						str+=" <td><input type='button' class='form-control' value='삭제' onclick='fn_reviewDelete();'/></td><td> ";
+      						str+=" <td><input type='button' class='form-control' value='답글' onclick='fn_reply();'/></td></tr></tr> ";				
+      						
+      						if(commentList[i]["COMMENT_LEVEL"]==2){
+      							str2+=" <tr id=level2><td><strong>후기</strong><input type='text' class='form-control' id='level2-reviewWriter' value="+commentList[i]["MEMBER_NAME"]+" readonly/></td>";
+          						str2+=" <td><input type='text' class='form-control' id='level2-reviewContent' value="+commentList["COMMENT_CONTENT"]+"></td> ";
+          						str2+=" <td><input type='button' class='form-control' value='수정' onclick='fn_reviewUpdate();'/></td> ";
+          						str2+=" <td><input type='button' class='form-control' value='삭제' onclick='fn_reviewDelete();'/></td><td> ";
+          						str2+=" <td><input type='button' class='form-control' value='답글' onclick='fn_reply();'/></td></tr></tr> ";
+      						}
+      						var total = str+str2;
+      						console.log(total);
+      					}
+      					var tt = $('#reviewCommentContent').append(total);
+      				}
+      				$('#reviewComment').html(tt).append(a);
+      				return true;
+      			}
+      		});
+      	};  */
       </script>
       <!-- 상품 설명//댓글 창 List-->
       <div class="productinfo-tab">
@@ -285,6 +336,7 @@
         </ul>
         <input type="hidden" name="review" value="R"/>
         <input type="hidden" name="review" value="Q"/>
+        
         <!-- 상품 설명 탭 -->
         <div class="tab-content">
           <div class="tab-pane active" id="tab-description">
@@ -299,8 +351,111 @@
           <!-- 후기 댓글 등록 창 -->
           <div class="tab-pane" id="tab-review">
          	<div id="reviewComment" class="form-group" style="border:1px solid red">
-         	 	${pageBar }
+         	 	<table id='tbl-comment' class='table table-striped table-hover'>
+         			<thead>
+         				<tr>
+         					<td>작성자</td>
+         					<td>작성내용</td>
+         				</tr>
+         			</thead>
+         			<tbody id="reviewCommentContent">
+         				<c:if test='${commentList==null }'>
+         					<tr id="level1">
+         						<td colspan="2">등록한 댓글이 없습니다.</td>
+         					</tr>
+         				</c:if>
+         				<c:if test="${commentList!=null }">
+         				<c:forEach items="${commentList }" var="comment" varStatus="vs">
+         					<c:if test="${commentList.COMMENT_LEVEL eq 1 }">
+         					<tr id="level1">
+         						<td>
+         							<strong>후기</strong><input type="text" class="form-control" id="level1-reviewWriter" value="${commentList['MEMBER_NAME'] }" readonly/>
+         							
+         							<!-- $(#level1).append('<td><strong>후기</strong><input type="text" class="form-control" id="level1-reviewWriter" value="'+data[i].MEMBER_NAME+'" readonly/></td>') -->
+         							
+         						</td>
+         						<td>
+	         						<input type="text" class="form-control" id="level1-reviewContent" value="${commentList['COMMENT_CONTENT'] }">
+	         					</td>
+	         					<td>
+	         						<input type="button" class="form-control" value="수정" onclick="fn_reviewUpdate();"/>
+	         					</td>
+	         					<td>
+	         						<input type="button" class="form-control" value="삭제" onclick="fn_reviewDelete();"/>
+	         					</td>
+	         					<td>
+	         						<input type="button" class="form-control" value="답글" onclick="fn_reply();"/>
+	         					</td>
+         					</tr>
+         					<c:if test="${commentList.COMMENT_LEVEL eq 2 }">
+         					<tr id="level2">
+	         					<td><strong>답글</strong><input type="text" class="form-control" id="level2-reviewWriter" value="${commentList['MEMBER_NO'] }" readonly/></td>
+	         					<td colspan="2">
+	         						<input type="text" class="form-control" id="level2-reviewContent" value="${commentList['COMMENT_CONTENT'] }">
+	         					</td>
+	         					<td>
+	         						<input type="button" class="form-control" value="수정"/>
+	         					</td>
+	         					<td>
+	         						<input type="button" class="form-control" value="삭제"/>
+	         					</td>
+	         				</tr>
+	         				</c:if>
+         					</c:if>
+         					</c:forEach>
+         				</c:if>
+         			</tbody>
+         		</table>
          	</div>
+         	
+         	<!-- <div class="form-group">
+         		
+         				<tr>
+         					<td><strong>후기</strong><input type="text" class="form-control" value="홍길동" readonly/></td>
+         					<td>
+         						<input type="text" class="form-control" value="내용">
+         					</td>
+         					<td>
+         						<input type="button" class="form-control" value="수정"/>
+         					</td>
+         					<td>
+         						<input type="button" class="form-control" value="삭제"/>
+         					</td>
+         					<td>
+         						<input type="button" class="form-control" value="답글"/>
+         					</td>
+         				</tr>
+         				<tr>
+         					<td><strong>답글</strong><input type="text" class="form-control" value="판매자" readonly/></td>
+         					<td colspan="2">
+         						<input type="text" class="form-control" value="답변">
+         					</td>
+         					<td>
+         						<input type="button" class="form-control" value="수정"/>
+         					</td>
+         					<td>
+         						<input type="button" class="form-control" value="삭제"/>
+         					</td>
+         				</tr>
+         			
+         	</div>
+         	
+         	<ul class="pagination pagination-sm no-magin" id="reviewCommentUL">
+         	 		<li data-replyNo="test" class='form-control'>
+         	 			<h3><strong>후기</strong></h3><p class='form-inline'>내용</p>
+         	 			<p class='form-inline'>작성자</p>
+         	 			<button type='button' class='btn btn-xs btn-success form-inline' data-toggle='modal' data-target='#modifyModal'>댓글 수정</button>
+         	 			<button type='button' class='btn btn-xs btn-success form-inline' data-toggle='modal' data-target='#modifyModal'>댓글 삭제</button>
+         	 			<button type='button' class='btn btn-xs btn-success form-inline' data-toggle='modal' data-target='#modifyModal'>답글 달기</button>
+         	 		</li>
+         	 		<hr/>
+         	 		<li data-replyNo="test" class='form-control'>
+         	 			<strong>답변</strong><p class='form-inline'>내용</p>
+         	 			<p class='form-inline'>작성자</p>
+         	 			<button type='button' class='btn btn-xs btn-success' data-toggle='modal' data-target='#modifyModal'>댓글 수정</button>
+         	 			<button type='button' class='btn btn-xs btn-success' data-toggle='modal' data-target='#modifyModal'>댓글 삭제</button>
+         	 		</li>
+         	 	</ul> -->
          	
             <form class="form-horizontal">
               <div id="review"></div>
@@ -399,11 +554,11 @@
       </div>
       
       <!-- 비슷한 상품 추천 -->
-      <h3 class="productblock-title">Related Products</h3>
+      <!-- <h3 class="productblock-title">Related Products</h3>
       <div class="box">
         <div id="related-slidertab" class="row owl-carousel product-slider">
         
-        <!-- 상품 1 -->
+        상품 1
           <div class="item">
             <div class="product-thumb transition">
               <div class="image product-imageblock"> <a href="#"> <img src="image/product/pro-1-220x294.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /> </a>
@@ -425,7 +580,7 @@
             </div>
           </div>
           
-          <!-- 상품 2 -->
+          상품 2
           <div class="item">
             <div class="product-thumb transition">
               <div class="image product-imageblock"> <a href="#"> <img src="image/product/pro-2-220x294.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /> </a>
@@ -447,7 +602,7 @@
             </div>
           </div>
           
-          <!-- 상품 3 -->
+          상품 3
           <div class="item">
             <div class="product-thumb transition">
               <div class="image product-imageblock"> <a href="#"> <img src="image/product/pro-3-220x294.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /> </a>
@@ -467,95 +622,7 @@
                 <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
               </div>
             </div>
-          </div>
-          
-          <!-- 상품 4 -->
-          <div class="item">
-            <div class="product-thumb transition">
-              <div class="image product-imageblock"> <a href="#"> <img src="image/product/pro-4-220x294.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /> </a>
-                <div class="button-group">
-                  <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
-                  <button type="button" class="addtocart-btn">Add to Cart</button>
-                  <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
-                </div>
-              </div>
-              <div class="caption product-detail">
-                <h4 class="product-name"><a href="product.html" title="women's New Wine is an alcoholic">women's New Wine is an alcoholic</a></h4>
-                <p class="price product-price"> <span class="price-new">$254.00</span> <span class="price-old">$272.00</span> <span class="price-tax">Ex Tax: $210.00</span> </p>
-              </div>
-              <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
-                <button type="button" class="addtocart-btn">Add to Cart</button>
-                <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
-              </div>
-            </div>
-          </div>
-          
-          <!-- 상품 5 -->
-          <div class="item">
-            <div class="product-thumb transition">
-              <div class="image product-imageblock"> <a href="#"> <img src="image/product/pro-5-220x294.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /> </a>
-                <div class="button-group">
-                  <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
-                  <button type="button" class="addtocart-btn">Add to Cart</button>
-                  <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
-                </div>
-              </div>
-              <div class="caption product-detail">
-                <h4 class="product-name"><a href="product.html" title="women's New Wine is an alcoholic">women's New Wine is an alcoholic</a></h4>
-                <p class="price product-price"> <span class="price-new">$254.00</span> <span class="price-old">$272.00</span> <span class="price-tax">Ex Tax: $210.00</span> </p>
-              </div>
-              <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
-                <button type="button" class="addtocart-btn">Add to Cart</button>
-                <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
-              </div>
-            </div>
-          </div>
-          
-          <!-- 상품 6 -->
-          <div class="item">
-            <div class="product-thumb transition">
-              <div class="image product-imageblock"> <a href="#"> <img src="image/product/pro-6-220x294.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /> </a>
-                <div class="button-group">
-                  <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
-                  <button type="button" class="addtocart-btn">Add to Cart</button>
-                  <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
-                </div>
-              </div>
-              <div class="caption product-detail">
-                <h4 class="product-name"><a href="product.html" title="women's New Wine is an alcoholic">women's New Wine is an alcoholic</a></h4>
-                <p class="price product-price"> <span class="price-new">$254.00</span> <span class="price-old">$272.00</span> <span class="price-tax">Ex Tax: $210.00</span> </p>
-              </div>
-              <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
-                <button type="button" class="addtocart-btn">Add to Cart</button>
-                <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
-              </div>
-            </div>
-          </div>
-          
-          <!-- 상품 7 -->
-          <div class="item">
-            <div class="product-thumb transition">
-              <div class="image product-imageblock"> <a href="#"> <img src="image/product/pro-7-220x294.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /> </a>
-                <div class="button-group">
-                  <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
-                  <button type="button" class="addtocart-btn">Add to Cart</button>
-                  <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
-                </div>
-              </div>
-              <div class="caption product-detail">
-                <h4 class="product-name"><a href="product.html" title="women's New Wine is an alcoholic">women's New Wine is an alcoholic</a></h4>
-                <p class="price product-price"> <span class="price-new">$254.00</span> <span class="price-old">$272.00</span> <span class="price-tax">Ex Tax: $210.00</span> </p>
-              </div>
-              <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
-                <button type="button" class="addtocart-btn">Add to Cart</button>
-                <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
-              </div>
-            </div>
-          </div>
+          </div> -->
           
         </div>
       </div>
