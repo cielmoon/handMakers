@@ -123,10 +123,10 @@
 	</select>
 	
 	<select id="selectWishList" parameterType="string" resultType="map">
-		SELECT * FROM WISH W JOIN PRODUCT P USING(PRODUCT_NO) WHERE W.MEMBER_NO=#{memberNo} AND NOT P.PRODUCT_STATE IN(2,3);
+		SELECT * FROM WISH W JOIN PRODUCT P USING(PRODUCT_NO) WHERE W.MEMBER_NO=#{memberNo} AND NOT P.PRODUCT_STATE IN(2,3)
 	</select>
 	
 	<select id="selectWishCount" parameterType="string" resultType="_int">
-		SELECT COUNT(*) FROM WISH W JOIN PRODUCT P USING(PRODUCT_NO) WHERE W.MEMBER_NO=#{memberNo} AND NOT P.PRODUCT_STATE IN(2,3);
+		SELECT COUNT(*) FROM WISH W JOIN PRODUCT P USING(PRODUCT_NO) WHERE W.MEMBER_NO=#{memberNo} AND NOT P.PRODUCT_STATE IN(2,3)
 	</select>
 </mapper>
