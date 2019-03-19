@@ -198,7 +198,7 @@ function requestPay() {
 											<select class="form-control" id="myAddr" name="myAddr">
 											<c:forEach items="${deliveryList }" var="delivery">
 												<option value="list" selected>나의 배송지 주소</option>
-												<option id="myAddrOption" value="${delivery.DELIVERY_NO }">${delivery.DELIVERY_ADDR }
+												<option id="myAddrOption" value="${delivery.DELIVERY_NO }">${delivery.DELIVERY_POSTCODE }${delivery.DELIVERY_ADDR }${delivery.DELIVERY_DETAILADDR }
 											</c:forEach>
 											</select>
 										</div>

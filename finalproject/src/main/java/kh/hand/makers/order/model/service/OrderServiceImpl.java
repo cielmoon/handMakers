@@ -1,13 +1,13 @@
 package kh.hand.makers.order.model.service;
 
 import java.util.List;
+
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import kh.hand.makers.common.exception.OrderException;
 import kh.hand.makers.order.model.dao.OrderDao;
@@ -26,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public int insertOrderEnroll(Order order) {
 		
-		return dao.insertOrderEnroll(order);
+			return dao.insertOrderEnroll(order);
 	}
 
 	@Override

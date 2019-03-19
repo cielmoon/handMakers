@@ -6,6 +6,7 @@ import java.util.Map;
 import kh.hand.makers.member.model.vo.ManageOrder;
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.vo.Delivery;
+import kh.hand.makers.product.model.vo.Wish;
 
 public interface MemberDao {
 	Member memberLogin(String memberId);
@@ -20,4 +21,6 @@ public interface MemberDao {
 	int memberPwdUpdate(Member m);
 	List<ManageOrder> selectOrderList(Member m, int cPage,int numPerPage);
 	int selectOrderCount();
+	List<Wish> selectWishList(String memberNo, int cPage, int numPerPage);
+	int selectWishCount(String memberNo);
 }

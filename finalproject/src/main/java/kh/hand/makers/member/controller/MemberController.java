@@ -24,6 +24,7 @@ import kh.hand.makers.member.model.service.MemberService;
 import kh.hand.makers.member.model.vo.ManageOrder;
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.vo.Delivery;
+import kh.hand.makers.product.model.vo.Wish;
 import kh.hand.makers.shop.model.service.ShopService;
 import kh.hand.makers.shop.model.vo.Brand;
 
@@ -157,8 +158,23 @@ public class MemberController {
 
 
 	@RequestMapping("/member/wishList.do")
-	public String wishList() {
-		return "member/wishList";
+	public ModelAndView wishList(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage, HttpSession session) {
+		
+		int numPerPage = 4;
+		
+		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
+		
+		ModelAndView mv = new ModelAndView();
+		
+		int wishContentCount = service.selectWishCount(memberNo);
+		
+		List<Wish> wishList = service.selectWishList(memberNo, cPage, numPerPage);
+		
+		mv.addObject("pageBar",PageFactory.getPageBar(wishContentCount, cPage, numPerPage, "/member/wishList.do"));
+		mv.addObject("wishList",wishList);
+		mv.setViewName("/member/wishList");
+		
+		return mv;
 	}
 
 	// member/memberUpdateEnd.do
