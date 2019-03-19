@@ -9,7 +9,7 @@
 <script>
 function selectBrand(brandNo, brandState)
 {
-	if(brandState == '0' || brandState == '2')
+	if(brandState == 'a' || brandState == 'c')
 	{
 		alert("승인되지 않은 브랜드입니다.");
 	}
@@ -53,10 +53,10 @@ function selectBrand(brandNo, brandState)
 							<c:forEach items="${brandList }" var="b">
 								<c:if test="${b.brandState.toString()!='4'}">
 								<a class="list-group-item brand-list" href="javascript:selectBrand('${b.brandNo }', '${b.brandState }');">${b.brandTitle }				
-									<c:if test="${b.brandState.toString()=='0'}">
+									<c:if test="${b.brandState.toString()=='a'}">
 										<i class="fa fa-clock-o" style="font-size:20px; float: right;"></i>
 									</c:if>
-									<c:if test="${b.brandState.toString()=='2'}">
+									<c:if test="${b.brandState.toString()=='c'}">
 										<i class="fa fa-exclamation-circle" style="font-size:20px; color: firebrick; float: right;"></i>
 									</c:if>
 								</a>

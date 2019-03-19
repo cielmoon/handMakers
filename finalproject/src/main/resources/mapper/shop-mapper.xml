@@ -55,7 +55,7 @@
 		SELECT * FROM SMALL_CATEGORY WHERE BC_NO = #{bcNo}
 	</select>
 	<update id="updateBrand" parameterType="map">
-		UPDATE BRAND SET BRAND_ADDR = #{brandAddr}, BRAND_DETAILADDR = #{brandDetailAddr}, BRAND_TYPE = #{brandType}, BRAND_STATE = 0
+		UPDATE BRAND SET BRAND_ADDR = #{brandAddr}, BRAND_DETAILADDR = #{brandDetailAddr}, BRAND_TYPE = #{brandType}, BRAND_STATE = 'a'
 		WHERE BRAND_NO = #{brandNo}
 	</update>
 	<select id="selectPreProductCount" resultType="_int" parameterType="string">
@@ -116,7 +116,7 @@
 		UPDATE PRODUCT_ORDER SET ORDER_STATE = '1' WHERE ORDER_NO = #{order}
 	</update>
 	<select id="selectOrder" parameterType="string" resultType="map">
-		SELECT P.*, D.* FROM PRODUCT_ORDER P JOIN DELIVERY D ON(P.MEMBER_NO=D.MEMBER_NO) WHERE P.MEMBER_NO = (SELECT MEMBER_NO FROM PRODUCT_ORDER WHERE ORDER_NO = #{orderNo}) AND ORDER_NO = #{orderNo}
+		SELECT * FROM PRODUCT_ORDER WHERE ORDER_NO = #{orderNo}
 	</select>
 	<update id="cancelExportOrder" parameterType="string">
 		UPDATE PRODUCT_ORDER SET ORDER_STATE = '0' WHERE ORDER_NO = #{orderNo}
