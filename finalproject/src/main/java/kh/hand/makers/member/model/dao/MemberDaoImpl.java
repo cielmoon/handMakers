@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import kh.hand.makers.member.model.vo.ManageOrder;
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.vo.Delivery;
+import kh.hand.makers.product.model.vo.Wish;
 
 @Repository
 public class MemberDaoImpl implements MemberDao {
@@ -83,6 +84,19 @@ public class MemberDaoImpl implements MemberDao {
 	public int selectOrderCount() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("member.selectOrderCount");
+	}
+
+	@Override
+	public List<Wish> selectWishList(String memberNo, int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return sqlSession.selectList("member.selectWishList", memberNo, rb);
+		
+	}
+
+	@Override
+	public int selectWishCount(String memberNo) {
+		
+		return sqlSession.selectOne("member.selectWishCount",memberNo);
 	}
 	
 	

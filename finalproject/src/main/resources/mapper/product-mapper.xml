@@ -36,16 +36,16 @@
 		SELECT * FROM PRODUCT
 		<where>
 		<if test="category != null and sc != null">
-		(BC_NO = #{category}) AND (SC_NO = #{sc}) 
+		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3) 
 		</if>
 		<if test="category != null and sc == null">
-		 BC_NO = #{category}
+		 BC_NO = #{category} AND not PRODUCT_STATE in (2,3)
 		</if>
 		<if test="sCategory != null">
-		SC_NO = #{sCategory}
+		SC_NO = #{sCategory} AND not PRODUCT_STATE in (2,3)
 		</if>
 		<if test="productStep != null">
-		PRODUCT_STEP = #{productStep}
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3)
 		</if>
 		</where>
 	</select>
@@ -57,13 +57,13 @@
 		SELECT COUNT(*) FROM PRODUCT
 		<where>
 		<if test="category != null and sc != null">
-		(BC_NO = #{category}) AND (SC_NO = #{sc}) 
+		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3)
 		</if>
 		<if test="category != null and sc == null">
-		BC_NO = #{category}
+		BC_NO = #{category} AND not PRODUCT_STATE in (2,3)
 		</if>
 		<if test="productStep != null">
-		PRODUCT_STEP = #{productStep}
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3)
 		</if>
 		</where>
 	</select>
