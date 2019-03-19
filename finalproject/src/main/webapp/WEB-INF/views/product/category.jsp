@@ -15,16 +15,21 @@
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
       <div class="column-block">
-        <div class="columnblock-title">${bcTitle }</div>
+        <div class="columnblock-title"><a href="${path }/product/category.do?category=${category}">${bcTitle }</a></div>
         <div class="category_block">
-          
+          <%-- <h1>${sCategoryList}</h1> --%>
           <ul class="box-category treeview-list treeview">
-            <li><a href="#s1" class="activSub">Desktops</a>
+            <!-- <li><a href="#s1" class="activSub">Desktops</a>
             <li><a href="#s2">Tablets</a></li>
             <li><a href="#s3">Software</a></li>
             <li><a href="#s4">Phones & PDAs</a></li>
             <li><a href="#s5">Cameras</a></li>
-            <li><a href="#s6">MP3 Players</a></li>
+            <li><a href="#s6">MP3 Players</a></li> -->
+            
+            
+            <c:forEach items="${sCategoryList}" var="scList" varStatus="vs">
+            <li><a href="${path }/product/category.do?category=${category}&sc=${scList.SC_NO}">${scList.SC_TITLE }</a></li>
+            </c:forEach>
           </ul>
         </div>
       </div>
