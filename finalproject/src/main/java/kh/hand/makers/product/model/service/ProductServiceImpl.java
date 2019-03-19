@@ -97,6 +97,12 @@ public class ProductServiceImpl implements ProductService {
 		
 		return dao.selectComment(map,cPage,numPerPage);
 	}
+
+	@Override
+	public List<Map<String, String>> selectProductOption(String productNo) {
+		
+		return dao.selectProductOption(productNo);
+	}
 	
 	@Override
 	public int selectProductCount(Map<String, String> map) {

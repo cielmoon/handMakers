@@ -2,7 +2,7 @@ package kh.hand.makers.common;
 
 public class PageFactoryComment {
 
-	public static String getPageBar(int totalCon, int cPage, int numPerPage, String url)
+	public static String getPageBar(int totalCon, int cPage, int numPerPage, String url, String productNo, String commentType)
 	{
 		String pageBar="";
 		int pageBarSize=5;
@@ -23,7 +23,7 @@ public class PageFactoryComment {
 		else {
 			pageBar+="<li class='page-item'>";
 			pageBar+="<a class='page-link' "
-					+ "href='javascript:fn_paging("+(pageNo-1)+")'>"
+					+ "href='javascript:fn_review("+pageNo+")'>"
 							+ "이전</a>";
 			pageBar+="</li>";
 		}
@@ -40,7 +40,7 @@ public class PageFactoryComment {
 			{
 				pageBar+="<li class='page-item'>";
 				pageBar+="<a class='page-link' "
-						+ "href='javascript:fn_paging("+pageNo+")'>"
+						+ "href='javascript:fn_review("+pageNo+")'>"
 								+pageNo+"</a>";
 				pageBar+="</li>";
 			}
@@ -56,21 +56,29 @@ public class PageFactoryComment {
 		else {
 			pageBar+="<li class='page-item'>";
 			pageBar+="<a class='page-link' "
-					+ "href='javascript:fn_paging("+(pageNo)+")'>"
+					+ "href='javascript:fn_review("+pageNo+")'>"
 							+ "다음</a>";
 			pageBar+="</li>";
 		}
 		pageBar+="</ul>";
 		
 		//paging처리 script작성
-		/*pageBar+="<script>";
+		pageBar+="<script>";
 		pageBar+="function fn_paging(cPage){";
 		pageBar+="location.href='"+url+"&cPage='+cPage";
 		pageBar+="}";
-		pageBar+="</script>";*/
+		pageBar+="</script>";
 		
-		pageBar+="<script>";
+		/*pageBar+="<script>";
 		pageBar+="function fn_paging(cPage){";
+		pageBar+="$.ajax({";
+		pageBar+="url:'${path}/product/selectComment.do',";
+		pageBar+="data:{'productNo':productNo, 'commentType':commentType},";
+		pageBar+="success:function(data){";
+		pageBar+="console.log(data);";
+		pageBar+="var pageBar = data.pageBar";
+		pageBar+="var commentList = data.commentList";
+		pageBar+="var table = $('<table id=>')"
 		pageBar+="$.ajax({";
 		pageBar+="url:'${path}/product/selectComment.do',";
 		pageBar+="data:{'productNo':productNo, 'commentType':commentType},";
@@ -80,11 +88,9 @@ public class PageFactoryComment {
 		pageBar+="location.href='"+url+"&cPage='+cPage";
 		pageBar+="}";
 		pageBar+="</script>";
-		
+		*/
 		return pageBar;		
-		
-		
-		
-		
+			
+
 	}
 }

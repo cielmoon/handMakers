@@ -16,30 +16,24 @@ public class Order implements Serializable{
 	private String productNo; // 상품번호	
 	private String memberNo; // 주문 회원
 	//private String deliveryNo; // 배송지 번호
+	private String deliveryPostCode; //우편번호
 	private String deliveryAddr; // 배송지 주소
 	private String deliveryDetailAddr; // 배송지 상세주소
 	private String orderState; //배송상태
 	private Date orderDate; // 주문날짜
 	private String imp_uid; //아임포트 고유번호
 	private String merchant_uid; // 주문고유 번호
-	private String productOptionSubject; // 상품 옵션
+	private String productOption; // 상품 옵션
 	private int productOptionQty; // 상품수량
+	private String orderPayStatus;//주문상태
 	
 	public Order() {
 	}
 
-	@Override
-	public String toString() {
-		return "Order [orderNo=" + orderNo + ", orderTotalPrice=" + orderTotalPrice + ", orderPayType=" + orderPayType
-				+ ", orderPayState=" + orderPayState + ", productNo=" + productNo + ", memberNo=" + memberNo
-				+ ", deliveryAddr=" + deliveryAddr + ", deliveryDetailAddr=" + deliveryDetailAddr + ", orderState="
-				+ orderState + ", orderDate=" + orderDate + ", imp_uid=" + imp_uid + ", merchant_uid=" + merchant_uid
-				+ ", productOptionSubject=" + productOptionSubject + ", productOptionQty=" + productOptionQty + "]";
-	}
-
 	public Order(String orderNo, int orderTotalPrice, String orderPayType, String orderPayState, String productNo,
-			String memberNo, String deliveryAddr, String deliveryDetailAddr, String orderState, Date orderDate,
-			String imp_uid, String merchant_uid, String productOptionSubject, int productOptionQty) {
+			String memberNo, String deliveryPostCode, String deliveryAddr, String deliveryDetailAddr, String orderState,
+			Date orderDate, String imp_uid, String merchant_uid, String productOption, int productOptionQty,
+			String orderPayStatus) {
 		super();
 		this.orderNo = orderNo;
 		this.orderTotalPrice = orderTotalPrice;
@@ -47,14 +41,16 @@ public class Order implements Serializable{
 		this.orderPayState = orderPayState;
 		this.productNo = productNo;
 		this.memberNo = memberNo;
+		this.deliveryPostCode = deliveryPostCode;
 		this.deliveryAddr = deliveryAddr;
 		this.deliveryDetailAddr = deliveryDetailAddr;
 		this.orderState = orderState;
 		this.orderDate = orderDate;
 		this.imp_uid = imp_uid;
 		this.merchant_uid = merchant_uid;
-		this.productOptionSubject = productOptionSubject;
+		this.productOption = productOption;
 		this.productOptionQty = productOptionQty;
+		this.orderPayStatus = orderPayStatus;
 	}
 
 	public String getOrderNo() {
@@ -105,6 +101,14 @@ public class Order implements Serializable{
 		this.memberNo = memberNo;
 	}
 
+	public String getDeliveryPostCode() {
+		return deliveryPostCode;
+	}
+
+	public void setDeliveryPostCode(String deliveryPostCode) {
+		this.deliveryPostCode = deliveryPostCode;
+	}
+
 	public String getDeliveryAddr() {
 		return deliveryAddr;
 	}
@@ -153,12 +157,12 @@ public class Order implements Serializable{
 		this.merchant_uid = merchant_uid;
 	}
 
-	public String getProductOptionSubject() {
-		return productOptionSubject;
+	public String getProductOption() {
+		return productOption;
 	}
 
-	public void setProductOptionSubject(String productOptionSubject) {
-		this.productOptionSubject = productOptionSubject;
+	public void setProductOption(String productOption) {
+		this.productOption = productOption;
 	}
 
 	public int getProductOptionQty() {
@@ -169,10 +173,24 @@ public class Order implements Serializable{
 		this.productOptionQty = productOptionQty;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getOrderPayStatus() {
+		return orderPayStatus;
 	}
 
-		
+	public void setOrderPayStatus(String orderPayStatus) {
+		this.orderPayStatus = orderPayStatus;
+	}
+
+	@Override
+	public String toString() {
+		return "Order [orderNo=" + orderNo + ", orderTotalPrice=" + orderTotalPrice + ", orderPayType=" + orderPayType
+				+ ", orderPayState=" + orderPayState + ", productNo=" + productNo + ", memberNo=" + memberNo
+				+ ", deliveryPostCode=" + deliveryPostCode + ", deliveryAddr=" + deliveryAddr + ", deliveryDetailAddr="
+				+ deliveryDetailAddr + ", orderState=" + orderState + ", orderDate=" + orderDate + ", imp_uid="
+				+ imp_uid + ", merchant_uid=" + merchant_uid + ", productOption=" + productOption
+				+ ", productOptionQty=" + productOptionQty + ", orderPayStatus=" + orderPayStatus + "]";
+	}
+
+	
 	
 }

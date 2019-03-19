@@ -15,6 +15,27 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
 <script>
+$(function(){
+	$('#myAddr').change(function(){
+		alert('들어오니?');
+		var myAddr = $('#myAddr').find(":selected").val();
+		console.log(myAddr);
+		$.ajax({
+			url:"${path}/delivery/selectDelivery.do",
+			data:{"deliveryNo":myAddr},
+			success:function(data){
+				console.log(data.delivery);
+				console.log(data.delivery["deliveryAddr"]);
+				$('#input-postCode').val(data.delivery["deliveryPostCode"]);
+				$('#input-addr').val(data.delivery["deliveryAddr"]);
+				$('#input-detailAddr').val(data.delivery["deliveryDetailAddr"]);
+			}
+		});
+	});
+});
+
+
+
 /* 사업장 주소 검색 버튼 클릭 시 실행 */
 function searchAddr(){
 	var width = 500; //팝업의 너비
@@ -75,13 +96,16 @@ function requestPay() {
     			msg += '\결제 금액 : ' + rsp.paid_amount;
     			msg += '카드 승인번호 : ' + rsp.apply_num;
     			msg += '결제수단 : ' + rsp.pg_type; 
+    			msg += '결제여부 : ' + rsp.status;
     			
     			$('#imp_uid').val(rsp.imp_uid);//결제 고유번호
     			$('#merchant_uid').val(rsp.merchant_uid);//주문번호
     			$('#order_total_price').val(rsp.paid_amount);//결재 가격
     			$('#order_payType').val(rsp.pg_provider);//결제 승인된 PG사
+    			if(rsp.status=='paid'){
+    				$('#order_payStatus').val('0');//주문상태
+    			}
     			
-    			alert(msg);
     			
     			$('form[name=orderEnrollFrm]').submit();
     			
@@ -91,11 +115,28 @@ function requestPay() {
 	        msg += '에러내용 : ' + rsp.error_msg;
 	        
 	        alert(msg);
+	        
 	        return;
 	    }
 	});
 
 }
+
+/* $(function(){
+	$('#myAddrOption').on('onclick',function(){
+		alert('들어오니?');
+		var myAddr = $('#myAddrOption').find(":selected").val();
+		console.log(myAddr);
+		$.ajax({
+			url:"${path}/delivery/selectDelivery.do",
+			data:{"deliveryNo":myAddr},
+			success:function(data){
+				console.log(data);
+			}
+		});
+	});
+}); */
+
 </script>
 
 <section>
@@ -135,23 +176,33 @@ function requestPay() {
 										<h2>상품 정보</h2>
 										<div class="form-group">
 											<label class="control-label">상품명</label>
-											<input type="text" class="form-control" id="input-productName" name="productName"value="상품명" readonly>
+											<input type="text" class="form-control" id="input-productName" name="productName"value="${orderList.productTitle }" readonly>
 										</div>
 										<div class="form-group">
 											<label class="control-label">가격</label>
-											<input type="number" class="form-control" id="input-productPrice" name="productPrice"/>
+											<input type="number" class="form-control" id="input-productPrice" name="productPrice" value="${orderList.productPrice }" readonly/>
 										</div>
 										<div class="form-group">
 											<label class="control-label">옵션</label>
-											<input type="text" class="form-control" id="input-productOptionSubject" name="productOptionSubject" value="옵션" readonly>
+											<input type="text" class="form-control" id="input-productOptionSubject" name="productOption" value="${orderList.productOption }" readonly>
 										</div>
 										<div class="form-group">
 											<label class="control-label">수량</label>
-											<input type="number" class="form-control" id="input-productOptionQty" name="productOptionQty"required>
+											<input type="number" class="form-control" id="input-productOptionQty" name="productOptionQty" value="${orderList.productQty }" required>
 										</div>
 										
 										<!-- 배송지 주소 -->
 										<label class="control-label mt-1">배송지</label>
+										<c:if test="${deliveryList!=null }">
+										<div class="form-group">
+											<select class="form-control" id="myAddr" name="myAddr">
+											<c:forEach items="${deliveryList }" var="delivery">
+												<option value="list" selected>나의 배송지 주소</option>
+												<option id="myAddrOption" value="${delivery.DELIVERY_NO }">${delivery.DELIVERY_ADDR }
+											</c:forEach>
+											</select>
+										</div>
+										</c:if>
 										<div class="row">
 											<div class="col-sm-4">
 												<input type="text" class="form-control" id="input-postCode" name="postCode" placeholder="우편번호" readonly>
@@ -187,14 +238,13 @@ function requestPay() {
 										
 										
 									<!-- 상품 번호 받아서 저장 하는 곳 -->
-									<input type="hidden" name="product_no" value="${productNo} }"/>
+									<input type="hidden" name="product_no" value="${orderList.productNo}"/>
 									<input type="hidden" name="member_no" value="${member.memberNo }"/>
 									<input type="hidden" name="imp_uid" id="imp_uid" value=""/>
 									<input type="hidden" name="merchant_uid" id="merchant_uid" value=""/>
 									<input type="hidden" name="order_total_price" id="order_total_price"/>
 									<input type="hidden" name="order_payType" id="order_payType" value=""/>
-									
-									
+									<input type="hidden" name="order_payStatus" id="order_payStatus" value=""/>
 								</div>
 								<!-- <input type="button" class="btn btn-primary float-right" data-loading-text="Loading..." id="button-submit" value="결제하기"> -->
 						</form>

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.common.PageFactory;
@@ -42,6 +43,8 @@ public class ProductController {
 		
 		ModelAndView mv = new ModelAndView();
 		
+		int cPage = 1;
+		
 		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
 		
 		Wish wish = new Wish();
@@ -56,6 +59,8 @@ public class ProductController {
 		String bcTitle = service.selectBcTitle(product.get("BC_NO"));
 		List<ProductImg> productImg = service.selectProductImg(productNo);
 		Map<String,String> productDetail = service.selectProductDetail(productNo);
+		List<Map<String,String>> productOption = service.selectProductOption(productNo);
+		
 		
 		int count = service.selectWishCount(wish);
 		
@@ -65,6 +70,8 @@ public class ProductController {
 			mv.addObject("wishCount",1);
 		}
 		
+		mv.addObject("cPage", cPage);
+		mv.addObject("productOption",productOption);
 		mv.addObject("productDetail",productDetail);
 		mv.addObject("productImg", productImg);
 		mv.addObject("bcTitle", bcTitle);
@@ -215,7 +222,8 @@ public class ProductController {
 	}
 
 	@RequestMapping("/product/selectComment.do")
-	public ModelAndView selectComment(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage,
+	@ResponseBody
+	public ModelAndView selectComment(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
 			String productNo, String commentType, HttpSession session) {
 		
 		int numPerPage = 3;
@@ -225,7 +233,7 @@ public class ProductController {
 		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
 		
 		System.out.println("커멘트 작업장이야 "+productNo+" " + commentType);
-		
+		System.out.println("C페이지~~"+cPage);
 		Map<String,String> map = new HashMap();
 		
 		map.put("commentType", commentType);
@@ -234,10 +242,13 @@ public class ProductController {
 		
 		int commentCount = service.selectCommentCount(commentType);
 		
-		List<Map<String,String>> list = service.selectComment(map,cPage, numPerPage);
+		List<Map<String,String>> commentList = service.selectComment(map,cPage, numPerPage);
 		
-		mv.addObject("pageBar",PageFactoryComment.getPageBar(commentCount, cPage, numPerPage, "/makers/product/selectComment.do?productNo="+map.get("productNo")+"&commentType="+map.get("commentType")));
-		mv.addObject("commentList",list);
+		logger.debug(commentList+"");
+		
+		mv.addObject("cPage",cPage);
+		mv.addObject("pageBar",PageFactoryComment.getPageBar(commentCount, cPage, numPerPage, "/makers/product/selectComment.do?productNo="+productNo+"&commentType="+commentType, productNo, commentType));
+		mv.addObject("commentList",commentList);
 		mv.setViewName("jsonView");
 		
 		return mv;

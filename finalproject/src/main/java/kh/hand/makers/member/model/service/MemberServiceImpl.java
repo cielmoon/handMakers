@@ -10,6 +10,7 @@ import kh.hand.makers.member.model.dao.MemberDao;
 import kh.hand.makers.member.model.vo.ManageOrder;
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.vo.Delivery;
+import kh.hand.makers.product.model.vo.Wish;
 
 
 
@@ -85,6 +86,19 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.selectOrderCount();
 	}
+
+	@Override
+	public List<Wish> selectWishList(String memberNo, int cPage, int numPerPage) {
+		
+		return dao.selectWishList(memberNo, cPage, numPerPage);
+	}
+
+	@Override
+	public int selectWishCount(String memberNo) {
+		
+		return dao.selectWishCount(memberNo);
+	}
+	
 	
 	
 }

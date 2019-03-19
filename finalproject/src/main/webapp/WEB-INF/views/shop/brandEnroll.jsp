@@ -85,9 +85,6 @@ function searchAddr(){
 .pr-0{
 	padding-right: 0;
 }
-.btn-120{
-	width: 120px;
-}
 </style>
 <section>
 	<div class="container">
@@ -142,7 +139,7 @@ function searchAddr(){
 												value="${brand.brandAddr }" placeholder="주소" readonly>
 											</div>
 											<div class="col-sm-3 text-right">
-												<input type="button" class="btn btn-primary btn-120" id="button-searchAddr" value="주소검색" onclick="searchAddr();">
+												<input type="button" class="btn btn-primary" id="button-searchAddr" value="주소검색" onclick="searchAddr();">
 											</div>
 										</div>
 										<div class="form-group">
