@@ -11,19 +11,28 @@
 <script src="http://jonthornton.github.io/Datepair.js/dist/datepair.js"></script>
 <script src="http://jonthornton.github.io/Datepair.js/dist/jquery.datepair.js"></script>
 <style>
-#inputAdminProductProfileImg {
+#newProductProfileImg {
 	padding-top: 7px;
 	border: none;
+}
+
+#newProductOptionList {
+	width: 300px;
+}
+
+#newProductDetailComments {
+	width:800px;
+	height:600px;
 }
 </style>
 
 <script>
 	$(document).ready(function() {
-		$("#inputAdminProductProfileImg").on("change", enrollMainImg);
+		$("#newProductProfileImg").on("change", enrollMainImg);
 	
 		// 상품 등록날짜, 마감날짜 
 		// 날짜에서 추가할 내용 : 마감날짜는 등록날짜 이후만 클릭되도록 설정해줘야 함
-		$("#adminProductSaleStart").datepicker({
+		$("#newProductSaleStart").datepicker({
 			language : 'ko',
 			format : 'yyyy/mm/dd',
 			autoclose : true,
@@ -31,48 +40,49 @@
 			todayHighlight : true
 		});
 		
-		$("#adminProductSaleEnd").datepicker({
+		$("#newProductSaleEnd").datepicker({
 			language : 'ko',
 			format : 'yyyy/mm/dd',
 			autoclose : true,
 			calendarWeeks : false,
 			todayHighlight : true
+
 		});
 	});
 	
 	function checkDate() {
-		var startDate = $("#adminProductSaleStart").val();
-		var endDate = $("#adminProductSaleEnd").val();
+		var startDate = $("#newProductSaleStart").val();
+		var endDate = $("#newProductSaleEnd").val();
 		
 		console.log("startDate : " + startDate);
 		console.log("endDate : " + endDate);
 	}
 	
 	function validate() {
-		if ($("#adminProductName").val() == "") {
+		if ($("#newProductName").val() == "") {
 			alert("상품명을 입력해주세요.");
-			$("#adminProductName").focus();
+			$("#newProductName").focus();
 
 			return false;
 		}
 
-		if ($("#adminProductComment").val() == "") {
+		if ($("#newProductComment").val() == "") {
 			alert("한줄설명을 입력해주세요.");
-			$("#adminProductComment").focus();
+			$("#newProductComment").focus();
 
 			return false;
 		}
 
-		if ($("#adminProductMemberId").val() == "") {
+		if ($("#newProductMemberId").val() == "") {
 			alert("판매자의 아이디를 입력해주세요.");
-			$("#adminProductMemberId").focus();
+			$("#newProductMemberId").focus();
 
 			return false;
 		}
 
-		if ($("#adminProductPrice").val() == "") {
+		if ($("#newProductPrice").val() == "") {
 			alert("상품가격을 입력해주세요.");
-			$("#adminProductPrice").focus();
+			$("#newProductPrice").focus();
 
 			return false;
 		}
@@ -84,30 +94,30 @@
 			return false;
 		}
 
-		if ($("#adminProductSaleStart").val() == "") {
+		if ($("#newProductSaleStart").val() == "") {
 			alert("상품 등록날짜를 입력해주세요.");
-			$("#adminProductSale").focus();
+			$("#newProductSaleStart").focus();
 			
 			return false;
 		}
 		
-		if ($("#adminProductSaleEnd").val() == "") {
+		if ($("#newProductSaleEnd").val() == "") {
 			alert("상품 마감날짜를 입력해주세요.");
-			$("#adminProductSale").focus();
+			$("#newProductSaleEnd").focus();
 			
 			return false;
 		}
 
-		if ($("#adminProductMin").val() == "") {
+		if ($("#newProductMin").val() == "") {
 			alert("최소주문량을 입력해주세요.");
-			$("#adminProductMin").focus();
+			$("#newProductMin").focus();
 
 			return false;
 		}
 
-		if ($("#adminProductMax").val() == "") {
+		if ($("#newProductMax").val() == "") {
 			alert("최대주문량을 입력해주세요.");
-			$("#adminProductMax").focus();
+			$("#newProductMax").focus();
 
 			return false;
 		}
@@ -132,13 +142,122 @@
 			var reader = new FileReader();
 			reader.onload = function(e) {
 				$("#adminProductProfileMainImg").attr("src", e.target.result).css('width', '100%').css('height', '100%');
-				console.log("메인사진" + $("#adminProductProfileMainImg").val());
+				console.log("메인사진" + $("#newProductProfileImg").val());
 			}
 			
 			reader.readAsDataURL(f);
 		});
 	}
 </script>
+
+<script>
+// 상품 상세 사진 추가
+var filecount = 1;
+
+$(function(){
+    $('#fileAdd').on("click",function(e){
+		console.log(filecount);
+		
+    	if(filecount < 4){
+    		
+    		var addTr=$("<tr></tr>");
+    		var addTh=$("<th>첨부파일</th>");
+   	 		var addTd=$("<td></td>");
+   	 		var addInput =$("<input type='file' name='newProductDetailImgList"+filecount+"' title='파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능' multiple='multiple'>");
+    
+    		var addTd2=$("<td></td>");
+    		var deleteBtn = $('<th><button type="button" class="btn btn-primary1 pull-left" id="deleteA" name="deleteA">삭제</button></th>');
+    		
+    	
+    		addTd2.append(deleteBtn);
+    		addTd.append(addInput);
+    	
+    	
+    		$(addTr).append(addTh);
+    		$(addTr).append(addTd);
+    		$(addTr).append(addTd2);
+    		$(this).parents('tr').before(addTr);
+    		++filecount;
+    		
+    		
+    		$(deleteBtn).on("click",function(e){
+    			--filecount;  
+    			console.log(filecount);
+    			$(e.target).parents('tr').remove();
+
+    		});
+
+    	}else{
+    		console.log(filecount);
+    		alert('파일은 최대 4개까지 가능합니다.');
+        	
+    	}
+    		
+    });
+})
+
+    /* function test(){
+       window.onload();
+    } */
+    
+    /* function validate(){
+       var content=$('[name=content]').val();
+       if(content.trim().length==0)
+       {
+          alert("내용을 입력하세요.");
+       }
+       return true;
+    } */
+    
+    <%-- function fn_boardList(){
+       location.href = "<%=request.getContextPath()%>/board/boardList";
+	} --%>
+	
+	
+// 상품 옵션 추가
+var optioncount = 1;
+
+$(function(){
+    $('#optionAdd').on("click",function(e){
+    	if(optioncount < 4){
+    		
+    		var addTr=$("<tr></tr>");
+    		var addTh=$("<th>첨부파일</th>");
+   	 		var addTd=$("<td></td>");
+   	 		var addInput =$("<input type='text' name='newProductOptionList" + optioncount + "' id='newProductOptionList' placeholder='상품 옵션을 추가해주세요.''>");
+    		
+   	 		
+    		var addTd2=$("<td></td>");
+    		var deleteBtn = $('<th><button type="button" class="btn btn-primary1 pull-left" id="deleteA" name="deleteA">삭제</button></th>');
+    		
+    	
+    		addTd2.append(deleteBtn);
+    		addTd.append(addInput);
+    	
+    	
+    		$(addTr).append(addTh);
+    		$(addTr).append(addTd);
+    		$(addTr).append(addTd2);
+    		$(this).parents('tr').before(addTr);
+    		++optioncount;
+    		
+    		
+    		$(deleteBtn).on("click",function(e){
+    			--optioncount;  
+    			$(e.target).parents('tr').remove();
+
+    		});
+
+    	}else{
+    		alert('파일은 최대 4개까지 가능합니다.');
+        	
+    	}
+    		
+    });
+})
+</script>
+
+
 
 <section>
 	<div class="container">
@@ -170,7 +289,7 @@
 			<div class="col-sm-9" id="content">
 				<div class="row">
 					<div class="col-sm-12">
-						<form class="form-horizontal" id="enrollProductFrm" enctype="multipart/form-data"	method="post" action="#" onsubmit="return validate();">
+						<form name="productEnrollEndFrm" action="${path}/admin/enrollProductEnd.do" method="post" onsubmit="return validate();">
 						
 							<fieldset id="productField0">
 							</fieldset>
@@ -181,14 +300,14 @@
 								<div class="form-group required">
 									<label for="adminProductName" class="col-sm-2 control-label">상품명</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" id="adminProductName" name="adminProductName" placeholder="상품명을 입력하세요">
+										<input type="text" class="form-control" id="newProductName" name="newProductName" placeholder="상품명을 입력하세요">
 									</div>
 								</div>
 								<!-- 상품 코멘트 -->
 								<div class="form-group required">
 									<label for="adminProductComment" class="col-sm-2 control-label">한줄설명</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" id="adminProductComment" name="adminProductComment" placeholder="상품의 간단한 설명을 입력하세요">
+										<input type="text" class="form-control" id="newProductComment" name="newProductComment" placeholder="상품의 간단한 설명을 입력하세요">
 									</div>
 								</div>
 								<!-- 상품 관리자 + 판매자 아이디 -->
@@ -199,7 +318,7 @@
 									</div>
 									<label for="adminProductMemberId" class="col-sm-2 control-label">판매자</label>
 									<div class="col-sm-4">
-										<input type="text" class="form-control" id="adminProductMemberId" name="adminProductMemberId" placeholder="판매자의 아이디를 적어주세요">
+										<input type="text" class="form-control" id="newProductMemberId" name="newProductMemberId" placeholder="판매자의 아이디를 적어주세요">
 									</div>
 								</div>
 							</fieldset>
@@ -210,33 +329,33 @@
 								<div class="form-group required">
 									<label for="adminProductPrice" class="col-sm-2 control-label">상품가격</label>
 									<div class="col-sm-4">
-										<input type="text" class="form-control" id="adminProductPrice" name="adminProductPrice" placeholder="상품가격을 적어주세요(원)">								
+										<input type="text" class="form-control" id="newProductPrice" name="newProductPrice" placeholder="상품가격을 적어주세요(원)">								
 									</div>
 									<label for="adminProductSale" class="col-sm-2 control-label">할인율</label>
 									<div class="col-sm-4">									
-										<input type="number" class="form-control" id="adminProductSale" name="adminProductSale"  min='1' max='100' step='4'>
+										<input type="number" class="form-control" id="newProductSale" name="newProductSale"  min='1' max='100' step='4'>
 									</div>
 								</div>
 								<!-- 등록날짜 ~ 마감날짜 -->
 								<div class="form-group required">
 									<label for="adminProductId" class="col-sm-2 control-label">등록날짜</label>
 									<div class="col-sm-4">
-										<input type="text" class="form-control" id="adminProductSaleStart" name="adminProductSale" placeholder="등록날짜" onclick="checkDate();">
+										<input type="text" class="form-control" id="newProductSaleStart" name="newProductSaleStart" placeholder="등록날짜" onclick="checkDate();">
 									</div>								
 									<label for="adminProductMemberId" class="col-sm-2 control-label">마감날짜</label>
 									<div class="col-sm-4">
-										<input type="text" class="form-control" id="adminProductSaleEnd" name="adminProductSale" placeholder="마감날짜" onclick="checkDate();">
+										<input type="text" class="form-control" id="newProductSaleEnd" name="newProductSaleEnd" placeholder="마감날짜" onclick="checkDate();">
 									</div>
 								</div>
 								<!-- 최소주문량 ~ 최대주문량 -->
 								<div class="form-group required">
 									<label for="adminProductMin" class="col-sm-2 control-label">최소주문량</label>
 									<div class="col-sm-4">
-										<input type="number" class="form-control" id="adminProductMin" name="adminProductMin"  min='1' max='10000' step='5'>						
+										<input type="number" class="form-control" id="newProductMin" name="newProductMin"  min='1' max='10000' step='5'>						
 									</div>							
 									<label for="adminProductMax" class="col-sm-2 control-label">최대주문량</label>
 									<div class="col-sm-4">
-										<input type="number" class="form-control" id="adminProductMax" name="adminProductMax"  min='1' max='10000' step='5'>
+										<input type="number" class="form-control" id="newProductMax" name="newProductMax"  min='1' max='10000' step='5'>
 									</div>
 								</div>						
 							</fieldset>
@@ -245,7 +364,7 @@
 								<div class="form-group required">
 									<label for="adminProductProfile" class="col-sm-2 control-label">메인사진</label>
 									<div class="col-sm-2">
-									<input type="file" name="inputAdminProductProfileImg" id="inputAdminProductProfileImg" >
+									<input type="file" name="newProductProfileImg" id="newProductProfileImg" >
 									</div>	
 								</div>
 								<div class="col-sm-3">
@@ -256,17 +375,95 @@
 								<div class="col-sm-3">
 								</div>
 							</fieldset>
-							
-							
+
+
+							<!-- <fieldset>
+								<table class="table table-bordered board" id="product_detailimage_table" name="product_detailimage_table">
+									<tbody class="tbody_">
+										<tr>
+											<th>첨부파일</th>
+											<td><input type="file" name="newProductDetailImgList"
+												title="파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능"
+												multiple="multiple"></td>
+											<th></th>
+										</tr>
+
+										<tr>
+											<td colspan="2">
+												<div class="btn_confirm">
+													<button type="submit"
+														class="btn btn-primary1 pull-right boardsignup"
+														id="boardSignUp" name="boardSignUp"
+														onclick="return validate();">글등록</button>
+													<button type="button" class="btn btn-primary1 pull-right"
+														id="boardCancel" name="boardCancel"
+														onclick="fn_boardList()">취소</button>
+													<button type="button" class="btn btn-primary1 pull-left"
+														id="fileAdd" name="fileAdd">사진추가</button>
+												</div>
+
+											</td>
+											<th></th>
+										</tr>
+									</tbody>
+								</table>
+							</fieldset>
+
+
+							<fieldset>
+								<table class="table table-bordered board"
+									id="product_option_table" name="product_option_table">
+									<tbody class="tbody_">
+										<tr>
+											<th>첨부파일</th>
+											<td><input type="text" name="newProductOptionList" id="newProductOptionList"
+												id="option_upload" placeholder="상품 옵션을 추가해주세요."></td>
+											<th></th>
+										</tr>
+
+										<tr>
+											<td colspan="2">
+												<div class="btn_confirm">
+													<button type="submit"
+														class="btn btn-primary1 pull-right boardsignup"
+														id="boardSignUp" name="boardSignUp"
+														onclick="return validate();">글등록</button>
+													<button type="button" class="btn btn-primary1 pull-right"
+														id="boardCancel" name="boardCancel"
+														onclick="fn_boardList()">취소</button>
+													<button type="button" class="btn btn-primary1 pull-left"
+														id="optionAdd" name="optionAdd">옵션추가</button>
+												</div>
+
+											</td>
+											<th></th>
+										</tr>
+									</tbody>
+								</table>
+							</fieldset> -->
+
+
+
+							<fieldset>
+								<table class="table table-bordered board"
+									id="product_option_table" name="product_option_table">
+									<tbody class="tbody_">										
+										<tr><td>상품 상세내용 작성</td></tr>
+										<tr>
+											<td><textarea id="newProductDetailComments" name="newProductDetailComments"></textarea></td>
+										</tr>
+									</tbody>
+								</table>
+							</fieldset>
+
+
 							<div class="buttons">
 								<div class="pull-right">
 									<input type="submit" class="btn btn-primary" value="등록하기">
 								</div>
 							</div>
 						</form>
-
 					</div>
-
 				</div>
 			</div>
 
