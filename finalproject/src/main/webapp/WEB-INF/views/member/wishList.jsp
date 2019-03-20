@@ -10,79 +10,97 @@
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="${path }"><i class="fa fa-home"></i></a></li>
-    <li><a href="#">Wish List</a></li>
+    <li><a href="${path }/member/wishList.do">WishList</a></li>
   </ul>
   <div class="row">
     <div id="content" class="col-sm-12">    
 
-      <div class="category-page-wrapper">
-        <div class="col-md-6 list-grid-wrapper">
-          <div class="btn-group btn-list-grid">          
-          	<!-- 스타일줘야함 이버튼 흰색으로 바궈놔야함 -->
-            <button type="button" id="grid-view" class="btn btn-default grid" data-toggle="tooltip" title="Grid"><i class="fa fa-th"></i></button>
-          </div>         
-        <div class="col-md-1 text-right page-wrapper">
-          
+	<div class="category-page-wrapper">
+					<div class="col-md-6 list-grid-wrapper">
+						<div class="btn-group btn-list-grid">
+							<div class="result-inner">(총 ${wishContentCount }건의 상품)</div>
+							<div id="grid-view" class="btn btn-default grid"></div>
+						</div>
+					</div>
+					<div class="col-md-1 text-right page-wrapper">
+          <label class="control-label" for="input-limit">Show :</label>
           <div class="limit">
-            <select id="input-limit" class="form-control">
-              <option value="8" selected="selected">8</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="75">75</option>
-              <option value="100">100</option>
+          <form name="numPerPagesFrm" id="numPerPagesFrm" action = "${path }/product/newList.do">
+            <select id="input-limit" name="numPerPage" class="form-control">
+            <c:set var="numper" value="${numPerPage }" />
+			<c:choose>
+    		<c:when test="${numper eq '16'}">
+        	<option value="8">8</option><!-- selected="selected" -->
+              <option value="16" selected="selected">16</option>
+              <option value="24">24</option>
+              <option value="32">32</option>
+    		</c:when>
+    		<c:when test="${numper eq '24'}">
+        	<option value="8">8</option><!-- selected="selected" -->
+              <option value="16">16</option>
+              <option value="24" selected="selected">24</option>
+              <option value="32">32</option>
+    		</c:when>
+    		<c:when test="${numper eq '32'}">
+        	<option value="8">8</option><!-- selected="selected" -->
+              <option value="16">16</option>
+              <option value="24">24</option>
+              <option value="32" selected="selected">32</option>
+    		</c:when>
+    		<c:otherwise>
+       		<option value="8" selected="selected">8</option>
+              <option value="16">16</option>
+              <option value="24">24</option>
+              <option value="32">32</option>
+    		</c:otherwise>
+			</c:choose>
             </select>
+          </form>
           </div>
         </div>
-
-      </div>
-      <br />
+	</div>
+      
       <div class="grid-list-wrapper">
+      <c:forEach items="${wishList }" var="wish" varStatus="vs">
       
-      
-        <div class="product-layout product-list col-xs-12">
+	<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image product-imageblock"> <a href="product.html"> <img src="${path }/resources/image/product/pro-2-220x294.jpg" alt="women's New Wine is an alcoholic stores" title="lorem ippsum dolor dummy" class="img-responsive" /> </a>
+         <div class="image product-imageblock" style="height:220px;">
+         <a href="${path }/product/productView.do?productNo=${wish.PRODUCT_NO}">
+         <img src="${path}/resources/image/product/${wish.PRODUCT_PROFILE }" alt="${wish.PRODUCT_TITLE }" title="${wish.PRODUCT_TITLE }" class="img-responsive" /></a>
               <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="주문하기">주문하기</button>
+                <button type="button" id="wishBtn" class="wishlist" title="Add to Wish List">
+                	<i class="fa fa-heart"></i>
+                </button>
+                <input id="wishProductNo" type="hidden" value="${wish.PRODUCT_NO}"/>        
               </div>
             </div>
-            <div class="caption product-detail">
-              <h4 class="product-name"> <a href="product.html" title="상품명 위치"> 상품명 </a> </h4>
-              <p class="product-desc">상품 간략 설명</p>
 
-              <p class="price product-price"><span class="price-old">$272.00</span> $122.00 <span class="price-tax">Ex Tax: $100.00</span> </p>
-              <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
-            </div>
-
-          </div>
-        </div>
-        
-        
-        <div class="product-layout product-list col-xs-12">
-          <div class="product-thumb">
-            <div class="image product-imageblock"> 
-          		<a href="product.html"> 
-           			<img src="${path }/resources/image/product/pro-3-220x294.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" /> 
-           	  	</a>
-              <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>        
-              </div>
-            </div>
             <div class="caption product-detail">
-              <h4 class="product-name"> <a href="product.html" title="상품명 위치"> 상품명 </a> </h4>
-              <p class="product-desc">상품 간략 설명</p>
-              <p class="price product-price"><span class="price-old">$272.00</span> $122.00 <span class="price-tax">Ex Tax: $100.00</span> </p>
+              <h4 class="product-name">
+              <a href="${path }/product/productView.do?productNo=${wish.PRODUCT_NO}" title="${wish.PRODUCT_TITLE }"> ${wish.PRODUCT_TITLE } </a> </h4>
+                                    <p class="rating">${wish.PRODUCT_COMMENT }</p>
+              
+              <div class="product-desc">${wish.PRODUCT_COMMENT }</div>
+              
+              <%-- <p class="price product-price"><span class="price-old"></span> ${product.productPrice } <span class="price-tax"></span> </p> --%><!-- 원본 -->
+              <p class="price product-price"><span class="price-old">${wish.PRODUCT_PRICE }</span> ${wish.PRODUCT_PRICE + wish.PRODUCT_DISCOUNT } <span class="price-tax"></span> </p>
+              
               <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
+              <!-- totalProductPoint 별이 다섯개  이부분은 좀더 고민-->
             </div>
  
           </div>
         </div>
-  
+	</c:forEach>  
       </div>
       <div class="category-page-wrapper">
  
         <div class="pagination-inner">
-
+		<ul class="pagination">
+            <li class="active">
+            ${pageBar }
+          </ul>
 
 
         </div>
@@ -90,6 +108,15 @@
     </div>
   </div>
 </div>
+<script>
+$(function(){
+	$('#wishBtn').click(function(){
+		var wishProductNo = $('#wishProductNo').val();
+		location.href="${path}/member/deleteWish.do?productNo="+wishProductNo;
+	});
+});
+</script>
+
 </section>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

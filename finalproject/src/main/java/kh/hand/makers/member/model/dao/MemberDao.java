@@ -21,6 +21,6 @@ public interface MemberDao {
 	int memberPwdUpdate(Member m);
 	List<ManageOrder> selectOrderList(Member m, int cPage,int numPerPage);
 	int selectOrderCount();
-	List<Wish> selectWishList(String memberNo, int cPage, int numPerPage);
+	List<Map<String,String>> selectWishList(String memberNo, int cPage, int numPerPage);
 	int selectWishCount(String memberNo);
 }

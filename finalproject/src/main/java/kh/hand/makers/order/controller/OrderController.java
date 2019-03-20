@@ -1,5 +1,6 @@
 package kh.hand.makers.order.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -94,12 +95,24 @@ public class OrderController {
 		
 		int result = service.insertOrderEnroll(order);
 		
+		Map<String,Object> insertMap = new HashMap();
+		
+		insertMap.put("productNo", productNo);
+		insertMap.put("productOptionQty", productOptionQty);
+		
 		String msg="";
 		String loc ="";
 		
 		if(result>0) {
-			msg = "결재 완료되었습니다 이용해주셔서 감사합니다.";
-			loc = "/";
+			result = service.updateProductSell(insertMap);
+			if(result>0) {
+				msg = "결재 완료되었습니다 이용해주셔서 감사합니다.";
+				loc = "/";
+			}else {
+				msg = "결재 실패하였습니다.";
+				loc = "/order/orderEnroll.do";
+			}
+			
 		}else {
 			msg = "결재 실패하였습니다.";
 			loc = "/order/orderEnroll.do";

@@ -40,6 +40,12 @@ public class OrderServiceImpl implements OrderService {
 		
 		return dao.selectDelivery(delivery);
 	}
+
+	@Override
+	public int updateProductSell(Map<String,Object> insertMap) {
+		
+		return dao.updateProductSell(insertMap);
+	}
 	
 	
 

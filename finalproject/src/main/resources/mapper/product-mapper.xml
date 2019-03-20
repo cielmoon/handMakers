@@ -133,5 +133,12 @@
 	<select id="sCategoryList" parameterType="string" resultType="map">
 	SELECT * FROM SMALL_CATEGORY WHERE BC_NO = #{bCategory}
 	</select>
+	
+	<select id="selectOrderList" parameterType="map" resultType="map">
+		SELECT PO.ORDER_NO, PO.PRODUCT_NO, P.PRODUCT_TITLE, PO.ORDER_PAYSTATE
+		FROM PRODUCT_ORDER PO
+		JOIN PRODUCT P ON(P.PRODUCT_NO=PO.PRODUCT_NO) 
+		WHERE PO.PRODUCT_NO=#{productNo} AND PO.MEMBER_NO=#{memberNo}
+	</select>
 		
 </mapper>

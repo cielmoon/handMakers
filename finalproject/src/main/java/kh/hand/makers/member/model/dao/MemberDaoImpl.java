@@ -87,7 +87,7 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public List<Wish> selectWishList(String memberNo, int cPage, int numPerPage) {
+	public List<Map<String,String>> selectWishList(String memberNo, int cPage, int numPerPage) {
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
 		return sqlSession.selectList("member.selectWishList", memberNo, rb);
 		

@@ -12,4 +12,5 @@ public interface OrderDao {
 	int insertOrderEnroll(Order order);
 	List<Map<String,String>> selectDeliveryList(String memberNo);
 	Delivery selectDelivery(Delivery delivery);
+	int updateProductSell(Map<String,Object> insertMap);
 }
