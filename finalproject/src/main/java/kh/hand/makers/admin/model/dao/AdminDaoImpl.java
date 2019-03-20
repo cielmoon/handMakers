@@ -9,11 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kh.hand.makers.admin.model.vo.AdminProduct;
+import kh.hand.makers.admin.model.vo.NewProduct;
 import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
+import kh.hand.makers.shop.model.vo.SmallCategory;
 
 @Repository
 public class AdminDaoImpl implements AdminDao {
@@ -128,5 +131,35 @@ public class AdminDaoImpl implements AdminDao {
 		return session.update("admin.productStateUpdate", ps);
 	}
 
+	@Override
+	public int selectReProductCount() {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectReProductCount");
+	}
+
+	@Override
+	public List<AdminProduct> selectReProductList(int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage - 1) * numPerPage, numPerPage);
+		return session.selectList("admin.selectReProductList", null, rb);
+	}
+
+	@Override
+	public List<BigCategory> selectBcList() {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectBcList");
+	}
+
+	@Override
+	public List<SmallCategory> selectScList(String bcNo) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectScList", bcNo);
+	}
+
+	@Override
+	public int enrollProduct(NewProduct n) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.enrollProduct", n);
+	}
+	
 	
 }

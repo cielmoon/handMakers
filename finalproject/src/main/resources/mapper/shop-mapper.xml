@@ -70,11 +70,11 @@
 		JOIN SMALL_CATEGORY ON (SMALL_CATEGORY.SC_NO = PRE_PRODUCT.SC_NO) WHERE PRE_PRODUCT.PRE_PRODUCT_NO = #{preNo}
 	</select>
 	<select id="selectBrandProductCount" resultType="_int" parameterType="map">
-		SELECT COUNT(*) FROM PRODUCT WHERE BRAND_NO = #{brandNo} AND PRODUCT_STATE = #{productState}
+		SELECT COUNT(*) FROM PRODUCT WHERE BRAND_NO = #{brandNo} AND PRODUCT_STATE IN ${productState}
 	</select>
 	<select id="selectBrandProductList" resultType="map" parameterType="map">
 		SELECT PRODUCT.*, BIG_CATEGORY.BC_TITLE, SMALL_CATEGORY.SC_TITLE FROM PRODUCT JOIN BIG_CATEGORY ON (BIG_CATEGORY.BC_NO = PRODUCT.BC_NO)
-		JOIN SMALL_CATEGORY ON (SMALL_CATEGORY.SC_NO = PRODUCT.SC_NO) WHERE BRAND_NO = #{brandNo} AND PRODUCT_STATE = #{productState} ORDER BY PRODUCT_ENROLLDATE DESC
+		JOIN SMALL_CATEGORY ON (SMALL_CATEGORY.SC_NO = PRODUCT.SC_NO) WHERE BRAND_NO = #{brandNo} AND PRODUCT_STATE IN ${productState} ORDER BY PRODUCT_ENROLLDATE DESC
 	</select>
 	<select id="selectOrderCount" resultType="_int" parameterType="string">
 		SELECT COUNT(*) FROM PRODUCT_ORDER WHERE PRODUCT_NO = #{productNo}
@@ -121,7 +121,6 @@
 	<update id="cancelExportOrder" parameterType="string">
 		UPDATE PRODUCT_ORDER SET ORDER_STATE = '0' WHERE ORDER_NO = #{orderNo}
 	</update>
-
 	<select id="selectSalesRecordsCount" resultType="_int" parameterType="string">
 		SELECT COUNT(*) FROM SALES_RECORDS WHERE PRODUCT_NO = #{productNo}
 	</select>
@@ -131,4 +130,10 @@
 	<select id="selectRecord" resultType="map" parameterType="string">
 		SELECT * FROM SALES_RECORDS WHERE SALESRECORDS_NO = #{recordNo}
 	</select>
+	<update id="updateBrandSellerReq" parameterType="map">
+		UPDATE BRAND SET BRAND_STATE = #{requestState} WHERE BRAND_NO = #{requestRef}
+	</update>
+	<update id="updateProductSellerReq" parameterType="map">
+		UPDATE PRODUCT SET PRODUCT_STATE = #{requestState} WHERE PRODUCT_NO = #{requestRef}
+	</update>
 </mapper>

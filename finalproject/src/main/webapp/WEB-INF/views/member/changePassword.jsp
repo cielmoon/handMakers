@@ -10,9 +10,38 @@
 	margin-bottom: 10px;
 	margin-top: 10px;	
 }
-
-
+#labelMemberPwd, #labelMemberPwdCheck {
+	margin-top: 20px;
+}
 </style>
+
+<script>
+	function validate() {
+		if ($("#memberPwd").val() == "") {
+			alert("비밀번호를 입력해주세요.");
+			$("#memberPwd").focus();
+			return false;
+		}
+		
+		if ($("#memberPwdCheck").val() == "") {
+			alert("비밀번호 확인을 해주세요.");
+			$("#memberPwd").focus();
+			return false;
+		}
+	}
+	
+	$(function() {
+		$("#memberPwdCheck").blur(function() {
+			var p1 = $("#memberPwd").val(), p2 = $("#memberPwdCheck").val();
+			
+			if (p1 != p2) {
+				alert("패스워드가 일치하지 않습니다.");
+				$("#memberPwdCheck").val('');
+				$("#memberPwd").focus();
+			}
+		});
+	});
+</script>
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
@@ -45,7 +74,7 @@
 					<form name="memberPwdUpdateFrm" action="${path}/member/changePasswordEnd.do" method="post" onsubmit="return validate();">
 						<div class="form-group required" id="memberInfo">
 					 		<h1 class="col-sm-3"></h1>
-							<h1 class="col-sm-6">비밀번호 확인하기</h1>
+							<h1 class="col-sm-6"></h1>
 							<h1 class="col-sm-3"></h1>
 				
 						</div>
@@ -55,13 +84,13 @@
 							</div>
 						</div>	
 						<div class="form-group required" id="memberInfo">
-							<label for="input-id" class="col-sm-5 control-label" id="memberPwd">비밀번호</label>
+							<label for="input-id" class="col-sm-5 control-label" id="labelMemberPwd">비밀번호</label>
 							<div class="col-sm-7">
 									<input type="password" class="form-control"  name="memberPwd" id="memberPwd" >
 							</div>
 						</div>
 						<div class="form-group required" id="memberInfo">
-							<label for="input-id" class="col-sm-5 control-label" id="memberPwdCheck">비밀번호 확인하기</label>
+							<label for="input-id" class="col-sm-5 control-label" id="labelMemberPwdCheck">비밀번호 확인하기</label>
 							<div class="col-sm-7">
 									<input type="password" class="form-control"  name="memberPwdCheck" id="memberPwdCheck" >
 							</div>
@@ -69,7 +98,7 @@
 						<div class="form-group required" id="memberInfo">
 							<div class="col-sm-4"></div>							
 							<div class="col-sm-4">
-								<input type="submit" class="form-control"  id="pwdCheck" name="pwdCheck" value="확인하기">
+								<input type="submit" class="form-control"  id="pwdCheck" name="pwdCheck" value="비밀번호 변경">
 							</div>
 							<div class="col-sm-4"></div>
 						</div>

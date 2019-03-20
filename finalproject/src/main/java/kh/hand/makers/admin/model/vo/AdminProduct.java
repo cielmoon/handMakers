@@ -15,13 +15,14 @@ public class AdminProduct implements Serializable{
 	private Date productEnrollDate;
 	private Date productEndDate;
 	private String productNo;
+	private String productState;
 	
 	public AdminProduct() {
 		
 	}
 
 	public AdminProduct(String productBcTitle, String productScTitle, String productBrandTitle, String productTitle,
-			Date productEnrollDate, Date productEndDate, String productNo) {
+			Date productEnrollDate, Date productEndDate, String productNo, String productState) {
 		super();
 		this.productBcTitle = productBcTitle;
 		this.productScTitle = productScTitle;
@@ -30,13 +31,7 @@ public class AdminProduct implements Serializable{
 		this.productEnrollDate = productEnrollDate;
 		this.productEndDate = productEndDate;
 		this.productNo = productNo;
-	}
-
-	@Override
-	public String toString() {
-		return "AdminProduct [productBcTitle=" + productBcTitle + ", productScTitle=" + productScTitle
-				+ ", productBrandTitle=" + productBrandTitle + ", productTitle=" + productTitle + ", productEnrollDate="
-				+ productEnrollDate + ", productEndDate=" + productEndDate + ", productNo=" + productNo + "]";
+		this.productState = productState;
 	}
 
 	public String getProductBcTitle() {
@@ -95,8 +90,23 @@ public class AdminProduct implements Serializable{
 		this.productNo = productNo;
 	}
 
+	public String getProductState() {
+		return productState;
+	}
+
+	public void setProductState(String productState) {
+		this.productState = productState;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "AdminProduct [productBcTitle=" + productBcTitle + ", productScTitle=" + productScTitle
+				+ ", productBrandTitle=" + productBrandTitle + ", productTitle=" + productTitle + ", productEnrollDate="
+				+ productEnrollDate + ", productEndDate=" + productEndDate + ", productNo=" + productNo
+				+ ", productState=" + productState + "]";
+	}
 }

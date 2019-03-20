@@ -51,12 +51,12 @@ function selectBrand(brandNo, brandState)
 					
 						<div class="list-group">
 							<c:forEach items="${brandList }" var="b">
-								<c:if test="${b.brandState.toString()!='4'}">
+								<c:if test="${b.brandState.toString()!='e'}"> <!-- 폐점완료 상태 -->
 								<a class="list-group-item brand-list" href="javascript:selectBrand('${b.brandNo }', '${b.brandState }');">${b.brandTitle }				
-									<c:if test="${b.brandState.toString()=='a'}">
+									<c:if test="${b.brandState.toString()=='a'}"> <!-- 승인요청 상태 -->
 										<i class="fa fa-clock-o" style="font-size:20px; float: right;"></i>
 									</c:if>
-									<c:if test="${b.brandState.toString()=='c'}">
+									<c:if test="${b.brandState.toString()=='c'}"> <!-- 브랜드 등록 반려상태 -->
 										<i class="fa fa-exclamation-circle" style="font-size:20px; color: firebrick; float: right;"></i>
 									</c:if>
 								</a>

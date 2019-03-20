@@ -6,13 +6,59 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <style>
-#memberUpdate, #memberId, #memberName, #memberEmail, #memberPhone{
+#memberUpdate, #memberId, #memberName, #memberEmail, #memberPhone {
 	margin-bottom: 10px;
 	margin-top: 10px;	
 }
 
-
+#labelMemberId, #labelMemberName, #labelMemberEmail, #labelMemberPhone {
+	margin-top: 20px;
+}
 </style>
+
+<script>
+	function validate() {
+		var memberEmail = $("#memberEmail").val();
+		var emailRegex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+		var memberPhone = $("#memberPhone").val();
+		var phoneRegex = /^[0-9]+$/;
+		
+		if ($("#memberName").val() == "") {
+			alert("이름을 입력해주세요.");
+			$("#memberName").focus();
+			return false;
+		}
+		
+		if ($("#memberEmail").val() == "") {
+			alert("이메일을 입력해주세요.");
+			$("#memberEmail").focus();
+			return false;
+		}
+		
+		if ($("#memberPhone").val() == "") {
+			alert("핸드폰번호를 입력해주세요.");
+			$("#memberPhone").focus();
+			return false;
+		}
+		
+		if (!emailRegex.test(memberEmail)) {
+			alert("잘못된 이메일 형식입니다. 다시 입력해주세요.")
+			$("#memberEmail").focus();
+			
+			return false;
+		}
+		
+		if (!phoneRegex.test(memberPhone)) {
+			alert("핸드폰번호는 숫자만 입력해주세요.");
+			$("#memberPhone").focus();
+			
+			return false;
+		}
+		
+		return true;
+	}
+</script>
+
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
@@ -46,7 +92,7 @@
 					<div class="col-sm-6">
 					<form name="memberUpdateFrm" action="${path}/member/memberUpdateEnd.do" method="post" onsubmit="return validate();">
 						<div class="form-group required" id="memberInfo">
-							<label for="input-id" class="col-sm-4 control-label" id="memberId">아이디</label>
+							<label for="input-id" class="col-sm-4 control-label" id="labelMemberId">아이디</label>
 							<div class="col-sm-8">
 									<input type="text" class="form-control"  name="memberId" id="memberId" 
 									value="${member.memberId }" readonly>
@@ -54,24 +100,24 @@
 						</div>
 						
 						<div class="form-group required" id="memberInfo">
-							<label for="input-id" class="col-sm-4 control-label" id="memberName">이름</label>
+							<label for="input-id" class="col-sm-4 control-label" id="labelMemberName">이름</label>
 							<div class="col-sm-8">
 									<input type="text" class="form-control"  name="memberName" id="memberName"  
 									value="${member.memberName }">
 							</div>
 						</div>
 						<div class="form-group required" id="memberInfo">
-							<label for="input-id" class="col-sm-4 control-label" id="memberEmail">이메일</label>
+							<label for="input-id" class="col-sm-4 control-label" id="labelMemberEmail">이메일</label>
 							<div class="col-sm-8">
-									<input type="email" class="form-control"  name="memberEmail" id="memberEmail" 
+									<input type="text" class="form-control"  name="memberEmail" id="memberEmail" 
 									value="${member.memberEmail }">
 							</div>
 						</div>
 						<div class="form-group required" id="memberInfo">
-							<label for="input-id" class="col-sm-4 control-label" id="memberPhone" >핸드폰번호</label>
+							<label for="input-id" class="col-sm-4 control-label" id="labelMemberPhone" >핸드폰번호</label>
 							<div class="col-sm-8">
 									<input type="text" class="form-control"  name="memberPhone" id="memberPhone"  
-									value="${member.memberPhone }">
+									value="${member.memberPhone }" maxlength="11">
 							</div>
 						</div>
 						<div class="form-group required" id="memberInfo">						

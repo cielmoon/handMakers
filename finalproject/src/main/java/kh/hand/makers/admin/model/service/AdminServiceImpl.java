@@ -8,11 +8,14 @@ import org.springframework.stereotype.Service;
 
 import kh.hand.makers.admin.model.dao.AdminDao;
 import kh.hand.makers.admin.model.vo.AdminProduct;
+import kh.hand.makers.admin.model.vo.NewProduct;
 import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
+import kh.hand.makers.shop.model.vo.SmallCategory;
 @Service
 public class AdminServiceImpl implements AdminService {
 	@Autowired
@@ -124,5 +127,34 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.productStateUpdate(ps);
 	}
-	
+
+	@Override
+	public int selectReProductCount() {
+		// TODO Auto-generated method stub
+		return dao.selectReProductCount();
+	}
+
+	@Override
+	public List<AdminProduct> selectReProductList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectReProductList(cPage, numPerPage);
+	}
+
+	@Override
+	public List<BigCategory> selectBcList() {
+		// TODO Auto-generated method stub
+		return dao.selectBcList();
+	}
+
+	@Override
+	public List<SmallCategory> selectScList(String bcNo) {
+		// TODO Auto-generated method stub
+		return dao.selectScList(bcNo);
+	}
+
+	@Override
+	public int enrollProduct(NewProduct n) {
+		// TODO Auto-generated method stub
+		return dao.enrollProduct(n);
+	}
 }

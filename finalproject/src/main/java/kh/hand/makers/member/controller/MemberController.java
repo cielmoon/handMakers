@@ -385,6 +385,7 @@ public class MemberController {
 		return "member/searchPassword";
 	}
 	
+
 	@RequestMapping("/member/deleteWish.do")
 	public ModelAndView deleteWish(String productNo, HttpServletRequest request) {
 		
@@ -415,4 +416,24 @@ public class MemberController {
 		return mv;
 	}
 
+	@RequestMapping("/member/deleteLocation.do")
+	public ModelAndView deleteLocation(String deliveryNo) {
+		ModelAndView mv = new ModelAndView();
+		int result = service.deleteLocation(deliveryNo);
+		String msg = "";
+		String loc = "/";
+		if (result > 0) {
+			msg = "배송지 삭제에 성공했습니다.";
+			loc = "/member/enrollLocationView.do";
+		} else {
+			msg = "배송지 삭제에 실패했습니다.";
+			loc = "/member/enrollLocationView.do";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+
+
+		return mv;
+	}
 }

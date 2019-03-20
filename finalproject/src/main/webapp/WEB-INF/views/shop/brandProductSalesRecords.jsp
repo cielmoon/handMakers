@@ -57,7 +57,7 @@ $(function(){
 		var d = Math.floor(distance / (1000 * 60 * 60 * 24)); 
 		var h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 		
-		if(productState == '1')
+		if(productState != '0')
 		{
 			document.getElementById("d-day").innerHTML = "";
 		}

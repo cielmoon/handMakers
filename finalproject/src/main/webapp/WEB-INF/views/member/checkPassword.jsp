@@ -11,7 +11,9 @@
 	margin-top: 10px;	
 }
 
-
+#labelMemberPwd {
+	margin-top: 20px;
+}
 </style>
 <section>
 	<div class="container">
@@ -57,7 +59,7 @@
 							</div>
 						</div>	
 						<div class="form-group required" id="memberInfo">
-							<label for="input-id" class="col-sm-4 control-label" id="memberPwd">비밀번호</label>
+							<label for="input-id" class="col-sm-4 control-label" id="labelMemberPwd">비밀번호</label>
 							<div class="col-sm-8">
 									<input type="password" class="form-control"  name="memberPwd" id="memberPwd" >
 							</div>

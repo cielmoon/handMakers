@@ -53,7 +53,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
 <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script> -->
-<%-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+
 <script type="text/javascript" src="${path }/resources/datepicker/bootstrap-datepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="${path }/resources/datepicker/bootstrap-datepicker.css"/> --%>
 <!--  -->
@@ -89,7 +91,6 @@
 											<c:when test="${member.memberAuthority == 'S' }">
 												<ul class="dropdown-menu dropdown-menu-right">
 													<li><a href="#" onclick="location.href='${path}/member/myPage.do'">마이페이지</a></li>
-													<li><a href="#" onclick="location.href='${path}/member/myPage.do'">판매관리</a></li>
 													<li><a href="#" onclick="location.href='${path}/member/memberLogout.do'">로그아웃</a></li>
 														</ul>
 											</c:when>
