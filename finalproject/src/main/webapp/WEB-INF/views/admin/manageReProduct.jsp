@@ -77,14 +77,6 @@
 						</table>
 						${pageBar }
 					</div>
- 					<div class="col-sm-12">
-						<div class="col-sm-9"></div>
-						<div class="col-sm-3">
-							<input type="button" class="btn btn-primary"
-								onclick='location.href="${path}/admin/enrollProduct.do"'
-								value="상품등록" />
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>

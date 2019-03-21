@@ -1,8 +1,9 @@
 package kh.hand.makers.admin.controller;
 
 
+
 import java.sql.Date;
-import java.text.SimpleDateFormat;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kh.hand.makers.admin.model.service.AdminService;
 import kh.hand.makers.admin.model.vo.AdminProduct;
 import kh.hand.makers.admin.model.vo.NewProduct;
+import kh.hand.makers.admin.model.vo.Products;
 import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.common.PageFactory;
@@ -224,29 +226,32 @@ public class AdminController {
 	// 상품 등록에서 등록 날짜는 처음 등록할때만 추가하고 이후에는 업데이트로 감
 	@RequestMapping("/admin/enrollProductEnd.do")
 	public ModelAndView enrollProductEnd(Member m, NewProduct n, HttpServletRequest request) {
-		logger.debug("enrollProductEnd");
+		logger.debug("enrollProductEnd");		
 		
 		ModelAndView mv = new ModelAndView();
 		
-		n.setNewProductDetailImgList("김연아.jpg");
-		n.setNewProductDetailImgList("김연아.jpg");
-		n.setNewProductDetailImgList("김연아.jpg");
+		Products p = new Products();
+		
+		n.setNewProductBigCategory("B_C_NO_1");
+		n.setNewProductSmallCategory("S_C_NO_1");
+		n.setNewProductBrand("B_NO_1");
+		n.setNewProductMemberNo("M_NO_1");
+		
+		n.setNewProductDetailImgList("김연아1.jpg");
+		n.setNewProductDetailImgList("김연아2.jpg");
+		n.setNewProductDetailImgList("김연아3.jpg");
 		
 		n.setNewProductOptionList("옵션1");
 		n.setNewProductOptionList("옵션2");
 		n.setNewProductOptionList("옵션3");
 		
-		n.setNewProductBigCategory("B_C_NO_1");
-		n.setNewProductSmallCategory("S_C_NO_2");
-		n.setNewProductBrand("B_NO_21");
-		n.setNewProductMemberId("M_NO_2");
+
 		// 위의 setter들은 강제로 추가해준 값 (나중에 변경해줘야 함)
 		
-		/*SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date startDate = fm.parse(n.getNewProductSaleStart());*/
-		
-		/*n.setNewProductUpdateDate(n.getNewProductSaleStart());*/
-		n.setNewProductAdminId("M_NO_1");
+
+		n.setNewProductUpdateDate(n.getNewProductSaleStart());
+		n.setNewProductAdminNo("M_NO_1");
+
 		
 		/*String root = pageContext.request.contextPath;
 		String saveDir = root + "assets"+"\\upload" + File.separator + "boardImage";
@@ -264,22 +269,61 @@ public class AdminController {
 			
 		}*/
 		
-		System.out.println("n : !@13" + n);
-		System.out.println("날짜 : " + n.getNewProductSale());
-		
+	
 		String msg = "";
 		String loc = "";
-	
-		int result1 = service.enrollProduct(n);
-
 		
-		if (result1 > 0 ) {
-			msg = "상품등룍 완료";
-			System.out.println(n.getNewProductNo());
+		//p.setProductNo(productNo);//입력후 찾아서 가져옴
+		p.setProductTitle(n.getNewProductName());
+		p.setProductProfile(n.getNewProductProfileImg());
+		p.setProductEnrollDate(n.getNewProductSaleStart());
+		p.setProductUpdate(n.getNewProductSaleStart());
+		p.setProductEndDate(n.getNewProductSaleEnd());
+		p.setProductComment(n.getNewProductComment());
+		//p.setProductState(n.get);//default 0
+		//p.setProductStep(productStep);//default 0
+		p.setProductPrice(Integer.parseInt(n.getNewProductPrice()));
+		p.setProductMax(Integer.parseInt(n.getNewProductMax()));
+		p.setProductMin(Integer.parseInt(n.getNewProductMin()));
+		p.setScNo(n.getNewProductSmallCategory());
+		p.setBcNo(n.getNewProductBigCategory());
+		p.setBrandNo(n.getNewProductBrand());
+		p.setAdminNo(n.getNewProductAdminNo());
+		p.setMemberNo(n.getNewProductMemberNo());
+		//p.setProductCurSell(productCurSell);//default
+		//p.setProductTotalSell(productTotalSell);//default 
+		p.setProductDiscount(Integer.parseInt(n.getNewProductSale()));
+		
+		int result1 = service.enrollProduct(p);
+		n.setNewProductNo(p.getProductNo());
+		Map<String, String> detail = new HashMap<String, String>();
+		detail.put("productNo",p.getProductNo());
+		detail.put("productDetail",n.getNewProductDetailComments());
+		int result2 = service.enrollProductDetail(detail);
+		int result3 = 0;
+		int result4 = 0;
+		Map<String, String> img = new HashMap<String, String>();
+		img.put("productNo", n.getNewProductNo());		
+		Map<String, String> option = new HashMap<String, String>();
+		option.put("productNo", n.getNewProductNo());
+		
+		for (String i : n.getNewProductDetailImgList()) {
+			img.put("productImg", i);
+			result3 = service.enrollProductImg(img);
 			
-			loc = "/admin/enrollProduct.do";
+		}
+		for (String o : n.getNewProductOptionList()) {
+			System.out.println("옵션값: "+o);
+		}
+		for (String o : n.getNewProductOptionList()) {
+			option.put("productOption", o);
+			result4 = service.enrollProductOption(option);
+		}
+		if (result1 > 0 && result2 >0 && result3 > 0 && result4 > 0) {
+			msg = "상품등록 완료";			
+			loc = "/admin/manageProduct.do";
 		} else {
-			msg = "상품등룍 실패";
+			msg = "상품등록 실패";
 			loc = "/admin/enrollProductEnd.do";
 		}
 	

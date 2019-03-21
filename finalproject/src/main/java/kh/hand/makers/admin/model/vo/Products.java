@@ -1,20 +1,18 @@
-package kh.hand.makers.product.model.vo;
+package kh.hand.makers.admin.model.vo;
 
 import java.io.Serializable;
-import java.util.Date;
 
-public class Product implements Serializable {
-
+public class Products implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3077995635206426085L;
+	private static final long serialVersionUID = -5885493237784270867L;
 	private String productNo;
 	private String productTitle;
 	private String productProfile; // 상품 메인사진[0]~ 옵션사진
-	private Date productEnrollDate; // 최초 판매 시작 날짜
-	private Date productUpdate; // 업데이트 날짜
-	private Date productEndDate; // 판매 종료 날짜
+	private String productEnrollDate; // 최초 판매 시작 날짜
+	private String productUpdate; // 업데이트 날짜
+	private String productEndDate; // 판매 종료 날짜
 	private String productDetail; // 상품 상세설명
 	private String productComment; // 상품 간략설명
 	private int productState;
@@ -30,38 +28,21 @@ public class Product implements Serializable {
 	private int productCurSell; // 현재 누적 판매량
 	private int productTotalSell;
 	private double productDiscount; // 상품 할인율
-
 	
-	public Product() {
-
+	public Products() {
+		
 	}
 
-	public Product(String productNo, String productTitle, String productProfile, Date productEnrollDate,
-			Date productUpdate, Date productEndDate, String productDetail, String productComment, int productState,
-			int productStep, int productPrice, int productMax, int productMin, String scNo, String bcNo, String brandNo,
-			String adminNo, String memberNo, int productCurSell, int productTotalSell, double productDiscount) {
-		super();
-		this.productNo = productNo;
-		this.productTitle = productTitle;
-		this.productProfile = productProfile;
-		this.productEnrollDate = productEnrollDate;
-		this.productUpdate = productUpdate;
-		this.productEndDate = productEndDate;
-		this.productDetail = productDetail;
-		this.productComment = productComment;
-		this.productState = productState;
-		this.productStep = productStep;
-		this.productPrice = productPrice;
-		this.productMax = productMax;
-		this.productMin = productMin;
-		this.scNo = scNo;
-		this.bcNo = bcNo;
-		this.brandNo = brandNo;
-		this.adminNo = adminNo;
-		this.memberNo = memberNo;
-		this.productCurSell = productCurSell;
-		this.productTotalSell = productTotalSell;
-		this.productDiscount = productDiscount;
+	@Override
+	public String toString() {
+		return "Products [productNo=" + productNo + ", productTitle=" + productTitle + ", productProfile="
+				+ productProfile + ", productEnrollDate=" + productEnrollDate + ", productUpdate=" + productUpdate
+				+ ", productEndDate=" + productEndDate + ", productDetail=" + productDetail + ", productComment="
+				+ productComment + ", productState=" + productState + ", productStep=" + productStep + ", productPrice="
+				+ productPrice + ", productMax=" + productMax + ", productMin=" + productMin + ", scNo=" + scNo
+				+ ", bcNo=" + bcNo + ", brandNo=" + brandNo + ", adminNo=" + adminNo + ", memberNo=" + memberNo
+				+ ", productCurSell=" + productCurSell + ", productTotalSell=" + productTotalSell + ", productDiscount="
+				+ productDiscount + "]";
 	}
 
 	public String getProductNo() {
@@ -88,27 +69,27 @@ public class Product implements Serializable {
 		this.productProfile = productProfile;
 	}
 
-	public Date getProductEnrollDate() {
+	public String getProductEnrollDate() {
 		return productEnrollDate;
 	}
 
-	public void setProductEnrollDate(Date productEnrollDate) {
+	public void setProductEnrollDate(String productEnrollDate) {
 		this.productEnrollDate = productEnrollDate;
 	}
 
-	public Date getProductUpdate() {
+	public String getProductUpdate() {
 		return productUpdate;
 	}
 
-	public void setProductUpdate(Date productUpdate) {
+	public void setProductUpdate(String productUpdate) {
 		this.productUpdate = productUpdate;
 	}
 
-	public Date getProductEndDate() {
+	public String getProductEndDate() {
 		return productEndDate;
 	}
 
-	public void setProductEndDate(Date productEndDate) {
+	public void setProductEndDate(String productEndDate) {
 		this.productEndDate = productEndDate;
 	}
 
@@ -236,18 +217,33 @@ public class Product implements Serializable {
 		return serialVersionUID;
 	}
 
-	@Override
-	public String toString() {
-		return "Product [productNo=" + productNo + ", productTitle=" + productTitle + ", productProfile="
-				+ productProfile + ", productEnrollDate=" + productEnrollDate + ", productUpdate=" + productUpdate
-				+ ", productEndDate=" + productEndDate + ", productDetail=" + productDetail + ", productComment="
-				+ productComment + ", productState=" + productState + ", productStep=" + productStep + ", productPrice="
-				+ productPrice + ", productMax=" + productMax + ", productMin=" + productMin + ", scNo=" + scNo
-				+ ", bcNo=" + bcNo + ", brandNo=" + brandNo + ", adminNo=" + adminNo + ", memberNo=" + memberNo
-				+ ", productCurSell=" + productCurSell + ", productTotalSell=" + productTotalSell + ", productDiscount="
-				+ productDiscount + "]";
+	public Products(String productNo, String productTitle, String productProfile, String productEnrollDate,
+			String productUpdate, String productEndDate, String productDetail, String productComment, int productState,
+			int productStep, int productPrice, int productMax, int productMin, String scNo, String bcNo, String brandNo,
+			String adminNo, String memberNo, int productCurSell, int productTotalSell, double productDiscount) {
+		super();
+		this.productNo = productNo;
+		this.productTitle = productTitle;
+		this.productProfile = productProfile;
+		this.productEnrollDate = productEnrollDate;
+		this.productUpdate = productUpdate;
+		this.productEndDate = productEndDate;
+		this.productDetail = productDetail;
+		this.productComment = productComment;
+		this.productState = productState;
+		this.productStep = productStep;
+		this.productPrice = productPrice;
+		this.productMax = productMax;
+		this.productMin = productMin;
+		this.scNo = scNo;
+		this.bcNo = bcNo;
+		this.brandNo = brandNo;
+		this.adminNo = adminNo;
+		this.memberNo = memberNo;
+		this.productCurSell = productCurSell;
+		this.productTotalSell = productTotalSell;
+		this.productDiscount = productDiscount;
 	}
 	
 	
-
 }

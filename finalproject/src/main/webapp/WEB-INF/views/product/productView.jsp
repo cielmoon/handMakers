@@ -62,45 +62,23 @@
         <div class="col-sm-6">
         <form id="productViewFrm" action="${path }/order/orderEnroll.do" method="post">
           <h1 class="productpage-title">${product.PRODUCT_TITLE }</h1>
-          
-          <!-- 별 찍는 거 -->
-          <div class="rating product"> 
-          <span class="fa fa-stack">
-             <i class="fa fa-star fa-stack-1x"></i>
-             <i class="fa fa-star-o fa-stack-1x"></i>
-          </span> 
-          <span class="fa fa-stack">
-             <i class="fa fa-star fa-stack-1x"></i>
-             <i class="fa fa-star-o fa-stack-1x"></i>
-          </span> 
-          <span class="fa fa-stack">
-             <i class="fa fa-star fa-stack-1x"></i>
-             <i class="fa fa-star-o fa-stack-1x"></i>
-          </span> 
-          <span class="fa fa-stack">
-             <i class="fa fa-star-o fa-stack-1x"></i>
-          </span> 
-          <span class="fa fa-stack">
-             <i class="fa fa-star-o fa-stack-1x"></i>
-          </span>
-          <hr>
          
          <!-- AddThis Button BEGIN -->
             <div class="addthis_toolbox addthis_default_style"><a class="addthis_button_facebook_like" ></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_pinterest_pinit"></a> <a class="addthis_counter addthis_pill_style"></a></div>
          <!-- AddThis Button END -->
-          </div>
           
+          <hr>
           
           <ul class="list-unstyled productinfo-details-top">
             <li>
             <!-- 가격 -->
-              <h2 class="productpage-price">${product.PRODUCT_PRICE }</h2>
+              <h2 class="productpage-price">가격 : <fmt:formatNumber value="${product.PRODUCT_PRICE }" type="currency" currencySymbol="￦"/>원</h2>
               <input type="hidden" name="productPrice" value="${product.PRODUCT_PRICE }"/>
             </li>
-            
-            <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
-            <li><span class="productinfo-tax">${product.PRODUCT_DISCOUNT }</span></li>
-            
+            <c:if test="${product.PRODUCT_STEP eq 0}">
+	            <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
+	            <li><span class="productinfo-tax"><fmt:formatNumber value="${product.PRODUCT_DISCOUNT }" type="currency" currencySymbol="￦"/></span></li>
+            </c:if>
           </ul>
           <hr>
           
@@ -112,8 +90,11 @@
               <label>상품 :</label>
               <span> ${productList.PRODUCT_TITLE }</span></li> --%>
             <li>
-              <label>판매수량:</label>
-              <span> ${product.PRODUCT_MAX }</span></li>
+              <label>최소수량:</label>
+              <span> ${product.PRODUCT_MIN }</span></li>
+            <li>
+              <label>최대수량:</label>
+              <span> ${product.PRODUCT_MAX }</span></li>  
           </ul>
           <hr>
              
@@ -265,7 +246,7 @@
       		});
       	};
       	
-      	function fn_review(cPage){
+      	/* function fn_review(cPage){
       		
       		var productNo = $('#input-productNo').val();
       		var commentType = $('input[name=review]').val();
@@ -276,7 +257,7 @@
       			success:function(data){
       				console.log(data);
       				var a = data.pageBar;
-      				var b = data.commentList;
+      				var b = data.commentList; */
       				/* var c = data.orderList; */
       				/* console.log(a);
       				console.log(b); */
@@ -290,8 +271,8 @@
       				}
       				$('#div-review').append(select); */
       				
-      				for(var i = 0; i<b.length; i++){
-      					/* console.log(b[i]); */
+      				/* for(var i = 0; i<b.length; i++){
+      					console.log(b[i]);
       					var tr = $('<tr>');
       					for(var key in b[i]){
       						console.log("으잉??"+key);
@@ -306,7 +287,7 @@
       				return true;
       			}
       		});
-      	}; 
+      	};  */
       	
 		/* function fn_review(cPage){
       		var productNo = $('#input-productNo').val();
@@ -366,12 +347,13 @@
           <li class="active">
           	<a href="#tab-description" data-toggle="tab" onclick="fn_description();" id="descript">상세설명</a>
           </li>
-          <li><a href="#tab-review" data-toggle="tab" onclick="fn_review();">상품후기</a></li>
+          <!-- <li><a href="#tab-review" data-toggle="tab">상품후기</a></li> onclick="fn_review();" 모두 셀렉트로 가져옴
           <li><a href="#tab-question" data-toggle="tab" id="product-question">상품문의</a></li>
-          <li><a href="#tab-sallerInfo" data-toggle="tab" id="product-sallerInfo">판매자 정보</a></li>	
+          <li><a href="#tab-sallerInfo" data-toggle="tab" id="product-sallerInfo">판매자 정보</a></li> -->	
         </ul>
         <input type="hidden" name="review" value="R"/>
         <input type="hidden" name="question" value="Q"/>
+        
         <!-- 상품 설명 탭 -->
         <div class="tab-content">
           <div class="tab-pane active" id="tab-description">
@@ -384,7 +366,7 @@
             </div>
           
           <!-- 후기 댓글 등록 창 -->
-          <div class="tab-pane" id="tab-review">
+          <%-- <div class="tab-pane" id="tab-review">
          	<div id="reviewComment" class="form-group" style="border:1px solid red">
          	 	<table id='tbl-comment' class='table table-striped table-hover'>
          			<thead>
@@ -394,23 +376,23 @@
          				</tr>
          			</thead>
          			<tbody id="reviewCommentContent">
-         				<c:if test='${commentList==null }'>
+         				<c:if test='${reviewCommentList==null }'>
          					<tr id="level1">
          						<td colspan="2">등록한 댓글이 없습니다.</td>
          					</tr>
          				</c:if>
-         				<c:if test="${commentList!=null }">
-         				<c:forEach items="${commentList }" var="comment" varStatus="vs">
-         					<c:if test="${commentList.COMMENT_LEVEL eq 1 }">
+         				<c:if test="${reviewCommentList!=null }">
+         				<c:forEach items="${reviewCommentList }" var="reviewComment" varStatus="vs">
+         					<c:if test="${reviewComment.COMMENT_LEVEL eq 1 }">
          					<tr id="level1">
          						<td>
-         							<strong>후기</strong><input type="text" class="form-control" id="level1-reviewWriter" value="${commentList['MEMBER_NAME'] }" readonly/>
+         							<strong>후기</strong><input type="text" class="form-control" id="level1-reviewWriter" value="${reviewComment['MEMBER_NAME'] }" readonly/>
          							
          							<!-- $(#level1).append('<td><strong>후기</strong><input type="text" class="form-control" id="level1-reviewWriter" value="'+data[i].MEMBER_NAME+'" readonly/></td>') -->
          							
          						</td>
          						<td>
-	         						<input type="text" class="form-control" id="level1-reviewContent" value="${commentList['COMMENT_CONTENT'] }">
+	         						<input type="text" class="form-control" id="level1-reviewContent" value="${reviewComment['COMMENT_CONTENT'] }">
 	         					</td>
 	         					<td>
 	         						<input type="button" class="form-control" value="수정" onclick="fn_reviewUpdate();"/>
@@ -422,11 +404,11 @@
 	         						<input type="button" class="form-control" value="답글" onclick="fn_reply();"/>
 	         					</td>
          					</tr>
-         					<c:if test="${commentList.COMMENT_LEVEL eq 2 }">
+         					<c:if test="${reviewComment.COMMENT_LEVEL eq 2 }">
          					<tr id="level2">
-	         					<td><strong>답글</strong><input type="text" class="form-control" id="level2-reviewWriter" value="${commentList['MEMBER_NO'] }" readonly/></td>
+	         					<td><strong>답글</strong><input type="text" class="form-control" id="level2-reviewWriter" value="${reviewComment['MEMBER_NO'] }" readonly/></td>
 	         					<td colspan="2">
-	         						<input type="text" class="form-control" id="level2-reviewContent" value="${commentList['COMMENT_CONTENT'] }">
+	         						<input type="text" class="form-control" id="level2-reviewContent" value="${reviewComment['COMMENT_CONTENT'] }">
 	         					</td>
 	         					<td>
 	         						<input type="button" class="form-control" value="수정"/>
@@ -440,7 +422,8 @@
          					</c:forEach>
          				</c:if>
          			</tbody>
-         		</table>
+         		</table> --%>
+         		<%-- ${reviewPageBar } --%>
          	</div>
          	
          	<!-- <div class="form-group">
@@ -492,16 +475,16 @@
          	 		</li>
          	 	</ul> -->
          	
-            <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
+            <%-- <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
               <div  id="div-review">
               	<c:if test="${orderList!=null }">
-              	<%-- <c:if test="${orderList.ORDER_PAYSTATE eq '3'}"> --%>
+              	<c:if test="${orderList.ORDER_PAYSTATE eq '3'}">
 	              <select class="form-control" id="orderList">
 	              <c:forEach items="${orderList }" var="order">
 	              	<option value="${order.ORDER_NO }">${order.PRODUCT_TITLE }</option>
 	              </c:forEach>
 	              </select>
-	            <%-- </c:if> --%>
+	            </c:if>
               	</c:if>
               </div>
               <h2>상품 후기</h2>
@@ -547,9 +530,9 @@
                   
                   <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
                   <c:if test="${member!=null }">
-	                  <%-- <c:if test="${product_order.order_state eq '3'}"> --%>
+	                  <c:if test="${product_order.order_state eq '3'}">
 	                  	<input type="submit" id="button-review" class="btn btn-primary" value="후기등록"/>
-	                  <%-- </c:if> --%>	
+	                  </c:if>	
                   </c:if>
                 </div>
               </div>
@@ -558,33 +541,98 @@
           
           <!-- 상품 문의 작성 -->
           <div class="tab-pane" id="tab-question">
-         	<div class="form-group" style="border:1px solid red">
-         	작성된 댓글 넣기 
-         		<!-- <table border="1">
-         			<tr><td>실험</td></tr>
-         		</table> -->
+         	<div id="questionComment" class="form-group" style="border:1px solid red">
+         	 	<table id='tbl-comment' class='table table-striped table-hover'>
+         			<thead>
+         				<tr>
+         					<td>작성자</td>
+         					<td>작성내용</td>
+         				</tr>
+         			</thead>
+         			<tbody id="questionCommentContent">
+         				<c:if test='${questionCommentList==null }'>
+         					<tr id="level1">
+         						<td colspan="2">등록한 댓글이 없습니다.</td>
+         					</tr>
+         				</c:if>
+         				<c:if test="${questionCommentList!=null }">
+         				<c:forEach items="${questionCommentList }" var="questionComment" varStatus="vs">
+         					<c:if test="${questionComment.COMMENT_LEVEL eq 1 }">
+         					<tr id="level1">
+         						<td>
+         							<strong>문의</strong><input type="text" class="form-control" id="level1-reviewWriter" value="${questionComment['MEMBER_NAME'] }" readonly/>
+         							
+         							$(#level1).append('<td><strong>후기</strong><input type="text" class="form-control" id="level1-reviewWriter" value="'+data[i].MEMBER_NAME+'" readonly/></td>')
+         							
+         						</td>
+         						<td>
+	         						<input type="text" class="form-control" id="level1-reviewContent" value="${questionComment['COMMENT_CONTENT'] }">
+	         					</td>
+	         					<td>
+	         						<input type="button" class="form-control" value="수정" onclick="fn_reviewUpdate();"/>
+	         					</td>
+	         					<td>
+	         						<input type="button" class="form-control" value="삭제" onclick="fn_reviewDelete();"/>
+	         					</td>
+	         					<td>
+	         						<input type="button" class="form-control" value="답글" onclick="fn_reply();"/>
+	         					</td>
+         					</tr>
+         					<c:if test="${questionComment.COMMENT_LEVEL eq 2 }">
+         					<tr id="level2">
+	         					<td><strong>답글</strong><input type="text" class="form-control" id="level2-reviewWriter" value="${questionComment['MEMBER_NO'] }" readonly/></td>
+	         					<td colspan="2">
+	         						<input type="text" class="form-control" id="level2-reviewContent" value="${questionComment['COMMENT_CONTENT'] }">
+	         					</td>
+	         					<td>
+	         						<input type="button" class="form-control" value="수정"/>
+	         					</td>
+	         					<td>
+	         						<input type="button" class="form-control" value="삭제"/>
+	         					</td>
+	         				</tr>
+	         				</c:if>
+         					</c:if>
+         					</c:forEach>
+         				</c:if>
+         			</tbody>
+         		</table>
+         		${questionPageBar }
          	</div>
          	
-          <form class="form-horizontal">
-              <div id="question"></div>
+            <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
+              <div  id="div-review"></div>
               <h2>상품 문의</h2>
               <div class="form-group required">
                 <div class="col-sm-12">
-                  <label class="control-label" for="input-name">상품문의 ID</label>
-                  <input type="text" name="name" value="" id="input-name" class="form-control" />
+                  <label class="control-label" for="input-name">문의 작성자ID</label>
+                  <c:if test="${member != null}">
+                  	<input type="text" name="name" id="input-name" class="form-control" value="${member.memberName }" readonly/>
+                  	<input type="hidden" name="memberNo" id="input-memberNo" value="${member.memberNo }"/>
+                  	<input type="hidden" name="reviewType" value="Q"/>
+                  </c:if>
                 </div>
               </div>
               <div class="form-group required">
                 <div class="col-sm-12">
-                  <label class="control-label" for="input-review">상품 문의내용</label>
-                  <textarea name="text" rows="5" id="input-review" class="form-control"></textarea>
-                  <input type="hidden" name="questionType" value="Q"/>
+                  <label class="control-label" for="input-review">상품 문의</label>
+                  <textarea name="text" rows="5" id="input-review" name="reviewContent" class="form-control"></textarea>
                 </div>
               </div>
               
               <div class="buttons clearfix">
                 <div class="pull-right">
-                  <button type="button" id="button-question" class="btn btn-primary">문의등록</button>
+                  
+                  <c:if test="${member==null }">
+                  	<button type="button" id="button-review" class="btn btn-primary" onclick="fn_noLoginComment();">문의등록</button>
+                  </c:if>
+                  
+                  <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
+                  <c:if test="${member!=null }">
+	                  <c:if test="${product_order.order_state eq '3'}">
+	                  	<input type="submit" id="button-review" class="btn btn-primary" value="문의등록"/>
+	                  </c:if>	
+                  </c:if>
                 </div>
               </div>
             </form>
@@ -597,12 +645,11 @@
                 
             <div class="col-sm-4 left">
               <address>
-              <strong> 브랜드 명: </strong>test브랜드 <br>
+              <strong> 브랜드 명: </strong>${brand.BRAND_TITLE } <br>
               <br>
               <strong>주소:</strong>
-              <div class="address"> 강남구 테헤란로 243-1</div>
+              <div class="address"> ${brand.BRAND_ADDR } ${brand.BRAND_DETAILADDR }</div>
               <br>
-              <strong>업체 전화번호: </strong>+ 0987-654-321
               </address>
             </div>
             <div class="col-sm-8 rigt">
@@ -618,8 +665,8 @@
         
               </div>
             </div>
+            </div> --%>
             <!-- cpt_container_end -->
-            </div>
             
         </div>
       </div>

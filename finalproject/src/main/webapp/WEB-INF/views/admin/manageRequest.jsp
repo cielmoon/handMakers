@@ -51,6 +51,7 @@
 						<table id='tbl-board' class='table table-striped table-hover'>
 							<tr>
 								<th>요청번호</th>
+								<th>요청(브랜드/상품)</th>
 								<th>요청제목</th>
 								<th>발신자</th>								
 								<th>요청상태</th>
@@ -63,6 +64,7 @@
 								<c:choose>
 									<c:when test="${r.sellerReqType == 'B' }">
 										<td>${r.sellerReqNo }</td>
+										<td>${r.sellerReqRef }</td>
 										<td>${r.sellerReqTitle }</td>
 										<td>${r.memberId }</td>
 										<c:choose>
@@ -90,13 +92,14 @@
 										<td>${r.sellerReqDate }</td>
 										<c:choose>
 											<c:when test="${r.sellerReqProcess == '0' }">
-												<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,e,+${r.sellerReqType}+,+${sellerReqRef}"><button class="AgreeBtn">수락</button></a>
-												<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,f,+${r.sellerReqType}+,+${sellerReqRef}"><button class="AgreeBtn">반려</button></a></td>					
+												<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,e,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">수락</button></a>
+												<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,f,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">반려</button></a></td>					
 											</c:when>						
 										</c:choose>										
 									</c:when>
 									<c:when test="${r.sellerReqType == 'P' }">
 										<td>${r.sellerReqNo }</td>
+										<td>${r.sellerReqRef }</td>
 										<td>${r.sellerReqTitle }</td>
 										<td>${r.memberId }</td>
 										<c:choose>
@@ -127,13 +130,13 @@
 										<td>${r.sellerReqDate }</td>
  										<c:choose>
 											<c:when test="${r.sellerReqProcess == '0' and r.sellerReqState == '4'}">												
-													<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,0,+${r.sellerReqType}+,+${sellerReqRef}"><button class="AgreeBtn">수락</button></a>
-													<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,2,+${r.sellerReqType}+,+${sellerReqRef}"><button class="AgreeBtn">반려</button></a></td>	
+													<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,0,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">수락</button></a>
+													<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,2,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">반려</button></a></td>	
 															
 											</c:when>
 											<c:when test="${r.sellerReqProcess == '0' and r.sellerReqState == '1'}">											
-													<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,2,+${r.sellerReqType}+,+${sellerReqRef}"><button class="AgreeBtn">수락</button></a>
-													<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,0,+${r.sellerReqType}+,+${sellerReqRef}"><button class="AgreeBtn">반려</button></a></td>		
+													<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,2,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">수락</button></a>
+													<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,0,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">반려</button></a></td>		
 																
 											</c:when>								
 										</c:choose>								

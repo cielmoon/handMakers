@@ -37,10 +37,19 @@ public class OrderController {
 		
 		logger.debug(map+"");
 		
+		String productOptionNo = (String)map.get("productOption"); 
+		
+		System.out.println(productOptionNo);
+		
+		Map<String,String> productOption = service.selectProductOption(productOptionNo);
+		
+		logger.debug(productOption+"");
+		
 		List<Map<String,String>> deliveryList = service.selectDeliveryList(memberNo);
 		
 		mv.addObject("deliveryList", deliveryList);
 		mv.addObject("orderList", map);
+		mv.addObject("productOption",productOption);
 		mv.setViewName("order/orderEnroll");
 		
 		return mv;

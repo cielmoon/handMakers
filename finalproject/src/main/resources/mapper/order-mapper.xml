@@ -8,7 +8,7 @@
   		</selectKey>
   	</insert> -->
   	<insert id="insertOrder" parameterType="order">
-  		INSERT INTO PRODUCT_ORDER VALUES('P_ORDER_NO'||SEQ_ORDER_NO.NEXTVAL, #{orderPayStatus}, DEFAULT, #{orderTotalPrice}, #{orderPayType}, #{deliveryPostCode}, #{deliveryAddr}, #{deliveryDetailAddr}, DEFAULT, #{imp_uid}, #{merchant_uid}, #{productOption}, #{productOptionQty}, #{productNo}, #{memberNo})
+  		INSERT INTO PRODUCT_ORDER VALUES('P_ORDER_NO'||SEQ_ORDER_NO.NEXTVAL, #{orderPayStatus}, DEFAULT, #{orderTotalPrice}, #{orderPayType}, #{deliveryPostCode}, #{deliveryAddr}, #{deliveryDetailAddr}, DEFAULT, #{imp_uid}, #{merchant_uid}, #{productOption}, #{productOptionQty}, #{productNo}, #{memberNo},null)
   	</insert>
   	
   	<select id="selectDeliveryList" parameterType="string" resultType="map">
@@ -28,6 +28,10 @@
   	</select>
   	
   	<update id="updateProductSell" parameterType="map">
-  		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL+#{productOptionQty} WHERE PRODUCT_NO = #{productNo}
+  		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL+#{productOptionQty}, PRODUCT_TOTALSELL=PRODUCT_TOTALSELL+#{productOptionQty} WHERE PRODUCT_NO = #{productNo}
   	</update>
+  	
+  	<select id="selectProductOption" parameterType="string" resultType="map">
+  		SELECT * FROM PRODUCT_OPTION WHERE PRODUCT_OPTION_NO = #{productOptionNo}
+  	</select>
 </mapper>
