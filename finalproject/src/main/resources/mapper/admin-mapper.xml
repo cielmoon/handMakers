@@ -268,8 +268,8 @@
 	<insert id="enrollProduct" parameterType="newproduct">
 		INSERT INTO PRODUCT
 		VALUES('P_NO_'||SEQ_PRODUCT_NO.NEXTVAL, #{newProductName}, 
-		default, default, #{newProductProfileImg}, #{newProductComment}, 0, default, 5, 100, 10,
-		"19/04/20",#{newProductSmallCategory}, #{newProductBigCategory}, #{newProductBrand}, #{newProductMemberId}, #{newProductAdminId}, default, default,
+		TO_DATE(#{newProductSaleStart}), TO_DATE(#{newProductSaleEnd}), #{newProductProfileImg}, #{newProductComment}, 0, default, 5, 100, 10,
+		'19/04/20',#{newProductSmallCategory}, #{newProductBigCategory}, #{newProductBrand}, #{newProductMemberId}, #{newProductAdminId}, default, default,
 		100, 3)
 		<selectKey keyProperty="newProductNo" resultType="string" order="AFTER">
   			select 'P_NO_'||SEQ_PRODUCT_NO.currval from dual
