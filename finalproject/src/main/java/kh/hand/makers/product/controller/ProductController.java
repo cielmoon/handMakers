@@ -40,31 +40,39 @@ public class ProductController {
 	//상품 상세화면 보여주는 서블릿
 	// 3월 14일 상세상품 보여주기 위함
 	@RequestMapping("/product/productView.do")
-	public ModelAndView productView(String productNo, HttpServletRequest request) {
+	public ModelAndView productView(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			String productNo, HttpServletRequest request) {
+		
+		int numPerPage = 3;
 		
 		ModelAndView mv = new ModelAndView();
 		
-		int cPage = 1;
-		
 		List<Map<String,String>> orderList = null;
 		
-		Map<String,String> map = new HashMap();
+		Map<String,String> questionMap = new HashMap();
+		
+		Map<String,String> reviewMap = new HashMap();
 		
 		if(request.getSession().getAttribute("member")!=null) {
 			
 		String memberNo = ((Member)request.getSession().getAttribute("member")).getMemberNo();
 		
-		map.put("commentType", "R");
-		map.put("productNo", productNo);
-		map.put("memberNo", memberNo);
+		reviewMap.put("reviewCommentType", "R");
+		reviewMap.put("productNo", productNo);
+		reviewMap.put("memberNo", memberNo);
+		questionMap.put("questionCommentType", "Q");
+		questionMap.put("productNo", productNo);
+		questionMap.put("memberNo", memberNo);
 		
-		orderList = service.selectOrderList(map);
+		//주문번호 가지고 오기 위함(댓글 점수 때문에)
+		orderList = service.selectOrderList(reviewMap);
 		
 		Wish wish = new Wish();
 		
 		wish.setMemberNo(memberNo);
 		wish.setProductNo(productNo);
-		
+			
+			//위시 카운트 해서 하트 표시 하기 위한 카운트
 			int count = service.selectWishCount(wish);
 			
 			if(count==0) {
@@ -77,13 +85,28 @@ public class ProductController {
 		logger.debug(productNo);
 		logger.debug(orderList+"");
 		
+		//상품 정보 
 		Map<String,String> product = service.selectProduct(productNo);
+		//소분류 리스트
 		List<SmallCategory> scList = shopService.selectScList(product.get("BC_NO"));
+		//대분류 제목
 		String bcTitle = service.selectBcTitle(product.get("BC_NO"));
+		//sub이미지 테이블
 		List<ProductImg> productImg = service.selectProductImg(productNo);
+		//상세 설명 테이블
 		Map<String,String> productDetail = service.selectProductDetail(productNo);
+		//상품 옵션 테이블
 		List<Map<String,String>> productOption = service.selectProductOption(productNo);
+		//업체 정보 select
+		Map<String,String> brandMap = service.selectBrand(productNo);
+		//후기 정보 select
+		List<Map<String,String>> reviewCommentList = service.selectComment(reviewMap, cPage, numPerPage);
+		int reviewCommentCount = service.selectCommentCount(reviewMap.get("reviewCommentType"));
+		//문의 정보 select
+		List<Map<String,String>> questionCommentList = service.selectComment(questionMap, cPage, numPerPage);
+		int questionCommentCount = service.selectCommentCount(questionMap.get("questionCommentType"));
 		
+		mv.addObject("brand",brandMap);
 		mv.addObject("cPage", cPage);
 		mv.addObject("productOption",productOption);
 		mv.addObject("productDetail",productDetail);
@@ -92,6 +115,12 @@ public class ProductController {
 		mv.addObject("scList",scList);
 		mv.addObject("product",product);
 		mv.addObject("orderList",orderList);
+		mv.addObject("reviewCommentList",reviewCommentList);
+		mv.addObject("questionCommentList",questionCommentList);
+		mv.addObject("reviewCommentCount",reviewCommentCount);
+		mv.addObject("questionCommentCount",questionCommentCount);
+		mv.addObject("reviewPageBar",PageFactory.getConditionPageBar(reviewCommentCount, cPage, numPerPage, "/product/productView.do?productNo="+productNo+"&commentType="+reviewMap.get("reviewCommentType")));
+		mv.addObject("questionPageBar",PageFactory.getConditionPageBar(questionCommentCount, cPage, numPerPage, "/product/productView.do?productNo="+productNo+"&commentType="+questionMap.get("questionCommentType")));
 		mv.setViewName("/product/productView");
 
 		return mv;
