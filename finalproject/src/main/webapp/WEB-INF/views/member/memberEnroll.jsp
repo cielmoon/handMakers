@@ -24,14 +24,13 @@
 		핸드폰번호 : OK
 		*/
 		var memberId = $('#memberId');
-		var memberAge = parseInt($("#memberBirth").val());
+		var memberPwd = $('#memberPwd').val();
+		/* var memberAge = parseInt($("#memberBirth").val()); */
 		var memberEmail = $("#memberEmail").val();
 		var emailRegex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 		var memberPhone = $("#memberPhone").val();
 		var phoneRegex = /^[0-9]+$/;
-		/* var passwordRegex = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/; 
-		영문, 숫자 혼합하여 6~20자리 이내
-		*/
+		var passwordRegex = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/; // 영문, 숫자 혼합하여 6~20자리 이내
 		
 		if (memberId.val().length < 4) {
 			alert("아이디는 최소 4자리 이상 입력하세요.");
@@ -90,6 +89,13 @@
 			return false;
 		}
 		
+		if (!passwordRegex.test(memberPwd)) {
+			alert("비밀번호는 영문, 숫자를 혼합하여 6~20자리 이내로 입력해주세요.");
+			$("#memberPwd").focus();
+			
+			return false;
+		}
+
 		return true;
 	};
 	

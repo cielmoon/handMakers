@@ -1,6 +1,7 @@
 package kh.hand.makers.admin.model.vo;
 
 import java.io.Serializable;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,8 @@ public class NewProduct implements Serializable{
 	private String newProductMemberId;
 	private int newProductPrice;
 	private int newProductSale;
-	private String newProductSaleStart;
-	private String newProductSaleEnd;
+	private Date newProductSaleStart;
+	private Date newProductSaleEnd;
 	private int newProductMin;
 	private int newProductMax;
 	private String newProductProfileImg;
@@ -29,7 +30,7 @@ public class NewProduct implements Serializable{
 	private String newProductBigCategory;
 	private String newProductSmallCategory;
 	
-	private String newProductUpdateDate;
+	private Date newProductUpdateDate;
 	
 	private String newProductNo;
 	
@@ -37,11 +38,11 @@ public class NewProduct implements Serializable{
 	}
 
 	public NewProduct(String newProductName, String newProductComment, String newProductAdminId,
-			String newProductMemberId, int newProductPrice, int newProductSale, String newProductSaleStart,
-			String newProductSaleEnd, int newProductMin, int newProductMax, String newProductProfileImg,
+			String newProductMemberId, int newProductPrice, int newProductSale, Date newProductSaleStart,
+			Date newProductSaleEnd, int newProductMin, int newProductMax, String newProductProfileImg,
 			List<String> newProductDetailImgList, List<String> newProductOptionList, String newProductDetailComments,
 			String newProductBrand, String newProductBigCategory, String newProductSmallCategory,
-			String newProductUpdateDate, String newProductNo) {
+			Date newProductUpdateDate, String newProductNo) {
 		super();
 		this.newProductName = newProductName;
 		this.newProductComment = newProductComment;
@@ -63,6 +64,12 @@ public class NewProduct implements Serializable{
 		this.newProductUpdateDate = newProductUpdateDate;
 		this.newProductNo = newProductNo;
 	}
+
+
+
+
+
+
 
 	public String getNewProductName() {
 		return newProductName;
@@ -207,27 +214,41 @@ public class NewProduct implements Serializable{
 		this.newProductNo = newProductNo;
 	}
 
-	public String getNewProductSaleStart() {
+	
+
+	public Date getNewProductSaleStart() {
 		return newProductSaleStart;
 	}
 
-	public void setNewProductSaleStart(String newProductSaleStart) {
+
+
+	public void setNewProductSaleStart(Date newProductSaleStart) {
 		this.newProductSaleStart = newProductSaleStart;
 	}
 
-	public String getNewProductSaleEnd() {
+
+
+	public Date getNewProductSaleEnd() {
 		return newProductSaleEnd;
 	}
 
-	public void setNewProductSaleEnd(String newProductSaleEnd) {
+
+
+	public void setNewProductSaleEnd(Date newProductSaleEnd) {
 		this.newProductSaleEnd = newProductSaleEnd;
 	}
 
-	public String getNewProductUpdateDate() {
+
+
+	
+
+
+
+	public Date getNewProductUpdateDate() {
 		return newProductUpdateDate;
 	}
 
-	public void setNewProductUpdateDate(String newProductUpdateDate) {
+	public void setNewProductUpdateDate(Date newProductUpdateDate) {
 		this.newProductUpdateDate = newProductUpdateDate;
 	}
 
@@ -244,4 +265,8 @@ public class NewProduct implements Serializable{
 				+ newProductBigCategory + ", newProductSmallCategory=" + newProductSmallCategory
 				+ ", newProductUpdateDate=" + newProductUpdateDate + ", newProductNo=" + newProductNo + "]";
 	}
+
+	
+
+	
 }
