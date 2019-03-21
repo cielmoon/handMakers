@@ -173,23 +173,30 @@ public class ShopController {
 	
 	// 판매자 브랜드 메인 페이지
 	@RequestMapping("/shop/brandHome.do")
-	public ModelAndView brandHome(HttpSession session, String brandNo, @RequestParam(value="cPage", required=false, defaultValue="1") int cPage)
+	public ModelAndView brandHome(HttpSession session, String brandNo, @RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="bcNo", defaultValue="all") String bcNo)
 	{
 		ModelAndView mv = new ModelAndView();
 		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
 		List<Map<String, String>> reqList = service.selectSellerReqList(memberNo);
 		Brand brand = service.selectBrand(brandNo);	
 		
-		int numPerPage = 5;
-		int contentCount = service.selectPreProductCount(brandNo);
-		List<PreProduct> preList = service.selectPreProductList(brandNo, cPage, numPerPage);
+		Map<String, Object> map = new HashMap<>();
+		map.put("brandNo", brandNo);
+		map.put("bcNo", bcNo); //현재 판매중이거나 중지요청 상태
+		
+		int numPerPage = 10;
+		int contentCount = service.selectPreProductCount(map);
+		List<PreProduct> preList = service.selectPreProductList(map, cPage, numPerPage);
 		List<BigCategory> bcList = service.selectBcList();
 		
 		mv.addObject("reqList", reqList);
 		mv.addObject("brand", brand);
 		mv.addObject("preList", preList);
-		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandHome.do?brandNo=" + brandNo));
+		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandHome.do?brandNo=" + brandNo + "&bcNo=" + bcNo));
 		mv.addObject("bcList", bcList);
+		mv.addObject("bcNo", bcNo);
+		mv.addObject("index", ((cPage - 1) * 10) + 1);
 		mv.setViewName("shop/brandHome");
 		
 		return mv;
@@ -208,7 +215,8 @@ public class ShopController {
 	
 	// 현재 판매중인 상품 목록 페이지
 	@RequestMapping("/shop/brandSaleProduct.do")
-	public ModelAndView brandSaleProduct(HttpSession session, String brandNo, @RequestParam(value="cPage", required=false, defaultValue="1") int cPage)
+	public ModelAndView brandSaleProduct(HttpSession session, String brandNo, @RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="bcNo", defaultValue="all") String bcNo)
 	{
 		ModelAndView mv = new ModelAndView();
 		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
@@ -216,6 +224,7 @@ public class ShopController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("brandNo", brandNo);
 		map.put("productState", "('0', '1')"); //현재 판매중이거나 중지요청 상태
+		map.put("bcNo", bcNo);
 		
 		int numPerPage = 6;
 		int contentCount = service.selectBrandProductCount(map);
@@ -228,9 +237,70 @@ public class ShopController {
 		mv.addObject("reqList", reqList);
 		mv.addObject("brand", brand);
 		mv.addObject("productList", productList);
-		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandSaleProduct.do?brandNo=" + brandNo));
+		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandSaleProduct.do?brandNo=" + brandNo + "&bcNo=" + bcNo));
 		mv.addObject("bcList", bcList);
+		mv.addObject("bcNo", bcNo);
 		mv.setViewName("shop/brandSaleProduct");
+		return mv;
+	}
+	
+	@RequestMapping("/shop/brandEndProduct.do")
+	public ModelAndView brandEndProduct(HttpSession session, String brandNo, @RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="bcNo", defaultValue="all") String bcNo)
+	{
+		ModelAndView mv = new ModelAndView();
+		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("brandNo", brandNo);
+		map.put("productState", "('3', '4')"); //판매종료 상태
+		map.put("bcNo", bcNo);
+		
+		int numPerPage = 6;
+		int contentCount = service.selectBrandProductCount(map);
+		List<Map<String, Object>> productList = service.selectBrandProductList(map, cPage, numPerPage);	
+		List<BigCategory> bcList = service.selectBcList();
+		
+		List<Map<String, String>> reqList = service.selectSellerReqList(memberNo);
+		Brand brand = service.selectBrand(brandNo);	
+		
+		mv.addObject("reqList", reqList);
+		mv.addObject("brand", brand);
+		mv.addObject("productList", productList);
+		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandEndProduct.do?brandNo=" + brandNo + "&bcNo=" + bcNo));
+		mv.addObject("bcList", bcList);
+		mv.addObject("bcNo", bcNo);
+		mv.setViewName("shop/brandEndProduct");
+		return mv;
+	}
+	
+	@RequestMapping("/shop/brandStopProduct.do")
+	public ModelAndView brandStopProduct(HttpSession session, String brandNo, @RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="bcNo", defaultValue="all") String bcNo)
+	{
+		ModelAndView mv = new ModelAndView();
+		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("brandNo", brandNo);
+		map.put("productState", "('2')"); //판매중지 상태
+		map.put("bcNo", bcNo);
+		
+		int numPerPage = 6;
+		int contentCount = service.selectBrandProductCount(map);
+		List<Map<String, Object>> productList = service.selectBrandProductList(map, cPage, numPerPage);	
+		List<BigCategory> bcList = service.selectBcList();
+		
+		List<Map<String, String>> reqList = service.selectSellerReqList(memberNo);
+		Brand brand = service.selectBrand(brandNo);	
+		
+		mv.addObject("reqList", reqList);
+		mv.addObject("brand", brand);
+		mv.addObject("productList", productList);
+		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandStopProduct.do?brandNo=" + brandNo + "&bcNo=" + bcNo));
+		mv.addObject("bcList", bcList);
+		mv.addObject("bcNo", bcNo);
+		mv.setViewName("shop/brandStopProduct");
 		return mv;
 	}
 	
@@ -242,7 +312,7 @@ public class ShopController {
 		Brand brand = service.selectBrand(brandNo);	
 		
 		Map<String, String> product = service.selectProduct(productNo);
-		int numPerPage = 5;
+		int numPerPage = 10;
 		int contentCount = service.selectOrderCount(productNo);
 		List<Map<String, String>> orderList = service.selectOrderList(productNo, cPage, numPerPage);
 		
@@ -250,6 +320,7 @@ public class ShopController {
 		mv.addObject("product", product);
 		mv.addObject("orderList", orderList);
 		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandProductHome.do?productNo=" + productNo + "&brandNo=" + brandNo));
+		mv.addObject("index", ((cPage - 1) * 10) + 1);
 		mv.setViewName("shop/brandProductHome");
 		
 		return mv;
@@ -264,7 +335,7 @@ public class ShopController {
 		Brand brand = service.selectBrand(brandNo);	
 		
 		Map<String, String> product = service.selectProduct(productNo);
-		int numPerPage = 5;
+		int numPerPage = 10;
 		int contentCount = service.selectProductQnaCount(productNo);
 		List<Map<String, String>> qnaList = service.selectProductQnaList(productNo, cPage, numPerPage);
 		List<Map<String, String>> answerList = service.selectProductAnswerList(productNo);
@@ -274,6 +345,7 @@ public class ShopController {
 		mv.addObject("qnaList", qnaList);
 		mv.addObject("answerList", answerList);
 		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandProductQna.do?productNo=" + productNo + "&brandNo=" + brandNo));
+		mv.addObject("index", ((cPage - 1) * 10) + 1);
 		mv.setViewName("shop/brandProductQna");
 		
 		return mv;
@@ -378,33 +450,6 @@ public class ShopController {
 		return mv;
 	}
 	
-	@RequestMapping("/shop/brandEndProduct.do")
-	public ModelAndView brandEndProduct(HttpSession session, String brandNo, @RequestParam(value="cPage", required=false, defaultValue="1") int cPage)
-	{
-		ModelAndView mv = new ModelAndView();
-		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
-
-		Map<String, Object> map = new HashMap<>();
-		map.put("brandNo", brandNo);
-		map.put("productState", "('3', '4')"); //판매종료 상태
-		
-		int numPerPage = 6;
-		int contentCount = service.selectBrandProductCount(map);
-		List<Map<String, Object>> productList = service.selectBrandProductList(map, cPage, numPerPage);	
-		List<BigCategory> bcList = service.selectBcList();
-		
-		List<Map<String, String>> reqList = service.selectSellerReqList(memberNo);
-		Brand brand = service.selectBrand(brandNo);	
-		
-		mv.addObject("reqList", reqList);
-		mv.addObject("brand", brand);
-		mv.addObject("productList", productList);
-		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandEndProduct.do?brandNo=" + brandNo));
-		mv.addObject("bcList", bcList);
-		mv.setViewName("shop/brandEndProduct");
-		return mv;
-	}
-	
 	@RequestMapping("/shop/exportOrders.do")
 	public ModelAndView exportOrders(String[] orders, String productNo, String brandNo)
 	{
@@ -464,7 +509,7 @@ public class ShopController {
 		Brand brand = service.selectBrand(brandNo);	
 		
 		Map<String, String> product = service.selectProduct(productNo);
-		int numPerPage = 5;
+		int numPerPage = 10;
 		int contentCount = service.selectSalesRecordsCount(productNo);
 		List<Map<String, String>> salesRecordsList = service.selectSalesRecordsList(productNo, cPage, numPerPage);
 		
@@ -472,6 +517,7 @@ public class ShopController {
 		mv.addObject("product", product);
 		mv.addObject("salesRecordsList", salesRecordsList);
 		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandProductSaleRecords.do?productNo=" + productNo + "&brandNo=" + brandNo));
+		mv.addObject("index", ((cPage - 1) * 10) + 1);
 		mv.setViewName("shop/brandProductSalesRecords");
 		
 		return mv;

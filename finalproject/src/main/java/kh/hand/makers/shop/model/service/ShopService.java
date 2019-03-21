@@ -26,11 +26,11 @@ public interface ShopService {
 
 	int updateBrand(Map<String, String> map);
 
-	List<PreProduct> selectPreProductList(String brandNo, int cPage, int numPerPage);
+	List<PreProduct> selectPreProductList(Map<String, Object> map, int cPage, int numPerPage);
 
 	PreProduct selectPreProduct(String preNo);
 
-	int selectPreProductCount(String brandNo);
+	int selectPreProductCount(Map<String, Object> map);
 
 	int selectBrandProductCount(Map<String, Object> map);
 
@@ -71,7 +71,6 @@ public interface ShopService {
 	int updateSellerRequestRef(Map<String, String> map);
 
 	int updateTracking(Map<String, String> map);
-
 	
 
 }
