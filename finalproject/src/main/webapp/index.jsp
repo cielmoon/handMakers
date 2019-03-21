@@ -6,7 +6,6 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <section>
-
 	<div class="container">
 		<div class="mainbanner"><!-- 메인배너엔 뭘넣어야할까? -->
 			<div id="main-banner" class="owl-carousel home-slider">

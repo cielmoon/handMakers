@@ -20,8 +20,7 @@
 		<result column="member_no" property="memberNo" />
 		<result column="admin_no" property="adminNo" />
 		<result column="product_totalsell" property="productTotalSell" />
-		<result column="product_cursell" property="productCurSell" />		
-		<result column="product_qty" property="productQty" />
+		<result column="product_cursell" property="productCurSell" />
 		<result column="product_discount" property="productDiscount" />
 		</resultMap>
 		
@@ -69,7 +68,7 @@
 	</select>
 	
 	<select id="selectProduct" parameterType="string" resultType="map">
-		SELECT P.BC_NO, P.PRODUCT_TITLE, B.BRAND_TITLE, P.PRODUCT_MAX, P.PRODUCT_MIN, P.PRODUCT_QTY, P.PRODUCT_PRICE, P.PRODUCT_COMMENT, P.PRODUCT_PROFILE, B.BRAND_NO, P.PRODUCT_NO, P.MEMBER_NO
+		SELECT P.BC_NO, P.PRODUCT_TITLE, B.BRAND_TITLE, P.PRODUCT_MAX, P.PRODUCT_MIN, P.PRODUCT_PRICE, P.PRODUCT_COMMENT, P.PRODUCT_PROFILE, B.BRAND_NO, P.PRODUCT_NO, P.MEMBER_NO
 		FROM PRODUCT P
 		JOIN BRAND B ON(B.BRAND_NO=P.BRAND_NO)
 		WHERE P.PRODUCT_NO = #{productNo}

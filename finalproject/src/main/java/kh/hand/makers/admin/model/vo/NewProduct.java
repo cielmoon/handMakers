@@ -12,58 +12,29 @@ public class NewProduct implements Serializable{
 	private static final long serialVersionUID = -1367871594674030652L;
 	private String newProductName;
 	private String newProductComment;
-	private String newProductAdminId;
-	private String newProductMemberId;
-	private int newProductPrice;
-	private int newProductSale;
+	private String newProductAdminNo;
+	private String newProductMemberNo;
+	private String newProductPrice;
+	private String newProductSale;
 	private String newProductSaleStart;
 	private String newProductSaleEnd;
-	private int newProductMin;
-	private int newProductMax;
+	private String newProductMin;
+	private String newProductMax;
 	private String newProductProfileImg;
-	private List<String> newProductDetailImgList = new ArrayList<String>();
-	private List<String> newProductOptionList = new ArrayList<String>();
+	private ArrayList<String> newProductDetailImgList = new ArrayList<String>();
+	private ArrayList<String> newProductOptionList = new ArrayList<String>();
 	private String newProductDetailComments;
 	
 	private String newProductBrand;
 	private String newProductBigCategory;
-	private String newProductSmallCategory;
-	
-	private String newProductUpdateDate;
-	
+	private String newProductSmallCategory;	
+	private String newProductUpdateDate;	
 	private String newProductNo;
 	
 	public NewProduct() {
 	}
 
-	public NewProduct(String newProductName, String newProductComment, String newProductAdminId,
-			String newProductMemberId, int newProductPrice, int newProductSale, String newProductSaleStart,
-			String newProductSaleEnd, int newProductMin, int newProductMax, String newProductProfileImg,
-			List<String> newProductDetailImgList, List<String> newProductOptionList, String newProductDetailComments,
-			String newProductBrand, String newProductBigCategory, String newProductSmallCategory,
-			String newProductUpdateDate, String newProductNo) {
-		super();
-		this.newProductName = newProductName;
-		this.newProductComment = newProductComment;
-		this.newProductAdminId = newProductAdminId;
-		this.newProductMemberId = newProductMemberId;
-		this.newProductPrice = newProductPrice;
-		this.newProductSale = newProductSale;
-		this.newProductSaleStart = newProductSaleStart;
-		this.newProductSaleEnd = newProductSaleEnd;
-		this.newProductMin = newProductMin;
-		this.newProductMax = newProductMax;
-		this.newProductProfileImg = newProductProfileImg;
-		this.newProductDetailImgList = newProductDetailImgList;
-		this.newProductOptionList = newProductOptionList;
-		this.newProductDetailComments = newProductDetailComments;
-		this.newProductBrand = newProductBrand;
-		this.newProductBigCategory = newProductBigCategory;
-		this.newProductSmallCategory = newProductSmallCategory;
-		this.newProductUpdateDate = newProductUpdateDate;
-		this.newProductNo = newProductNo;
-	}
-
+	
 	public String getNewProductName() {
 		return newProductName;
 	}
@@ -80,58 +51,67 @@ public class NewProduct implements Serializable{
 		this.newProductComment = newProductComment;
 	}
 
-	
-	
-	public String getNewProductAdminId() {
-		return newProductAdminId;
+	public String getNewProductAdminNo() {
+		return newProductAdminNo;
 	}
 
-
-
-	public void setNewProductAdminId(String newProductAdminId) {
-		this.newProductAdminId = newProductAdminId;
+	public void setNewProductAdminNo(String newProductAdminNo) {
+		this.newProductAdminNo = newProductAdminNo;
 	}
 
-
-
-	public String getNewProductMemberId() {
-		return newProductMemberId;
+	public String getNewProductMemberNo() {
+		return newProductMemberNo;
 	}
 
-	public void setNewProductMemberId(String newProductMemberId) {
-		this.newProductMemberId = newProductMemberId;
+	public void setNewProductMemberNo(String newProductMemberNo) {
+		this.newProductMemberNo = newProductMemberNo;
 	}
 
-
-	public int getNewProductPrice() {
+	public String getNewProductPrice() {
 		return newProductPrice;
 	}
 
-	public void setNewProductPrice(int newProductPrice) {
+	public void setNewProductPrice(String newProductPrice) {
 		this.newProductPrice = newProductPrice;
 	}
 
-	public int getNewProductSale() {
+	public String getNewProductSale() {
 		return newProductSale;
 	}
 
-	public void setNewProductSale(int newProductSale) {
+	public void setNewProductSale(String newProductSale) {
 		this.newProductSale = newProductSale;
 	}
 
-	public int getNewProductMin() {
+	public String getNewProductSaleStart() {
+		return newProductSaleStart;
+	}
+
+	public void setNewProductSaleStart(String newProductSaleStart) {
+		this.newProductSaleStart = newProductSaleStart;
+	}
+
+	public String getNewProductSaleEnd() {
+		return newProductSaleEnd;
+	}
+
+	public void setNewProductSaleEnd(String newProductSaleEnd) {
+		this.newProductSaleEnd = newProductSaleEnd;
+	}
+
+	public String getNewProductMin() {
 		return newProductMin;
 	}
 
-	public void setNewProductMin(int newProductMin) {
+	public void setNewProductMin(String newProductMin) {
 		this.newProductMin = newProductMin;
 	}
 
-	public int getNewProductMax() {
+	public String getNewProductMax() {
 		return newProductMax;
 	}
 
-	public void setNewProductMax(int newProductMax) {
+	public void setNewProductMax(String newProductMax) {
 		this.newProductMax = newProductMax;
 	}
 
@@ -143,20 +123,20 @@ public class NewProduct implements Serializable{
 		this.newProductProfileImg = newProductProfileImg;
 	}
 
-	public List<String> getNewProductDetailImgList() {
+	public ArrayList<String> getNewProductDetailImgList() {
 		return newProductDetailImgList;
 	}
 
-	public void setNewProductDetailImgList(String newProductDetailImgt) {
-		this.newProductDetailImgList.add(newProductDetailImgt);
+	public void setNewProductDetailImgList(String detailImg) {
+		this.newProductDetailImgList.add(detailImg);
 	}
 
-	public List<String> getNewProductOptionList() {
+	public ArrayList<String> getNewProductOptionList() {
 		return newProductOptionList;
 	}
 
-	public void setNewProductOptionList(String newProductOption) {
-		this.newProductOptionList.add(newProductOption);
+	public void setNewProductOptionList(String option) {
+		this.newProductOptionList.add(option);
 	}
 
 	public String getNewProductDetailComments() {
@@ -191,13 +171,13 @@ public class NewProduct implements Serializable{
 		this.newProductSmallCategory = newProductSmallCategory;
 	}
 
-	
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getNewProductUpdateDate() {
+		return newProductUpdateDate;
 	}
 
-	
+	public void setNewProductUpdateDate(String newProductUpdateDate) {
+		this.newProductUpdateDate = newProductUpdateDate;
+	}
 
 	public String getNewProductNo() {
 		return newProductNo;
@@ -207,34 +187,44 @@ public class NewProduct implements Serializable{
 		this.newProductNo = newProductNo;
 	}
 
-	public String getNewProductSaleStart() {
-		return newProductSaleStart;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-	public void setNewProductSaleStart(String newProductSaleStart) {
+
+	public NewProduct(String newProductName, String newProductComment, String newProductAdminNo,
+			String newProductMemberNo, String newProductPrice, String newProductSale, String newProductSaleStart,
+			String newProductSaleEnd, String newProductMin, String newProductMax, String newProductProfileImg,
+			ArrayList<String> newProductDetailImgList, ArrayList<String> newProductOptionList,
+			String newProductDetailComments, String newProductBrand, String newProductBigCategory,
+			String newProductSmallCategory, String newProductUpdateDate, String newProductNo) {
+		super();
+		this.newProductName = newProductName;
+		this.newProductComment = newProductComment;
+		this.newProductAdminNo = newProductAdminNo;
+		this.newProductMemberNo = newProductMemberNo;
+		this.newProductPrice = newProductPrice;
+		this.newProductSale = newProductSale;
 		this.newProductSaleStart = newProductSaleStart;
-	}
-
-	public String getNewProductSaleEnd() {
-		return newProductSaleEnd;
-	}
-
-	public void setNewProductSaleEnd(String newProductSaleEnd) {
 		this.newProductSaleEnd = newProductSaleEnd;
-	}
-
-	public String getNewProductUpdateDate() {
-		return newProductUpdateDate;
-	}
-
-	public void setNewProductUpdateDate(String newProductUpdateDate) {
+		this.newProductMin = newProductMin;
+		this.newProductMax = newProductMax;
+		this.newProductProfileImg = newProductProfileImg;
+		this.newProductDetailImgList = newProductDetailImgList;
+		this.newProductOptionList = newProductOptionList;
+		this.newProductDetailComments = newProductDetailComments;
+		this.newProductBrand = newProductBrand;
+		this.newProductBigCategory = newProductBigCategory;
+		this.newProductSmallCategory = newProductSmallCategory;
 		this.newProductUpdateDate = newProductUpdateDate;
+		this.newProductNo = newProductNo;
 	}
+
 
 	@Override
 	public String toString() {
 		return "NewProduct [newProductName=" + newProductName + ", newProductComment=" + newProductComment
-				+ ", newProductAdminId=" + newProductAdminId + ", newProductMemberId=" + newProductMemberId
+				+ ", newProductAdminNo=" + newProductAdminNo + ", newProductMemberNo=" + newProductMemberNo
 				+ ", newProductPrice=" + newProductPrice + ", newProductSale=" + newProductSale
 				+ ", newProductSaleStart=" + newProductSaleStart + ", newProductSaleEnd=" + newProductSaleEnd
 				+ ", newProductMin=" + newProductMin + ", newProductMax=" + newProductMax + ", newProductProfileImg="
@@ -244,4 +234,6 @@ public class NewProduct implements Serializable{
 				+ newProductBigCategory + ", newProductSmallCategory=" + newProductSmallCategory
 				+ ", newProductUpdateDate=" + newProductUpdateDate + ", newProductNo=" + newProductNo + "]";
 	}
+
+
 }
