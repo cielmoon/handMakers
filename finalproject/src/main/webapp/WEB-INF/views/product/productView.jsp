@@ -72,13 +72,13 @@
           <ul class="list-unstyled productinfo-details-top">
             <li>
             <!-- 가격 -->
-              <h2 class="productpage-price">${product.PRODUCT_PRICE }</h2>
+              <h2 class="productpage-price">가격 : ${product.PRODUCT_PRICE }</h2>
               <input type="hidden" name="productPrice" value="${product.PRODUCT_PRICE }"/>
             </li>
-            
-            <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
-            <li><span class="productinfo-tax">${product.PRODUCT_DISCOUNT }</span></li>
-            
+            <c:if test="${product.PRODUCT_STEP eq 0}">
+	            <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
+	            <li><span class="productinfo-tax">${product.PRODUCT_DISCOUNT }</span></li>
+            </c:if>
           </ul>
           <hr>
           
@@ -90,8 +90,11 @@
               <label>상품 :</label>
               <span> ${productList.PRODUCT_TITLE }</span></li> --%>
             <li>
-              <label>판매수량:</label>
-              <span> ${product.PRODUCT_MAX }</span></li>
+              <label>최소수량:</label>
+              <span> ${product.PRODUCT_MIN }</span></li>
+            <li>
+              <label>최대수량:</label>
+              <span> ${product.PRODUCT_MAX }</span></li>  
           </ul>
           <hr>
              
@@ -344,9 +347,9 @@
           <li class="active">
           	<a href="#tab-description" data-toggle="tab" onclick="fn_description();" id="descript">상세설명</a>
           </li>
-          <li><a href="#tab-review" data-toggle="tab">상품후기</a></li> <!-- onclick="fn_review();" 모두 셀렉트로 가져옴-->
+          <!-- <li><a href="#tab-review" data-toggle="tab">상품후기</a></li> onclick="fn_review();" 모두 셀렉트로 가져옴
           <li><a href="#tab-question" data-toggle="tab" id="product-question">상품문의</a></li>
-          <li><a href="#tab-sallerInfo" data-toggle="tab" id="product-sallerInfo">판매자 정보</a></li>	
+          <li><a href="#tab-sallerInfo" data-toggle="tab" id="product-sallerInfo">판매자 정보</a></li> -->	
         </ul>
         <input type="hidden" name="review" value="R"/>
         <input type="hidden" name="question" value="Q"/>
@@ -363,7 +366,7 @@
             </div>
           
           <!-- 후기 댓글 등록 창 -->
-          <div class="tab-pane" id="tab-review">
+          <%-- <div class="tab-pane" id="tab-review">
          	<div id="reviewComment" class="form-group" style="border:1px solid red">
          	 	<table id='tbl-comment' class='table table-striped table-hover'>
          			<thead>
@@ -419,9 +422,9 @@
          					</c:forEach>
          				</c:if>
          			</tbody>
-         		</table>
+         		</table> --%>
          		<%-- ${reviewPageBar } --%>
-         	</div>
+         	<!-- </div> -->
          	
          	<!-- <div class="form-group">
          		
