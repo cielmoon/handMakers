@@ -45,6 +45,22 @@
 </style>
 <script>
 $(function(){
+	/* 운송장 번호 입력 시 글자 제한 및 자동 하이픈 추가 */
+	$('#input-trackingNo').on('keydown',function(){
+     var key = event.charCode || event.keyCode || 0;
+     $text = $(this); 
+     if (key !== 8 && key !== 9) {
+         if ($text.val().length === 4) {
+             $text.val($text.val() + '-');
+         }
+         if ($text.val().length === 9) {
+             $text.val($text.val() + '-');
+         }
+     }
+     return (key == 8 || key == 9 || key == 46 || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));
+
+ 	});
+ 	
 	//전체 체크박스 선택해제 숨기기
 	$("#uncheck-all-order").css("display", "none");	
 	
@@ -106,19 +122,10 @@ function exportOrders()
  	}
 }
 
-function cancelExport()
-{
-	var orderNo = $("#input-orderNo").val();
-	var result = confirm("출고처리를 취소할까요?");
-	if(result)
-	{
-		location.href="${path}/shop/cancelExportOrder.do?orderNo=" + orderNo + "&productNo=" + '${product.PRODUCT_NO}' + "&brandNo=" + '${brand.brandNo}';
-	}
-}
-
 function orderView(orderNo)
 {
-	$("#button-cancel-export").css("display", "none");
+	$("#input-trackingNo").val("");
+	
 	$.ajax({
 		url:"${path}/shop/orderView.do",
 		data:{"orderNo" : orderNo},
@@ -132,9 +139,12 @@ function orderView(orderNo)
 			$("#input-orderOption").text(data.order.PRODUCT_OPTION);
 			$("#input-orderQty").text(data.order.PRODUCT_OPTION_QTY + "개");
 			$("#input-orderPrice").text(data.order.ORDER_TOTAL_PRICE + "원");
-			if(data.order.ORDER_STATE == '3')
+			$("#input-trackingNo").val(data.order.ORDER_TRACKINGNO);
+			$("#input-orderState").val(data.order.ORDER_STATE);
+			
+			if(data.order.ORDER_STATE == '0')
 			{
-				$("#button-cancel-export").css("display", "inline");
+				$("#input-trackingNo").prop("readonly", false);
 			}
 			
 			$("#input-orderNo").val(data.order.ORDER_NO);
@@ -142,8 +152,29 @@ function orderView(orderNo)
 		}
 	});
 }
+
+function updateTracking()
+{	
+	var orderState = $("#input-orderState").val();
+
+	if(orderState == '0'){ //출고 전 (배송준비중)
+		var trackingNo = $("#input-trackingNo").val();
+		if(trackingNo.trim().length >= 14 && trackingNo.startsWith('0329')){
+			var orderNo = $("#input-orderNo").val();
+			location.href="${path}/shop/updateTracking.do?trackingNo=" + trackingNo + "&orderNo=" + orderNo + "&productNo=" + '${product.PRODUCT_NO}' + "&brandNo=" + '${brand.brandNo}';
+		}
+		else
+		{
+			alert("유효한 메이커스 택배 운송장을 입력해주세요.");
+		}
+	}else
+	{
+		$('#orderViewModal').modal('toggle');
+	}
+}
 </script>
-<section>
+
+	<section>
 	<div class="container">
 		<ul class="breadcrumb">
 			<li><a href="${path }/index.jsp"><i class="fa fa-home"></i></a></li>
@@ -200,6 +231,7 @@ function orderView(orderNo)
 								<th>옵션</th>								
 								<th>수량</th>
 								<th>주문일</th>
+								<th>운송장 번호</th>
 								<th>상태</th>					
 							</tr>
 							<c:if test="${orderList.size()==0 }">
@@ -218,10 +250,11 @@ function orderView(orderNo)
 									<td>${o.PRODUCT_OPTION_QTY }개</td>
 									<td><fmt:formatDate value="${o.ORDER_DATE}" pattern="yyyy-MM-dd HH:mm"/></td>
 									<td><a href="javascript:void(0);" onclick="orderView('${o.ORDER_NO}');">
-										<c:if test="${o.ORDER_STATE == '0'}">배송준비중</c:if>
-										<c:if test="${o.ORDER_STATE == '1'}">출고완료</c:if>
-										<c:if test="${o.ORDER_STATE == '2'}">구매확정</c:if>	
+										<c:if test="${o.ORDER_TRACKINGNO == null}">미등록</c:if>${o.ORDER_TRACKINGNO }
 										</a>
+									</td>
+									<td><c:if test="${o.ORDER_STATE == '0'}">배송준비중</c:if>
+										<c:if test="${o.ORDER_STATE == '1'}">출고완료</c:if>
 									</td>
 								</tr>
 							</c:forEach>
@@ -238,7 +271,7 @@ function orderView(orderNo)
 				</div>
 			</div>
 			
-			<!-- 주문 확인 Modal -->
+			<!-- 주문 상세 Modal -->
 			<div class="modal fade" tabindex="-1" role="dialog" id="orderViewModal">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
@@ -266,7 +299,6 @@ function orderView(orderNo)
 							<span class="form-control" id="input-orderDetailAddr"></span>
 						</div>
 						
-						
 						<div class="col-sm-12 mt-10">
 							<label class="control-label">선택옵션</label> 
 							<span class="form-control" id="input-orderOption"></span>
@@ -279,13 +311,19 @@ function orderView(orderNo)
 							<label class="control-label">합계금액</label> 
 							<span class="form-control" id="input-orderPrice"></span>
 						</div>
+						
+						<div class="col-sm-12 mt-10">
+							<label class="control-label">운송장 번호</label> 
+							<input type="text" class="form-control" id="input-trackingNo" placeholder="운송장 번호를 입력해주세요. &nbsp;(0329-0000-0000)" maxlength="14" readonly/>
+						</div>
+						
 					</div>
 				  </div>
 				  
 			      <div class="modal-footer">
 			      	<input type="hidden" id="input-orderNo"/>
-			      	<button type="button" class="btn btn-primary" onclick="cancelExport();" id="button-cancel-export">출고취소</button>      
-			      	<button type="button" class="btn btn-primary float-right" data-dismiss="modal" aria-label="Close">확인</button>      
+			      	<input type="hidden" id="input-orderState"/>
+			      	<button type="button" class="btn btn-primary" onclick="updateTracking();">확인</button>
 			      </div>
 			    </div>
 			  </div>

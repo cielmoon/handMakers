@@ -1,18 +1,13 @@
 package kh.hand.makers.admin.controller;
 
 
-import java.util.Enumeration;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-
-import java.io.*;
-
-
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.admin.model.service.AdminService;
@@ -248,7 +242,10 @@ public class AdminController {
 		n.setNewProductMemberId("M_NO_2");
 		// 위의 setter들은 강제로 추가해준 값 (나중에 변경해줘야 함)
 		
-		n.setNewProductUpdateDate(n.getNewProductSaleStart());
+		/*SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date startDate = fm.parse(n.getNewProductSaleStart());*/
+		
+		/*n.setNewProductUpdateDate(n.getNewProductSaleStart());*/
 		n.setNewProductAdminId("M_NO_1");
 		
 		/*String root = pageContext.request.contextPath;
