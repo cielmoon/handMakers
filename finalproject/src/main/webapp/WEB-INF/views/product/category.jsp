@@ -93,6 +93,7 @@
 		<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
          <div class="image product-imageblock" style="height:220px;">
+         <h1>${product.productNo}</h1>
          <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
          <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
         <!-- 상품 프로필 사진 product_profile, alt=? product_title, title=product_title -->

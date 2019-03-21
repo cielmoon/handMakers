@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import kh.hand.makers.admin.model.vo.AdminProduct;
-import kh.hand.makers.admin.model.vo.NewProduct;
+import kh.hand.makers.admin.model.vo.Products;
 import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.member.model.vo.Member;
@@ -43,5 +43,8 @@ public interface AdminDao {
 	List<BigCategory> selectBcList();
 	List<SmallCategory> selectScList(String bcNo);
 	
-	int enrollProduct(NewProduct n);
+	int enrollProduct(Products p);
+	int enrollProductDetail(Map<String, String> detail);
+	int enrollProductImg(Map<String, String> img);
+	int enrollProductOption(Map<String, String> option);
 }

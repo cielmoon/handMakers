@@ -20,7 +20,7 @@
 		<result column="member_no" property="memberNo" />
 		<result column="admin_no" property="adminNo" />
 		<result column="product_totalsell" property="productTotalSell" />
-		<result column="product_cursell" property="productCurSell" />		
+		<result column="product_cursell" property="productCurSell" />
 		<result column="product_discount" property="productDiscount" />
 		</resultMap>
 		

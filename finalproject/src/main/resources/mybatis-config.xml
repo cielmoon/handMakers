@@ -24,6 +24,7 @@
       <typeAlias type="kh.hand.makers.product.model.vo.Wish" alias="wish"/>
       <typeAlias type="kh.hand.makers.product.model.vo.ProductImg" alias="productImg"/>
       <typeAlias type="kh.hand.makers.admin.model.vo.NewProduct" alias="newproduct"/>
+      <typeAlias type="kh.hand.makers.admin.model.vo.Products" alias="products"/>
    </typeAliases>
    <typeHandlers>
       <package name="kh.hand.makers.common"/>

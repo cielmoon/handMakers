@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kh.hand.makers.admin.model.vo.AdminProduct;
-import kh.hand.makers.admin.model.vo.NewProduct;
+import kh.hand.makers.admin.model.vo.Products;
 import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.member.model.vo.Member;
@@ -156,9 +156,27 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public int enrollProduct(NewProduct n) {
+	public int enrollProduct(Products p) {
 		// TODO Auto-generated method stub
-		return session.insert("admin.enrollProduct", n);
+		return session.insert("admin.enrollProduct", p);
+	}
+
+	@Override
+	public int enrollProductImg(Map<String, String> img) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.enrollProductImg", img);
+	}
+
+	@Override
+	public int enrollProductOption(Map<String, String> option) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.enrollProductOption", option);
+	}
+
+	@Override
+	public int enrollProductDetail(Map<String, String> detail) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.enrollProductDetail", detail);
 	}
 	
 	

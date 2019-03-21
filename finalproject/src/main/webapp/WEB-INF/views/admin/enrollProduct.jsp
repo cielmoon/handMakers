@@ -316,10 +316,10 @@ $(function(){
 									<div class="col-sm-4">
 										<h4>${member.memberName }</h4>										
 									</div>
-									<label for="adminProductMemberId" class="col-sm-2 control-label">판매자</label>
+<!-- 									<label for="adminProductMemberId" class="col-sm-2 control-label">판매자</label>
 									<div class="col-sm-4">
 										<input type="text" class="form-control" id="newProductMemberId" name="newProductMemberId" placeholder="판매자의 아이디를 적어주세요">
-									</div>
+									</div> -->
 								</div>
 							</fieldset>
 
@@ -376,12 +376,12 @@ $(function(){
 								</div>
 							</fieldset>
 
-
-							<!-- <fieldset>
+ 
+<!-- 							<fieldset>
 								<table class="table table-bordered board" id="product_detailimage_table" name="product_detailimage_table">
 									<tbody class="tbody_">
 										<tr>
-											<th>첨부파일</th>
+											<th>상품사진</th>
 											<td><input type="file" name="newProductDetailImgList"
 												title="파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능"
 												multiple="multiple"></td>
@@ -407,17 +407,16 @@ $(function(){
 										</tr>
 									</tbody>
 								</table>
-							</fieldset>
+							</fieldset> -->
 
 
 
-							상품옵션에서 첨부파일이 아니라 추가옵션??
-							<fieldset>
+<!--  							<fieldset>
 								<table class="table table-bordered board"
 									id="product_option_table" name="product_option_table">
 									<tbody class="tbody_">
 										<tr>
-											<th>첨부파일</th>
+											<th>상세옵션</th>
 											<td><input type="text" name="newProductOptionList" id="newProductOptionList"
 												id="option_upload" placeholder="상품 옵션을 추가해주세요."></td>
 											<th></th>
@@ -442,7 +441,7 @@ $(function(){
 										</tr>
 									</tbody>
 								</table>
-							</fieldset> -->
+							</fieldset>  -->
 
 
 
