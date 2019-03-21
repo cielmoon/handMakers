@@ -7,14 +7,16 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <section>
 	<div class="container">
-		<div class="mainbanner">
+		<div class="mainbanner"><!-- 메인배너엔 뭘넣어야할까? -->
 			<div id="main-banner" class="owl-carousel home-slider">
 				<div class="item">
-					<a href="#"><img src="${path }/resources/image/banners/Main-Banner1.jpg"
+					<%-- <a href="#"><img src="${path }/resources/image/banners/Main-Banner1.jpg"
+						alt="main-banner1" class="img-responsive" /></a> --%>
+						<a href="#"><img src="${path }/resources/image/product/001.png"
 						alt="main-banner1" class="img-responsive" /></a>
 				</div>
 				<div class="item">
-					<a href="#"><img src="${path }/resources/image/banners/Main-Banner2.jpg"
+					<a href="#"><img src="${path }/resources/image/product/admin.jpg"
 						alt="main-banner2" class="img-responsive" /></a>
 				</div>
 				<div class="item">
@@ -25,7 +27,7 @@
 		</div>
 	</div>
 	<div class="container">
-		<h1>오호오호</h1>
+		<h1>진짜싫다 .classpath .ignore의 심오한 세계.git은 다시 살아났나요?</h1><!-- 사이트맵? ex: kh정보교육원 -->
 	</div>
 </section>
 

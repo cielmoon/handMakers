@@ -13,8 +13,6 @@ public class Member implements Serializable {
 	private String memberId;
 	private String memberPwd;
 	private String memberName;
-	private String memberBirth;
-	private String memberAddr;
 	private String memberEmail;
 	private String memberPhone;
 	private String memberProfile;
@@ -26,16 +24,22 @@ public class Member implements Serializable {
 
 	}
 
-	public Member(String memberNo, String memberId, String memberPwd, String memberName, String memberBirth,
-			String memberAddr, String memberEmail, String memberPhone, String memberProfile, String memberState,
-			String memberAuthority, Date memberEnrollDate) {
+	@Override
+	public String toString() {
+		return "Member [memberNo=" + memberNo + ", memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName="
+				+ memberName + ", memberEmail=" + memberEmail + ", memberPhone=" + memberPhone + ", memberProfile="
+				+ memberProfile + ", memberState=" + memberState + ", memberAuthority=" + memberAuthority
+				+ ", memberEnrollDate=" + memberEnrollDate + "]";
+	}
+
+	public Member(String memberNo, String memberId, String memberPwd, String memberName, String memberEmail,
+			String memberPhone, String memberProfile, String memberState, String memberAuthority,
+			Date memberEnrollDate) {
 		super();
 		this.memberNo = memberNo;
 		this.memberId = memberId;
 		this.memberPwd = memberPwd;
 		this.memberName = memberName;
-		this.memberBirth = memberBirth;
-		this.memberAddr = memberAddr;
 		this.memberEmail = memberEmail;
 		this.memberPhone = memberPhone;
 		this.memberProfile = memberProfile;
@@ -74,22 +78,6 @@ public class Member implements Serializable {
 
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
-	}
-
-	public String getMemberBirth() {
-		return memberBirth;
-	}
-
-	public void setMemberBirth(String memberBirth) {
-		this.memberBirth = memberBirth;
-	}
-
-	public String getMemberAddr() {
-		return memberAddr;
-	}
-
-	public void setMemberAddr(String memberAddr) {
-		this.memberAddr = memberAddr;
 	}
 
 	public String getMemberEmail() {
@@ -142,14 +130,6 @@ public class Member implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-	@Override
-	public String toString() {
-		return "Member [memberNo=" + memberNo + ", memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName="
-				+ memberName + ", memberBirth=" + memberBirth + ", memberAddr=" + memberAddr + ", memberEmail="
-				+ memberEmail + ", memberPhone=" + memberPhone + ", memberProfile=" + memberProfile + ", memberState="
-				+ memberState + ", memberAuthority=" + memberAuthority + ", memberEnrollDate=" + memberEnrollDate + "]";
 	}
 
 }

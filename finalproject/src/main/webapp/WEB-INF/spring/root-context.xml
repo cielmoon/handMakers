@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
    
    <!-- Root Context: defines shared resources visible to all other web components -->
    <bean id="realDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -29,4 +33,29 @@
    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
       <constructor-arg index="0" ref="sqlSessionFactoryBean"/>
    </bean>
+   
+   <!-- 트랜잭션 매니저 등록 -->
+   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+   <!-- 트랜 잭션 처리하기 위해서 등록 -->
+   <tx:annotation-driven transaction-manager="transactionManager"/>
+   
+ 	<!-- 공통 기능을 제공할 클래스를 빈으로 등록 -->
+	<!-- <bean id="headerMenuCaller" class="kh.hand.makers.common.aop.HeaderAspect">
+	</bean>
+	
+	<aop:config>
+		<aop:aspect id="headerAspect" ref="headerMenuCaller">
+			<aop:pointcut id="publicMethod" expression="execution(* kh.hand.makers.*.*(..))" />
+			<aop:before pointcut-ref="publicMethod" method="myBefore"/>
+		</aop:aspect>
+	</aop:config>  어렵네 AOP-->
+	<!-- Aspect 설정: Advice를 어떤 Pointcut에 적용할 지 설정 -->
+
+	
+	
+	
+	
 </beans>

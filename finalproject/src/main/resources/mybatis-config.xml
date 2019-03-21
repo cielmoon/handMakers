@@ -7,7 +7,24 @@
    <typeAliases>
 <!--       <typeAlias type="com.kh.spring.demo.model.vo.Dev" alias="dev"/>
       <typeAlias type="com.kh.spring.common.StringArrayTypeHandler" alias="strArray"/>-->
+      <typeAlias type="kh.hand.makers.order.model.vo.Delivery" alias="delivery"/>
+      <typeAlias type="kh.hand.makers.member.model.vo.ManageOrder" alias="managerorder"/>
       <typeAlias type="kh.hand.makers.member.model.vo.Member" alias="member"/>
+      <typeAlias type="kh.hand.makers.shop.model.vo.Brand" alias="brand"/> 
+      <typeAlias type="kh.hand.makers.admin.model.vo.managePreProduct" alias="managepreproduct"/>
+      <typeAlias type="kh.hand.makers.admin.model.vo.ViewMemberList" alias="viewmemberList"/> 
+      <typeAlias type="kh.hand.makers.admin.model.vo.SellerRequest" alias="sellerrequest"/> 
+      <typeAlias type="kh.hand.makers.shop.model.vo.PreProduct" alias="preproduct"/>
+      <typeAlias type="kh.hand.makers.admin.model.vo.AdminProduct" alias="adminproduct"/>
+      <typeAlias type="kh.hand.makers.shop.model.vo.BigCategory" alias="bigcategory"/>
+      <typeAlias type="kh.hand.makers.shop.model.vo.SmallCategory" alias="smallcategory"/>
+      <typeAlias type="kh.hand.makers.product.model.vo.Product" alias="product"/>
+      <typeAlias type="kh.hand.makers.order.model.vo.Order" alias="order"/>
+      <typeAlias type="kh.hand.makers.order.model.vo.Delivery" alias="delivery"/>
+      <typeAlias type="kh.hand.makers.product.model.vo.Wish" alias="wish"/>
+      <typeAlias type="kh.hand.makers.product.model.vo.ProductImg" alias="productImg"/>
+      <typeAlias type="kh.hand.makers.admin.model.vo.NewProduct" alias="newproduct"/>
+      <typeAlias type="kh.hand.makers.admin.model.vo.Products" alias="products"/>
    </typeAliases>
    <typeHandlers>
       <package name="kh.hand.makers.common"/>

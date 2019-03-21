@@ -40,7 +40,7 @@
     <div class="copyright">Copyright(c)2019 handmakers All rights reserved.</div>
   </div>
 </div>
-<script src="javascript/parally.js"></script> 
+<script src="${path }/resources/javascript/parally.js"></script>
 <script>
 $('.parallax').parally({offset: -40});
 </script>

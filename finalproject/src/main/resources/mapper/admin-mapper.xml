@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC ".//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="admin">
+
+	<resultMap type="brand" id="brandMap">
+		<result column="brand_no" property="brandNo" />
+		<result column="brand_title" property="brandTitle" />
+		<result column="brand_license" property="brandLicense" />
+		<result column="brand_type" property="brandType" />
+		<result column="brand_addr" property="brandAddr" />
+		<result column="brand_detailAddr" property="brandDetailAddr" />
+		<result column="brand_enrollDate" property="brandEnrollDate" />
+		<result column="brand_state" property="brandState" />
+		<result column="member_no" property="memberNo" />
+	</resultMap>
+
+	<resultMap type="managepreproduct" id="managePreProductMap">
+		<result column="pre_product_bctitle"
+			property="preProductBcTitle" />
+		<result column="pre_product_sctitle"
+			property="preProductScTitle" />
+		<result column="pre_product_brandtitle"
+			property="preProductBrandTitle" />
+		<result column="pre_product_title" property="preProductTitle" />
+		<result column="pre_product_state" property="preProductState" />
+		<result column="pre_product_date" property="preProductDate" />
+		<result column="pre_product_no" property="preProductNo" />
+	</resultMap>
+
+	<resultMap type="preproduct" id="preProductMap">
+		<result column="pre_product_no" property="preProductNo" />
+		<result column="pre_product_title" property="preProductTitle" />
+		<result column="pre_product_discript"
+			property="preProductDiscript" />
+		<result column="pre_product_state" property="preProductState" />
+		<result column="pre_product_date" property="preProductDate" />
+		<result column="brand_no" property="brandNo" />
+		<result column="bc_no" property="bcNo" />
+		<result column="sc_no" property="scNo" />
+	</resultMap>
+
+	<resultMap type="adminproduct" id="adminProductMap">
+		<result column="product_bc_title" property="productBcTitle" />
+		<result column="product_sc_title" property="productScTitle" />
+		<result column="product_product_title" property="productTitle" />
+		<result column="product_brand_title"
+			property="productBrandTitle" />
+		<result column="product_enrolldate"
+			property="productEnrollDate" />
+		<result column="product_enddate" property="productEndDate" />
+		<result column="product_no" property="productNo" />
+		<result column="product_state" property="productState" />
+	</resultMap>
+
+	<resultMap type="viewmemberList" id="viewMemberListMap">
+		<result column="member_id" property="memberId" />
+		<result column="member_name" property="memberName" />
+		<result column="member_email" property="memberEmail" />
+		<result column="member_phone" property="memberPhone" />
+		<result column="member_enrolldate" property="memberEnrollDate" />
+	</resultMap>
+
+	<resultMap type="sellerrequest" id="sellerRequestMap">
+		<result column="seller_req_no" property="sellerReqNo" />
+		<result column="member_no" property="memberNo" />
+		<result column="seller_req_ref" property="sellerReqRef" />
+		<result column="seller_req_type" property="sellerReqType" />
+		<result column="seller_req_state" property="sellerReqState" />
+		<result column="seller_req_title" property="sellerReqTitle" />
+		<result column="seller_req_content" property="sellerReqContent" />
+		<result column="seller_req_date" property="sellerReqDate" />
+		<result column="seller_req_process" property="sellerReqProcess" />
+		<result column="member_id" property="memberId" />
+	</resultMap>
+
+	<resultMap type="bigcategory" id="bcMap">
+		<result column="bc_no" property="bcNo" />
+		<result column="bc_title" property="bcTitle" />
+	</resultMap>
+	<resultMap type="smallcategory" id="scMap">
+		<result column="sc_no" property="scNo" />
+		<result column="sc_title" property="scTitle" />
+		<result column="bc_no" property="bcNo" />
+	</resultMap>
+
+	<!-- javaType="string" -->
+	<select id="selectBrandList" resultMap="brandMap">
+		select * from brand order
+		by brand_enrolldate desc
+	</select>
+
+	<select id="selectBrandCount" resultType="_int">
+		select count(*) from
+		brand
+	</select>
+
+	<update id="productStateUpdate" parameterType="map">
+		update product set
+		product_state = #{productState} where product_no = #{productNo}
+	</update>
+
+	<update id="brandStateUpdate" parameterType="map">
+		update brand set
+		brand_state = #{brandState} where brand_no = #{brandNo}
+	</update>
+
+	<!-- javaType="string" -->
+	<select id="selectPreProductList"
+		resultMap="managePreProductMap">
+		select big_category.bc_title as "pre_product_bctitle",
+		small_category.sc_title as "pre_product_sctitle", brand.brand_title as
+		"pre_product_brandtitle", pre_product_title as "pre_product_title",
+		pre_product_state as "pre_product_state", pre_product_date as
+		"pre_product_date", pre_product_no as "pre_product_no" from
+		pre_product join brand on (brand.brand_no = pre_product.brand_no) join
+		big_category on (pre_product.bc_no = big_category.bc_no) join
+		small_category on (pre_product.sc_no = small_category.sc_no) order by
+		pre_product_date desc
+	</select>
+
+	<select id="selectPreProductCount" resultType="_int">
+		select count(*)
+		from pre_product order by pre_product_date desc
+	</select>
+
+	<update id="preProductStateUpdate" parameterType="map">
+		update
+		pre_product set pre_product_state = #{preProductState} where
+		pre_product_no = #{preProductNo}
+	</update>
+
+	<select id="selectPreProduct" parameterType="string"
+		resultMap="preProductMap">
+		SELECT * FROM PRE_PRODUCT WHERE PRE_PRODUCT_NO =
+		#{preProductNo}
+	</select>
+
+	<select id="selectProductList" resultMap="adminProductMap">
+		select
+		big_category.bc_title as "product_bc_title",
+		small_category.sc_title as
+		"product_sc_title",
+		product.product_title as "product_product_title",
+		brand.brand_title as "product_brand_title",
+		product.product_enrolldate
+		as "product_enrolldate",
+		product.product_enddate as "product_enddate" ,
+		product.product_no as "product_no" ,
+		product.product_state as
+		"product_state"
+		from product join big_category on
+		(big_category.bc_no =
+		product.bc_no) join
+		brand on (brand.brand_no =
+		product.brand_no) join
+		small_category on
+		(small_category.sc_no =
+		product.sc_no) where
+		product.product_state =
+		'0' order by product_update desc
+	</select>
+
+	<select id="selectReProductList" resultMap="adminProductMap">
+		select
+		big_category.bc_title as "product_bc_title",
+		small_category.sc_title as
+		"product_sc_title",
+		product.product_title as "product_product_title",
+		brand.brand_title as "product_brand_title",
+		product.product_enrolldate
+		as "product_enrolldate",
+		product.product_enddate as "product_enddate" ,
+		product.product_no as "product_no" ,
+		product.product_state as
+		"product_state"
+		from product join big_category on
+		(big_category.bc_no =
+		product.bc_no) join
+		brand on (brand.brand_no =
+		product.brand_no) join
+		small_category on
+		(small_category.sc_no =
+		product.sc_no) where
+		product.product_state !=
+		'0' order by product_update desc
+	</select>
+
+	<select id="selectProductCount" resultType="_int">
+		select count(*) from
+		product where product.product_state = '0'
+	</select>
+
+	<select id="selectReProductCount" resultType="_int">
+		select count(*)
+		from product where product.product_state != '0'
+	</select>
+
+	<select id="selectMemberCount" resultType="_int">
+		select count(*) from
+		member
+	</select>
+
+	<select id="selectMemberList" resultMap="viewMemberListMap"> select member_id,
+		member_name, member_email, member_phone, member_enrolldate
+		from member
+		where member_no != 'M_NO_1' order by member_enrolldate asc
+	</select>
+
+
+	<select id="selectRequestCount" resultType="_int"
+		parameterType="string">
+		select count(*) from SELLER_REQUEST where
+		SELLER_REQ_TYPE = #{reqRef}
+	</select>
+
+	<select id="selectRequestList" parameterType="string"
+		resultMap="sellerRequestMap">
+		select SELLER_REQUEST.SELLER_REQ_NO as "seller_req_no",
+		SELLER_REQUEST.MEMBER_NO as "member_no", SELLER_REQUEST.SELLER_REQ_REF
+		as "seller_req_ref", SELLER_REQUEST.SELLER_REQ_TYPE as
+		"seller_req_type", SELLER_REQUEST.SELLER_REQ_STATE as
+		"seller_req_state", SELLER_REQUEST.SELLER_REQ_TITLE as
+		"seller_req_title", SELLER_REQUEST.SELLER_REQ_CONTENT as
+		"seller_req_content", SELLER_REQUEST.SELLER_REQ_DATE as
+		"seller_req_date", SELLER_REQUEST.SELLER_REQ_PROCESS as
+		"seller_req_process", MEMBER.MEMBER_ID as "member_id" from
+		SELLER_REQUEST join member on (member.member_no =
+		SELLER_REQUEST.member_no)
+		where SELLER_REQ_TYPE = #{reqRefType}
+		order by
+		SELLER_REQ_DATE
+	</select>
+
+	<select id="selectBrandName" parameterType="string"
+		resultType="string">
+		select BRAND_TITLE from brand where BRAND_NO =
+		#{reqRef}
+	</select>
+
+	<select id="selectProductName" parameterType="string"
+		resultType="string">
+		select PRODUCT_TITLE from PRODUCT where PRODUCT_NO =
+		#{reqRef}
+
+	</select>
+
+	<update id="reqProcessUpdate" parameterType="map">
+		update
+		SELLER_REQUEST set
+		SELLER_REQ_PROCESS = #{sellerReqProcess} where
+		SELLER_REQ_NO = #{sellerReqNo}
+	</update>
+	<update id="reqStateUpdate" parameterType="map">
+		update SELLER_REQUEST
+		set
+		SELLER_REQ_STATE = #{sellerReqState} where SELLER_REQ_NO =
+		#{sellerReqNo}
+	</update>
+
+	<select id="selectBcList" resultMap="bcMap">
+		SELECT * FROM BIG_CATEGORY
+	</select>
+	<select id="selectScList" resultMap="scMap"
+		parameterType="string">
+		SELECT * FROM SMALL_CATEGORY WHERE BC_NO = #{bcNo}
+	</select>
+
+	<insert id="enrollProduct" parameterType="products">
+		INSERT INTO PRODUCT
+		VALUES('P_NO_'||SEQ_PRODUCT_NO.NEXTVAL,
+		#{productTitle},
+		TO_DATE(#{productEnrollDate}), TO_DATE(#{productUpdate}), #{productProfile}, #{productComment}, default, default,
+		#{productPrice}, #{productMax}, #{productMin},
+		TO_DATE(#{productEndDate}), #{scNo},
+		#{bcNo}, #{brandNo}, #{memberNo}, #{adminNo}, default, default,
+		#{productDiscount})
+		<selectKey keyProperty="productNo" resultType="string"
+			order="AFTER">
+			select 'P_NO_'||SEQ_PRODUCT_NO.currval from dual
+		</selectKey>
+	</insert>
+
+	<insert id="enrollProductImg" parameterType="map">
+		INSERT INTO PRODUCT_IMG
+		VALUES('P_I_NO_'||SEQ_PRODUCT_IMG_NO.NEXTVAL,#{productImg}, #{productNo})
+
+	</insert>
+
+	<insert id="enrollProductOption" parameterType="map">
+		INSERT INTO PRODUCT_OPTION
+		VALUES('P_O_NO_'||SEQ_PRODUCT_OPTION_NO.NEXTVAL, #{productOption}, #{productNo} )
+
+	</insert>
+	
+	<insert id="enrollProductDetail" parameterType="map">
+		INSERT INTO PRODUCT_DETAIL VALUES(#{productNo},#{productDetail})
+	</insert>
+</mapper>

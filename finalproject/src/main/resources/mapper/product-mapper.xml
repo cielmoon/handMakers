@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="product">
+	<resultMap type="product" id="productMap">
+		<result column="product_no" property="productNo" />
+		<result column="product_title" property="productTitle" />
+		<result column="product_enrolldate" property="productEnrollDate" />
+		<result column="product_update" property="productUpdate" />
+		<result column="product_profile" property="productProfile" />
+		<result column="product_comment" property="productComment" />
+		<result column="product_state" property="productState" />
+		<result column="product_step" property="productStep" />
+		<result column="product_price" property="productPrice" />
+		<result column="product_max" property="productMax" />
+		<result column="product_min" property="productMin" />
+		<result column="product_enddate" property="productEndDate" />
+		<result column="sc_no" property="scNo" />
+		<result column="bc_no" property="bcNo" />
+		<result column="brand_no" property="brandNo" />
+		<result column="member_no" property="memberNo" />
+		<result column="admin_no" property="adminNo" />
+		<result column="product_totalsell" property="productTotalSell" />
+		<result column="product_cursell" property="productCurSell" />
+		<result column="product_discount" property="productDiscount" />
+		</resultMap>
+		
+	<resultMap type="ProductImg" id="productImgMap">
+		<result column="product_img_no" property="productImgNo"/>
+		<result column="product_subimg" property="productSubImg"/>
+		<result column="product_no" property="productNo"/>
+	</resultMap>	
+
+	<!-- JOIN PRODUCT_DETAIL USING(PRODUCT_NO) -->
+	<select id="selectProductList" resultMap="productMap">
+		SELECT * FROM PRODUCT
+		<where>
+		<if test="category != null and sc != null">
+		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3) 
+		</if>
+		<if test="category != null and sc == null">
+		 BC_NO = #{category} AND not PRODUCT_STATE in (2,3)
+		</if>
+		<if test="sCategory != null">
+		SC_NO = #{sCategory} AND not PRODUCT_STATE in (2,3)
+		</if>
+		<if test="productStep != null">
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3)
+		</if>
+		</where>
+	</select>
+
+	<!-- <select id="selectProductCount" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT where BC_NO = #{category}
+	</select> -->
+	<select id="selectProductCount" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT
+		<where>
+		<if test="category != null and sc != null">
+		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3)
+		</if>
+		<if test="category != null and sc == null">
+		BC_NO = #{category} AND not PRODUCT_STATE in (2,3)
+		</if>
+		<if test="productStep != null">
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3)
+		</if>
+		</where>
+	</select>
+	
+	<select id="selectProduct" parameterType="string" resultType="map">
+		SELECT *
+		FROM PRODUCT P
+		JOIN BRAND B ON(B.BRAND_NO=P.BRAND_NO)
+		WHERE P.PRODUCT_NO = #{productNo}
+	</select>
+	
+	<select id="selectCategory" parameterType="string" resultType="map">
+		select bc_title, sc_title, product_title, p.bc_no, p.sc_no 
+		from product p
+		join big_category b on(b.bc_no=p.bc_no)
+		join small_category s on(s.sc_no=p.sc_no)
+		where product_no =  #{productNo}
+	</select>
+	
+	<resultMap type="Wish" id="wishMap">
+		<result column="product_no" property="productNo"/>
+		<result column="member_no" property="memberNo"/>
+	</resultMap>
+	
+	<select id="selectWish" parameterType="wish" resultType="_int">
+		SELECT COUNT(*) FROM WISH WHERE PRODUCT_NO=#{productNo} AND MEMBER_NO=#{memberNo}
+	</select>
+	
+	<insert id="insertWish" parameterType="wish">
+		INSERT INTO WISH VALUES('W_NO_'||SEQ_WISH_NO.NEXTVAL,#{productNo}, #{memberNo})
+	</insert>
+	
+	<select id="selectBcTitle" parameterType="string" resultType="string">
+		SELECT BC_TITLE FROM BIG_CATEGORY WHERE BC_NO = #{bcNo} 
+	</select>
+	
+	<select id="selectProductImg" parameterType="string" resultMap="productImgMap">
+		SELECT * FROM PRODUCT_IMG WHERE PRODUCT_NO=#{productNo}
+	</select>
+	
+	<select id="selectProductDetail" parameterType="string" resultType="map">
+		SELECT * FROM PRODUCT_DETAIL WHERE PRODUCT_NO=#{productNo}
+	</select>
+	
+	<delete id="deleteWish" parameterType="wish">
+		DELETE WISH WHERE PRODUCT_NO=#{productNo} AND MEMBER_NO=#{memberNo}
+	</delete>
+	
+	<select id="selectCommentCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType}
+	</select>
+	
+	<select id="selectComment" parameterType="map" resultType="map">
+		SELECT MEMBER_NO, MEMBER_NAME, PRODUCT_NO, MEMBER_STATE, COMMENT_CONTENT, COMMENT_LEVEL, COMMENT_REF, COMMENT_NO
+		FROM PRODUCT_COMMENT JOIN MEMBER USING(MEMBER_NO) WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} 
+		ORDER BY COMMENT_DATE DESC
+	</select>
+	
+	<select id="selectProductOption" parameterType="string" resultType="map">
+		SELECT * FROM PRODUCT_OPTION WHERE PRODUCT_NO=#{productNo}
+	</select>
+	
+	<select id="selectMenuList" parameterType="string" resultType="map">
+	SELECT * FROM BIG_CATEGORY
+	</select>
+	
+	<select id="sCategoryList" parameterType="string" resultType="map">
+	SELECT * FROM SMALL_CATEGORY WHERE BC_NO = #{bCategory}
+	</select>
+	
+	<select id="selectOrderList" parameterType="map" resultType="map">
+		SELECT PO.ORDER_NO, PO.PRODUCT_NO, P.PRODUCT_TITLE, PO.ORDER_PAYSTATE
+		FROM PRODUCT_ORDER PO
+		JOIN PRODUCT P ON(P.PRODUCT_NO=PO.PRODUCT_NO) 
+		WHERE PO.PRODUCT_NO=#{productNo} AND PO.MEMBER_NO=#{memberNo}
+	</select>
+	
+	<select id="selectBrand" parameterType="map" resultType="map">
+		SELECT * FROM PRODUCT JOIN BRAND USING(BRAND_NO) WHERE PRODUCT_NO = #{productNo}
+	</select>
+		
+</mapper>

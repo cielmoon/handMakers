@@ -13,7 +13,7 @@
 			<!-- <layout class="org.apache.log4j.xml.XMLLayout"> -->
 			<!-- <param name="ConversionPattern" value="%-5p: %c - %m%n" /> -->
 			<param name="ConversionPattern"
-				value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p: %l - %m%n" />
+				value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p: %l %n- %m%n" />
 		</layout>
 	</appender>
 
@@ -48,7 +48,8 @@
 
 	<!-- Application Loggers -->
 	<logger name="kh.hand.makers">
-		<level value="info" />
+		<!-- <level value="info" /> -->
+		<level value="debug" />
 	</logger>
 
 	<!-- 3rdparty Loggers -->
