@@ -46,6 +46,12 @@ public class OrderServiceImpl implements OrderService {
 		
 		return dao.updateProductSell(insertMap);
 	}
+
+	@Override
+	public Map<String, String> selectProductOption(String productOptionNo) {
+		
+		return dao.selectProductOption(productOptionNo);
+	}
 	
 	
 

@@ -26,6 +26,7 @@ public class Order implements Serializable{
 	private String productOption; // 상품 옵션
 	private int productOptionQty; // 상품수량
 	private String orderPayStatus;//주문상태
+	private String orderTrackingNo;
 	
 	public Order() {
 	}
@@ -33,7 +34,7 @@ public class Order implements Serializable{
 	public Order(String orderNo, int orderTotalPrice, String orderPayType, String orderPayState, String productNo,
 			String memberNo, String deliveryPostCode, String deliveryAddr, String deliveryDetailAddr, String orderState,
 			Date orderDate, String imp_uid, String merchant_uid, String productOption, int productOptionQty,
-			String orderPayStatus) {
+			String orderPayStatus, String orderTrackingNo) {
 		super();
 		this.orderNo = orderNo;
 		this.orderTotalPrice = orderTotalPrice;
@@ -51,6 +52,7 @@ public class Order implements Serializable{
 		this.productOption = productOption;
 		this.productOptionQty = productOptionQty;
 		this.orderPayStatus = orderPayStatus;
+		this.orderTrackingNo = orderTrackingNo;
 	}
 
 	public String getOrderNo() {
@@ -179,6 +181,14 @@ public class Order implements Serializable{
 
 	public void setOrderPayStatus(String orderPayStatus) {
 		this.orderPayStatus = orderPayStatus;
+	}
+
+	public String getOrderTrackingNo() {
+		return orderTrackingNo;
+	}
+
+	public void setOrderTrackingNo(String orderTrackingNo) {
+		this.orderTrackingNo = orderTrackingNo;
 	}
 
 	@Override

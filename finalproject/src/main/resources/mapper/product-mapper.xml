@@ -68,7 +68,7 @@
 	</select>
 	
 	<select id="selectProduct" parameterType="string" resultType="map">
-		SELECT P.BC_NO, P.PRODUCT_TITLE, B.BRAND_TITLE, P.PRODUCT_MAX, P.PRODUCT_MIN, P.PRODUCT_PRICE, P.PRODUCT_COMMENT, P.PRODUCT_PROFILE, B.BRAND_NO, P.PRODUCT_NO, P.MEMBER_NO
+		SELECT *
 		FROM PRODUCT P
 		JOIN BRAND B ON(B.BRAND_NO=P.BRAND_NO)
 		WHERE P.PRODUCT_NO = #{productNo}
@@ -138,6 +138,10 @@
 		FROM PRODUCT_ORDER PO
 		JOIN PRODUCT P ON(P.PRODUCT_NO=PO.PRODUCT_NO) 
 		WHERE PO.PRODUCT_NO=#{productNo} AND PO.MEMBER_NO=#{memberNo}
+	</select>
+	
+	<select id="selectBrand" parameterType="map" resultType="map">
+		SELECT * FROM PRODUCT JOIN BRAND USING(BRAND_NO) WHERE PRODUCT_NO = #{productNo}
 	</select>
 		
 </mapper>

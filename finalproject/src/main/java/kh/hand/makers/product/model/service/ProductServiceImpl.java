@@ -132,6 +132,12 @@ public class ProductServiceImpl implements ProductService {
 		
 		return dao.selectOrderList(map);
 	}
+
+	@Override
+	public Map<String, String> selectBrand(String productNo) {
+		
+		return dao.selectBrand(productNo);
+	}
 	
 	
 	

@@ -47,6 +47,12 @@ public class OrderDaoImpl implements OrderDao {
 		
 		return session.update("order.updateProductSell",insertMap);
 	}
+
+	@Override
+	public Map<String, String> selectProductOption(String productOptionNo) {
+		
+		return session.selectOne("order.selectProductOption",productOptionNo);
+	}
 	
 	
 
