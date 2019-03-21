@@ -110,7 +110,7 @@
               <div class="product-desc">${product.productComment }</div>
                 <!-- product_comment -->
               <%-- <p class="price product-price"><span class="price-old"></span> ${product.productPrice } <span class="price-tax"></span> </p> --%><!-- 원본 -->
-              <p class="price product-price"><span class="price-old">${product.productPrice }</span> ${product.productPrice + product.productDiscount } <span class="price-tax"></span> </p>
+              <%-- <p class="price product-price"><span class="price-old">${product.productPrice }</span> ${product.productPrice + product.productDiscount } <span class="price-tax"></span> </p> --%>
               <p class="price product-price"><span class="price-old"><fmt:formatNumber value="${product.productPrice * product.productDiscount }" type="currency" currencySymbol="￦"/>원</span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원(수정x) <span class="price-tax"></span> </p>
               <!-- product_price -->
               <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
