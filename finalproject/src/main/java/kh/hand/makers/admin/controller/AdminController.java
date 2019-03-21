@@ -1,7 +1,18 @@
 package kh.hand.makers.admin.controller;
+
+
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+
+import java.io.*;
+
+
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,10 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.admin.model.service.AdminService;
 import kh.hand.makers.admin.model.vo.AdminProduct;
+import kh.hand.makers.admin.model.vo.NewProduct;
 import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.common.PageFactory;
@@ -214,9 +227,70 @@ public class AdminController {
 		return "admin/enrollProduct";
 	}
 
+	// 상품 등록에서 등록 날짜는 처음 등록할때만 추가하고 이후에는 업데이트로 감
 	@RequestMapping("/admin/enrollProductEnd.do")
-	public String enrollProductEnd() {
-		return "admin/enrollProductEnd";
+	public ModelAndView enrollProductEnd(Member m, NewProduct n, HttpServletRequest request) {
+		logger.debug("enrollProductEnd");
+		
+		ModelAndView mv = new ModelAndView();
+		
+		n.setNewProductDetailImgList("김연아.jpg");
+		n.setNewProductDetailImgList("김연아.jpg");
+		n.setNewProductDetailImgList("김연아.jpg");
+		
+		n.setNewProductOptionList("옵션1");
+		n.setNewProductOptionList("옵션2");
+		n.setNewProductOptionList("옵션3");
+		
+		n.setNewProductBigCategory("B_C_NO_1");
+		n.setNewProductSmallCategory("S_C_NO_2");
+		n.setNewProductBrand("B_NO_21");
+		n.setNewProductMemberId("M_NO_2");
+		// 위의 setter들은 강제로 추가해준 값 (나중에 변경해줘야 함)
+		
+		n.setNewProductUpdateDate(n.getNewProductSaleStart());
+		n.setNewProductAdminId("M_NO_1");
+		
+		/*String root = pageContext.request.contextPath;
+		String saveDir = root + "assets"+"\\upload" + File.separator + "boardImage";
+
+		// 파일에 대한 크기제한 설정
+		int maxSize = 1024 * 1024 * 10;// 10Mb
+
+		MultipartRequest mr = new MultipartRequest(request, saveDir, maxSize, "UTF-8", new DefaultFileRenamePolicy());
+
+		
+		Enumeration e = mr.getFileNames();
+		while(e.hasMoreElements())
+		{
+			n.setNewProductDetailImgList(mr.getFilesystemName((String)e.nextElement()));
+			
+		}*/
+		
+		System.out.println("n : !@13" + n);
+		System.out.println("날짜 : " + n.getNewProductSale());
+		
+		String msg = "";
+		String loc = "";
+	
+		int result1 = service.enrollProduct(n);
+
+		
+		if (result1 > 0 ) {
+			msg = "상품등룍 완료";
+			System.out.println(n.getNewProductNo());
+			
+			loc = "/admin/enrollProduct.do";
+		} else {
+			msg = "상품등룍 실패";
+			loc = "/admin/enrollProductEnd.do";
+		}
+	
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		
+		return mv;
 	}
 
 	@RequestMapping("/admin/manageRequest.do")
@@ -302,6 +376,5 @@ public class AdminController {
 	public void setsReqState(String sReqState) {
 		this.sReqState = sReqState;
 	}
-
 
 }

@@ -72,15 +72,15 @@
 		<result column="seller_req_process" property="sellerReqProcess" />
 		<result column="member_id" property="memberId" />
 	</resultMap>
-	
+
 	<resultMap type="bigcategory" id="bcMap">
-		<result column="bc_no" property="bcNo"/>
-   		<result column="bc_title" property="bcTitle"/>
+		<result column="bc_no" property="bcNo" />
+		<result column="bc_title" property="bcTitle" />
 	</resultMap>
 	<resultMap type="smallcategory" id="scMap">
-		<result column="sc_no" property="scNo"/>
-   		<result column="sc_title" property="scTitle"/>
-   		<result column="bc_no" property="bcNo"/>
+		<result column="sc_no" property="scNo" />
+		<result column="sc_title" property="scTitle" />
+		<result column="bc_no" property="bcNo" />
 	</resultMap>
 
 	<!-- javaType="string" -->
@@ -95,9 +95,10 @@
 	</select>
 
 	<update id="productStateUpdate" parameterType="map">
-		update product set product_state = #{productState} where product_no = #{productNo}
+		update product set
+		product_state = #{productState} where product_no = #{productNo}
 	</update>
-	
+
 	<update id="brandStateUpdate" parameterType="map">
 		update brand set
 		brand_state = #{brandState} where brand_no = #{brandNo}
@@ -145,15 +146,20 @@
 		as "product_enrolldate",
 		product.product_enddate as "product_enddate" ,
 		product.product_no as "product_no" ,
-		product.product_state as "product_state" 
+		product.product_state as
+		"product_state"
 		from product join big_category on
-		(big_category.bc_no = product.bc_no) join
+		(big_category.bc_no =
+		product.bc_no) join
 		brand on (brand.brand_no =
-		product.brand_no) join small_category on
+		product.brand_no) join
+		small_category on
 		(small_category.sc_no =
-		product.sc_no) where product.product_state = '0' order by product_update desc
+		product.sc_no) where
+		product.product_state =
+		'0' order by product_update desc
 	</select>
-	
+
 	<select id="selectReProductList" resultMap="adminProductMap">
 		select
 		big_category.bc_title as "product_bc_title",
@@ -165,31 +171,39 @@
 		as "product_enrolldate",
 		product.product_enddate as "product_enddate" ,
 		product.product_no as "product_no" ,
-		product.product_state as "product_state" 
+		product.product_state as
+		"product_state"
 		from product join big_category on
-		(big_category.bc_no = product.bc_no) join
+		(big_category.bc_no =
+		product.bc_no) join
 		brand on (brand.brand_no =
-		product.brand_no) join small_category on
+		product.brand_no) join
+		small_category on
 		(small_category.sc_no =
-		product.sc_no) where product.product_state != '0' order by product_update desc
+		product.sc_no) where
+		product.product_state !=
+		'0' order by product_update desc
 	</select>
-	
+
 	<select id="selectProductCount" resultType="_int">
-		select count(*) from product where product.product_state = '0'
+		select count(*) from
+		product where product.product_state = '0'
 	</select>
-	
+
 	<select id="selectReProductCount" resultType="_int">
-		select count(*) from product where product.product_state != '0'
+		select count(*)
+		from product where product.product_state != '0'
 	</select>
-	
+
 	<select id="selectMemberCount" resultType="_int">
 		select count(*) from
 		member
 	</select>
 
-	<select id="selectMemberList" resultMap="viewMemberListMap">
-		select member_id, member_name, member_email, member_phone, member_enrolldate
-		from member where member_no != 'M_NO_1' order by member_enrolldate asc
+	<select id="selectMemberList" resultMap="viewMemberListMap"> select member_id,
+		member_name, member_email, member_phone, member_enrolldate
+		from member
+		where member_no != 'M_NO_1' order by member_enrolldate asc
 	</select>
 
 
@@ -213,7 +227,8 @@
 		SELLER_REQUEST join member on (member.member_no =
 		SELLER_REQUEST.member_no)
 		where SELLER_REQ_TYPE = #{reqRefType}
-		order by SELLER_REQ_DATE
+		order by
+		SELLER_REQ_DATE
 	</select>
 
 	<select id="selectBrandName" parameterType="string"
@@ -230,19 +245,34 @@
 	</select>
 
 	<update id="reqProcessUpdate" parameterType="map">
-		update SELLER_REQUEST set
-		SELLER_REQ_PROCESS = #{sellerReqProcess} where SELLER_REQ_NO = #{sellerReqNo}
+		update
+		SELLER_REQUEST set
+		SELLER_REQ_PROCESS = #{sellerReqProcess} where
+		SELLER_REQ_NO = #{sellerReqNo}
 	</update>
 	<update id="reqStateUpdate" parameterType="map">
-		update SELLER_REQUEST set
-		SELLER_REQ_STATE = #{sellerReqState} where SELLER_REQ_NO = #{sellerReqNo}
+		update SELLER_REQUEST
+		set
+		SELLER_REQ_STATE = #{sellerReqState} where SELLER_REQ_NO =
+		#{sellerReqNo}
 	</update>
-	
+
 	<select id="selectBcList" resultMap="bcMap">
 		SELECT * FROM BIG_CATEGORY
 	</select>
-	<select id="selectScList" resultMap="scMap" parameterType="string">
+	<select id="selectScList" resultMap="scMap"
+		parameterType="string">
 		SELECT * FROM SMALL_CATEGORY WHERE BC_NO = #{bcNo}
 	</select>
-	
+
+	<insert id="enrollProduct" parameterType="newproduct">
+		INSERT INTO PRODUCT
+		VALUES('P_NO_'||SEQ_PRODUCT_NO.NEXTVAL, #{newProductName}, 
+		default, default, #{newProductProfileImg}, #{newProductComment}, 0, default, 5, 100, 10,
+		"19/04/20",#{newProductSmallCategory}, #{newProductBigCategory}, #{newProductBrand}, #{newProductMemberId}, #{newProductAdminId}, default, default,
+		100, 3)
+		<selectKey keyProperty="newProductNo" resultType="string" order="AFTER">
+  			select 'P_NO_'||SEQ_PRODUCT_NO.currval from dual
+  		</selectKey>
+	</insert>
 </mapper>

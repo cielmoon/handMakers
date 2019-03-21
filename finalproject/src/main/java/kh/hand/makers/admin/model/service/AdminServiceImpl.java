@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kh.hand.makers.admin.model.dao.AdminDao;
 import kh.hand.makers.admin.model.vo.AdminProduct;
+import kh.hand.makers.admin.model.vo.NewProduct;
 import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.member.model.vo.Member;
@@ -151,4 +152,9 @@ public class AdminServiceImpl implements AdminService {
 		return dao.selectScList(bcNo);
 	}
 
+	@Override
+	public int enrollProduct(NewProduct n) {
+		// TODO Auto-generated method stub
+		return dao.enrollProduct(n);
+	}
 }

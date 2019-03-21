@@ -27,4 +27,5 @@ public interface ProductService {
 	List<Map<String,String>> selectProductOption(String productNo);
 	List<Map<String, String>> getMenuList();
 	List<Map<String, String>> sCategoryList(String bCategory);
+	List<Map<String,String>> selectOrderList(Map<String,String> map);
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -39,20 +40,42 @@ public class ProductController {
 	//상품 상세화면 보여주는 서블릿
 	// 3월 14일 상세상품 보여주기 위함
 	@RequestMapping("/product/productView.do")
-	public ModelAndView productView(String productNo, HttpSession session) {
+	public ModelAndView productView(String productNo, HttpServletRequest request) {
 		
 		ModelAndView mv = new ModelAndView();
 		
 		int cPage = 1;
 		
-		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
+		List<Map<String,String>> orderList = null;
+		
+		Map<String,String> map = new HashMap();
+		
+		if(request.getSession().getAttribute("member")!=null) {
+			
+		String memberNo = ((Member)request.getSession().getAttribute("member")).getMemberNo();
+		
+		map.put("commentType", "R");
+		map.put("productNo", productNo);
+		map.put("memberNo", memberNo);
+		
+		orderList = service.selectOrderList(map);
 		
 		Wish wish = new Wish();
 		
 		wish.setMemberNo(memberNo);
 		wish.setProductNo(productNo);
 		
+			int count = service.selectWishCount(wish);
+			
+			if(count==0) {
+				mv.addObject("wishCount",0);
+			}else {
+				mv.addObject("wishCount",1);
+			}
+		
+		}
 		logger.debug(productNo);
+		logger.debug(orderList+"");
 		
 		Map<String,String> product = service.selectProduct(productNo);
 		List<SmallCategory> scList = shopService.selectScList(product.get("BC_NO"));
@@ -61,15 +84,6 @@ public class ProductController {
 		Map<String,String> productDetail = service.selectProductDetail(productNo);
 		List<Map<String,String>> productOption = service.selectProductOption(productNo);
 		
-		
-		int count = service.selectWishCount(wish);
-		
-		if(count==0) {
-			mv.addObject("wishCount",0);
-		}else {
-			mv.addObject("wishCount",1);
-		}
-		
 		mv.addObject("cPage", cPage);
 		mv.addObject("productOption",productOption);
 		mv.addObject("productDetail",productDetail);
@@ -77,6 +91,7 @@ public class ProductController {
 		mv.addObject("bcTitle", bcTitle);
 		mv.addObject("scList",scList);
 		mv.addObject("product",product);
+		mv.addObject("orderList",orderList);
 		mv.setViewName("/product/productView");
 
 		return mv;
@@ -224,22 +239,17 @@ public class ProductController {
 	@RequestMapping("/product/selectComment.do")
 	@ResponseBody
 	public ModelAndView selectComment(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
-			String productNo, String commentType, HttpSession session) {
+			String productNo, String commentType, HttpServletRequest request) {
 		
 		int numPerPage = 3;
 		
 		ModelAndView mv = new ModelAndView();
 		
-		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
-		
-		System.out.println("커멘트 작업장이야 "+productNo+" " + commentType);
-		System.out.println("C페이지~~"+cPage);
 		Map<String,String> map = new HashMap();
 		
 		map.put("commentType", commentType);
 		map.put("productNo", productNo);
-		map.put("memberNo", memberNo);
-		
+
 		int commentCount = service.selectCommentCount(commentType);
 		
 		List<Map<String,String>> commentList = service.selectComment(map,cPage, numPerPage);
@@ -249,8 +259,11 @@ public class ProductController {
 		mv.addObject("cPage",cPage);
 		mv.addObject("pageBar",PageFactoryComment.getPageBar(commentCount, cPage, numPerPage, "/makers/product/selectComment.do?productNo="+productNo+"&commentType="+commentType, productNo, commentType));
 		mv.addObject("commentList",commentList);
+		
 		mv.setViewName("jsonView");
 		
 		return mv;
 	}
+	
+	
 }

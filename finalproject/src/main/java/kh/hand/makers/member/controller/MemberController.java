@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ import kh.hand.makers.member.model.service.MemberService;
 import kh.hand.makers.member.model.vo.ManageOrder;
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.vo.Delivery;
+import kh.hand.makers.product.model.service.ProductService;
 import kh.hand.makers.product.model.vo.Wish;
 import kh.hand.makers.shop.model.service.ShopService;
 import kh.hand.makers.shop.model.vo.Brand;
@@ -39,6 +41,8 @@ public class MemberController {
 	BCryptPasswordEncoder pwEncoder;
 	@Autowired
 	ShopService shopService;
+	@Autowired
+	ProductService productService; 
 
 	@RequestMapping("/member/checkId.do")
 	/*
@@ -168,8 +172,9 @@ public class MemberController {
 		
 		int wishContentCount = service.selectWishCount(memberNo);
 		
-		List<Wish> wishList = service.selectWishList(memberNo, cPage, numPerPage);
+		List<Map<String,String>> wishList = service.selectWishList(memberNo, cPage, numPerPage);
 		
+		mv.addObject("wishContentCount",wishContentCount);
 		mv.addObject("pageBar",PageFactory.getPageBar(wishContentCount, cPage, numPerPage, "/member/wishList.do"));
 		mv.addObject("wishList",wishList);
 		mv.setViewName("/member/wishList");
@@ -380,6 +385,37 @@ public class MemberController {
 		return "member/searchPassword";
 	}
 	
+
+	@RequestMapping("/member/deleteWish.do")
+	public ModelAndView deleteWish(String productNo, HttpServletRequest request) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		Wish wish = new Wish();
+		
+		String memberNo = ((Member)request.getSession().getAttribute("member")).getMemberNo();
+		
+		wish.setMemberNo(memberNo);
+		wish.setProductNo(productNo);
+		
+		int result = productService.deleteWish(wish);
+		
+		String msg = "";
+		String loc = "/member/wishList.do";
+		
+		if(result>0) {
+			msg = "찜 목록에서 해당 상품 삭제 하였습니다.";
+		}else {
+			msg = "찜 목록에서 해당 상품 삭제 실패 하였습니다.";
+		}
+		
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.setViewName("/common/msg");
+		
+		return mv;
+	}
+
 	@RequestMapping("/member/deleteLocation.do")
 	public ModelAndView deleteLocation(String deliveryNo) {
 		ModelAndView mv = new ModelAndView();
@@ -396,6 +432,7 @@ public class MemberController {
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.setViewName("common/msg");
+
 
 		return mv;
 	}
