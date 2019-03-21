@@ -338,11 +338,11 @@ $(function(){
 								</div>
 								<!-- 등록날짜 ~ 마감날짜 -->
 								<div class="form-group required">
-									<label for="adminProductId" class="col-sm-2 control-label">등록날짜</label>
+									<label for="adminProductSaleStart" class="col-sm-2 control-label">등록날짜</label>
 									<div class="col-sm-4">
 										<input type="text" class="form-control" id="newProductSaleStart" name="newProductSaleStart" placeholder="등록날짜" onclick="checkDate();">
 									</div>								
-									<label for="adminProductMemberId" class="col-sm-2 control-label">마감날짜</label>
+									<label for="adminProductSaleEnd" class="col-sm-2 control-label">마감날짜</label>
 									<div class="col-sm-4">
 										<input type="text" class="form-control" id="newProductSaleEnd" name="newProductSaleEnd" placeholder="마감날짜" onclick="checkDate();">
 									</div>
@@ -377,7 +377,7 @@ $(function(){
 							</fieldset>
 
  
-							<fieldset>
+<!-- 							<fieldset>
 								<table class="table table-bordered board" id="product_detailimage_table" name="product_detailimage_table">
 									<tbody class="tbody_">
 										<tr>
@@ -407,10 +407,11 @@ $(function(){
 										</tr>
 									</tbody>
 								</table>
-							</fieldset>
+							</fieldset> -->
 
 
- 							<fieldset>
+
+<!--  							<fieldset>
 								<table class="table table-bordered board"
 									id="product_option_table" name="product_option_table">
 									<tbody class="tbody_">
@@ -440,7 +441,7 @@ $(function(){
 										</tr>
 									</tbody>
 								</table>
-							</fieldset> 
+							</fieldset>  -->
 
 
 

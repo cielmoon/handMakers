@@ -150,11 +150,6 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public int cancelExportOrder(String orderNo) {
-		return dao.cancelExportOrder(orderNo);
-	}
-
-	@Override
 	public int selectSalesRecordsCount(String productNo) {
 		return dao.selectSalesRecordsCount(productNo);
 	}
@@ -172,6 +167,11 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public int updateSellerRequestRef(Map<String, String> map) {
 		return dao.updateSellerRequestRef(map);
+	}
+
+	@Override
+	public int updateTracking(Map<String, String> map) {
+		return dao.updateTracking(map);
 	}
 	
 	

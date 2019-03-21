@@ -62,8 +62,6 @@ public interface ShopDao {
 
 	Map<String, String> selectOrder(String orderNo);
 
-	int cancelExportOrder(String orderNo);
-
 	int selectSalesRecordsCount(String productNo);
 
 	List<Map<String, String>> selectSalesRecordsList(String productNo, int cPage, int numPerPage);
@@ -71,6 +69,8 @@ public interface ShopDao {
 	Map<String, String> selectRecord(String recordNo);
 
 	int updateSellerRequestRef(Map<String, String> map);
+
+	int updateTracking(Map<String, String> map);
 
 	
 }

@@ -1,6 +1,7 @@
 package kh.hand.makers.admin.model.vo;
 
 import java.io.Serializable;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,48 @@ public class NewProduct implements Serializable{
 	public NewProduct() {
 	}
 
-	
+	public NewProduct(String newProductName, String newProductComment, String newProductAdminNo,
+			String newProductMemberNo, String newProductPrice, String newProductSale, String newProductSaleStart,
+			String newProductSaleEnd, String newProductMin, String newProductMax, String newProductProfileImg,
+			ArrayList<String> newProductDetailImgList, ArrayList<String> newProductOptionList,
+			String newProductDetailComments, String newProductBrand, String newProductBigCategory,
+			String newProductSmallCategory, String newProductUpdateDate, String newProductNo) {
+		super();
+		this.newProductName = newProductName;
+		this.newProductComment = newProductComment;
+		this.newProductAdminNo = newProductAdminNo;
+		this.newProductMemberNo = newProductMemberNo;
+		this.newProductPrice = newProductPrice;
+		this.newProductSale = newProductSale;
+		this.newProductSaleStart = newProductSaleStart;
+		this.newProductSaleEnd = newProductSaleEnd;
+		this.newProductMin = newProductMin;
+		this.newProductMax = newProductMax;
+		this.newProductProfileImg = newProductProfileImg;
+		this.newProductDetailImgList = newProductDetailImgList;
+		this.newProductOptionList = newProductOptionList;
+		this.newProductDetailComments = newProductDetailComments;
+		this.newProductBrand = newProductBrand;
+		this.newProductBigCategory = newProductBigCategory;
+		this.newProductSmallCategory = newProductSmallCategory;
+		this.newProductUpdateDate = newProductUpdateDate;
+		this.newProductNo = newProductNo;
+	}
+
+	@Override
+	public String toString() {
+		return "NewProduct [newProductName=" + newProductName + ", newProductComment=" + newProductComment
+				+ ", newProductAdminNo=" + newProductAdminNo + ", newProductMemberNo=" + newProductMemberNo
+				+ ", newProductPrice=" + newProductPrice + ", newProductSale=" + newProductSale
+				+ ", newProductSaleStart=" + newProductSaleStart + ", newProductSaleEnd=" + newProductSaleEnd
+				+ ", newProductMin=" + newProductMin + ", newProductMax=" + newProductMax + ", newProductProfileImg="
+				+ newProductProfileImg + ", newProductDetailImgList=" + newProductDetailImgList
+				+ ", newProductOptionList=" + newProductOptionList + ", newProductDetailComments="
+				+ newProductDetailComments + ", newProductBrand=" + newProductBrand + ", newProductBigCategory="
+				+ newProductBigCategory + ", newProductSmallCategory=" + newProductSmallCategory
+				+ ", newProductUpdateDate=" + newProductUpdateDate + ", newProductNo=" + newProductNo + "]";
+	}
+
 	public String getNewProductName() {
 		return newProductName;
 	}
@@ -127,8 +169,8 @@ public class NewProduct implements Serializable{
 		return newProductDetailImgList;
 	}
 
-	public void setNewProductDetailImgList(String detailImg) {
-		this.newProductDetailImgList.add(detailImg);
+	public void setNewProductDetailImgList(String detail) {
+		this.newProductDetailImgList.add(detail);
 	}
 
 	public ArrayList<String> getNewProductOptionList() {
@@ -190,50 +232,5 @@ public class NewProduct implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-
-	public NewProduct(String newProductName, String newProductComment, String newProductAdminNo,
-			String newProductMemberNo, String newProductPrice, String newProductSale, String newProductSaleStart,
-			String newProductSaleEnd, String newProductMin, String newProductMax, String newProductProfileImg,
-			ArrayList<String> newProductDetailImgList, ArrayList<String> newProductOptionList,
-			String newProductDetailComments, String newProductBrand, String newProductBigCategory,
-			String newProductSmallCategory, String newProductUpdateDate, String newProductNo) {
-		super();
-		this.newProductName = newProductName;
-		this.newProductComment = newProductComment;
-		this.newProductAdminNo = newProductAdminNo;
-		this.newProductMemberNo = newProductMemberNo;
-		this.newProductPrice = newProductPrice;
-		this.newProductSale = newProductSale;
-		this.newProductSaleStart = newProductSaleStart;
-		this.newProductSaleEnd = newProductSaleEnd;
-		this.newProductMin = newProductMin;
-		this.newProductMax = newProductMax;
-		this.newProductProfileImg = newProductProfileImg;
-		this.newProductDetailImgList = newProductDetailImgList;
-		this.newProductOptionList = newProductOptionList;
-		this.newProductDetailComments = newProductDetailComments;
-		this.newProductBrand = newProductBrand;
-		this.newProductBigCategory = newProductBigCategory;
-		this.newProductSmallCategory = newProductSmallCategory;
-		this.newProductUpdateDate = newProductUpdateDate;
-		this.newProductNo = newProductNo;
-	}
-
-
-	@Override
-	public String toString() {
-		return "NewProduct [newProductName=" + newProductName + ", newProductComment=" + newProductComment
-				+ ", newProductAdminNo=" + newProductAdminNo + ", newProductMemberNo=" + newProductMemberNo
-				+ ", newProductPrice=" + newProductPrice + ", newProductSale=" + newProductSale
-				+ ", newProductSaleStart=" + newProductSaleStart + ", newProductSaleEnd=" + newProductSaleEnd
-				+ ", newProductMin=" + newProductMin + ", newProductMax=" + newProductMax + ", newProductProfileImg="
-				+ newProductProfileImg + ", newProductDetailImgList=" + newProductDetailImgList
-				+ ", newProductOptionList=" + newProductOptionList + ", newProductDetailComments="
-				+ newProductDetailComments + ", newProductBrand=" + newProductBrand + ", newProductBigCategory="
-				+ newProductBigCategory + ", newProductSmallCategory=" + newProductSmallCategory
-				+ ", newProductUpdateDate=" + newProductUpdateDate + ", newProductNo=" + newProductNo + "]";
-	}
-
 
 }

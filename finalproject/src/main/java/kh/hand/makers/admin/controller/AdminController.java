@@ -1,6 +1,9 @@
 package kh.hand.makers.admin.controller;
 
 
+
+import java.sql.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -245,8 +248,10 @@ public class AdminController {
 
 		// 위의 setter들은 강제로 추가해준 값 (나중에 변경해줘야 함)
 		
+
 		n.setNewProductUpdateDate(n.getNewProductSaleStart());
 		n.setNewProductAdminNo("M_NO_1");
+
 		
 		/*String root = pageContext.request.contextPath;
 		String saveDir = root + "assets"+"\\upload" + File.separator + "boardImage";

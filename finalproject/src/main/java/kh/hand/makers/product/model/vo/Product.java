@@ -30,6 +30,7 @@ public class Product implements Serializable {
 	private int productCurSell; // 현재 누적 판매량
 	private int productTotalSell;
 	private double productDiscount; // 상품 할인율
+
 	
 	public Product() {
 

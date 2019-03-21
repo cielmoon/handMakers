@@ -8,7 +8,7 @@
   		</selectKey>
   	</insert> -->
   	<insert id="insertOrder" parameterType="order">
-  		INSERT INTO PRODUCT_ORDER VALUES('P_ORDER_NO'||SEQ_ORDER_NO.NEXTVAL, #{orderPayStatus}, DEFAULT, #{orderTotalPrice}, #{orderPayType}, #{deliveryPostCode}, #{deliveryAddr}, #{deliveryDetailAddr}, DEFAULT, #{imp_uid}, #{merchant_uid}, #{productOption}, #{productOptionQty}, #{productNo}, #{memberNo})
+  		INSERT INTO PRODUCT_ORDER VALUES('P_ORDER_NO'||SEQ_ORDER_NO.NEXTVAL, #{orderPayStatus}, DEFAULT, #{orderTotalPrice}, #{orderPayType}, #{deliveryPostCode}, #{deliveryAddr}, #{deliveryDetailAddr}, DEFAULT, #{imp_uid}, #{merchant_uid}, #{productOption}, #{productOptionQty}, #{productNo}, #{memberNo},null)
   	</insert>
   	
   	<select id="selectDeliveryList" parameterType="string" resultType="map">
