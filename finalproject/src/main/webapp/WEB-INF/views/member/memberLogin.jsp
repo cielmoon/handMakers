@@ -24,9 +24,9 @@
 								</div>
 								<div class="form-group">							
 									<input type="password" class="form-control" id="memberPwd" placeholder="패스워드" value="" name="memberPwd"> 
-									<a href="#">아이디 찾기</a>	
+					<!-- 				<a href="#">아이디 찾기</a>	
 									<a> / </a>								
-									<a href="#">비밀번호 찾기</a>
+									<a href="#">비밀번호 찾기</a> -->
 								</div>
 								<input type="submit" class="btn btn-primary" value="로그인">
 							</form>

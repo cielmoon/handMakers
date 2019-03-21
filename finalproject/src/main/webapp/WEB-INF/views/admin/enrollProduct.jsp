@@ -28,7 +28,7 @@
 
 <script>
 	$(document).ready(function() {
-		$("#newProductProfileImg").on("change", enrollMainImg);
+		$("#newProductProfile").on("change", enrollMainImg);
 	
 		// 상품 등록날짜, 마감날짜 
 		// 날짜에서 추가할 내용 : 마감날짜는 등록날짜 이후만 클릭되도록 설정해줘야 함
@@ -161,9 +161,9 @@ $(function(){
     	if(filecount < 4){
     		
     		var addTr=$("<tr></tr>");
-    		var addTh=$("<th>첨부파일</th>");
+    		var addTh=$("<th>상품사진</th>");
    	 		var addTd=$("<td></td>");
-   	 		var addInput =$("<input type='file' name='newProductDetailImgList"+filecount+"' title='파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능' multiple='multiple'>");
+   	 		var addInput =$("<input type='file' name='newProductDetailImg' title='파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능'>");
     
     		var addTd2=$("<td></td>");
     		var deleteBtn = $('<th><button type="button" class="btn btn-primary1 pull-left" id="deleteA" name="deleteA">삭제</button></th>');
@@ -222,9 +222,9 @@ $(function(){
     	if(optioncount < 4){
     		
     		var addTr=$("<tr></tr>");
-    		var addTh=$("<th>첨부파일</th>");
+    		var addTh=$("<th>상세옵션</th>");
    	 		var addTd=$("<td></td>");
-   	 		var addInput =$("<input type='text' name='newProductOptionList" + optioncount + "' id='newProductOptionList' placeholder='상품 옵션을 추가해주세요.''>");
+   	 		var addInput =$("<input type='text' name='newProductOption' id='newProductOptionList' placeholder='상품 옵션을 추가해주세요.''>");
     		
    	 		
     		var addTd2=$("<td></td>");
@@ -289,7 +289,7 @@ $(function(){
 			<div class="col-sm-9" id="content">
 				<div class="row">
 					<div class="col-sm-12">
-						<form name="productEnrollEndFrm" action="${path}/admin/enrollProductEnd.do" method="post" onsubmit="return validate();">
+						<form name="productEnrollEndFrm" action="${path}/admin/enrollProductEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
 						
 							<fieldset id="productField0">
 							</fieldset>
@@ -364,7 +364,7 @@ $(function(){
 								<div class="form-group required">
 									<label for="adminProductProfile" class="col-sm-2 control-label">메인사진</label>
 									<div class="col-sm-2">
-									<input type="file" name="newProductProfileImg" id="newProductProfileImg" >
+									<input type="file" name="newProductProfile" id="newProductProfile" >
 									</div>	
 								</div>
 								<div class="col-sm-3">
@@ -376,13 +376,13 @@ $(function(){
 								</div>
 							</fieldset>
 
- 
-<!-- 							<fieldset>
+  
+							<fieldset>
 								<table class="table table-bordered board" id="product_detailimage_table" name="product_detailimage_table">
 									<tbody class="tbody_">
 										<tr>
 											<th>상품사진</th>
-											<td><input type="file" name="newProductDetailImgList"
+											<td><input type="file" name="newProductDetailImg"
 												title="파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능"
 												multiple="multiple"></td>
 											<th></th>
@@ -390,14 +390,7 @@ $(function(){
 
 										<tr>
 											<td colspan="2">
-												<div class="btn_confirm">
-													<button type="submit"
-														class="btn btn-primary1 pull-right boardsignup"
-														id="boardSignUp" name="boardSignUp"
-														onclick="return validate();">글등록</button>
-													<button type="button" class="btn btn-primary1 pull-right"
-														id="boardCancel" name="boardCancel"
-														onclick="fn_boardList()">취소</button>
+												<div class="btn_confirm">													
 													<button type="button" class="btn btn-primary1 pull-left"
 														id="fileAdd" name="fileAdd">사진추가</button>
 												</div>
@@ -407,31 +400,24 @@ $(function(){
 										</tr>
 									</tbody>
 								</table>
-							</fieldset> -->
+							</fieldset>
 
 
 
-<!--  							<fieldset>
+  							<fieldset>
 								<table class="table table-bordered board"
 									id="product_option_table" name="product_option_table">
 									<tbody class="tbody_">
 										<tr>
 											<th>상세옵션</th>
-											<td><input type="text" name="newProductOptionList" id="newProductOptionList"
+											<td><input type="text" name="newProductOption" id="newProductOption"
 												id="option_upload" placeholder="상품 옵션을 추가해주세요."></td>
 											<th></th>
 										</tr>
 
 										<tr>
 											<td colspan="2">
-												<div class="btn_confirm">
-													<button type="submit"
-														class="btn btn-primary1 pull-right boardsignup"
-														id="boardSignUp" name="boardSignUp"
-														onclick="return validate();">글등록</button>
-													<button type="button" class="btn btn-primary1 pull-right"
-														id="boardCancel" name="boardCancel"
-														onclick="fn_boardList()">취소</button>
+												<div class="btn_confirm">							
 													<button type="button" class="btn btn-primary1 pull-left"
 														id="optionAdd" name="optionAdd">옵션추가</button>
 												</div>
@@ -441,7 +427,7 @@ $(function(){
 										</tr>
 									</tbody>
 								</table>
-							</fieldset>  -->
+							</fieldset>
 
 
 
@@ -451,7 +437,7 @@ $(function(){
 									<tbody class="tbody_">										
 										<tr><td>상품 상세내용 작성</td></tr>
 										<tr>
-											<td><textarea id="newProductDetailComments" name="newProductDetailComments"></textarea></td>
+											<td><textarea class="summernote" name="newProductDetailComments"></textarea></td>
 										</tr>
 									</tbody>
 								</table>
