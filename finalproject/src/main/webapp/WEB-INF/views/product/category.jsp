@@ -131,7 +131,7 @@
               <!-- totalProductPoint 별이 다섯개  이부분은 좀더 고민-->
             </div>
             <div class="button-group"><!-- 리스트형식으로 볼때의 추가 버튼들 -->
-              <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
+              <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List" value="${product.productNo}"><i class="fa fa-heart-o"></i></button>
               <button type="button" class="addtocart-btn">Add to Cart</button>
             </div>
           </div>
