@@ -124,8 +124,8 @@
               <!-- 상품상세페이지 링크 , title=product_title , value = product_title -->
               <div class="product-desc">${product.productComment }</div>
                 <!-- product_comment -->
-              <%-- <p class="price product-price"><span class="price-old"></span> ${product.productPrice } <span class="price-tax"></span> </p> --%><!-- 원본 -->
-              <p class="price product-price"><span class="price-old">${product.productPrice }</span> ${product.productPrice + product.productDiscount } <span class="price-tax"></span> </p>
+              <p class="price product-price"><span class="price-old"></span> ${product.productPrice } <span class="price-tax"></span> </p><!-- 원본 -->
+              <%-- <p class="price product-price"><span class="price-old">${product.productPrice }</span>${product.productPrice + product.productDiscount } <span class="price-tax"></span> </p> --%>
               <!-- product_price -->
               <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
               <!-- totalProductPoint 별이 다섯개  이부분은 좀더 고민-->
