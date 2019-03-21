@@ -88,7 +88,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<Wish> selectWishList(String memberNo, int cPage, int numPerPage) {
+	public List<Map<String,String>> selectWishList(String memberNo, int cPage, int numPerPage) {
 		
 		return dao.selectWishList(memberNo, cPage, numPerPage);
 	}

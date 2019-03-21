@@ -26,4 +26,8 @@
   	<select id="selectDelivery" parameterType="delivery" resultMap="deliveryMap">
   		SELECT * FROM DELIVERY WHERE DELIVERY_NO=#{deliveryNo} AND MEMBER_NO=#{memberNo}
   	</select>
+  	
+  	<update id="updateProductSell" parameterType="map">
+  		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL+#{productOptionQty} WHERE PRODUCT_NO = #{productNo}
+  	</update>
 </mapper>

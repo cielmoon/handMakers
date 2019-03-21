@@ -30,7 +30,7 @@ public class Product implements Serializable {
 	private int productCurSell; // 현재 누적 판매량
 	private int productTotalSell;
 	private int productQty; // 상품 주문 수량
-	private double productDiscount; // 상품 할인율
+	private double productDiscount; // 상품 할인율 1~100 들어옴 % 보면될듯
 	
 	public Product() {
 

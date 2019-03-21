@@ -11,7 +11,7 @@
 <div class="preloader loader" style="display: block; background:#f2f2f2;"> <img src="image/loader.gif"  alt="#"/></div>
 <div class="container">
   <ul class="breadcrumb">
-    <li><a href="index.html"><i class="fa fa-home"></i></a></li>
+    <li><a href="/makers"><i class="fa fa-home"></i></a></li>
 	<li><a href="${path }/product/category.do?category="${product.BC_NO }>${bcTitle }</a></li>
     <li><a href="#">${product.PRODUCT_TITLE }</a></li>
   </ul>
@@ -142,6 +142,7 @@
               
               <!-- 찜 버튼 ajax 처리 wish list 저장 -->
               <!-- data-toggle="tooltip"은 호버 했'을 경우 title의 내용이 말 풍선으로 나옴 -->
+              <c:if test="${member!=null }">
               <c:if test="${wishCount eq 1}">
                 <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" onclick="fn_wishCk();">
                 	<i class="fa fa-heart"></i>
@@ -152,9 +153,24 @@
                 	<i class="fa fa-heart-o"></i>
                	</button>
                </c:if>
+               </c:if>
+               
+               <c:if test="${member==null}">
+                <button type="submit" id="wishBtnNologin" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" onclick="fn_noLogin();">
+                	<i class="fa fa-heart-o"></i>
+               	</button>
+               </c:if>
+               
                 <!-- 결재 버튼 -->
+                <c:if test="${member==null }">
+                <input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결재하기" onclick="fn_noLogin();"/>
+                <!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
+                </c:if>
+                
+                <c:if test="${member!=null }">
                 <input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결재하기"/>
                 <!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
+                </c:if>
               </div>
             </div>
           </div>
@@ -261,11 +277,21 @@
       				console.log(data);
       				var a = data.pageBar;
       				var b = data.commentList;
-      				console.log(a);
-      				console.log(b);
-      				var table = $("<table id='tbl-board' class='table table-striped table-hover'>");
+      				/* var c = data.orderList; */
+      				/* console.log(a);
+      				console.log(b); */
+      				/* console.log(c); */
+      				/* var table = $("<table id='tbl-board' class='table table-striped table-hover'>"); */
+      				/* var select = $("#orderList"); */
+      				/* var orderStr="";
+      				for(var j = 0; j<c.length; j++){
+      					console.log(c[j].ORDER_NO);
+      					$('#orderList').append("<option value='"+c[j].ORDER_NO+"'>"+c[j].PRODUCT_TITLE+"</option>");
+      				}
+      				$('#div-review').append(select); */
+      				
       				for(var i = 0; i<b.length; i++){
-      					console.log(b[i]);
+      					/* console.log(b[i]); */
       					var tr = $('<tr>');
       					for(var key in b[i]){
       						console.log("으잉??"+key);
@@ -323,6 +349,16 @@
       			}
       		});
       	};  */
+      	
+      	function fn_noLogin(){
+      		location.href='${path}/member/memberLogin.do';
+      	}
+      	
+      	function fn_noLoginComment(){
+      		alert('로그인 후 이용가능한 서비스 입니다.');
+      		location.href='${path}/member/memberLogin.do';
+      	}
+
       </script>
       <!-- 상품 설명//댓글 창 List-->
       <div class="productinfo-tab">
@@ -335,8 +371,7 @@
           <li><a href="#tab-sallerInfo" data-toggle="tab" id="product-sallerInfo">판매자 정보</a></li>	
         </ul>
         <input type="hidden" name="review" value="R"/>
-        <input type="hidden" name="review" value="Q"/>
-        
+        <input type="hidden" name="question" value="Q"/>
         <!-- 상품 설명 탭 -->
         <div class="tab-content">
           <div class="tab-pane active" id="tab-description">
@@ -457,30 +492,65 @@
          	 		</li>
          	 	</ul> -->
          	
-            <form class="form-horizontal">
-              <div id="review"></div>
+            <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
+              <div  id="div-review">
+              	<c:if test="${orderList!=null }">
+              	<%-- <c:if test="${orderList.ORDER_PAYSTATE eq '3'}"> --%>
+	              <select class="form-control" id="orderList">
+	              <c:forEach items="${orderList }" var="order">
+	              	<option value="${order.ORDER_NO }">${order.PRODUCT_TITLE }</option>
+	              </c:forEach>
+	              </select>
+	            <%-- </c:if> --%>
+              	</c:if>
+              </div>
               <h2>상품 후기</h2>
               <div class="form-group required">
                 <div class="col-sm-12">
                   <label class="control-label" for="input-name">후기 작성자ID</label>
                   <c:if test="${member != null}">
                   	<input type="text" name="name" id="input-name" class="form-control" value="${member.memberName }" readonly/>
+                  	<input type="hidden" name="memberNo" id="input-memberNo" value="${member.memberNo }"/>
+                  	<input type="hidden" name="reviewType" value="R"/>
                   </c:if>
                 </div>
               </div>
               <div class="form-group required">
                 <div class="col-sm-12">
                   <label class="control-label" for="input-review">상품 후기</label>
-                  <textarea name="text" rows="5" id="input-review" class="form-control"></textarea>
+                  <textarea name="text" rows="5" id="input-review" name="reviewContent" class="form-control"></textarea>
                 </div>
+              </div>
+              
+              <div class="form-group required">
+                <div class="col-sm-12">
+                  <label class="control-label">만족도</label>
+                  &nbsp;&nbsp;&nbsp; Bad&nbsp;
+                  <input type="radio" name="rating" value="0" />
+                  &nbsp;
+                  <input type="radio" name="rating" value="30" />
+                  &nbsp;
+                  <input type="radio" name="rating" value="60" />
+                  &nbsp;
+                  <input type="radio" name="rating" value="80" />
+                  &nbsp;
+                  <input type="radio" name="rating" value="100" />
+                  &nbsp;Good</div>
               </div>
               
               <div class="buttons clearfix">
                 <div class="pull-right">
-                <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
-                  <%-- <c:if test="${product_order.order_state eq '2'}"> --%>
-                  	<input type="button" id="button-review" data-loading-text="Loading..." class="btn btn-primary" value="후기등록"/>
-                  <%-- </c:if> --%>
+                  
+                  <c:if test="${member==null }">
+                  	<button type="button" id="button-review" class="btn btn-primary" onclick="fn_noLoginComment();">후기등록</button>
+                  </c:if>
+                  
+                  <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
+                  <c:if test="${member!=null }">
+	                  <%-- <c:if test="${product_order.order_state eq '3'}"> --%>
+	                  	<input type="submit" id="button-review" class="btn btn-primary" value="후기등록"/>
+	                  <%-- </c:if> --%>	
+                  </c:if>
                 </div>
               </div>
             </form>
@@ -508,12 +578,13 @@
                 <div class="col-sm-12">
                   <label class="control-label" for="input-review">상품 문의내용</label>
                   <textarea name="text" rows="5" id="input-review" class="form-control"></textarea>
+                  <input type="hidden" name="questionType" value="Q"/>
                 </div>
               </div>
               
               <div class="buttons clearfix">
                 <div class="pull-right">
-                  <button type="button" id="button-review" data-loading-text="Loading..." class="btn btn-primary">문의등록</button>
+                  <button type="button" id="button-question" class="btn btn-primary">문의등록</button>
                 </div>
               </div>
             </form>
