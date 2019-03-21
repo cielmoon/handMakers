@@ -1,10 +1,10 @@
 package kh.hand.makers.admin.model.service;
 
 import java.util.List;
-
 import java.util.Map;
 
 import kh.hand.makers.admin.model.vo.AdminProduct;
+import kh.hand.makers.admin.model.vo.NewProduct;
 import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.member.model.vo.Member;
@@ -45,4 +45,6 @@ public interface AdminService {
 	
 	List<BigCategory> selectBcList();
 	List<SmallCategory> selectScList(String bcNo);
+	
+	int enrollProduct(NewProduct n);
 }

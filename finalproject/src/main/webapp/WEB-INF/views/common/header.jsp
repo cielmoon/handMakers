@@ -53,9 +53,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
 <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script> -->
+
 <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+
 <script type="text/javascript" src="${path }/resources/datepicker/bootstrap-datepicker.js"></script>
-<link rel="stylesheet" type="text/css" href="${path }/resources/datepicker/bootstrap-datepicker.css"/>
+<link rel="stylesheet" type="text/css" href="${path }/resources/datepicker/bootstrap-datepicker.css"/> --%>
 <!--  -->
 
 </head>

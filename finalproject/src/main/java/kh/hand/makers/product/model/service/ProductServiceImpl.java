@@ -126,6 +126,12 @@ public class ProductServiceImpl implements ProductService {
 		// TODO Auto-generated method stub
 		return dao.sCategoryList(bCategory);
 	}
+
+	@Override
+	public List<Map<String, String>> selectOrderList(Map<String, String> map) {
+		
+		return dao.selectOrderList(map);
+	}
 	
 	
 	
