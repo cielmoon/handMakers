@@ -184,7 +184,8 @@ function requestPay() {
 										</div>
 										<div class="form-group">
 											<label class="control-label">옵션</label>
-											<input type="text" class="form-control" id="input-productOptionSubject" name="productOption" value="${orderList.productOption }" readonly>
+											<input type="text" class="form-control" id="input-productOptionSubject" name="productOption" value="${productOption.PRODUCT_OPTION }" readonly>
+											<input type="hidden" value="${productOption.PRODUCT_OPTION_NO }"/>
 										</div>
 										<div class="form-group">
 											<label class="control-label">수량</label>
