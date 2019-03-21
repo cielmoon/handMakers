@@ -67,17 +67,17 @@
             <div class="addthis_toolbox addthis_default_style"><a class="addthis_button_facebook_like" ></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_pinterest_pinit"></a> <a class="addthis_counter addthis_pill_style"></a></div>
          <!-- AddThis Button END -->
           
-          
+          <hr>
           
           <ul class="list-unstyled productinfo-details-top">
             <li>
             <!-- 가격 -->
-              <h2 class="productpage-price">가격 : ${product.PRODUCT_PRICE }</h2>
+              <h2 class="productpage-price">가격 : <fmt:formatNumber value="${product.PRODUCT_PRICE }" type="currency" currencySymbol="￦"/>원</h2>
               <input type="hidden" name="productPrice" value="${product.PRODUCT_PRICE }"/>
             </li>
             <c:if test="${product.PRODUCT_STEP eq 0}">
 	            <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
-	            <li><span class="productinfo-tax">${product.PRODUCT_DISCOUNT }</span></li>
+	            <li><span class="productinfo-tax"><fmt:formatNumber value="${product.PRODUCT_DISCOUNT }" type="currency" currencySymbol="￦"/></span></li>
             </c:if>
           </ul>
           <hr>
@@ -424,7 +424,7 @@
          			</tbody>
          		</table> --%>
          		<%-- ${reviewPageBar } --%>
-         	<!-- </div> -->
+         	</div>
          	
          	<!-- <div class="form-group">
          		
@@ -475,16 +475,16 @@
          	 		</li>
          	 	</ul> -->
          	
-            <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
+            <%-- <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
               <div  id="div-review">
               	<c:if test="${orderList!=null }">
-              	<%-- <c:if test="${orderList.ORDER_PAYSTATE eq '3'}"> --%>
+              	<c:if test="${orderList.ORDER_PAYSTATE eq '3'}">
 	              <select class="form-control" id="orderList">
 	              <c:forEach items="${orderList }" var="order">
 	              	<option value="${order.ORDER_NO }">${order.PRODUCT_TITLE }</option>
 	              </c:forEach>
 	              </select>
-	            <%-- </c:if> --%>
+	            </c:if>
               	</c:if>
               </div>
               <h2>상품 후기</h2>
@@ -530,9 +530,9 @@
                   
                   <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
                   <c:if test="${member!=null }">
-	                  <%-- <c:if test="${product_order.order_state eq '3'}"> --%>
+	                  <c:if test="${product_order.order_state eq '3'}">
 	                  	<input type="submit" id="button-review" class="btn btn-primary" value="후기등록"/>
-	                  <%-- </c:if> --%>	
+	                  </c:if>	
                   </c:if>
                 </div>
               </div>
@@ -562,7 +562,7 @@
          						<td>
          							<strong>문의</strong><input type="text" class="form-control" id="level1-reviewWriter" value="${questionComment['MEMBER_NAME'] }" readonly/>
          							
-         							<!-- $(#level1).append('<td><strong>후기</strong><input type="text" class="form-control" id="level1-reviewWriter" value="'+data[i].MEMBER_NAME+'" readonly/></td>') -->
+         							$(#level1).append('<td><strong>후기</strong><input type="text" class="form-control" id="level1-reviewWriter" value="'+data[i].MEMBER_NAME+'" readonly/></td>')
          							
          						</td>
          						<td>
@@ -597,7 +597,7 @@
          				</c:if>
          			</tbody>
          		</table>
-         		<%-- ${questionPageBar } --%>
+         		${questionPageBar }
          	</div>
          	
             <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
@@ -629,9 +629,9 @@
                   
                   <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
                   <c:if test="${member!=null }">
-	                  <%-- <c:if test="${product_order.order_state eq '3'}"> --%>
+	                  <c:if test="${product_order.order_state eq '3'}">
 	                  	<input type="submit" id="button-review" class="btn btn-primary" value="문의등록"/>
-	                  <%-- </c:if> --%>	
+	                  </c:if>	
                   </c:if>
                 </div>
               </div>
@@ -665,8 +665,8 @@
         
               </div>
             </div>
+            </div> --%>
             <!-- cpt_container_end -->
-            </div>
             
         </div>
       </div>
