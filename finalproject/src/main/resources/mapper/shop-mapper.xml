@@ -82,7 +82,7 @@
 	<select id="selectOrderList" resultType="map" parameterType="string">
    		SELECT P.ORDER_NO, P.ORDER_STATE, P.ORDER_TOTAL_PRICE,
 		P.DELIVERY_POSTCODE, P.DELIVERY_ADDR, P.DELIVERY_DETAILADDR, 
-		P.ORDER_DATE, P.PRODUCT_OPTION_QTY, P.PRODUCT_NO, P.MEMBER_NO, 
+		P.ORDER_DATE, P.PRODUCT_OPTION_QTY, P.PRODUCT_NO, P.MEMBER_NO, P.ORDER_TRACKINGNO,
 		M.MEMBER_ID, O.PRODUCT_OPTION 
 		FROM PRODUCT_ORDER P JOIN MEMBER M ON(P.MEMBER_NO=M.MEMBER_NO)
 		JOIN PRODUCT_OPTION O ON(P.PRODUCT_NO=O.PRODUCT_NO)
@@ -123,13 +123,11 @@
 	</update>
 	<select id="selectOrder" parameterType="string" resultType="map">
 		SELECT P.ORDER_NO, P.ORDER_STATE, P.ORDER_TOTAL_PRICE,
-		P.DELIVERY_POSTCODE, P.DELIVERY_ADDR, P.DELIVERY_DETAILADDR, 
+		P.DELIVERY_POSTCODE, P.DELIVERY_ADDR, P.DELIVERY_DETAILADDR, P.ORDER_TRACKINGNO,
 		P.ORDER_DATE, P.PRODUCT_OPTION_QTY, P.PRODUCT_NO, P.MEMBER_NO, O.PRODUCT_OPTION
 		FROM PRODUCT_ORDER P JOIN PRODUCT_OPTION O ON(P.PRODUCT_NO=O.PRODUCT_NO) WHERE ORDER_NO = #{orderNo} AND P.PRODUCT_OPTION = O.PRODUCT_OPTION_NO
 	</select>
-	<update id="cancelExportOrder" parameterType="string">
-		UPDATE PRODUCT_ORDER SET ORDER_STATE = '0' WHERE ORDER_NO = #{orderNo}
-	</update>
+	
 	<select id="selectSalesRecordsCount" resultType="_int" parameterType="string">
 		SELECT COUNT(*) FROM SALES_RECORDS WHERE PRODUCT_NO = #{productNo}
 	</select>
@@ -144,5 +142,8 @@
 	</update>
 	<update id="updateProductSellerReq" parameterType="map">
 		UPDATE PRODUCT SET PRODUCT_STATE = #{requestState} WHERE PRODUCT_NO = #{requestRef}
+	</update>
+	<update id="updateTracking" parameterType="map">
+		UPDATE PRODUCT_ORDER SET ORDER_TRACKINGNO = #{trackingNo} WHERE ORDER_NO = #{orderNo}
 	</update>
 </mapper>

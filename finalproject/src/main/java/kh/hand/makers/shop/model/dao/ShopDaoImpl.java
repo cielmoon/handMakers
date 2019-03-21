@@ -165,12 +165,6 @@ public class ShopDaoImpl implements ShopDao {
 	}
 
 	@Override
-	public int cancelExportOrder(String orderNo) {
-		return sqlSession.update("shop.cancelExportOrder", orderNo);
-
-	}
-
-	@Override
 	public int selectSalesRecordsCount(String productNo) {
 		return sqlSession.selectOne("shop.selectSalesRecordsCount", productNo);
 	}
@@ -195,6 +189,11 @@ public class ShopDaoImpl implements ShopDao {
 		{
 			return sqlSession.update("shop.updateProductSellerReq", map);
 		}
+	}
+
+	@Override
+	public int updateTracking(Map<String, String> map) {
+		return sqlSession.update("shop.updateTracking", map);
 	}
 	
 	

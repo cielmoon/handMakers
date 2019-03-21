@@ -431,29 +431,7 @@ public class ShopController {
 		return mv;
 	}
 	
-	@RequestMapping("/shop/cancelExportOrder.do")
-	public ModelAndView cancelExportOrder(String orderNo, String productNo, String brandNo)
-	{
-		ModelAndView mv = new ModelAndView();
-		int result = service.cancelExportOrder(orderNo);
-
-		String msg="";
-		String loc= "/shop/brandProductHome.do?productNo=" + productNo + "&brandNo=" + brandNo;
-		
-		if(result > 0)
-		{
-			msg="취소 처리가 정상적으로 완료되었습니다.";
-		}
-		else {
-			msg="취소 처리가 정상적으로 완료되지 않았습니다. 관리자에게 문의해주세요.";
-		}
-		mv.addObject("msg",msg);
-		mv.addObject("loc",loc);
-		mv.setViewName("common/msg");
-		return mv;
-	}
-	
-	@RequestMapping("/shop/orderView")
+	@RequestMapping("/shop/orderView.do")
 	public ModelAndView orderView(String orderNo)
 	{
 		ModelAndView mv = new ModelAndView();
@@ -461,6 +439,20 @@ public class ShopController {
 		Map<String, String> order = service.selectOrder(orderNo);				
 		mv.addObject("order", order);
 		mv.setViewName("jsonView");
+		return mv;
+	}
+	
+	@RequestMapping("/shop/updateTracking.do")
+	public ModelAndView updateTracking(String orderNo, String trackingNo, String productNo, String brandNo)
+	{
+		ModelAndView mv = new ModelAndView();
+		
+		Map<String, String> map = new HashMap<>();		
+		map.put("orderNo", orderNo);
+		map.put("trackingNo", trackingNo);
+		
+		service.updateTracking(map);		
+		mv.setViewName("redirect:/shop/brandProductHome.do?productNo=" + productNo + "&brandNo=" + brandNo);
 		return mv;
 	}
 	
