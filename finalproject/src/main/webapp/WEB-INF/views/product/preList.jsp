@@ -57,39 +57,13 @@
     		</c:otherwise>
 			</c:choose>
             
-            
-              <!-- <option value="9">9</option>selected="selected"
-              <option value="18">18</option>
-              <option value="27">27</option> -->
             </select>
           </form>
           </div>
         </div>
 					
-					
 				</div>
-      <!-- <div class="category-page-wrapper">
-        <div class="col-md-6 list-grid-wrapper">
-          <div class="btn-group btn-list-grid">          
-          	스타일줘야함 이버튼 흰색으로 바궈놔야함
-            <button type="button" id="grid-view" class="btn btn-default grid" data-toggle="tooltip" title="Grid"><i class="fa fa-th"></i></button>
-          </div>         
-        <div class="col-md-1 text-right page-wrapper">
-          
-          <div class="limit">
-            <select id="input-limit" class="form-control">
-              <option value="8" selected="selected">8</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="75">75</option>
-              <option value="100">100</option>
-            </select>
-          </div>
-        </div>
-
-      </div>
-      <br /> -->
-      <div class="grid-list-wrapper">
+            <div class="grid-list-wrapper">
       <c:forEach items="${productList }" var="product" varStatus="vs">
       
 	<div class="product-layout product-list col-xs-12">
@@ -98,7 +72,7 @@
          <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
          <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
               <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>        
+                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
               </div>
             </div>
 
