@@ -328,4 +328,15 @@ public class ProductController {
 		return mv;
 	}
 	
+	@RequestMapping("/product/selectReviewCommentSeconds.do")
+	public ModelAndView selectReviewCommentSeconds(String commentNo)
+	{
+		ModelAndView mv = new ModelAndView();
+		List<Map<String, String>> list = service.selectReviewCommentSeconds(commentNo);
+		mv.addObject("list",list);
+		mv.setViewName("jsonView");
+		
+		return mv;
+	}
+	
 }

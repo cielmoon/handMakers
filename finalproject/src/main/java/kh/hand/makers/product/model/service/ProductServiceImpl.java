@@ -150,6 +150,12 @@ public class ProductServiceImpl implements ProductService {
 		
 		return dao.insertTotalScoreReview(map);
 	}
+
+	@Override
+	public List<Map<String, String>> selectReviewCommentSeconds(String commentNo) {
+		return dao.selectReviewCommentSeconds(commentNo);
+	}
+
 	
 	
 	

@@ -31,4 +31,5 @@ public interface ProductService {
 	Map<String,String> selectBrand(String productNo);
 	int insertCommentReview(Map<String,String> map);
 	int insertTotalScoreReview(Map<String,String> map);
+	List<Map<String, String>> selectReviewCommentSeconds(String commentNo);
 }

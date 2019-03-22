@@ -6,6 +6,24 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
+<style>
+.display-inline{
+	display: inline;
+}
+.reply-sm-10{
+    float: right;
+    padding-right: 0px;
+}
+.btn-reply{
+ padding: 6px 18px 4px;
+}
+.btn-warning{
+	background-image: linear-gradient(to bottom, #b9b9b9, #afaaaa);
+}
+.float-right{
+	float: right;
+}
+</style>
 
 <section class="product col-2 left-col">
 <div class="preloader loader" style="display: block; background:#f2f2f2;"> <img src="image/loader.gif"  alt="#"/></div>
@@ -376,9 +394,11 @@
             <!-- cpt_container_end -->
             </div>
           
+
+
           <!-- 후기 댓글 등록 창 -->
          <div class="tab-pane" id="tab-review">
-         	<div id="reviewComment" class="form-group" style="border:1px solid red">
+         	<div id="reviewComment" class="form-group"> <!-- style="border:1px solid red" -->
          	 	
          	 	<ul class="media-list">
          				<c:if test='${reviewCommentList==null }'>
@@ -387,7 +407,8 @@
          					</span>
          				</c:if>
          				<c:if test="${reviewCommentList!=null }">
-         					<c:forEach items="${reviewCommentList }" var="questionComment" varStatus="vs">
+         				<div id="reviewCommentLevel1">
+         					<c:forEach items="${reviewCommentList }" var="reviewComment" varStatus="vs">
 								<li class="media">						
          						<c:if test="${reviewComment.COMMENT_LEVEL eq 1 }">
 									<a class="pull-left" href="#"> 
@@ -404,44 +425,88 @@
 		
 												<p class="media-comment">${reviewComment['COMMENT_CONTENT'] }</p>
 												<div>
-												<a class="btn btn-primary btn-circle text-uppercase btn-reply" data-toggle="collapse" href="#replyOne">
+												<a class="btn btn-primary btn-circle text-uppercase btn-reply" onclick="javascript:fn_commentClick('${reviewComment['COMMENT_NO']}');"> <!-- data-toggle="collapse" href="#replyOne" -->
 													<i class="far fa-comment-dots"></i>&nbsp;comment</a>
 												<a class="btn btn-success btn-circle text-uppercase btn-reply" href="#" id="reply">
 													<i class="far fa-thumbs-up"></i></a>
 												<a class="btn btn-warning btn-circle text-uppercase btn-reply" href="#" id="reply" style="background-color: #b7c7c7;">
 													<i class="far fa-thumbs-down"></i></a>
+													<div class="float-right">
+														<a class="btn btn-primary text-uppercase btn-reply" onclick="fn_reviewUpdate();">수정</a>
+														<a class="btn btn-primary text-uppercase btn-reply" onclick="fn_reviewDelete();">삭제</a>
+													</div>
 												</div>
 											</div>
 										</div>
-								</c:if>
-								<c:if test="${reviewComment.COMMENT_LEVEL eq 2 }">
-										<div class="collapse col-sm-11 reply-sm-10" id="replyOne">
-											<ul class="media-list">
-												<li class="media media-replied"><a class="pull-left"
-													href="#"> 
-													<img class="media-object img-circle" style="width: 80px;" 
-														src="https://s3.amazonaws.com/uifaces/faces/twitter/ManikRathee/128.jpg" alt="profile">
-												</a>
-													<div class="media-body">
-														<div class="well well-sm">
-															<h4 class="media-heading text-uppercase reviews display-inline">
-																${reviewComment['MEMBER_NO'] }
-															</h4>
-															<ul class="media-date text-uppercase reviews list-inline display-inline">
-																<li class="dd">22</li>
-																<li class="mm">09</li>
-																<li class="aaaa">2014</li>
-															</ul>
-															<p class="media-comment">${reviewComment['COMMENT_CONTENT'] }</p>
-														</div>
-													</div>
-												</li>
-			
-											</ul>
-										</div>
-								</c:if>
+								</c:if> 
 							</li>
-							</c:forEach>
+						</c:forEach>
+						</div>
+						
+	
+	      <script>
+		function fn_commentClick(commentNo){
+			 $.ajax({
+  				url:"${path}/product/selectReviewCommentSeconds.do",
+  				data:{"commentNo":commentNo},
+  				success:function(data){
+  					console.log(data);
+  					var str1 = "<li class='media'>";
+ 	  					str1 += "<div class='collapse col-sm-11 reply-sm-10' id='replyOne'>";
+ 	  					str1 += "<ul class'media-list'>";
+  					for(var i = 0; i < data.size; i++)
+					{
+  	  					/*for문  */
+  	  					var str = "<li class='media media-replied'>";
+  	  					str += "<a class='pull-left' href='#'>";
+  	  					str += "<img class='media-object img-circle' style='width: 80px;' id='review-level2-profile' alt='profile' src='" + data[i].COMMENT_CONTENT + "'></a>";
+  	  					str += "<div class='media-body'>";
+						str += "<div class='well well-sm'>";
+						str += "<h4 class='media-heading text-uppercase reviews display-inline' id='review-level2-memberNo'>" + data[i].MEMBER_NO + "</h4>";
+						str += "<ul class='media-date text-uppercase reviews list-inline display-inline'>";
+						str += "<li class='dd' id='review-level2-date'>" + data[i].COMMENT_DATE + "</li></ul>";
+						str += "<p class='media-comment' id='review-level2-content'>" + data[i].COMMENT_CONTENT + "</p>"
+						str += "<a class='btn btn-primary text-uppercase btn-reply' onclick='fn_reviewUpdate();'>수정</a>";
+						str += "<a class='btn btn-primary text-uppercase btn-reply' onclick='fn_reviewDelete();'>삭제</a>";
+						str += "</div></div></li>";
+						
+						str1.html(str);
+						
+					}
+  					str1 += "</ul></div></li>";
+  					reviewCommentLevel1.append(str1);
+  				}
+  			}); 
+			
+			
+		}
+	  </script>
+	  
+							<!-- <li class="media">
+								<div class="collapse col-sm-11 reply-sm-10" id="replyOne">
+									<ul class="media-list">
+										<li class="media media-replied">
+										<a class="pull-left" href="#"> 
+											<img class="media-object img-circle" style="width: 80px;" id="review-level2-profile" alt="profile">
+										</a>
+											<div class="media-body">
+												<div class="well well-sm">
+													<h4 class="media-heading text-uppercase reviews display-inline" id="review-level2-memberNo"></h4>
+													<ul class="media-date text-uppercase reviews list-inline display-inline">
+														<li class="dd" id="review-level2-date"></li>
+													</ul>
+													<p class="media-comment" id="review-level2-content"></p>
+													<a class="btn btn-primary text-uppercase btn-reply" onclick="fn_reviewUpdate();">수정</a>
+													<a class="btn btn-primary text-uppercase btn-reply" onclick="fn_reviewDelete();">삭제</a>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</li> -->
+								
+								
+								
 						</c:if>
 					</ul>
          	 	
@@ -500,7 +565,9 @@
          				</c:if>
          			</tbody>
          		</table> --%>
-         		${reviewPageBar }
+         		<div style="text-align: center;">
+         			${reviewPageBar }
+         		</div>
          	</div>
          	
             <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
@@ -515,7 +582,6 @@
 	              </select>
               	</c:if>
               </div>
-              <h2>상품 후기</h2>
               <div class="form-group required">
                 <div class="col-sm-12">
                   <label class="control-label" for="input-name">후기 작성자ID</label>
@@ -582,7 +648,7 @@
           
           <!-- 상품 문의 작성 -->
           <div class="tab-pane" id="tab-question">
-         	<div id="questionComment" class="form-group" style="border:1px solid red">
+         	<div id="questionComment" class="form-group"><!--  style="border:1px solid red" -->
 <!--          	 	<table id='tbl-comment' class='table table-striped table-hover'>
          			<thead>
          				<tr>
@@ -595,14 +661,14 @@
          			<ul class="media-list">
          				<c:if test='${questionCommentList==null }'>
          					<span id="level1">
-         						등록된 댓글이 없습니다.
+         						등록된 상품 문의가 없습니다.
          					</span>
          				</c:if>
          				<c:if test="${questionCommentList!=null }">
          					<c:forEach items="${questionCommentList }" var="questionComment" varStatus="vs">
 								<li class="media">						
          						<c:if test="${questionComment.COMMENT_LEVEL eq 1 }">
-									<a class="pull-left" href="#"> 
+									<a class="pull-left" href="javascript:void(0);"> 
 										<img class="media-object img-circle" width="100px;" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
 									</a>
 										<div class="media-body">
@@ -616,41 +682,45 @@
 		
 												<p class="media-comment">${questionComment['COMMENT_CONTENT'] }</p>
 												<div>
-												<a class="btn btn-primary btn-circle text-uppercase btn-reply" data-toggle="collapse" href="#replyOne">
-													<i class="far fa-comment-dots"></i>&nbsp;comment</a>
+												<!-- <a id="btn-comment" class="btn btn-primary btn-circle text-uppercase btn-reply" data-toggle="collapse" href="#${questionComment['COMMENT_NO']}">
+													<i class="far fa-comment-dots"></i>&nbsp;comment</a> -->
+													
 												<a class="btn btn-success btn-circle text-uppercase btn-reply" href="#" id="reply">
 													<i class="far fa-thumbs-up"></i></a>
 												<a class="btn btn-warning btn-circle text-uppercase btn-reply" href="#" id="reply" style="background-color: #b7c7c7;">
-													<i class="far fa-thumbs-down"></i></a>
+													<i class="far fa-thumbs-down"></i></a>	
+													<div class="float-right">
+														<a class="btn btn-primary text-uppercase btn-reply" onclick="fn_reviewUpdate();">수정</a>
+														<a class="btn btn-primary text-uppercase btn-reply" onclick="fn_reviewDelete();">삭제</a>
+													</div>
 												</div>
 											</div>
 										</div>
 								</c:if>
-								<c:if test="${questionComment.COMMENT_LEVEL eq 2 }">
-										<div class="collapse col-sm-11 reply-sm-10" id="replyOne">
-											<ul class="media-list">
-												<li class="media media-replied"><a class="pull-left"
-													href="#"> 
-													<img class="media-object img-circle" style="width: 80px;" 
-														src="https://s3.amazonaws.com/uifaces/faces/twitter/ManikRathee/128.jpg" alt="profile">
-												</a>
-													<div class="media-body">
-														<div class="well well-sm">
-															<h4 class="media-heading text-uppercase reviews display-inline">
-																${questionComment['MEMBER_NO'] }
-															</h4>
-															<ul class="media-date text-uppercase reviews list-inline display-inline">
-																<li class="dd">22</li>
-																<li class="mm">09</li>
-																<li class="aaaa">2014</li>
-															</ul>
-															<p class="media-comment">${questionComment['COMMENT_CONTENT'] }</p>
-														</div>
-													</div>
-												</li>
-			
-											</ul>
-										</div>
+								<c:if test="${questionComment.COMMENT_LEVEL eq 2 }">  
+									<div class="col-sm-11 reply-sm-10" <%-- collapse id="${questionComment['COMMENT_REF']}" --%>>
+										<ul class="media-list">
+										<li class="media media-replied">
+										<a class="pull-left" href="javascript:void(0);"> 
+											<img class="media-object img-circle" style="width: 80px;" 
+												src="${path }/resources/image/seller_img.png" alt="profile">
+										</a>
+											<div class="media-body">
+												<div class="well well-sm">
+													<h4 class="media-heading text-uppercase reviews display-inline">
+														판매자
+													</h4>
+													<ul class="media-date text-uppercase reviews list-inline display-inline">
+														<li class="dd">22</li>
+														<li class="mm">09</li>
+														<li class="aaaa">2014</li>
+													</ul>
+													<p class="media-comment">${questionComment['COMMENT_CONTENT'] }</p>
+												</div>
+											</div>
+										</li>
+										</ul>
+									</div>
 								</c:if>
 							</li>
 							</c:forEach>
@@ -658,56 +728,13 @@
 						</ul>
 						
 						
-         				<c:if test='${questionCommentList==null }'>
-         					<tr id="level1">
-         						<td colspan="2">등록한 댓글이 없습니다.</td>
-         					</tr>
-         				</c:if>
-         				<c:if test="${questionCommentList!=null }">
-         				<c:forEach items="${questionCommentList }" var="questionComment" varStatus="vs">
-         					<c:if test="${questionComment.COMMENT_LEVEL eq 1 }">
-         					<tr id="level1">
-         						<td>
-         							<strong>문의</strong><input type="text" class="form-control" id="level1-reviewWriter" value="${questionComment['MEMBER_NAME'] }" readonly/>
-         						</td>
-         						<td>
-	         						<input type="text" class="form-control" id="level1-reviewContent" value="${questionComment['COMMENT_CONTENT'] }">
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="수정" onclick="fn_reviewUpdate();"/>
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="삭제" onclick="fn_reviewDelete();"/>
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="답글" onclick="fn_reply();"/>
-	         					</td>
-         					</tr>
-         					<c:if test="${questionComment.COMMENT_LEVEL eq 2 }">
-         					<tr id="level2">
-	         					<td><strong>답글</strong><input type="text" class="form-control" id="level2-reviewWriter" value="${questionComment['MEMBER_NO'] }" readonly/></td>
-	         					<td colspan="2">
-	         						<input type="text" class="form-control" id="level2-reviewContent" value="${questionComment['COMMENT_CONTENT'] }">
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="수정"/>
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="삭제"/>
-	         					</td>
-	         				</tr>
-	         				</c:if>
-         					</c:if>
-         					</c:forEach>
-         				</c:if>
-         			</tbody>
-         		</table>
-         		${questionPageBar }
+         		<div style="text-align: center;">
+         			${questionPageBar }
+         		</div>
          	</div>
          	
             <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
               <div  id="div-review"></div>
-              <h2>상품 문의</h2>
               <div class="form-group required">
                 <div class="col-sm-12">
                   <label class="control-label" for="input-name">문의 작성자ID</label>
@@ -732,11 +759,8 @@
                   	<button type="button" id="button-review" class="btn btn-primary" onclick="fn_noLoginComment();">문의등록</button>
                   </c:if>
                   
-                  <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
                   <c:if test="${member!=null }">
-	                  <c:if test="${product_order.order_state eq '3'}">
-	                  	<input type="submit" id="button-review" class="btn btn-primary" value="문의등록"/>
-	                  </c:if>	
+                  	<input type="submit" id="button-review" class="btn btn-primary" value="문의등록"/>
                   </c:if>
                 </div>
               </div>

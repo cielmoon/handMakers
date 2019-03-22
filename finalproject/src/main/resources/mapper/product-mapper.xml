@@ -113,11 +113,13 @@
 	
 	<select id="selectCommentCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType}
+		<if test="COMMENT_TYPE = 'R'">AND COMMENT_LEVEL = '1'</if>
 	</select>
 	
 	<select id="selectComment" parameterType="map" resultType="map">
 		SELECT MEMBER_NO, MEMBER_NAME, PRODUCT_NO, MEMBER_STATE, COMMENT_CONTENT, COMMENT_LEVEL, COMMENT_REF, COMMENT_NO
 		FROM PRODUCT_COMMENT JOIN MEMBER USING(MEMBER_NO) WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} 
+		<if test="COMMENT_TYPE = 'R'">AND COMMENT_LEVEL = '1'</if>
 		ORDER BY COMMENT_DATE DESC
 	</select>
 	
@@ -153,4 +155,7 @@
 		INSERT INTO TOTALSCORE VALUES(#{orderNo}, #{reviewCommentProductNo}, #{rating})
 	</insert>
 			
+	<select id="selectReviewCommentSeconds" resultType="map" parameterType="string">
+		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_REF = #{commentNo} AND COMMENT_TYPE = 'R'
+	</select>
 </mapper>
