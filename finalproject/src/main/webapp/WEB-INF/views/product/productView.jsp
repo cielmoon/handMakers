@@ -560,9 +560,9 @@
                   
                   <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
                   <c:if test="${member!=null }">
-	                  <%-- <c:if test="${orderList.ORDER_PAYSTATE eq '3'}"> --%>
+	                  <c:if test="${orderList[0].ORDER_PAYSTATE eq '3'}">
 	                  	<input type="button" id="button-review" class="btn btn-primary" value="후기등록" onclick="fn_insertReviewComment();"/>
-	                  <%-- </c:if> --%>	
+	                  </c:if>	
                   </c:if>
                 </div>
               </div>

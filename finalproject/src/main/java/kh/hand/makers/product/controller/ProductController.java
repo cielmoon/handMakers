@@ -43,6 +43,8 @@ public class ProductController {
 	public ModelAndView productView(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
 			String productNo, HttpServletRequest request) {
 		
+		System.out.println(productNo);
+		
 		int numPerPage = 3;
 		
 		ModelAndView mv = new ModelAndView();
@@ -53,16 +55,18 @@ public class ProductController {
 		
 		Map<String,String> reviewMap = new HashMap();
 		
+		reviewMap.put("commentType", "R");
+		reviewMap.put("productNo", productNo);
+		questionMap.put("commentType", "Q");
+		questionMap.put("productNo", productNo);
+		
+		logger.debug(reviewMap.get("productNo"));
+		
 		if(request.getSession().getAttribute("member")!=null) {
 			
 		String memberNo = ((Member)request.getSession().getAttribute("member")).getMemberNo();
 		
-		reviewMap.put("reviewCommentType", "R");
-		reviewMap.put("productNo", productNo);
 		reviewMap.put("memberNo", memberNo);
-		questionMap.put("questionCommentType", "Q");
-		questionMap.put("productNo", productNo);
-		questionMap.put("memberNo", memberNo);
 		
 		//주문번호 가지고 오기 위함(댓글 점수 때문에)
 		orderList = service.selectOrderList(reviewMap);
@@ -101,10 +105,10 @@ public class ProductController {
 		Map<String,String> brandMap = service.selectBrand(productNo);
 		//후기 정보 select
 		List<Map<String,String>> reviewCommentList = service.selectComment(reviewMap, cPage, numPerPage);
-		int reviewCommentCount = service.selectCommentCount(reviewMap.get("reviewCommentType"));
+		int reviewCommentCount = service.selectCommentCount(reviewMap.get("commentType"));
 		//문의 정보 select
 		List<Map<String,String>> questionCommentList = service.selectComment(questionMap, cPage, numPerPage);
-		int questionCommentCount = service.selectCommentCount(questionMap.get("questionCommentType"));
+		int questionCommentCount = service.selectCommentCount(questionMap.get("commentType"));
 		
 		mv.addObject("brand",brandMap);
 		mv.addObject("cPage", cPage);
@@ -119,10 +123,10 @@ public class ProductController {
 		mv.addObject("questionCommentList",questionCommentList);
 		mv.addObject("reviewCommentCount",reviewCommentCount);
 		mv.addObject("questionCommentCount",questionCommentCount);
-		mv.addObject("reviewPageBar",PageFactory.getConditionPageBar(reviewCommentCount, cPage, numPerPage, "/product/productView.do?productNo="+productNo+"&commentType="+reviewMap.get("reviewCommentType")));
-		mv.addObject("questionPageBar",PageFactory.getConditionPageBar(questionCommentCount, cPage, numPerPage, "/product/productView.do?productNo="+productNo+"&commentType="+questionMap.get("questionCommentType")));
+		mv.addObject("reviewPageBar",PageFactory.getConditionPageBar(reviewCommentCount, cPage, numPerPage, "/makers/product/productView.do?productNo="+productNo+"&commentType="+reviewMap.get("commentType")));
+		mv.addObject("questionPageBar",PageFactory.getConditionPageBar(questionCommentCount, cPage, numPerPage, "/makers/product/productView.do?productNo="+productNo+"&commentType="+questionMap.get("commentType")));
 		mv.setViewName("/product/productView");
-
+		
 		return mv;
 	}
 	
@@ -307,7 +311,8 @@ public class ProductController {
 		String loc = "/product/productView.do?productNo="+map.get("reviewCommentProductNo");
 		
 		if(result>0) {
-			
+			System.out.println("이건 되니????");
+			logger.debug(map+"");
 			result = service.insertTotalScoreReview(map);
 			if(result>0) {				
 				msg = "후기 댓글 등록 성공~!";
