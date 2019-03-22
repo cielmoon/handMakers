@@ -13,12 +13,11 @@
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<meta name="description"
-	content="e-commerce site well design with responsive view." />
+<meta name="description" content="e-commerce site well design with responsive view." />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
+
 
 <link href="${path }/resources/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet" media="screen" />
@@ -39,8 +38,8 @@
 	type="text/javascript"></script>
 <script src="${path }/resources/javascript/jstree.min.js"
 	type="text/javascript"></script>
-<script src="${path }/resources/javascript/template.js"
-	type="text/javascript"></script>
+<%-- <script src="${path }/resources/javascript/template.js"
+	type="text/javascript"></script> --%>
 <script src="${path }/resources/javascript/common.js"
 	type="text/javascript"></script>
 <script src="${path }/resources/javascript/global.js"
@@ -48,19 +47,6 @@
 <script src="${path }/resources/owl-carousel/owl.carousel.min.js"
 	type="text/javascript"></script>
 
-<!-- 부트스트랩 달력용 -->
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/> -->
-<!-- ***중복*** <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script> -->
-<!-- <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
-<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-<script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script> -->
-
-<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
-
-<script type="text/javascript" src="${path }/resources/datepicker/bootstrap-datepicker.js"></script>
-<link rel="stylesheet" type="text/css" href="${path }/resources/datepicker/bootstrap-datepicker.css"/>
-<!--  -->
 
 </head>
 <body>
@@ -195,6 +181,7 @@
 			</nav>
 		</div>
 	</header>
+	
 	<script type="text/javascript">
 	$(function(){
 		/* var ttt='sadasd';

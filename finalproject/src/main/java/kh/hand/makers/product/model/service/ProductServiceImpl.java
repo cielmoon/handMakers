@@ -113,6 +113,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Map<String, String>> productList(Map<String, String> map, int cPage, int numPerPage) {
 		// TODO Auto-generated method stub
+		
 		return dao.productList(map, cPage, numPerPage);
 	}
 
@@ -150,8 +151,12 @@ public class ProductServiceImpl implements ProductService {
 		
 		return dao.insertTotalScoreReview(map);
 	}
-	
-	
+
+	@Override
+	public List<Map<String, String>> selectReviewCommentSeconds(String commentNo) {
+		return dao.selectReviewCommentSeconds(commentNo);
+	}
+
 	
 	
 }

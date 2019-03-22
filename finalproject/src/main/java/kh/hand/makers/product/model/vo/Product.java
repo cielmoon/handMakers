@@ -30,6 +30,7 @@ public class Product implements Serializable {
 	private int productCurSell; // 현재 누적 판매량
 	private int productTotalSell;
 	private double productDiscount; // 상품 할인율
+	private String wishChk;
 
 	
 	public Product() {
@@ -39,7 +40,7 @@ public class Product implements Serializable {
 	public Product(String productNo, String productTitle, String productProfile, Date productEnrollDate,
 			Date productUpdate, Date productEndDate, String productDetail, String productComment, int productState,
 			int productStep, int productPrice, int productMax, int productMin, String scNo, String bcNo, String brandNo,
-			String adminNo, String memberNo, int productCurSell, int productTotalSell, double productDiscount) {
+			String adminNo, String memberNo, int productCurSell, int productTotalSell, double productDiscount, String wishChk) {
 		super();
 		this.productNo = productNo;
 		this.productTitle = productTitle;
@@ -62,6 +63,7 @@ public class Product implements Serializable {
 		this.productCurSell = productCurSell;
 		this.productTotalSell = productTotalSell;
 		this.productDiscount = productDiscount;
+		this.wishChk = wishChk;
 	}
 
 	public String getProductNo() {
@@ -235,6 +237,14 @@ public class Product implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	public String getWishChk() {
+		return wishChk;
+	}
+	
+	public void setWishChk(String wishChk) {
+		this.wishChk = wishChk;
+	}
 
 	@Override
 	public String toString() {
@@ -245,7 +255,7 @@ public class Product implements Serializable {
 				+ productPrice + ", productMax=" + productMax + ", productMin=" + productMin + ", scNo=" + scNo
 				+ ", bcNo=" + bcNo + ", brandNo=" + brandNo + ", adminNo=" + adminNo + ", memberNo=" + memberNo
 				+ ", productCurSell=" + productCurSell + ", productTotalSell=" + productTotalSell + ", productDiscount="
-				+ productDiscount + "]";
+				+ productDiscount + ", wishChk ="+ wishChk + "]";
 	}
 	
 	
