@@ -26,7 +26,7 @@ function fn_sallerInfo(){
 	
 	// 주소로 좌표를 검색합니다
 	geocoder.addressSearch(addr, function(result, status) {
-	
+		
 	    // 정상적으로 검색이 완료됐으면 
 	     if (status === daum.maps.services.Status.OK) {
 	
@@ -56,6 +56,7 @@ function fn_sallerInfo(){
 };
 	    
 </script>
+
 <style>
 .display-inline{
    display: inline;
@@ -76,7 +77,7 @@ function fn_sallerInfo(){
 </style>
      
 <section class="product col-2 left-col">
-<div class="preloader loader" style="display: block; background:#f2f2f2;"> <img src="image/loader.gif"  alt="#"/></div>
+<!-- <div class="preloader loader" style="display: block; background:#f2f2f2;"> <img src="image/loader.gif"  alt="#"/></div> -->
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="/makers"><i class="fa fa-home"></i></a></li>
@@ -427,7 +428,7 @@ function fn_sallerInfo(){
           </li>
           <li><a href="#tab-review" data-toggle="tab">상품후기</a></li> <!-- onclick="fn_review();" 모두 셀렉트로 가져옴 -->
           <li><a href="#tab-question" data-toggle="tab" id="product-question">상품문의</a></li>
-          <li><a href="#tab-sallerInfo" data-toggle="tab" id="product-sallerInfo">판매자 정보</a></li>   
+          <li><a href="#tab-sallerInfo" data-toggle="tab" id="product-sallerInfo" onclick="fn_sallerInfo();">판매자 정보</a></li>   
         </ul>
         <input type="hidden" name="review" value="R"/>
         <input type="hidden" name="question" value="Q"/>
@@ -773,13 +774,16 @@ function fn_sallerInfo(){
               <br>
               </address>
             </div>
-            <div class="col-sm-8 rigt">
+            <div class="col-sm-8 right">
               <div class="map">
                   <div id="map" style="height:200px;width:600px;"></div>
               </div>
             </div>
             </div>
             </div>
+           
+      </div>
+
             
             
         </div>

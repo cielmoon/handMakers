@@ -111,12 +111,14 @@
 	
 	<select id="selectCommentCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} 
+		<if test="COMMENT_TYPE = 'R'">AND COMMENT_LEVEL='1'</if>
 	</select>
 	
 	<select id="selectComment" parameterType="map" resultType="map">
 		SELECT *
 		FROM PRODUCT_COMMENT JOIN MEMBER USING(MEMBER_NO) 
 		WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo}
+		<!-- <if test="COMMENT_TYPE = 'R'">AND COMMENT_LEVEL='1'</if> --> 
 		ORDER BY COMMENT_DATE DESC
 	</select>
 	
