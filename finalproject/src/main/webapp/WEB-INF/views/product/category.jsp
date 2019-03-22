@@ -92,13 +92,13 @@
                 <i class="fa fa-heart-o"></i></button> -->
                
                <div class="button-group">
-                <c:if test="${product.wishChk eq member.memberNo }">
-                <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" value="${product.productNo}" onclick="fn_wishCk();">
+                <c:if test="${member.memberNo != null and product.wishChk eq member.memberNo }">
+                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Remove to Wish List" value="${product.productNo}" onclick="fn_wishCk(this.value);">
                 	<i class="fa fa-heart"></i>
                	</button>
                </c:if>
                <c:if test="${product.wishChk eq null }">
-                <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" value="${product.productNo}" onclick="fn_wishCk();">
+                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" value="${product.productNo}" onclick="fn_wishCk(this.value);">
                 	<i class="fa fa-heart-o"></i>
                	</button>
                </c:if>
@@ -169,12 +169,39 @@ $('#numPerPagesFrm').submit();
 });
 
 
-function fn_wishCk(){
-      		var wishBtn = $('#wishBtn');
-      		var wishCount = $('input[name=wishCount]').val();
-       		/* console.log("처음에 왔을 때 확인 : "+wishCount); */
-      		var productNo = $('#input-productNo').val();
-      		$.ajax({
+function fn_wishCk(test){
+       		console.log(test);
+      		console.log("'#"+test+"'");
+      		/* var str = '#' + test; */ 
+      		$('#' + test).html('<i class="fa fa-heart"></i>');
+      		
+      		/* console.log(this.attr(class)); */
+      		/* $(str).addClass("testClass"); */
+}
+	/* $("'#"+test+"'").html('<i class="fa fa-heart-o"></i>'); */
+/* var wishBtn = $('#wishBtn'); */
+	/* var wishCount = $('input[name=wishCount]').val(); */
+	/* console.log("처음에 왔을 때 확인 : "+wishCount); */
+	/* var productNo = $('#input-productNo').val(); */
+/* <div class="button-group">
+<c:if test="${member.memberNo != null and product.wishChk eq member.memberNo }">
+<button type="button" id="wishBtn" data-toggle="tooltip" 
+class="btn btn-default wishlist" title="Add to Wish List" value="${product.productNo}" 
+onclick="fn_wishCk();">
+	<i class="fa fa-heart"></i>
+	</button>
+</c:if>
+<c:if test="${product.wishChk eq null }">
+<button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" 
+title="Add to Wish List" value="${product.productNo}" onclick="fn_wishCk();">
+	<i class="fa fa-heart-o"></i>
+	</button>
+</c:if> */
+
+
+
+       		
+      		/* $.ajax({
   				url:"${path}/product/selectWish.do",
   				data:{"productNo":productNo,"wishCount":wishCount},
   				success:function(data){
@@ -191,8 +218,8 @@ function fn_wishCk(){
   						$('input[name=wishCount]').val(data["wishCount"]);
   					}
   				}
-  			});
-      	};
+  			}); */
+      /* 	}; */
       	
 </script>
 
