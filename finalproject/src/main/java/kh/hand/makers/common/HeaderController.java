@@ -25,7 +25,7 @@ public class HeaderController {
 	public List<Map<String, String>> getMenuList()
 	{	
 		List<Map<String, String>> list = service.getMenuList();
-		logger.debug("Menu-List : "+list);
+		//logger.debug("Menu-List : "+list);
 		return list;
 	}
 	/*

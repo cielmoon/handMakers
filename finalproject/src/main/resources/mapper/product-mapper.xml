@@ -22,6 +22,7 @@
 		<result column="product_totalsell" property="productTotalSell" />
 		<result column="product_cursell" property="productCurSell" />
 		<result column="product_discount" property="productDiscount" />
+		<result column="wishChk" property="wishChk"/>
 		</resultMap>
 		
 	<resultMap type="ProductImg" id="productImgMap">
@@ -30,28 +31,25 @@
 		<result column="product_no" property="productNo"/>
 	</resultMap>	
 
-	<!-- JOIN PRODUCT_DETAIL USING(PRODUCT_NO) -->
+	<!-- JOIN PRODUCT_DETAIL USING(PRODUCT_NO) memberNo SELECT * FROM PRODUCT -->
 	<select id="selectProductList" resultMap="productMap">
-		SELECT * FROM PRODUCT
+		SELECT P.*, W.MEMBER_NO as wishChk FROM PRODUCT P LEFT JOIN WISH W ON (P.PRODUCT_NO = W.PRODUCT_NO AND W.MEMBER_NO = #{memberNo})
 		<where>
 		<if test="category != null and sc != null">
-		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3) 
+		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC 
 		</if>
 		<if test="category != null and sc == null">
-		 BC_NO = #{category} AND not PRODUCT_STATE in (2,3)
+		 BC_NO = #{category} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
 		</if>
 		<if test="sCategory != null">
-		SC_NO = #{sCategory} AND not PRODUCT_STATE in (2,3)
+		SC_NO = #{sCategory} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
 		</if>
 		<if test="productStep != null">
-		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3)
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
 		</if>
 		</where>
 	</select>
 
-	<!-- <select id="selectProductCount" resultType="_int">
-		SELECT COUNT(*) FROM PRODUCT where BC_NO = #{category}
-	</select> -->
 	<select id="selectProductCount" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
 		<where>
@@ -113,14 +111,12 @@
 	
 	<select id="selectCommentCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} 
-		<if test="COMMENT_TYPE = 'R'">AND COMMENT_LEVEL='1'</if>
 	</select>
 	
 	<select id="selectComment" parameterType="map" resultType="map">
 		SELECT *
 		FROM PRODUCT_COMMENT JOIN MEMBER USING(MEMBER_NO) 
 		WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo}
-		<if test="COMMENT_TYPE = 'R'">AND COMMENT_LEVEL='1'</if> 
 		ORDER BY COMMENT_DATE DESC
 	</select>
 	
@@ -156,4 +152,31 @@
 		INSERT INTO TOTALSCORE VALUES(#{orderNo}, #{reviewCommentProductNo}, #{rating})
 	</insert>
 			
+	<select id="selectReviewCommentSeconds" resultType="map" parameterType="string">
+		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_REF = #{commentNo} AND COMMENT_TYPE = 'R'
+	</select>
+
+	
+	<!-- 
+	<select id="selectProductList" resultMap="productMap">
+		SELECT * FROM PRODUCT
+		<where>
+		<if test="category != null and sc != null">
+		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC 
+		</if>
+		<if test="category != null and sc == null">
+		 BC_NO = #{category} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
+		</if>
+		<if test="sCategory != null">
+		SC_NO = #{sCategory} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
+		</if>
+		<if test="productStep != null">
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
+		</if>
+		</where>
+	</select>
+	
+	
+	
+	 -->		
 </mapper>

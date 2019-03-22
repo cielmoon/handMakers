@@ -20,7 +20,8 @@ import kh.hand.makers.shop.model.vo.SmallCategory;
 public class AdminServiceImpl implements AdminService {
 	@Autowired
 	AdminDao dao;
-	
+
+
 	@Override
 	public int selectProductCount() {
 		return dao.selectProductCount();
@@ -175,5 +176,19 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.enrollProductDetail(detail);
 	}
+
+	@Override
+	public List<Brand> selectBrandList() {
+		// TODO Auto-generated method stub
+		return dao.selectBrandList();
+	}
+
+	@Override
+	public String selectSellerNo(String brandNo) {
+		// TODO Auto-generated method stub
+		return dao.selectSellerNo(brandNo);
+	}
+	
+	
 	
 }

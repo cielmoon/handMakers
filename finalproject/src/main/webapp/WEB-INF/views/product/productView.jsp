@@ -56,13 +56,31 @@ function fn_sallerInfo(){
 };
 	    
 </script>
-
+<style>
+.display-inline{
+   display: inline;
+}
+.reply-sm-10{
+    float: right;
+    padding-right: 0px;
+}
+.btn-reply{
+ padding: 6px 18px 4px;
+}
+.btn-warning{
+   background-image: linear-gradient(to bottom, #b9b9b9, #afaaaa);
+}
+.float-right{
+   float: right;
+}
+</style>
+     
 <section class="product col-2 left-col">
-<!-- <div class="preloader loader" style="display: block; background:#f2f2f2;"> <img src="image/loader.gif"  alt="#"/></div> -->
+<div class="preloader loader" style="display: block; background:#f2f2f2;"> <img src="image/loader.gif"  alt="#"/></div>
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="/makers"><i class="fa fa-home"></i></a></li>
-	<li><a href="${path }/product/category.do?category=${product.BC_NO }">${bcTitle }</a></li>
+   <li><a href="${path }/product/category.do?category=${product.BC_NO }">${bcTitle }</a></li>
     <li><a href="javascript:void(0)">${product.PRODUCT_TITLE }</a></li>
   </ul>
   <!-- nav -->
@@ -74,9 +92,9 @@ function fn_sallerInfo(){
           <div class="category_block">
             <ul class="box-category treeview-list treeview">
             <c:forEach items="${scList }" var="sc"> 
-              	<li><a href="${path }/product/category.do?category=${sc.bcNo}&sc=${sc.scNo}">${sc.scTitle}</a></li>
+                 <li><a href="${path }/product/category.do?category=${sc.bcNo}&sc=${sc.scNo}">${sc.scTitle}</a></li>
               </c:forEach>
-     		</ul>
+           </ul>
           </div>
         </div>
        </div>
@@ -93,15 +111,15 @@ function fn_sallerInfo(){
             <div><a class="thumbnail" href="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="lorem ippsum dolor dummy"><img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
             
             <div id="product-thumbnail" class="owl-carousel">
-				
+            
               <div class="item">
                 <div class="image-additional"><a class="thumbnail  " href="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="lorem ippsum dolor dummy"> <img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
               </div>
               
               <c:forEach items="${productImg }" var="pi">
-              	<div class="item">
-                	<div class="image-additional"><a class="thumbnail  " href="${path }/resources/image/product/${pi.productSubImg}" title="lorem ippsum dolor dummy"> <img src="${path }/resources/image/product/${pi.productSubImg}" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
-              	</div>
+                 <div class="item">
+                   <div class="image-additional"><a class="thumbnail  " href="${path }/resources/image/product/${pi.productSubImg}" title="lorem ippsum dolor dummy"> <img src="${path }/resources/image/product/${pi.productSubImg}" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
+                 </div>
               </c:forEach>
             </div>
           </div>
@@ -118,7 +136,7 @@ function fn_sallerInfo(){
               <h2 class="productpage-price">( 누적평점 :  누적 판매량 : ${product.PRODUCT_TOTALSELL } ) </h2>
             </li>
           </ul>
-          	
+             
           <hr>
           
           <ul class="list-unstyled productinfo-details-top">
@@ -128,8 +146,8 @@ function fn_sallerInfo(){
               <input type="hidden" name="productPrice" value="${product.PRODUCT_PRICE }"/>
             </li>
             <c:if test="${product.PRODUCT_STEP eq 0}">
-	            <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
-	            <li><span class="productinfo-tax"><fmt:formatNumber value="${product.PRODUCT_DISCOUNT }" type="currency" currencySymbol="￦"/></span></li>
+               <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
+               <li><span class="productinfo-tax"><fmt:formatNumber value="${product.PRODUCT_DISCOUNT }" type="currency" currencySymbol="￦"/></span></li>
             </c:if>
           </ul>
           <hr>
@@ -151,7 +169,7 @@ function fn_sallerInfo(){
             <li>
               <label>판매시작일:</label>
               <span><fmt:formatDate value="${product.PRODUCT_UPDATE }" pattern="yyyy-MM-dd"/></span>
-           	</li>
+              </li>
             <li>
               <label>판매종료일:</label>
               <span><fmt:formatDate value="${product.PRODUCT_ENDDATE }" pattern="yyyy-MM-dd"/></span></li>  
@@ -161,11 +179,11 @@ function fn_sallerInfo(){
           <p class="product-desc">${product.PRODUCT_COMMENT }</p>
           <div id="product">
             <div class="form-group">
-            	<select class="form-control" name="productOption" id="select-productOption">
-	          		<c:forEach var="option" items="${productOption }">
-	          			<option id="productOptionTag" value="${option.PRODUCT_OPTION_NO }">${option.PRODUCT_OPTION }</option>
-	          		</c:forEach>
-	          	</select>
+               <select class="form-control" name="productOption" id="select-productOption">
+                   <c:forEach var="option" items="${productOption }">
+                      <option id="productOptionTag" value="${option.PRODUCT_OPTION_NO }">${option.PRODUCT_OPTION }</option>
+                   </c:forEach>
+                </select>
             </div>
             
             <div class="form-group">
@@ -186,20 +204,20 @@ function fn_sallerInfo(){
               <c:if test="${member!=null }">
               <c:if test="${wishCount eq 1}">
                 <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" onclick="fn_wishCk();">
-                	<i class="fa fa-heart"></i>
-               	</button>
+                   <i class="fa fa-heart"></i>
+                  </button>
                </c:if>
                <c:if test="${wishCount eq 0}">
                 <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" onclick="fn_wishCk();">
-                	<i class="fa fa-heart-o"></i>
-               	</button>
+                   <i class="fa fa-heart-o"></i>
+                  </button>
                </c:if>
                </c:if>
                
                <c:if test="${member==null}">
                 <button type="submit" id="wishBtnNologin" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" onclick="fn_noLogin();">
-                	<i class="fa fa-heart-o"></i>
-               	</button>
+                   <i class="fa fa-heart-o"></i>
+                  </button>
                </c:if>
                
                 <!-- 결재 버튼 -->
@@ -219,197 +237,197 @@ function fn_sallerInfo(){
         </div>
       </div>
       <script>
-      	 /* $(function(){
-      		var wishBtn = $('#wishBtn');
-      		wishBtn.click(function(){
-      			var wishCount = $('input[name=wishCount]').val();
-          		console.log("처음에 왔을 때 확인 : "+wishCount);
-          		var productNo = $('#input-productNo').val();
-          		var divBtn = $('#divBtn');
-      			alert(wishCount);
-      			$.ajax({
-      				url:"${path}/product/selectWish.do",
-      				data:{"productNo":productNo,"wishCount":wishCount},
-      				success:function(data){
-      					console.log(data);
-      					console.log(wishBtn);
-      					if(data["wishCount"]==0){
-      						console.log("이벤트 발생 후 0 : "+data["wishCount"]);
-      						wishBtn.html('<i class="fa fa-heart-o"></i>');
-      						$('input[name=wishCount]').val(data["wishCount"]);
-      					}
-      					if(data["wishCount"]!=0){
-      						console.log("이벤트 발생 후 1 : "+data["wishCount"]);
-      						wishBtn.html('<i class="fa fa-heart"></i>');
-      						$('input[name=wishCount]').val(data["wishCount"]);
-      					}
-      				}
-      			})
-      		});
-      	}); */
-      	 
-      	function fn_wishCk(){
-      		var wishBtn = $('#wishBtn');
-      		var wishCount = $('input[name=wishCount]').val();
-      		console.log("처음에 왔을 때 확인 : "+wishCount);
-      		var productNo = $('#input-productNo').val();
-      		$.ajax({
-  				url:"${path}/product/selectWish.do",
-  				data:{"productNo":productNo,"wishCount":wishCount},
-  				success:function(data){
-  					console.log(data);
-  					console.log(wishBtn);
-  					if(data["wishCount"]==0){
-  						console.log("이벤트 발생 후 0 : "+data["wishCount"]);
-  						wishBtn.html('<i class="fa fa-heart-o"></i>');
-  						$('input[name=wishCount]').val(data["wishCount"]);
-  					}
-  					if(data["wishCount"]!=0){
-  						console.log("이벤트 발생 후 1 : "+data["wishCount"]);
-  						wishBtn.html('<i class="fa fa-heart"></i>');
-  						$('input[name=wishCount]').val(data["wishCount"]);
-  					}
-  				}
-  			});
-      	};
-      	
-      	/* $('li a').on("click",function(e){
-      		e.preventDefault();
-      		alert('들어오니?');
-      		var productNo = $('#input-productNo').val();
-      		var productinfoContent = $('#productinfoContent');
-      		$.ajax({
-      			url:"${path}/product/productDetail.do",
-      			data:{"productNo":productNo},
-      			success:function(data){
-      				console.log(data);
-      				productinfoContent.html(data["PRODUCT_DETAIL"]);
-      				return true;
-      			}
-      		});
-      	}); */
-      	
-      	function fn_description(){
-      		/* event.preventDefault(); */
-      		var productNo = $('#input-productNo').val();
-      		var productinfoContent = $('#productinfoContent');
-      		$.ajax({
-      			url:"${path}/product/productDetail.do",
-      			data:{"productNo":productNo},
-      			success:function(data){
-      				console.log(data);
-      				$('#descript').attr('href',"#tab-description");
-      				productinfoContent.html(data["PRODUCT_DETAIL"]);
-      				
-      				return true;
-      			}
-      		});
-      	};
-      	
-      	/* function fn_review(cPage){
-      		
-      		var productNo = $('#input-productNo').val();
-      		var commentType = $('input[name=review]').val();
-      		alert('들어오니?'+commentType);
-      		$.ajax({
-      			url:"${path}/product/selectComment.do",
-      			data:{"productNo":productNo, "commentType":commentType, "cPage":cPage},
-      			success:function(data){
-      				console.log(data);
-      				var a = data.pageBar;
-      				var b = data.commentList; */
-      				/* var c = data.orderList; */
-      				/* console.log(a);
-      				console.log(b); */
-      				/* console.log(c); */
-      				/* var table = $("<table id='tbl-board' class='table table-striped table-hover'>"); */
-      				/* var select = $("#orderList"); */
-      				/* var orderStr="";
-      				for(var j = 0; j<c.length; j++){
-      					console.log(c[j].ORDER_NO);
-      					$('#orderList').append("<option value='"+c[j].ORDER_NO+"'>"+c[j].PRODUCT_TITLE+"</option>");
-      				}
-      				$('#div-review').append(select); */
-      				
-      				/* for(var i = 0; i<b.length; i++){
-      					console.log(b[i]);
-      					var tr = $('<tr>');
-      					for(var key in b[i]){
-      						console.log("으잉??"+key);
-      						console.log("ㅁㅇ롸ㅓㅇ놈ㄹㅇ"+b[i][key]);
-      						var td = $('<td>');      						
-    						td.append(b[i][key]);
-      						tr.append(td);
-      					}
-      					table.append(tr);
-      				}
-      				$('#reviewComment').html(table).append(a);
-      				return true;
-      			}
-      		});
-      	};  */
-      	
-		/* function fn_review(cPage){
-      		var productNo = $('#input-productNo').val();
-      		var commentType = $('input[name=review]').val();
-      		$.ajax({
-      			url:"${path}/product/selectComment.do",
-      			data:{"productNo":productNo, "commentType":commentType, "cPage":cPage},
-      			success:function(data){
-      				console.log(data);
-      				var a = data.pageBar;
-      				var commentList = data.commentList;
-      				var table = $('#tbl-comment');
-      				var html = "<table id='tbl-comment' class='table table-striped table-hover'><thead><tr><td>작성자</td><td>작성내용</td></tr></thead>";
-      				var t = table.append(html);
-      				for(var i = 0; i<commentList.length; i++){
-      					console.log(commentList[i]["COMMENT_CONTENT"]);
-      					for(var key in commentList[i]){
-      						var str = "";
-      						var str2 = "";
-      						str+=" <tr id='level1'><td><strong>후기</strong><input type='text' class='form-control' id='level1-reviewWriter' value="+commentList[i]["MEMBER_NAME"]+" readonly/></td> ";
-      						str+=" <td><input type='text' class='form-control' id='level1-reviewContent' value="+commentList["COMMENT_CONTENT"]+"></td>)";
-      						str+=" <td><input type='button' class='form-control' value='수정' onclick='fn_reviewUpdate();'/></td> ";
-      						str+=" <td><input type='button' class='form-control' value='삭제' onclick='fn_reviewDelete();'/></td><td> ";
-      						str+=" <td><input type='button' class='form-control' value='답글' onclick='fn_reply();'/></td></tr></tr> ";				
-      						
-      						if(commentList[i]["COMMENT_LEVEL"]==2){
-      							str2+=" <tr id=level2><td><strong>후기</strong><input type='text' class='form-control' id='level2-reviewWriter' value="+commentList[i]["MEMBER_NAME"]+" readonly/></td>";
-          						str2+=" <td><input type='text' class='form-control' id='level2-reviewContent' value="+commentList["COMMENT_CONTENT"]+"></td> ";
-          						str2+=" <td><input type='button' class='form-control' value='수정' onclick='fn_reviewUpdate();'/></td> ";
-          						str2+=" <td><input type='button' class='form-control' value='삭제' onclick='fn_reviewDelete();'/></td><td> ";
-          						str2+=" <td><input type='button' class='form-control' value='답글' onclick='fn_reply();'/></td></tr></tr> ";
-      						}
-      						var total = str+str2;
-      						console.log(total);
-      					}
-      					var tt = $('#reviewCommentContent').append(total);
-      				}
-      				$('#reviewComment').html(tt).append(a);
-      				return true;
-      			}
-      		});
-      	};  */
-      	
-      	function fn_noLogin(){
-      		location.href='${path}/member/memberLogin.do';
-      	}
-      	
-      	function fn_noLoginComment(){
-      		alert('로그인 후 이용가능한 서비스 입니다.');
-      		location.href='${path}/member/memberLogin.do';
-      	}
+          /* $(function(){
+            var wishBtn = $('#wishBtn');
+            wishBtn.click(function(){
+               var wishCount = $('input[name=wishCount]').val();
+                console.log("처음에 왔을 때 확인 : "+wishCount);
+                var productNo = $('#input-productNo').val();
+                var divBtn = $('#divBtn');
+               alert(wishCount);
+               $.ajax({
+                  url:"${path}/product/selectWish.do",
+                  data:{"productNo":productNo,"wishCount":wishCount},
+                  success:function(data){
+                     console.log(data);
+                     console.log(wishBtn);
+                     if(data["wishCount"]==0){
+                        console.log("이벤트 발생 후 0 : "+data["wishCount"]);
+                        wishBtn.html('<i class="fa fa-heart-o"></i>');
+                        $('input[name=wishCount]').val(data["wishCount"]);
+                     }
+                     if(data["wishCount"]!=0){
+                        console.log("이벤트 발생 후 1 : "+data["wishCount"]);
+                        wishBtn.html('<i class="fa fa-heart"></i>');
+                        $('input[name=wishCount]').val(data["wishCount"]);
+                     }
+                  }
+               })
+            });
+         }); */
+          
+         function fn_wishCk(){
+            var wishBtn = $('#wishBtn');
+            var wishCount = $('input[name=wishCount]').val();
+            console.log("처음에 왔을 때 확인 : "+wishCount);
+            var productNo = $('#input-productNo').val();
+            $.ajax({
+              url:"${path}/product/selectWish.do",
+              data:{"productNo":productNo,"wishCount":wishCount},
+              success:function(data){
+                 console.log(data);
+                 console.log(wishBtn);
+                 if(data["wishCount"]==0){
+                    console.log("이벤트 발생 후 0 : "+data["wishCount"]);
+                    wishBtn.html('<i class="fa fa-heart-o"></i>');
+                    $('input[name=wishCount]').val(data["wishCount"]);
+                 }
+                 if(data["wishCount"]!=0){
+                    console.log("이벤트 발생 후 1 : "+data["wishCount"]);
+                    wishBtn.html('<i class="fa fa-heart"></i>');
+                    $('input[name=wishCount]').val(data["wishCount"]);
+                 }
+              }
+           });
+         };
+         
+         /* $('li a').on("click",function(e){
+            e.preventDefault();
+            alert('들어오니?');
+            var productNo = $('#input-productNo').val();
+            var productinfoContent = $('#productinfoContent');
+            $.ajax({
+               url:"${path}/product/productDetail.do",
+               data:{"productNo":productNo},
+               success:function(data){
+                  console.log(data);
+                  productinfoContent.html(data["PRODUCT_DETAIL"]);
+                  return true;
+               }
+            });
+         }); */
+         
+         function fn_description(){
+            /* event.preventDefault(); */
+            var productNo = $('#input-productNo').val();
+            var productinfoContent = $('#productinfoContent');
+            $.ajax({
+               url:"${path}/product/productDetail.do",
+               data:{"productNo":productNo},
+               success:function(data){
+                  console.log(data);
+                  $('#descript').attr('href',"#tab-description");
+                  productinfoContent.html(data["PRODUCT_DETAIL"]);
+                  
+                  return true;
+               }
+            });
+         };
+         
+         /* function fn_review(cPage){
+            
+            var productNo = $('#input-productNo').val();
+            var commentType = $('input[name=review]').val();
+            alert('들어오니?'+commentType);
+            $.ajax({
+               url:"${path}/product/selectComment.do",
+               data:{"productNo":productNo, "commentType":commentType, "cPage":cPage},
+               success:function(data){
+                  console.log(data);
+                  var a = data.pageBar;
+                  var b = data.commentList; */
+                  /* var c = data.orderList; */
+                  /* console.log(a);
+                  console.log(b); */
+                  /* console.log(c); */
+                  /* var table = $("<table id='tbl-board' class='table table-striped table-hover'>"); */
+                  /* var select = $("#orderList"); */
+                  /* var orderStr="";
+                  for(var j = 0; j<c.length; j++){
+                     console.log(c[j].ORDER_NO);
+                     $('#orderList').append("<option value='"+c[j].ORDER_NO+"'>"+c[j].PRODUCT_TITLE+"</option>");
+                  }
+                  $('#div-review').append(select); */
+                  
+                  /* for(var i = 0; i<b.length; i++){
+                     console.log(b[i]);
+                     var tr = $('<tr>');
+                     for(var key in b[i]){
+                        console.log("으잉??"+key);
+                        console.log("ㅁㅇ롸ㅓㅇ놈ㄹㅇ"+b[i][key]);
+                        var td = $('<td>');                        
+                      td.append(b[i][key]);
+                        tr.append(td);
+                     }
+                     table.append(tr);
+                  }
+                  $('#reviewComment').html(table).append(a);
+                  return true;
+               }
+            });
+         };  */
+         
+      /* function fn_review(cPage){
+            var productNo = $('#input-productNo').val();
+            var commentType = $('input[name=review]').val();
+            $.ajax({
+               url:"${path}/product/selectComment.do",
+               data:{"productNo":productNo, "commentType":commentType, "cPage":cPage},
+               success:function(data){
+                  console.log(data);
+                  var a = data.pageBar;
+                  var commentList = data.commentList;
+                  var table = $('#tbl-comment');
+                  var html = "<table id='tbl-comment' class='table table-striped table-hover'><thead><tr><td>작성자</td><td>작성내용</td></tr></thead>";
+                  var t = table.append(html);
+                  for(var i = 0; i<commentList.length; i++){
+                     console.log(commentList[i]["COMMENT_CONTENT"]);
+                     for(var key in commentList[i]){
+                        var str = "";
+                        var str2 = "";
+                        str+=" <tr id='level1'><td><strong>후기</strong><input type='text' class='form-control' id='level1-reviewWriter' value="+commentList[i]["MEMBER_NAME"]+" readonly/></td> ";
+                        str+=" <td><input type='text' class='form-control' id='level1-reviewContent' value="+commentList["COMMENT_CONTENT"]+"></td>)";
+                        str+=" <td><input type='button' class='form-control' value='수정' onclick='fn_reviewUpdate();'/></td> ";
+                        str+=" <td><input type='button' class='form-control' value='삭제' onclick='fn_reviewDelete();'/></td><td> ";
+                        str+=" <td><input type='button' class='form-control' value='답글' onclick='fn_reply();'/></td></tr></tr> ";            
+                        
+                        if(commentList[i]["COMMENT_LEVEL"]==2){
+                           str2+=" <tr id=level2><td><strong>후기</strong><input type='text' class='form-control' id='level2-reviewWriter' value="+commentList[i]["MEMBER_NAME"]+" readonly/></td>";
+                            str2+=" <td><input type='text' class='form-control' id='level2-reviewContent' value="+commentList["COMMENT_CONTENT"]+"></td> ";
+                            str2+=" <td><input type='button' class='form-control' value='수정' onclick='fn_reviewUpdate();'/></td> ";
+                            str2+=" <td><input type='button' class='form-control' value='삭제' onclick='fn_reviewDelete();'/></td><td> ";
+                            str2+=" <td><input type='button' class='form-control' value='답글' onclick='fn_reply();'/></td></tr></tr> ";
+                        }
+                        var total = str+str2;
+                        console.log(total);
+                     }
+                     var tt = $('#reviewCommentContent').append(total);
+                  }
+                  $('#reviewComment').html(tt).append(a);
+                  return true;
+               }
+            });
+         };  */
+         
+         function fn_noLogin(){
+            location.href='${path}/member/memberLogin.do';
+         }
+         
+         function fn_noLoginComment(){
+            alert('로그인 후 이용가능한 서비스 입니다.');
+            location.href='${path}/member/memberLogin.do';
+         }
 
       </script>
       <!-- 상품 설명//댓글 창 List-->
       <div class="productinfo-tab">
         <ul class="nav nav-tabs">
           <li class="active">
-          	<a href="#tab-description" data-toggle="tab" onclick="fn_description();" id="descript">상세설명</a>
+             <a href="#tab-description" data-toggle="tab" onclick="fn_description();" id="descript">상세설명</a>
           </li>
           <li><a href="#tab-review" data-toggle="tab">상품후기</a></li> <!-- onclick="fn_review();" 모두 셀렉트로 가져옴 -->
           <li><a href="#tab-question" data-toggle="tab" id="product-question">상품문의</a></li>
-          <li><a href="#tab-sallerInfo" data-toggle="tab" id="product-sallerInfo" onclick="fn_sallerInfo();">판매자 정보</a></li>	
+          <li><a href="#tab-sallerInfo" data-toggle="tab" id="product-sallerInfo">판매자 정보</a></li>   
         </ul>
         <input type="hidden" name="review" value="R"/>
         <input type="hidden" name="question" value="Q"/>
@@ -420,166 +438,151 @@ function fn_sallerInfo(){
             <div class="cpt_product_description ">
               <div id="productinfoContent">
                 ${productDetail.PRODUCT_DETAIL }
+                ${orderList }
               </div>
             </div>
             <!-- cpt_container_end -->
             </div>
           
+
+
           <!-- 후기 댓글 등록 창 -->
          <div class="tab-pane" id="tab-review">
-         	<div id="reviewComment" class="form-group" style="border:1px solid red">
-         	 	
-         	 	<ul class="media-list">
-         				<c:if test='${reviewCommentList==null }'>
-         					<span id="level1">
-         						등록된 댓글이 없습니다.
-         					</span>
-         				</c:if>
-         				<c:if test="${reviewCommentList!=null }">
-         					<c:forEach items="${reviewCommentList }" var="reviewComment" varStatus="vs">
-								<li class="media">						
-         						<c:if test="${reviewComment.COMMENT_LEVEL eq 1 }">
-									<a class="pull-left" href="#"> 
-										<img class="media-object img-circle" width="100px;" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
-									</a>
-										<div class="media-body">
-											<div class="well well-sm">
-												<h4 class="media-heading text-uppercase reviews display-inline">${reviewComment['MEMBER_NAME'] }</h4>
-												<ul class="media-date text-uppercase reviews list-inline display-inline">
-													<li class="dd">22</li>
-													<li class="mm">09</li>
-													<li class="aaaa">2014</li>
-												</ul>
-		
-												<p class="media-comment">${reviewComment['COMMENT_CONTENT'] }</p>
-												<div>
-												<a class="btn btn-primary btn-circle text-uppercase btn-reply" data-toggle="collapse" href="#replyOne">
-													<i class="far fa-comment-dots"></i>&nbsp;comment</a>
-												<a class="btn btn-success btn-circle text-uppercase btn-reply" href="#" id="reply">
-													<i class="far fa-thumbs-up"></i></a>
-												<a class="btn btn-warning btn-circle text-uppercase btn-reply" href="#" id="reply" style="background-color: #b7c7c7;">
-													<i class="far fa-thumbs-down"></i></a>
-												<a class="btn btn-primary btn-circle btn-reply" href="#">답글</a>
-												<a class="btn btn-primary btn-circle btn-reply" href="#">수정</a>
-												<a class="btn btn-primary btn-circle btn-reply" href="#">삭제</a>
-												</div>
-											</div>
-										</div>
-								</c:if>
-								<c:if test="${reviewComment.COMMENT_LEVEL eq 2 }">
-										<div class="collapse col-sm-11 reply-sm-10" id="replyOne">
-											<ul class="media-list">
-												<li class="media media-replied"><a class="pull-left"
-													href="#"> 
-													<img class="media-object img-circle" style="width: 80px;" 
-														src="https://s3.amazonaws.com/uifaces/faces/twitter/ManikRathee/128.jpg" alt="profile">
-												</a>
-													<div class="media-body">
-														<div class="well well-sm">
-															<h4 class="media-heading text-uppercase reviews display-inline">
-																${reviewComment['MEMBER_NO'] }
-															</h4>
-															<ul class="media-date text-uppercase reviews list-inline display-inline">
-																<li class="dd">22</li>
-																<li class="mm">09</li>
-																<li class="aaaa">2014</li>
-															</ul>
-															<p class="media-comment">${reviewComment['COMMENT_CONTENT'] }
-																<a class="btn btn-primary btn-circle btn-reply" href="#">수정</a>
-																<a class="btn btn-primary btn-circle btn-reply" href="#">삭제</a>
-															</p>
-														</div>
-													</div>
-												</li>
-			
-											</ul>
-										</div>
-								</c:if>
-							</li>
-							</c:forEach>
-						</c:if>
-					</ul>
-         	 	
-         	 	
-         	 	
-         	 	<%-- <table id='tbl-comment' class='table table-striped table-hover'>
-         			<thead>
-         				<tr>
-         					<td>작성자</td>
-         					<td>작성내용</td>
-         				</tr>
-         			</thead>
-         			<tbody id="reviewCommentContent">
-         				<c:if test='${reviewCommentList==null }'>
-         					<tr id="level1">
-         						<td colspan="2">등록한 댓글이 없습니다.</td>
-         					</tr>
-         				</c:if>
-         				<c:if test="${reviewCommentList!=null }">
-         				<c:forEach items="${reviewCommentList }" var="reviewComment" varStatus="vs">
-         					<c:if test="${reviewComment.COMMENT_LEVEL eq 1 }">
-         					<tr id="level1">
-         						<td>
-         							<strong>후기</strong><input type="text" class="form-control" id="level1-reviewWriter" value="${reviewComment['MEMBER_NAME'] }" readonly="readonly" />
-         							
-         						</td>
-         						<td>
-	         						<input type="text" class="form-control" id="level1-reviewContent" value="${reviewComment['COMMENT_CONTENT'] }">
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="수정" onclick="fn_reviewUpdate();"/>
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="삭제" onclick="fn_reviewDelete();"/>
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="답글" onclick="fn_reply();"/>
-	         					</td>
-         					</tr>
-         					<c:if test="${reviewComment.COMMENT_LEVEL eq 2 }">
-         					<tr id="level2">
-	         					<td><strong>답글</strong><input type="text" class="form-control" id="level2-reviewWriter" value="${reviewComment['MEMBER_NO'] }" readonly/></td>
-	         					<td colspan="2">
-	         						<input type="text" class="form-control" id="level2-reviewContent" value="${reviewComment['COMMENT_CONTENT'] }">
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="수정"/>
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="삭제"/>
-	         					</td>
-	         				</tr>
-	         				</c:if>
-         					</c:if>
-         					</c:forEach>
-         				</c:if>
-         			</tbody>
-         		</table> --%>
-         		${reviewPageBar }
-         	</div>
-         	
+            <div id="reviewComment" class="form-group"> <!-- style="border:1px solid red" -->
+                
+                <ul class="media-list">
+                     <c:if test='${reviewCommentList==null }'>
+                        <span id="level1">
+                           등록된 상품 문의가 없습니다.
+                        </span>
+                     </c:if>
+                     <c:if test="${reviewCommentList!=null }">
+                        <c:forEach items="${reviewCommentList }" var="reviewComment" varStatus="vs">
+                        <li class="media">                  
+                           <c:if test="${reviewComment.COMMENT_LEVEL eq 1 }">
+                           <a class="pull-left" href="javascript:void(0);"> 
+                              <img class="media-object img-circle" width="100px;" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
+                           </a>
+                              <div class="media-body">
+                                 <div class="well well-sm">
+                                    <h4 class="media-heading text-uppercase reviews display-inline">${reviewComment['MEMBER_NAME'] }</h4>
+                                    <ul class="media-date text-uppercase reviews list-inline display-inline">
+                                       <li class="dd">22</li>
+                                       <li class="mm">09</li>
+                                       <li class="aaaa">2014</li>
+                                    </ul>
+      
+                                    <p class="media-comment">${reviewComment['COMMENT_CONTENT'] }</p>
+                                    <div>
+                                    <a id="btn-comment" class="btn btn-primary btn-circle text-uppercase btn-reply" data-toggle="collapse" href="#${reviewComment['COMMENT_NO']}">
+                                       <i class="far fa-comment-dots"></i>&nbsp;comment</a>
+                                       
+                                    <a class="btn btn-success btn-circle text-uppercase btn-reply" href="#" id="reply">
+                                       <i class="far fa-thumbs-up"></i></a>
+                                    <a class="btn btn-warning btn-circle text-uppercase btn-reply" href="#" id="reply" style="background-color: #b7c7c7;">
+                                       <i class="far fa-thumbs-down"></i></a>   
+                                       <div class="float-right">
+                                          <a class="btn btn-primary text-uppercase btn-reply" onclick="fn_reviewUpdate();">수정</a>
+                                          <a class="btn btn-primary text-uppercase btn-reply" onclick="fn_reviewDelete();">삭제</a>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                        </c:if>
+                        <c:if test="${reviewComment.COMMENT_LEVEL eq 2 }">  
+                           <div class="col-sm-11 reply-sm-10 collapse" id="${reviewComment['COMMENT_REF']}">
+                              <ul class="media-list">
+                              <li class="media media-replied">
+                              <a class="pull-left" href="javascript:void(0);"> 
+                                 <img class="media-object img-circle" style="width: 80px;" 
+                                    src="${path }/resources/image/seller_img.png" alt="profile">
+                              </a>
+                                 <div class="media-body">
+                                    <div class="well well-sm">
+                                       <h4 class="media-heading text-uppercase reviews display-inline">
+                                          판매자
+                                       </h4>
+                                       <ul class="media-date text-uppercase reviews list-inline display-inline">
+                                          <li class="dd">22</li>
+                                          <li class="mm">09</li>
+                                          <li class="aaaa">2014</li>
+                                       </ul>
+                                       <p class="media-comment">${reviewComment['COMMENT_CONTENT'] }</p>
+                                    </div>
+                                 </div>
+                              </li>
+                              </ul>
+                           </div>
+                        </c:if>
+                     </li>
+                     </c:forEach>
+                  </c:if>
+                  </ul>
+               
+               <div style="text-align: center;">
+                  ${reviewPageBar }
+               </div>
+            </div>
+
+                 
+          <!-- <script>
+      function fn_commentClick(commentNo){
+         var temp = '';
+         var str = '';   
+          $.ajax({
+              url:"${path}/product/selectReviewCommentSeconds.do",
+              data:{"commentNo":commentNo},
+              success:function(data){     
+                 
+                  
+                 for(var i = 0; i < data.list.length; i++)
+               {
+                       /* str = "<li class='media media-replied col-sm-10 float-right' style='padding-right: 0px;'>"; */
+                      str = "<div class='media-body'>";
+                  str += "<div class='well well-sm'>";
+                  str += "<h4 class='media-heading text-uppercase reviews display-inline' id='review-level2-memberNo'>" + data.list[i].MEMBER_NO + "</h4>";
+                  str += "<ul class='media-date text-uppercase reviews list-inline display-inline'>";
+                  str += "<li class='dd' id='review-level2-date'></li></ul>";
+                  str += "<p class='media-comment' id='review-level2-content'>" + data.list[i].COMMENT_CONTENT + "</p><div style='text-align:right;'>"
+                  str += "<a class='btn btn-primary text-uppercase btn-reply' onclick='fn_reviewUpdate();'>수정</a>&nbsp;";
+                  str += "<a class='btn btn-primary text-uppercase btn-reply' onclick='fn_reviewDelete();'>삭제</a></div>";
+                  str += "</div></div>";/* </li> */
+                  temp += str;
+               }
+                 
+                 /* temp += "<li class='media media-replied col-sm-10 float-right' style='padding-right: 0px;'>";
+                 temp += "<div class='media-body'>";
+                 temp += "<div class='well well-sm'>";
+                 temp += "<h4 class='media-heading text-uppercase reviews'>" + "KIM" + "</h4>";
+                 temp += "<textarea class='media-comment' rows='3' style='resize: none; width: 100%;' placeholder='내용을 입력해주세요'></textarea>";
+                 temp += "<div style='text-align:right;'><a class='btn btn-primary text-uppercase btn-reply' onclick='fn_reviewLevel2Write();'>등록</a></div>";
+                 temp += "</div></div></li>"; */
+                 $('#' + commentNo).append(temp);
+              }
+         });
+      }
+     </script>  -->
             <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
               <div  id="div-review">
-              	<c:if test="${orderList.size()>0 }">
-	              <select class="form-control" id="orderList">
-	              <c:forEach items="${orderList }" var="order">
-	              <c:if test="${order.ORDER_PAYSTATE eq '3'}">
-	              	<option value="${order.ORDER_NO }">${order.PRODUCT_TITLE }</option>
-	              </c:if>
-	              </c:forEach>
-	              </select>
-              	</c:if>
+                 <c:if test="${orderList.size()>0 }">
+                 <select class="form-control" id="orderList">
+                 <c:forEach items="${orderList }" var="order">
+                 <c:if test="${order.ORDER_PAYSTATE eq '3'}">
+                    <option value="${order.ORDER_NO }">${order.PRODUCT_TITLE }</option>
+                 </c:if>
+                 </c:forEach>
+                 </select>
+                 </c:if>
               </div>
-              <h2>상품 후기</h2>
               <div class="form-group required">
                 <div class="col-sm-12">
                   <label class="control-label" for="input-name">후기 작성자ID</label>
                   <c:if test="${member != null}">
-                  	<input type="text" name="name" id="input-name" class="form-control" value="${member.memberName }" readonly/>
-                  	<input type="hidden" name="memberNo" id="input-memberNo" value="${member.memberNo }"/>
-                  	<input type="hidden" name="reviewType" value="R"/>
-                  	<input type="hidden" name="reviewCommentProductNo" id="input-reviewCommentProductNo"/>
-                  	<input type="hidden" name="orderNo" id="input-reviewOrderNo"/>
+                     <input type="text" name="name" id="input-name" class="form-control" value="${member.memberName }" readonly/>
+                     <input type="hidden" name="memberNo" id="input-memberNo" value="${member.memberNo }"/>
+                     <input type="hidden" name="reviewType" value="R"/>
+                     <input type="hidden" name="reviewCommentProductNo" id="input-reviewCommentProductNo"/>
+                     <input type="hidden" name="orderNo" id="input-reviewOrderNo"/>
                   </c:if>
                 </div>
               </div>
@@ -610,14 +613,14 @@ function fn_sallerInfo(){
                 <div class="pull-right">
                   
                   <c:if test="${member==null }">
-                  	<button type="button" id="button-review" class="btn btn-primary" onclick="fn_noLoginComment();">후기등록</button>
+                     <button type="button" id="button-review" class="btn btn-primary" onclick="fn_noLoginComment();">후기등록</button>
                   </c:if>
                   
                   <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
                   <c:if test="${member!=null }">
-	                  <c:if test="${orderList[0].ORDER_PAYSTATE eq '3'}">
-	                  	<input type="button" id="button-review" class="btn btn-primary" value="후기등록" onclick="fn_insertReviewComment();"/>
-	                  </c:if>	
+                     <c:if test="${orderList[0].ORDER_PAYSTATE eq '3'}">
+                        <input type="button" id="button-review" class="btn btn-primary" value="후기등록" onclick="fn_insertReviewComment();"/>
+                     </c:if>   
                   </c:if>
                 </div>
               </div>
@@ -625,151 +628,112 @@ function fn_sallerInfo(){
           </div>
           
           <script>
-          	function fn_insertReviewComment(){
-          		alert('들어오니?');
-          		var productNo = $('#input-productNo').val();
-          		var orderNo = $('#orderList').val();
-          		$('#input-reviewCommentProductNo').val(productNo);
-          		$('#input-reviewOrderNo').val(orderNo);
-          		$('#commentReview').submit();
-          	}
+             function fn_insertReviewComment(){
+                alert('들어오니?');
+                var productNo = $('#input-productNo').val();
+                var orderNo = $('#orderList').val();
+                $('#input-reviewCommentProductNo').val(productNo);
+                $('#input-reviewOrderNo').val(orderNo);
+                $('#commentReview').submit();
+             }
           </script>
           
           <!-- 상품 문의 작성 -->
           <div class="tab-pane" id="tab-question">
-         	<div id="questionComment" class="form-group" style="border:1px solid red">
-<!--          	 	<table id='tbl-comment' class='table table-striped table-hover'>
-         			<thead>
-         				<tr>
-         					<td>작성자</td>
-         					<td>작성내용</td>
-         				</tr>
-         			</thead>
-         			<tbody id="questionCommentContent"> -->
-         			
-         			<ul class="media-list">
-         				<c:if test='${questionCommentList==null }'>
-         					<span id="level1">
-         						등록된 댓글이 없습니다.
-         					</span>
-         				</c:if>
-         				<c:if test="${questionCommentList!=null }">
-         					<c:forEach items="${questionCommentList }" var="questionComment" varStatus="vs">
-								<li class="media">						
-         						<c:if test="${questionComment.COMMENT_LEVEL eq 1 }">
-									<a class="pull-left" href="#"> 
-										<img class="media-object img-circle" width="100px;" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
-									</a>
-										<div class="media-body">
-											<div class="well well-sm">
-												<h4 class="media-heading text-uppercase reviews display-inline">${questionComment['MEMBER_NAME'] }</h4>
-												<ul class="media-date text-uppercase reviews list-inline display-inline">
-													<li class="dd">22</li>
-													<li class="mm">09</li>
-													<li class="aaaa">2014</li>
-												</ul>
-		
-												<p class="media-comment">${questionComment['COMMENT_CONTENT'] }</p>
-												<div>
-												<a class="btn btn-primary btn-circle text-uppercase btn-reply" data-toggle="collapse" href="#replyOne">
-													<i class="far fa-comment-dots"></i>&nbsp;comment</a>
-												<a class="btn btn-success btn-circle text-uppercase btn-reply" href="#" id="reply">
-													<i class="far fa-thumbs-up"></i></a>
-												<a class="btn btn-warning btn-circle text-uppercase btn-reply" href="#" id="reply" style="background-color: #b7c7c7;">
-													<i class="far fa-thumbs-down"></i></a>
-												</div>
-											</div>
-										</div>
-								</c:if>
-								<c:if test="${questionComment.COMMENT_LEVEL eq 2 }">
-										<div class="collapse col-sm-11 reply-sm-10" id="replyOne">
-											<ul class="media-list">
-												<li class="media media-replied"><a class="pull-left"
-													href="#"> 
-													<img class="media-object img-circle" style="width: 80px;" 
-														src="https://s3.amazonaws.com/uifaces/faces/twitter/ManikRathee/128.jpg" alt="profile">
-												</a>
-													<div class="media-body">
-														<div class="well well-sm">
-															<h4 class="media-heading text-uppercase reviews display-inline">
-																${questionComment['MEMBER_NO'] }
-															</h4>
-															<ul class="media-date text-uppercase reviews list-inline display-inline">
-																<li class="dd">22</li>
-																<li class="mm">09</li>
-																<li class="aaaa">2014</li>
-															</ul>
-															<p class="media-comment">${questionComment['COMMENT_CONTENT'] }</p>
-														</div>
-													</div>
-												</li>
-			
-											</ul>
-										</div>
-								</c:if>
-							</li>
-							</c:forEach>
-						</c:if>
-						</ul>
-						
-						
-         				<c:if test='${questionCommentList==null }'>
-         					<tr id="level1">
-         						<td colspan="2">등록한 댓글이 없습니다.</td>
-         					</tr>
-         				</c:if>
-         				<c:if test="${questionCommentList!=null }">
-         				<c:forEach items="${questionCommentList }" var="questionComment" varStatus="vs">
-         					<c:if test="${questionComment.COMMENT_LEVEL eq 1 }">
-         					<tr id="level1">
-         						<td>
-         							<strong>문의</strong><input type="text" class="form-control" id="level1-reviewWriter" value="${questionComment['MEMBER_NAME'] }" readonly/>
-         						</td>
-         						<td>
-	         						<input type="text" class="form-control" id="level1-reviewContent" value="${questionComment['COMMENT_CONTENT'] }">
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="수정" onclick="fn_reviewUpdate();"/>
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="삭제" onclick="fn_reviewDelete();"/>
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="답글" onclick="fn_reply();"/>
-	         					</td>
-         					</tr>
-         					<c:if test="${questionComment.COMMENT_LEVEL eq 2 }">
-         					<tr id="level2">
-	         					<td><strong>답글</strong><input type="text" class="form-control" id="level2-reviewWriter" value="${questionComment['MEMBER_NO'] }" readonly/></td>
-	         					<td colspan="2">
-	         						<input type="text" class="form-control" id="level2-reviewContent" value="${questionComment['COMMENT_CONTENT'] }">
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="수정"/>
-	         					</td>
-	         					<td>
-	         						<input type="button" class="form-control" value="삭제"/>
-	         					</td>
-	         				</tr>
-	         				</c:if>
-         					</c:if>
-         					</c:forEach>
-         				</c:if>
-         		<!-- 	</tbody>
-         		</table> -->
-         		${questionPageBar }
-         	</div>
-         	
+            <div id="questionComment" class="form-group"><!--  style="border:1px solid red" -->
+<!--                 <table id='tbl-comment' class='table table-striped table-hover'>
+                  <thead>
+                     <tr>
+                        <td>작성자</td>
+                        <td>작성내용</td>
+                     </tr>
+                  </thead>
+                  <tbody id="questionCommentContent"> -->
+                  
+                  <ul class="media-list">
+                     <c:if test='${questionCommentList==null }'>
+                        <span id="level1">
+                           등록된 상품 문의가 없습니다.
+                        </span>
+                     </c:if>
+                     <c:if test="${questionCommentList!=null }">
+                        <c:forEach items="${questionCommentList }" var="questionComment" varStatus="vs">
+                        <li class="media">                  
+                           <c:if test="${questionComment.COMMENT_LEVEL eq 1 }">
+                           <a class="pull-left" href="javascript:void(0);"> 
+                              <img class="media-object img-circle" width="100px;" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
+                           </a>
+                              <div class="media-body">
+                                 <div class="well well-sm">
+                                    <h4 class="media-heading text-uppercase reviews display-inline">${questionComment['MEMBER_NAME'] }</h4>
+                                    <ul class="media-date text-uppercase reviews list-inline display-inline">
+                                       <li class="dd">22</li>
+                                       <li class="mm">09</li>
+                                       <li class="aaaa">2014</li>
+                                    </ul>
+      
+                                    <p class="media-comment">${questionComment['COMMENT_CONTENT'] }</p>
+                                    <div>
+                                    <!-- <a id="btn-comment" class="btn btn-primary btn-circle text-uppercase btn-reply" data-toggle="collapse" href="#${questionComment['COMMENT_NO']}">
+                                       <i class="far fa-comment-dots"></i>&nbsp;comment</a> -->
+                                       
+                                    <a class="btn btn-success btn-circle text-uppercase btn-reply" href="#" id="reply">
+                                       <i class="far fa-thumbs-up"></i></a>
+                                    <a class="btn btn-warning btn-circle text-uppercase btn-reply" href="#" id="reply" style="background-color: #b7c7c7;">
+                                       <i class="far fa-thumbs-down"></i></a>   
+                                       <div class="float-right">
+                                          <a class="btn btn-primary text-uppercase btn-reply" onclick="fn_reviewUpdate();">수정</a>
+                                          <a class="btn btn-primary text-uppercase btn-reply" onclick="fn_reviewDelete();">삭제</a>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                        </c:if>
+                        <c:if test="${questionComment.COMMENT_LEVEL eq 2 }">  
+                           <div class="col-sm-11 reply-sm-10" <%-- collapse id="${questionComment['COMMENT_REF']}" --%>>
+                              <ul class="media-list">
+                              <li class="media media-replied">
+                              <a class="pull-left" href="javascript:void(0);"> 
+                                 <img class="media-object img-circle" style="width: 80px;" 
+                                    src="${path }/resources/image/seller_img.png" alt="profile">
+                              </a>
+                                 <div class="media-body">
+                                    <div class="well well-sm">
+                                       <h4 class="media-heading text-uppercase reviews display-inline">
+                                          판매자
+                                       </h4>
+                                       <ul class="media-date text-uppercase reviews list-inline display-inline">
+                                          <li class="dd">22</li>
+                                          <li class="mm">09</li>
+                                          <li class="aaaa">2014</li>
+                                       </ul>
+                                       <p class="media-comment">${questionComment['COMMENT_CONTENT'] }</p>
+                                    </div>
+                                 </div>
+                              </li>
+                              </ul>
+                           </div>
+                        </c:if>
+                     </li>
+                     </c:forEach>
+                  </c:if>
+                  </ul>
+                  
+                  
+               <div style="text-align: center;">
+                  ${questionPageBar }
+               </div>
+            </div>
+            
             <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
               <div  id="div-review"></div>
-              <h2>상품 문의</h2>
               <div class="form-group required">
                 <div class="col-sm-12">
                   <label class="control-label" for="input-name">문의 작성자ID</label>
                   <c:if test="${member != null}">
-                  	<input type="text" name="name" id="input-name" class="form-control" value="${member.memberName }" readonly/>
-                  	<input type="hidden" name="memberNo" id="input-memberNo" value="${member.memberNo }"/>
-                  	<input type="hidden" name="reviewType" value="Q"/>
+                     <input type="text" name="name" id="input-name" class="form-control" value="${member.memberName }" readonly/>
+                     <input type="hidden" name="memberNo" id="input-memberNo" value="${member.memberNo }"/>
+                     <input type="hidden" name="reviewType" value="Q"/>
                   </c:if>
                 </div>
               </div>
@@ -784,20 +748,16 @@ function fn_sallerInfo(){
                 <div class="pull-right">
                   
                   <c:if test="${member==null }">
-                  	<button type="button" id="button-review" class="btn btn-primary" onclick="fn_noLoginComment();">문의등록</button>
+                     <button type="button" id="button-review" class="btn btn-primary" onclick="fn_noLoginComment();">문의등록</button>
                   </c:if>
                   
-                  <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
                   <c:if test="${member!=null }">
-	                  <c:if test="${product_order.order_state eq '3'}">
-	                  	<input type="submit" id="button-review" class="btn btn-primary" value="문의등록"/>
-	                  </c:if>	
+                     <input type="submit" id="button-review" class="btn btn-primary" value="문의등록"/>
                   </c:if>
                 </div>
               </div>
             </form>
           </div>
-          
           
           <!-- 업체 정보 보여주는 곳 -->
           <div class="tab-pane" id="tab-sallerInfo">
@@ -820,12 +780,12 @@ function fn_sallerInfo(){
             </div>
             </div>
             </div>
-           
+            
+            
+        </div>
       </div>
-
-
-
-<!-- 비슷한 상품 추천 -->
+      
+      <!-- 비슷한 상품 추천 -->
       <!-- <h3 class="productblock-title">Related Products</h3>
       <div class="box">
         <div id="related-slidertab" class="row owl-carousel product-slider">
@@ -901,6 +861,5 @@ function fn_sallerInfo(){
       
       
     </div>
-
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

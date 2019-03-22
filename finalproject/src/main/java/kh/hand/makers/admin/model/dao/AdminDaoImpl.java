@@ -24,6 +24,12 @@ public class AdminDaoImpl implements AdminDao {
 	SqlSessionTemplate session;
 
 	@Override
+	public List<Brand> selectBrandList() {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectAllBrandList");
+	}
+
+	@Override
 	public int selectProductCount() {
 		return session.selectOne("admin.selectProductCount");
 	}
@@ -177,6 +183,12 @@ public class AdminDaoImpl implements AdminDao {
 	public int enrollProductDetail(Map<String, String> detail) {
 		// TODO Auto-generated method stub
 		return session.insert("admin.enrollProductDetail", detail);
+	}
+
+	@Override
+	public String selectSellerNo(String brandNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectSellerNo",brandNo);
 	}
 	
 	

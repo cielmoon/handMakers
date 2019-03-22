@@ -22,6 +22,8 @@
 		var emailRegex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 		var memberPhone = $("#memberPhone").val();
 		var phoneRegex = /^[0-9]+$/;
+		var memberName = $("#memberName").val();
+		var nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|\*]+$/;
 		
 		if ($("#memberName").val() == "") {
 			alert("이름을 입력해주세요.");
@@ -51,6 +53,13 @@
 		if (!phoneRegex.test(memberPhone)) {
 			alert("핸드폰번호는 숫자만 입력해주세요.");
 			$("#memberPhone").focus();
+			
+			return false;
+		}
+		
+		if (!nameRegex.test(memberName)) {
+			alert("이름은 한글 또는 영어로 입력해주세요.");
+			$("#memberName").focus();
 			
 			return false;
 		}

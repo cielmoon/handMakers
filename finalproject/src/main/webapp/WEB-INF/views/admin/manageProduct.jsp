@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 <style>
-#select-bigCategory, #select-smallCategory {
+#select-brand, #select-bigCategory, #select-smallCategory {
 	margin-bottom: 10px;
 }
 </style>
@@ -66,7 +66,13 @@ $(function() {
 			<div class="col-sm-9" id="content">
 				<div class="row">
 					<div class="col-sm-12">
-						<label class="control-label">카테고리 *</label>
+						<div class="col-sm-3">
+						<select class="form-control" id="select-brand" name="brandNo" required>
+							<c:forEach items="${brandList }" var="b" varStatus="vs">
+								<option ${vs.count==1? "selected" : ""} value="${b.brandNo }">${b.brandTitle}</option>
+							</c:forEach>
+						</select>
+						</div>			
 						<div class="col-sm-3">
 						<select class="form-control" id="select-bigCategory" name="bcNo" required>
 							<c:forEach items="${bcList }" var="b" varStatus="vs">
@@ -78,13 +84,6 @@ $(function() {
 						<select class="form-control" id="select-smallCategory" name="scNo" required>
 							<c:forEach items="${scList }" var="s" varStatus="vs">
 								<option ${vs.count==1? "selected" : ""} value="${s.scNo }">${s.scTitle}</option>
-							</c:forEach>
-						</select>
-						</div>
-						<div class="col-sm-3">
-						<select class="form-control" id="select-brand" name="brandNo" required>
-							<c:forEach items="${brandList }" var="b" varStatus="vs">
-								<option ${vs.count==1? "selected" : ""} value="${b.brandNo }">${b.brandTitle}</option>
 							</c:forEach>
 						</select>
 						</div>
@@ -118,7 +117,7 @@ $(function() {
 						</table>
 						${pageBar }
 					</div>
- 					<div class="col-sm-12">
+   					<div class="col-sm-12">
 						<div class="col-sm-9"></div>
 						<div class="col-sm-3">
 							<input type="button" class="btn btn-primary"

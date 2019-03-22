@@ -25,7 +25,12 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-
+	
+	<!-- 파일업로드 객체 설정 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10485760"/><!-- 10mb -->
+	</beans:bean>
+	
 	<context:component-scan
 		base-package="kh.hand.makers" />
 
@@ -35,27 +40,33 @@
 			<mapping path="/admin/*.do" />
 			<mapping path="/order/*.do" />
 			<mapping path="/shop/*.do" />
+			<exclude-mapping path="/admin/handleFileUpload.do" />
 			<exclude-mapping path="/member/checkId.do" />
 			<exclude-mapping path="/member/memberLogin.do" />
 			<exclude-mapping path="/member/memberLoginEnd.do" />
 			<exclude-mapping path="/member/memberEnroll.do" />
 			<exclude-mapping path="/member/memberEnrollEnd.do" />
 			<exclude-mapping path="/member/memberLogout.do" />
-			<exclude-mapping path="/member/memberWithdrawalEnds.do" />
+			<exclude-mapping
+				path="/member/memberWithdrawalEnds.do" />
 			<beans:bean id="loggerInterceptor"
 				class="kh.hand.makers.common.LoggerInterceptor" />
 		</interceptor>
 	</interceptors>
 
 	<!-- jsonView 등록 -->
-	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
-		<beans:property name="order" value="1"/>
+	<beans:bean id="viewResolver"
+		class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="1" />
 	</beans:bean>
-	<beans:bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView"/>
-	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+	<beans:bean id="jsonView"
+		class="net.sf.json.spring.web.servlet.view.JsonView" />
+	<beans:bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<beans:property name="messageConverters">
 			<beans:list>
-				<beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></beans:bean>
+				<beans:bean
+					class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></beans:bean>
 			</beans:list>
 		</beans:property>
 	</beans:bean>

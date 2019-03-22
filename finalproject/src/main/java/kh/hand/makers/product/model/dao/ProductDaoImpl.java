@@ -173,6 +173,11 @@ public class ProductDaoImpl implements ProductDao {
 		System.out.println(map);
 		return session.insert("product.insertTotalScoreReview",map);
 	}
+
+	@Override
+	public List<Map<String, String>> selectReviewCommentSeconds(String commentNo) {
+		return session.selectList("product.selectReviewCommentSeconds", commentNo);
+	}
 	
 	
 	

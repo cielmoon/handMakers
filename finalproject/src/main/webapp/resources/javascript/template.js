@@ -102,7 +102,7 @@ $(window).resize(function(){gridlistactive();});
 /* This JS is for Testimonial slider */ 
 $(document).ready(function () { 
 
-	 $('#tabs a').tabs();  	 
+	/* $('#tabs a').tabs();  	*/ 
 	 $('div.product-grid-item:last-child').addClass('last');
 	 $('div.product-slider-item:last-child').addClass('last');
 	 $('.main-navigation > li:last-child').addClass('last-menu');
