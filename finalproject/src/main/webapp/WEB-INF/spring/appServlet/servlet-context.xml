@@ -40,6 +40,7 @@
 			<mapping path="/admin/*.do" />
 			<mapping path="/order/*.do" />
 			<mapping path="/shop/*.do" />
+			<exclude-mapping path="/admin/handleFileUpload.do" />
 			<exclude-mapping path="/member/checkId.do" />
 			<exclude-mapping path="/member/memberLogin.do" />
 			<exclude-mapping path="/member/memberLoginEnd.do" />

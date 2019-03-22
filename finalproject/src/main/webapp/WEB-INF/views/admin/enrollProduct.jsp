@@ -8,11 +8,25 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <%-- <jsp:para value="" name="pageTitle"/> --%>
 
+<!-- include libraries(jQuery, bootstrap) -->
+
+<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> -->
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+<!-- include summernote css/js-->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
+
+
+
+
+
+
+<!-- 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.css" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.js"></script>
-
+ -->
 
 <!-- <script src="http://jonthornton.github.io/Datepair.js/dist/datepair.js"></script>
 <script src="http://jonthornton.github.io/Datepair.js/dist/jquery.datepair.js"></script> -->
@@ -36,15 +50,19 @@
 
 	$(document).ready(function() {	
 		
-		$('#summernote').summernote({
-	        height : 350,
-	        callbacks:{
-	        	onImageUpload : function(files, editor, welEditable) {
-	            	sendFile(files[0], editor, welEditable);
-	        	}
-			}, 
-	        lang : 'ko-KR'
-	    });
+	      $('#summernote').summernote({
+	          height: 300,
+	          minHeight: null,
+	          maxHeight: null,
+	          focus: true,
+	          callbacks: {
+	            onImageUpload: function(files, editor, welEditable) {
+	              for (var i = files.length - 1; i >= 0; i--) {
+	                sendFile(files[i], this);
+	              }
+	            }
+	          }
+	        });
 	     
 		$("#newProductProfile").on("change", enrollMainImg);
 		// 상품 등록날짜, 마감날짜 
@@ -89,22 +107,24 @@
 		
 	});
 	
-	function sendFile(file, editor, welEditable) {
-	    data = new FormData();
-	    data.append("uploadFile", file);
-	    $.ajax({
-	        data : data,
-	        type : "POST",
-	        url : "${path}/admin/handleFileUpload.do",
-	        cache : false,
-	        contentType : false,
-	        processData : false,
-	        success : function(data) {
-	        	console.log("경로 : "+data.url);
-	            editor.insertImage(welEditable, data.url);
-	        }
-	    });
-	}
+    function sendFile(file, el) {
+        var form_data = new FormData();
+        var path = '${path}' + "/resources/image/product/";
+        form_data.append('file', file);
+        $.ajax({
+          data: form_data,
+          type: "POST",
+          url: '${path}/admin/handleFileUpload.do',
+          cache: false,
+          contentType: false,
+          enctype: 'multipart/form-data',
+          processData: false,
+          success: function(url) {        
+            $(el).summernote('editor.insertImage', path + url);
+            $('#imageBoard > ul').append('<li><img src="'+ path + url +'" width="480" height="auto"/></li>');
+          }
+        });
+      }
     
 /* 	function checkDate() {
 		var startDate = $("#newProductSaleStart").val();
@@ -517,7 +537,13 @@ $(function(){
 									<tbody class="tbody_">										
 										<tr><td>상품 상세내용 작성</td></tr>
 										<tr>
-											<td><div class="form-control" id="summernote" name="newProductDetailComments" maxlength="140" rows="7"></div></td>
+											<td>
+											<textarea class="form-control" id="summernote" name="newProductDetail" maxlength="140" rows="7">
+											
+											</textarea>
+											
+											</td>
+											
 										</tr>
 									</tbody>
 								</table>

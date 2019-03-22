@@ -6,70 +6,78 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
-   
-   <!-- Root Context: defines shared resources visible to all other web components -->
-   <bean id="realDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-      <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-      <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-      <property name="username" value="handmakers"/>
-      <property name="password" value="handmakers"/>
-   </bean>
-   
-   <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
-      <constructor-arg ref="realDataSource"/>
-      <property name="logFormatter">
-         <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
-            <property name="loggingType" value="MULTI_LINE"/>
-            <property name="sqlPrefix" value="[SQL]"/>
-         </bean>
-      </property>
-   </bean>
-   
-   <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
-      <property name="dataSource" ref="dataSource"/>
-      <property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>
-      <property name="configLocation" value="classpath:mybatis-config.xml"></property>
-   </bean>
-   <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
-      <constructor-arg index="0" ref="sqlSessionFactoryBean"/>
-   </bean>
-   
-   <!-- 트랜잭션 매니저 등록 -->
-   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource"/>
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean id="realDataSource"
+		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName"
+			value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url"
+			value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="handmakers" />
+		<property name="password" value="handmakers" />
 	</bean>
-	
-   <!-- 트랜 잭션 처리하기 위해서 등록 -->
-   <tx:annotation-driven transaction-manager="transactionManager"/>
-   
- 	<!-- 공통 기능을 제공할 클래스를 빈으로 등록 -->
-	<!-- <bean id="headerMenuCaller" class="kh.hand.makers.common.aop.HeaderAspect">
+
+	<bean id="dataSource"
+		class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="realDataSource" />
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE" />
+				<property name="sqlPrefix" value="[SQL]" />
+			</bean>
+		</property>
 	</bean>
-	
-	<aop:config>
-		<aop:aspect id="headerAspect" ref="headerMenuCaller">
-			<aop:pointcut id="publicMethod" expression="execution(* kh.hand.makers.*.*(..))" />
-			<aop:before pointcut-ref="publicMethod" method="myBefore"/>
-		</aop:aspect>
-	</aop:config>  어렵네 AOP-->
-	<!-- Aspect 설정: Advice를 어떤 Pointcut에 적용할 지 설정 -->	
-	
-	<!-- SMTP -->
-   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-      <property name="host" value="smtp.gmail.com" />
-      <property name="port" value="587" />
-      <property name="username" value="diekdaldzl@gmail.com" />
-      <property name="password" value="wjdeorbs123" />
+
+	<bean id="sqlSessionFactoryBean"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations"
+			value="classpath*:mapper/**/*.xml" />
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml"></property>
+	</bean>
+	<bean id="sqlSessionTemplate"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactoryBean" />
+	</bean>
+
+	<!-- 트랜잭션 매니저 등록 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 트랜 잭션 처리하기 위해서 등록 -->
+	<tx:annotation-driven
+		transaction-manager="transactionManager" />
+
+	<!-- 공통 기능을 제공할 클래스를 빈으로 등록 -->
+	<!-- <bean id="headerMenuCaller" class="kh.hand.makers.common.aop.HeaderAspect"> 
+		</bean> <aop:config> <aop:aspect id="headerAspect" ref="headerMenuCaller"> 
+		<aop:pointcut id="publicMethod" expression="execution(* kh.hand.makers.*.*(..))" 
+		/> <aop:before pointcut-ref="publicMethod" method="myBefore"/> </aop:aspect> 
+		</aop:config> 어렵네 AOP -->
+	<!-- Aspect 설정: Advice를 어떤 Pointcut에 적용할 지 설정 -->
+
+	<!-- 이메일 관련 -->
+	<bean id="javaMailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="diekdaldzl@gmail.com" />
+		<property name="password" value="wjdeorbs123" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.auth">true</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="mailService" class="kh.hand.makers.admin.model.service.MailServiceImpl">
+		<property name="javaMailSender" ref="javaMailSender" />
+	</bean>
 
 
-   <!-- email 요청시는 SMTP -->
-      <property name="javaMailProperties">
-         <props>
-            <prop key="mail.transport.protocol">smtp</prop>
-            <prop key="mail.smtp.auth">true</prop>
-            <prop key="mail.smtp.starttls.enable">true</prop>
-            <prop key="mail.debug">true</prop>
-         </props>
-      </property>
-   </bean>
 </beans>

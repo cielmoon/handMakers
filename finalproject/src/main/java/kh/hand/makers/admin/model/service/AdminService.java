@@ -50,4 +50,7 @@ public interface AdminService {
 	int enrollProductDetail(Map<String, String> detail);
 	int enrollProductImg(Map<String, String> img);
 	int enrollProductOption(Map<String, String> option);
+	
+
+
 }

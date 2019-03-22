@@ -209,8 +209,9 @@
 								<div class="form-group">
 									<input type="text" class="form-control" id="memberEmail"
 										placeholder="이메일" name="memberEmail">
-								</div>
-								
+									
+								</div>						
+							
 								<div class="form-group">
 									<input type="text" class="form-control" id="memberPhone"
 										placeholder="핸드폰번호 (-제외)" name="memberPhone" maxlength="11">
@@ -219,7 +220,9 @@
 							</form>
 						</div>
 					</div>
-					<div class="col-sm-3"></div>
+					<div class="col-sm-3">
+	
+					</div>
 				</div>
 			</div>
 		</div>
