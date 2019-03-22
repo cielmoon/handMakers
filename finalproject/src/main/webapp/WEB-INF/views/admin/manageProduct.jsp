@@ -65,8 +65,7 @@ $(function() {
 			<!-- 정보 변경 전에 다시 비밀번호 확인 -->
 			<div class="col-sm-9" id="content">
 				<div class="row">
-					<div class="col-sm-12">
-						<label class="control-label">카테고리 *</label>
+					<div class="col-sm-12">			
 						<div class="col-sm-3">
 						<select class="form-control" id="select-bigCategory" name="bcNo" required>
 							<c:forEach items="${bcList }" var="b" varStatus="vs">
