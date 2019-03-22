@@ -34,4 +34,8 @@
   	<select id="selectProductOption" parameterType="string" resultType="map">
   		SELECT * FROM PRODUCT_OPTION WHERE PRODUCT_OPTION_NO = #{productOptionNo}
   	</select>
+  	
+  	<select id="selectCategoryMap" parameterType="string" resultType="map">
+  		SELECT * FROM PRODUCT WHERE PRODUCT_NO=#{productNo}
+  	</select>
 </mapper>

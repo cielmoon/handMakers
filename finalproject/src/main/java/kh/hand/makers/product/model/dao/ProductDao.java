@@ -29,4 +29,6 @@ public interface ProductDao {
 	List<Map<String, String>> sCategoryList(String bCategory);
 	List<Map<String,String>> selectOrderList(Map<String,String> map);
 	Map<String,String> selectBrand(String productNo);
+	int insertCommentReview(Map<String,String> map);
+	int insertTotalScoreReview(Map<String,String> map);
 }

@@ -294,5 +294,33 @@ public class ProductController {
 		return mv;
 	}
 	
+	@RequestMapping("/product/insertCommentReview.do")
+	public ModelAndView insertCommentReview(@RequestParam Map<String,String> map, HttpServletRequest request) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		logger.debug(map+"");
+		
+		int result = service.insertCommentReview(map);
+		
+		String msg = "";
+		String loc = "/product/productView.do?productNo="+map.get("reviewCommentProductNo");
+		
+		if(result>0) {
+			
+			result = service.insertTotalScoreReview(map);
+			if(result>0) {				
+				msg = "후기 댓글 등록 성공~!";
+			}
+		}else {
+			msg = "후기 댓글 등록 실패하였습니다..";
+		}
+		
+		mv.addObject("loc",loc);
+		mv.addObject("msg",msg);
+		mv.setViewName("/common/msg");
+		
+		return mv;
+	}
 	
 }

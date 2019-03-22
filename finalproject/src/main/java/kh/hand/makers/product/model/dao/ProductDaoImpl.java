@@ -167,6 +167,18 @@ public class ProductDaoImpl implements ProductDao {
 		
 		return session.selectOne("product.selectBrand",productNo);
 	}
+
+	@Override
+	public int insertCommentReview(Map<String, String> map) {
+		
+		return session.insert("product.insertCommentReview",map);
+	}
+
+	@Override
+	public int insertTotalScoreReview(Map<String, String> map) {
+		System.out.println(map);
+		return session.insert("product.insertTotalScoreReview",map);
+	}
 	
 	
 	

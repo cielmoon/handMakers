@@ -12,8 +12,8 @@
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="/makers"><i class="fa fa-home"></i></a></li>
-	<li><a href="${path }/product/category.do?category="${product.BC_NO }>${bcTitle }</a></li>
-    <li><a href="#">${product.PRODUCT_TITLE }</a></li>
+	<li><a href="${path }/product/category.do?category=${product.BC_NO }">${bcTitle }</a></li>
+    <li><a href="javascript:void(0)">${product.PRODUCT_TITLE }</a></li>
   </ul>
   <!-- nav -->
   <div class="row">
@@ -24,7 +24,7 @@
           <div class="category_block">
             <ul class="box-category treeview-list treeview">
             <c:forEach items="${scList }" var="sc"> 
-              	<li><a href="${path }/product/category.do?category=${sc.scNo}">${sc.scTitle}</a></li>
+              	<li><a href="${path }/product/category.do?category=${sc.bcNo}&sc=${sc.scNo}">${sc.scTitle}</a></li>
               </c:forEach>
      		</ul>
           </div>
@@ -62,11 +62,13 @@
         <div class="col-sm-6">
         <form id="productViewFrm" action="${path }/order/orderEnroll.do" method="post">
           <h1 class="productpage-title">${product.PRODUCT_TITLE }</h1>
-         
-         <!-- AddThis Button BEGIN -->
-            <div class="addthis_toolbox addthis_default_style"><a class="addthis_button_facebook_like" ></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_pinterest_pinit"></a> <a class="addthis_counter addthis_pill_style"></a></div>
-         <!-- AddThis Button END -->
-          
+          <ul class="list-unstyled productinfo-details-top">
+            <li>
+            <!-- 가격 -->
+              <h2 class="productpage-price">( 누적평점 :  누적 판매량 : ${product.PRODUCT_TOTALSELL } ) </h2>
+            </li>
+          </ul>
+          	
           <hr>
           
           <ul class="list-unstyled productinfo-details-top">
@@ -84,19 +86,27 @@
           
           <ul class="list-unstyled product_info">
             <li>
-              <label>brand:</label>
-              <span> ${product.BRAND_TITLE}</span></li>
-            <%-- <li>
-              <label>상품 :</label>
-              <span> ${productList.PRODUCT_TITLE }</span></li> --%>
-            <li>
               <label>최소수량:</label>
               <span> ${product.PRODUCT_MIN }</span></li>
             <li>
               <label>최대수량:</label>
-              <span> ${product.PRODUCT_MAX }</span></li>  
+              <span> ${product.PRODUCT_MAX }</span></li>
+            <li>
+              <label>현재 판매량 : </label>
+              <span> ${product.PRODUCT_CURSELL }</span></li>  
           </ul>
-          <hr>
+          <hr/>
+          
+          <ul class="list-unstyled product_info">
+            <li>
+              <label>판매시작일:</label>
+              <span><fmt:formatDate value="${product.PRODUCT_UPDATE }" pattern="yyyy-MM-dd"/></span>
+           	</li>
+            <li>
+              <label>판매종료일:</label>
+              <span><fmt:formatDate value="${product.PRODUCT_ENDDATE }" pattern="yyyy-MM-dd"/></span></li>  
+          </ul>
+          <hr/>
              
           <p class="product-desc">${product.PRODUCT_COMMENT }</p>
           <div id="product">
@@ -112,13 +122,13 @@
               <label class="control-label qty-label" for="input-qty">수량</label>
               <input type="number" name="productQty" value="1" size="2" id="input-quantity" class="form-control productpage-qty" />
               
-              <input type="hidden" name="productNo" id="input-productNo" value="${product.PRODUCT_NO }" />
-              <input type="hidden" name="brandNo" value="${product.BRAND_NO }" />
+              <input type="hidden" name="productNo" id="input-productNo" value="${product.PRODUCT_NO }"/>
+              <input type="hidden" name="brandNo" value="${product.BRAND_NO }"/>
               <input type="hidden" name="wishCount" value="${wishCount }"/>
               <input type="hidden" name="cPage" id="cPage" value="${cPage }"/>
               <input type="hidden" name="productTitle" value="${product.PRODUCT_TITLE }"/>
 
-              <!-- <input type="hidden" name="" -->
+             
               <div class="btn-group" id="divBtn">
               
               <!-- 찜 버튼 ajax 처리 wish list 저장 -->
@@ -347,9 +357,9 @@
           <li class="active">
           	<a href="#tab-description" data-toggle="tab" onclick="fn_description();" id="descript">상세설명</a>
           </li>
-          <!-- <li><a href="#tab-review" data-toggle="tab">상품후기</a></li> onclick="fn_review();" 모두 셀렉트로 가져옴
+          <li><a href="#tab-review" data-toggle="tab">상품후기</a></li> <!-- onclick="fn_review();" 모두 셀렉트로 가져옴 -->
           <li><a href="#tab-question" data-toggle="tab" id="product-question">상품문의</a></li>
-          <li><a href="#tab-sallerInfo" data-toggle="tab" id="product-sallerInfo">판매자 정보</a></li> -->	
+          <li><a href="#tab-sallerInfo" data-toggle="tab" id="product-sallerInfo">판매자 정보</a></li>	
         </ul>
         <input type="hidden" name="review" value="R"/>
         <input type="hidden" name="question" value="Q"/>
@@ -360,13 +370,14 @@
             <div class="cpt_product_description ">
               <div id="productinfoContent">
                 ${productDetail.PRODUCT_DETAIL }
+                ${orderList }
               </div>
             </div>
             <!-- cpt_container_end -->
             </div>
           
           <!-- 후기 댓글 등록 창 -->
-          <%-- <div class="tab-pane" id="tab-review">
+         <div class="tab-pane" id="tab-review">
          	<div id="reviewComment" class="form-group" style="border:1px solid red">
          	 	<table id='tbl-comment' class='table table-striped table-hover'>
          			<thead>
@@ -386,9 +397,7 @@
          					<c:if test="${reviewComment.COMMENT_LEVEL eq 1 }">
          					<tr id="level1">
          						<td>
-         							<strong>후기</strong><input type="text" class="form-control" id="level1-reviewWriter" value="${reviewComment['MEMBER_NAME'] }" readonly/>
-         							
-         							<!-- $(#level1).append('<td><strong>후기</strong><input type="text" class="form-control" id="level1-reviewWriter" value="'+data[i].MEMBER_NAME+'" readonly/></td>') -->
+         							<strong>후기</strong><input type="text" class="form-control" id="level1-reviewWriter" value="${reviewComment['MEMBER_NAME'] }" readonly="readonly" />
          							
          						</td>
          						<td>
@@ -422,69 +431,20 @@
          					</c:forEach>
          				</c:if>
          			</tbody>
-         		</table> --%>
-         		<%-- ${reviewPageBar } --%>
+         		</table>
+         		${reviewPageBar }
          	</div>
          	
-         	<!-- <div class="form-group">
-         		
-         				<tr>
-         					<td><strong>후기</strong><input type="text" class="form-control" value="홍길동" readonly/></td>
-         					<td>
-         						<input type="text" class="form-control" value="내용">
-         					</td>
-         					<td>
-         						<input type="button" class="form-control" value="수정"/>
-         					</td>
-         					<td>
-         						<input type="button" class="form-control" value="삭제"/>
-         					</td>
-         					<td>
-         						<input type="button" class="form-control" value="답글"/>
-         					</td>
-         				</tr>
-         				<tr>
-         					<td><strong>답글</strong><input type="text" class="form-control" value="판매자" readonly/></td>
-         					<td colspan="2">
-         						<input type="text" class="form-control" value="답변">
-         					</td>
-         					<td>
-         						<input type="button" class="form-control" value="수정"/>
-         					</td>
-         					<td>
-         						<input type="button" class="form-control" value="삭제"/>
-         					</td>
-         				</tr>
-         			
-         	</div>
-         	
-         	<ul class="pagination pagination-sm no-magin" id="reviewCommentUL">
-         	 		<li data-replyNo="test" class='form-control'>
-         	 			<h3><strong>후기</strong></h3><p class='form-inline'>내용</p>
-         	 			<p class='form-inline'>작성자</p>
-         	 			<button type='button' class='btn btn-xs btn-success form-inline' data-toggle='modal' data-target='#modifyModal'>댓글 수정</button>
-         	 			<button type='button' class='btn btn-xs btn-success form-inline' data-toggle='modal' data-target='#modifyModal'>댓글 삭제</button>
-         	 			<button type='button' class='btn btn-xs btn-success form-inline' data-toggle='modal' data-target='#modifyModal'>답글 달기</button>
-         	 		</li>
-         	 		<hr/>
-         	 		<li data-replyNo="test" class='form-control'>
-         	 			<strong>답변</strong><p class='form-inline'>내용</p>
-         	 			<p class='form-inline'>작성자</p>
-         	 			<button type='button' class='btn btn-xs btn-success' data-toggle='modal' data-target='#modifyModal'>댓글 수정</button>
-         	 			<button type='button' class='btn btn-xs btn-success' data-toggle='modal' data-target='#modifyModal'>댓글 삭제</button>
-         	 		</li>
-         	 	</ul> -->
-         	
-            <%-- <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
+            <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
               <div  id="div-review">
-              	<c:if test="${orderList!=null }">
-              	<c:if test="${orderList.ORDER_PAYSTATE eq '3'}">
+              	<c:if test="${orderList.size()>0 }">
 	              <select class="form-control" id="orderList">
 	              <c:forEach items="${orderList }" var="order">
+	              <c:if test="${order.ORDER_PAYSTATE eq '3'}">
 	              	<option value="${order.ORDER_NO }">${order.PRODUCT_TITLE }</option>
+	              </c:if>
 	              </c:forEach>
 	              </select>
-	            </c:if>
               	</c:if>
               </div>
               <h2>상품 후기</h2>
@@ -495,13 +455,15 @@
                   	<input type="text" name="name" id="input-name" class="form-control" value="${member.memberName }" readonly/>
                   	<input type="hidden" name="memberNo" id="input-memberNo" value="${member.memberNo }"/>
                   	<input type="hidden" name="reviewType" value="R"/>
+                  	<input type="hidden" name="reviewCommentProductNo" id="input-reviewCommentProductNo"/>
+                  	<input type="hidden" name="orderNo" id="input-reviewOrderNo"/>
                   </c:if>
                 </div>
               </div>
               <div class="form-group required">
                 <div class="col-sm-12">
                   <label class="control-label" for="input-review">상품 후기</label>
-                  <textarea name="text" rows="5" id="input-review" name="reviewContent" class="form-control"></textarea>
+                  <textarea name="reviewContent" rows="5" id="input-review" name="reviewContent" class="form-control"></textarea>
                 </div>
               </div>
               
@@ -530,14 +492,25 @@
                   
                   <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
                   <c:if test="${member!=null }">
-	                  <c:if test="${product_order.order_state eq '3'}">
-	                  	<input type="submit" id="button-review" class="btn btn-primary" value="후기등록"/>
-	                  </c:if>	
+	                  <%-- <c:if test="${orderList.ORDER_PAYSTATE eq '3'}"> --%>
+	                  	<input type="button" id="button-review" class="btn btn-primary" value="후기등록" onclick="fn_insertReviewComment();"/>
+	                  <%-- </c:if> --%>	
                   </c:if>
                 </div>
               </div>
             </form>
           </div>
+          
+          <script>
+          	function fn_insertReviewComment(){
+          		alert('들어오니?');
+          		var productNo = $('#input-productNo').val();
+          		var orderNo = $('#orderList').val();
+          		$('#input-reviewCommentProductNo').val(productNo);
+          		$('#input-reviewOrderNo').val(orderNo);
+          		$('#commentReview').submit();
+          	}
+          </script>
           
           <!-- 상품 문의 작성 -->
           <div class="tab-pane" id="tab-question">
@@ -561,9 +534,6 @@
          					<tr id="level1">
          						<td>
          							<strong>문의</strong><input type="text" class="form-control" id="level1-reviewWriter" value="${questionComment['MEMBER_NAME'] }" readonly/>
-         							
-         							$(#level1).append('<td><strong>후기</strong><input type="text" class="form-control" id="level1-reviewWriter" value="'+data[i].MEMBER_NAME+'" readonly/></td>')
-         							
          						</td>
          						<td>
 	         						<input type="text" class="form-control" id="level1-reviewContent" value="${questionComment['COMMENT_CONTENT'] }">
@@ -665,7 +635,7 @@
         
               </div>
             </div>
-            </div> --%>
+            </div>
             <!-- cpt_container_end -->
             
         </div>
@@ -747,8 +717,6 @@
       
       
     </div>
-  </div>
-</div>
 
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

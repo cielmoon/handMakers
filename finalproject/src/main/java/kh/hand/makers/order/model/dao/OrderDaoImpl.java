@@ -53,6 +53,12 @@ public class OrderDaoImpl implements OrderDao {
 		
 		return session.selectOne("order.selectProductOption",productOptionNo);
 	}
+
+	@Override
+	public Map<String, String> selectCategoryMap(String productNo) {
+		
+		return session.selectOne("order.selectCategoryMap",productNo);
+	}
 	
 	
 

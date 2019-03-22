@@ -10,7 +10,7 @@
 <!-- 다음 주소검색 API -->
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <!-- jQuery -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
@@ -142,21 +142,21 @@ function requestPay() {
 <section>
 <div class="container">
   <ul class="breadcrumb">
-    <li><a href="index.html"><i class="fa fa-home"></i></a></li>
-    <li><a href="cart.html">상세or찜목록</a></li>
-    <li><a href="checkout.html">결제</a></li>
+    <li><a href="/makers"><i class="fa fa-home"></i></a></li>
+    <!-- <li><a href="cart.html">상세or찜목록</a></li> -->
+    <li><a href="javascript:void(0)">결제</a></li>
   </ul>
   <!-- nav -->
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
       <div class="column-block">
         <div class="column-block">
-          <div class="columnblock-title">대분류카테고리(BC_TITLE)</div>
+          <div class="columnblock-title">${bcTitle }</div>
           <div class="category_block">
             <ul class="box-category treeview-list treeview">
-              <li><a href="#">소분류카테고리1(SC_TITLE)</a></li>
-              <li><a href="#">소분류카테고리2(SC_TITLE)</a></li>
-              <li><a href="#">소분류카테고리3(SC_TITLE)</a></li>
+              <c:forEach items="${scList }" var="sc"> 
+              	<li><a href="${path }/product/category.do?category=${sc.bcNo}&sc=${sc.scNo}">${sc.scTitle}</a></li>
+              </c:forEach>
             </ul>
           </div>
         </div>
@@ -194,7 +194,14 @@ function requestPay() {
 										
 										<!-- 배송지 주소 -->
 										<label class="control-label mt-1">배송지</label>
-										<c:if test="${deliveryList!=null }">
+										<c:if test="${deliveryList=='[]' }">
+										<div class="form-group">
+											<select class="form-control" id="myAddr" name="myAddr">
+												<option value="주소를 등록해서 편하게 쓰세요~" selected>주소를 등록해서 편하게 쓰세요~</option>
+											</select>
+										</div>
+										</c:if>
+										<c:if test="${deliveryList!='[]' }">
 										<div class="form-group">
 											<select class="form-control" id="myAddr" name="myAddr">
 											<c:forEach items="${deliveryList }" var="delivery">
