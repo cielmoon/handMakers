@@ -136,12 +136,21 @@
 	<select id="selectOrderList" parameterType="map" resultType="map">
 		SELECT PO.ORDER_NO, PO.PRODUCT_NO, P.PRODUCT_TITLE, PO.ORDER_PAYSTATE
 		FROM PRODUCT_ORDER PO
-		JOIN PRODUCT P ON(P.PRODUCT_NO=PO.PRODUCT_NO) 
-		WHERE PO.PRODUCT_NO=#{productNo} AND PO.MEMBER_NO=#{memberNo}
+		JOIN PRODUCT P ON(P.PRODUCT_NO=PO.PRODUCT_NO)
+		WHERE PO.PRODUCT_NO=#{productNo} AND PO.MEMBER_NO=#{memberNo} AND PO.ORDER_PAYSTATE='3' AND NOT ORDER_NO IN(SELECT ORDER_NO FROM TOTALSCORE)
 	</select>
 	
 	<select id="selectBrand" parameterType="map" resultType="map">
 		SELECT * FROM PRODUCT JOIN BRAND USING(BRAND_NO) WHERE PRODUCT_NO = #{productNo}
 	</select>
-		
+	
+	<insert id="insertCommentReview" parameterType="map">
+		INSERT INTO PRODUCT_COMMENT (COMMENT_NO, COMMENT_CONTENT, COMMENT_DATE, COMMENT_TYPE, COMMENT_LEVEL, COMMENT_REF, MEMBER_NO, PRODUCT_NO) 
+		VALUES ('P_C_NO_'||SEQ_COMMENT_NO.NEXTVAL, #{reviewContent}, SYSDATE, #{reviewType}, DEFAULT, NULL, #{memberNo}, #{reviewCommentProductNo})
+	</insert>
+	
+	<insert id="insertTotalScoreReview" parameterType="map">
+		INSERT INTO TOTALSCORE VALUES(#{orderNo}, #{reviewCommentProductNo}, #{rating})
+	</insert>
+			
 </mapper>

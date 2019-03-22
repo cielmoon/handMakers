@@ -17,6 +17,8 @@
 <meta name="description"
 	content="e-commerce site well design with responsive view." />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
 
 <link href="${path }/resources/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet" media="screen" />
@@ -118,11 +120,12 @@
 									</c:otherwise>
 									</c:choose></li>
 									
-									<li><a href="#"
-										onclick="location.href='${path}/member/wishList.do'"
-										id="wishlist-total" title="Wish List (0)"><i
-											class="fa fa-heart"></i><span>Wish List</span><span>
-												(0)</span></a></li>
+									<c:if test="${member!=null }">
+										<li><a href="#"	onclick="location.href='${path}/member/wishList.do'" id="wishlist-total" title="Wish List"><i class="fa fa-heart"></i><span>Wish List</span></a></li>
+									</c:if>
+									<c:if test="${member ==null }">
+										<li><a href="#"	onclick="location.href='${path}/member/wishList.do'" id="wishlist-total" title="Wish List"><i class="fa fa-heart"></i><span>Wish List</span></a></li>
+									</c:if>
 								</ul>
 								<div class="search-box">
 									<input class="input-text" placeholder="Search By Products.."

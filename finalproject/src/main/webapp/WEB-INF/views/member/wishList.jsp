@@ -69,10 +69,10 @@
          <a href="${path }/product/productView.do?productNo=${wish.PRODUCT_NO}">
          <img src="${path}/resources/image/product/${wish.PRODUCT_PROFILE }" alt="${wish.PRODUCT_TITLE }" title="${wish.PRODUCT_TITLE }" class="img-responsive" /></a>
               <div class="button-group">
-                <button type="button" id="wishBtn" class="wishlist" title="Add to Wish List">
+              <input id="wishProductNo" type="hidden" value="${wish.PRODUCT_NO}"/>
+                <button type="button" id="wishBtn" class="wishlist" title="Add to Wish List" onclick="deleteWish();">
                 	<i class="fa fa-heart"></i>
                 </button>
-                <input id="wishProductNo" type="hidden" value="${wish.PRODUCT_NO}"/>        
               </div>
             </div>
 
@@ -87,7 +87,7 @@
               <p class="price product-price"><span class="price-old">${wish.PRODUCT_PRICE }</span> ${wish.PRODUCT_PRICE + wish.PRODUCT_DISCOUNT } <span class="price-tax"></span> </p>
               
               <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
-              <!-- totalProductPoint 별이 다섯개  이부분은 좀더 고민-->
+              
             </div>
  
           </div>
@@ -109,12 +109,11 @@
   </div>
 </div>
 <script>
-$(function(){
-	$('#wishBtn').click(function(){
+function deleteWish(){
 		var wishProductNo = $('#wishProductNo').val();
 		location.href="${path}/member/deleteWish.do?productNo="+wishProductNo;
-	});
-});
+};
+
 </script>
 
 </section>

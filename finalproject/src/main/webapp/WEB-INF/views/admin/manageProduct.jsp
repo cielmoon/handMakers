@@ -118,7 +118,7 @@ $(function() {
 						</table>
 						${pageBar }
 					</div>
- 					<div class="col-sm-12">
+   					<div class="col-sm-12">
 						<div class="col-sm-9"></div>
 						<div class="col-sm-3">
 							<input type="button" class="btn btn-primary"
