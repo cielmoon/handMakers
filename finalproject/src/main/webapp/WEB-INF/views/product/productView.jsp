@@ -379,7 +379,75 @@
           <!-- 후기 댓글 등록 창 -->
          <div class="tab-pane" id="tab-review">
          	<div id="reviewComment" class="form-group" style="border:1px solid red">
-         	 	<table id='tbl-comment' class='table table-striped table-hover'>
+         	 	
+         	 	<ul class="media-list">
+         				<c:if test='${reviewCommentList==null }'>
+         					<span id="level1">
+         						등록된 댓글이 없습니다.
+         					</span>
+         				</c:if>
+         				<c:if test="${reviewCommentList!=null }">
+         					<c:forEach items="${reviewCommentList }" var="questionComment" varStatus="vs">
+								<li class="media">						
+         						<c:if test="${reviewComment.COMMENT_LEVEL eq 1 }">
+									<a class="pull-left" href="#"> 
+										<img class="media-object img-circle" width="100px;" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
+									</a>
+										<div class="media-body">
+											<div class="well well-sm">
+												<h4 class="media-heading text-uppercase reviews display-inline">${reviewComment['MEMBER_NAME'] }</h4>
+												<ul class="media-date text-uppercase reviews list-inline display-inline">
+													<li class="dd">22</li>
+													<li class="mm">09</li>
+													<li class="aaaa">2014</li>
+												</ul>
+		
+												<p class="media-comment">${reviewComment['COMMENT_CONTENT'] }</p>
+												<div>
+												<a class="btn btn-primary btn-circle text-uppercase btn-reply" data-toggle="collapse" href="#replyOne">
+													<i class="far fa-comment-dots"></i>&nbsp;comment</a>
+												<a class="btn btn-success btn-circle text-uppercase btn-reply" href="#" id="reply">
+													<i class="far fa-thumbs-up"></i></a>
+												<a class="btn btn-warning btn-circle text-uppercase btn-reply" href="#" id="reply" style="background-color: #b7c7c7;">
+													<i class="far fa-thumbs-down"></i></a>
+												</div>
+											</div>
+										</div>
+								</c:if>
+								<c:if test="${reviewComment.COMMENT_LEVEL eq 2 }">
+										<div class="collapse col-sm-11 reply-sm-10" id="replyOne">
+											<ul class="media-list">
+												<li class="media media-replied"><a class="pull-left"
+													href="#"> 
+													<img class="media-object img-circle" style="width: 80px;" 
+														src="https://s3.amazonaws.com/uifaces/faces/twitter/ManikRathee/128.jpg" alt="profile">
+												</a>
+													<div class="media-body">
+														<div class="well well-sm">
+															<h4 class="media-heading text-uppercase reviews display-inline">
+																${reviewComment['MEMBER_NO'] }
+															</h4>
+															<ul class="media-date text-uppercase reviews list-inline display-inline">
+																<li class="dd">22</li>
+																<li class="mm">09</li>
+																<li class="aaaa">2014</li>
+															</ul>
+															<p class="media-comment">${reviewComment['COMMENT_CONTENT'] }</p>
+														</div>
+													</div>
+												</li>
+			
+											</ul>
+										</div>
+								</c:if>
+							</li>
+							</c:forEach>
+						</c:if>
+					</ul>
+         	 	
+         	 	
+         	 	
+         	 	<%-- <table id='tbl-comment' class='table table-striped table-hover'>
          			<thead>
          				<tr>
          					<td>작성자</td>
@@ -431,7 +499,7 @@
          					</c:forEach>
          				</c:if>
          			</tbody>
-         		</table>
+         		</table> --%>
          		${reviewPageBar }
          	</div>
          	
@@ -515,14 +583,81 @@
           <!-- 상품 문의 작성 -->
           <div class="tab-pane" id="tab-question">
          	<div id="questionComment" class="form-group" style="border:1px solid red">
-         	 	<table id='tbl-comment' class='table table-striped table-hover'>
+<!--          	 	<table id='tbl-comment' class='table table-striped table-hover'>
          			<thead>
          				<tr>
          					<td>작성자</td>
          					<td>작성내용</td>
          				</tr>
          			</thead>
-         			<tbody id="questionCommentContent">
+         			<tbody id="questionCommentContent"> -->
+         			
+         			<ul class="media-list">
+         				<c:if test='${questionCommentList==null }'>
+         					<span id="level1">
+         						등록된 댓글이 없습니다.
+         					</span>
+         				</c:if>
+         				<c:if test="${questionCommentList!=null }">
+         					<c:forEach items="${questionCommentList }" var="questionComment" varStatus="vs">
+								<li class="media">						
+         						<c:if test="${questionComment.COMMENT_LEVEL eq 1 }">
+									<a class="pull-left" href="#"> 
+										<img class="media-object img-circle" width="100px;" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
+									</a>
+										<div class="media-body">
+											<div class="well well-sm">
+												<h4 class="media-heading text-uppercase reviews display-inline">${questionComment['MEMBER_NAME'] }</h4>
+												<ul class="media-date text-uppercase reviews list-inline display-inline">
+													<li class="dd">22</li>
+													<li class="mm">09</li>
+													<li class="aaaa">2014</li>
+												</ul>
+		
+												<p class="media-comment">${questionComment['COMMENT_CONTENT'] }</p>
+												<div>
+												<a class="btn btn-primary btn-circle text-uppercase btn-reply" data-toggle="collapse" href="#replyOne">
+													<i class="far fa-comment-dots"></i>&nbsp;comment</a>
+												<a class="btn btn-success btn-circle text-uppercase btn-reply" href="#" id="reply">
+													<i class="far fa-thumbs-up"></i></a>
+												<a class="btn btn-warning btn-circle text-uppercase btn-reply" href="#" id="reply" style="background-color: #b7c7c7;">
+													<i class="far fa-thumbs-down"></i></a>
+												</div>
+											</div>
+										</div>
+								</c:if>
+								<c:if test="${questionComment.COMMENT_LEVEL eq 2 }">
+										<div class="collapse col-sm-11 reply-sm-10" id="replyOne">
+											<ul class="media-list">
+												<li class="media media-replied"><a class="pull-left"
+													href="#"> 
+													<img class="media-object img-circle" style="width: 80px;" 
+														src="https://s3.amazonaws.com/uifaces/faces/twitter/ManikRathee/128.jpg" alt="profile">
+												</a>
+													<div class="media-body">
+														<div class="well well-sm">
+															<h4 class="media-heading text-uppercase reviews display-inline">
+																${questionComment['MEMBER_NO'] }
+															</h4>
+															<ul class="media-date text-uppercase reviews list-inline display-inline">
+																<li class="dd">22</li>
+																<li class="mm">09</li>
+																<li class="aaaa">2014</li>
+															</ul>
+															<p class="media-comment">${questionComment['COMMENT_CONTENT'] }</p>
+														</div>
+													</div>
+												</li>
+			
+											</ul>
+										</div>
+								</c:if>
+							</li>
+							</c:forEach>
+						</c:if>
+						</ul>
+						
+						
          				<c:if test='${questionCommentList==null }'>
          					<tr id="level1">
          						<td colspan="2">등록한 댓글이 없습니다.</td>
