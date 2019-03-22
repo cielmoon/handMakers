@@ -5,10 +5,60 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=30a3285db1175ba90bd73c4b0460f5a9&libraries=services"></script>
+<script>
+function fn_sallerInfo(){
+		var addr = $('#addr').val();
+		var title = $('#brandTitle').val();
+		console.log(addr);
+		console.log(title);
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	    mapOption = {
+	        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        level: 3 // 지도의 확대 레벨
+	    };  
+	
+	// 지도를 생성합니다    
+	var map = new daum.maps.Map(mapContainer, mapOption); 
+	
+	// 주소-좌표 변환 객체를 생성합니다
+	var geocoder = new daum.maps.services.Geocoder();
+	
+	// 주소로 좌표를 검색합니다
+	geocoder.addressSearch(addr, function(result, status) {
+	
+	    // 정상적으로 검색이 완료됐으면 
+	     if (status === daum.maps.services.Status.OK) {
+	
+	        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+	
+	        // 결과값으로 받은 위치를 마커로 표시합니다
+	        var marker = new daum.maps.Marker({
+	            map: map,
+	            position: coords
+	        });
+	
+	        // 인포윈도우로 장소에 대한 설명을 표시합니다
+	        var infowindow = new daum.maps.InfoWindow({
+	            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+title+'</div>'
+	        });
+	        infowindow.open(map, marker);
+			
+	        mapContainer.style.width='600px';
+	        mapContainer.style.height='200px';
+	        
+	        map.relayout();
+	        
+	        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	        map.setCenter(coords);
+	    } 
+	});  
+};
+	    
+</script>
 
 <section class="product col-2 left-col">
-<div class="preloader loader" style="display: block; background:#f2f2f2;"> <img src="image/loader.gif"  alt="#"/></div>
+<!-- <div class="preloader loader" style="display: block; background:#f2f2f2;"> <img src="image/loader.gif"  alt="#"/></div> -->
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="/makers"><i class="fa fa-home"></i></a></li>
@@ -359,7 +409,7 @@
           </li>
           <li><a href="#tab-review" data-toggle="tab">상품후기</a></li> <!-- onclick="fn_review();" 모두 셀렉트로 가져옴 -->
           <li><a href="#tab-question" data-toggle="tab" id="product-question">상품문의</a></li>
-          <li><a href="#tab-sallerInfo" data-toggle="tab" id="product-sallerInfo">판매자 정보</a></li>	
+          <li><a href="#tab-sallerInfo" data-toggle="tab" id="product-sallerInfo" onclick="fn_sallerInfo();">판매자 정보</a></li>	
         </ul>
         <input type="hidden" name="review" value="R"/>
         <input type="hidden" name="question" value="Q"/>
@@ -370,7 +420,6 @@
             <div class="cpt_product_description ">
               <div id="productinfoContent">
                 ${productDetail.PRODUCT_DETAIL }
-                ${orderList }
               </div>
             </div>
             <!-- cpt_container_end -->
@@ -387,7 +436,7 @@
          					</span>
          				</c:if>
          				<c:if test="${reviewCommentList!=null }">
-         					<c:forEach items="${reviewCommentList }" var="questionComment" varStatus="vs">
+         					<c:forEach items="${reviewCommentList }" var="reviewComment" varStatus="vs">
 								<li class="media">						
          						<c:if test="${reviewComment.COMMENT_LEVEL eq 1 }">
 									<a class="pull-left" href="#"> 
@@ -410,6 +459,9 @@
 													<i class="far fa-thumbs-up"></i></a>
 												<a class="btn btn-warning btn-circle text-uppercase btn-reply" href="#" id="reply" style="background-color: #b7c7c7;">
 													<i class="far fa-thumbs-down"></i></a>
+												<a class="btn btn-primary btn-circle btn-reply" href="#">답글</a>
+												<a class="btn btn-primary btn-circle btn-reply" href="#">수정</a>
+												<a class="btn btn-primary btn-circle btn-reply" href="#">삭제</a>
 												</div>
 											</div>
 										</div>
@@ -432,7 +484,10 @@
 																<li class="mm">09</li>
 																<li class="aaaa">2014</li>
 															</ul>
-															<p class="media-comment">${reviewComment['COMMENT_CONTENT'] }</p>
+															<p class="media-comment">${reviewComment['COMMENT_CONTENT'] }
+																<a class="btn btn-primary btn-circle btn-reply" href="#">수정</a>
+																<a class="btn btn-primary btn-circle btn-reply" href="#">삭제</a>
+															</p>
 														</div>
 													</div>
 												</li>
@@ -700,8 +755,8 @@
          					</c:if>
          					</c:forEach>
          				</c:if>
-         			</tbody>
-         		</table>
+         		<!-- 	</tbody>
+         		</table> -->
          		${questionPageBar }
          	</div>
          	
@@ -743,40 +798,34 @@
             </form>
           </div>
           
+          
           <!-- 업체 정보 보여주는 곳 -->
           <div class="tab-pane" id="tab-sallerInfo">
             <div class="cpt_product_description ">
-              <div>
-                
             <div class="col-sm-4 left">
               <address>
               <strong> 브랜드 명: </strong>${brand.BRAND_TITLE } <br>
               <br>
               <strong>주소:</strong>
               <div class="address"> ${brand.BRAND_ADDR } ${brand.BRAND_DETAILADDR }</div>
+              <input type="hidden" id="addr" value="${brand.BRAND_ADDR }${brand.BRAND_DETAILADDR}"/>
+              <input type="hidden" id="brandTitle" value="${brand.BRAND_TITLE }"/>
               <br>
               </address>
             </div>
             <div class="col-sm-8 rigt">
               <div class="map">
-                <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-                <div style="overflow:hidden;height:200px;width:100%;">
-                  <div id="gmap_canvas" style="height:200px;width:600px;"></div>
-
-                  <a class="google-map-code" href="http://www.pureblack.de/google-maps/" id="get-map-data">pureblack.de</a></div>
-                <script type="text/javascript"> function init_map(){var myOptions = {zoom:14, scrollwheel:false,center:new google.maps.LatLng(36.778261,-119.41793239999998),mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById("gmap_canvas"), myOptions);marker = new google.maps.Marker({map: map,position: new google.maps.LatLng(36.778261, -119.41793239999998)});infowindow = new google.maps.InfoWindow({content:"<b>Fresh Food privated limited</b><br/>Warehouse &amp; Offices 12345<br/> California " });google.maps.event.addListener(marker, "click", function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>
-              </div>
-            </div>
-        
+                  <div id="map" style="height:200px;width:600px;"></div>
               </div>
             </div>
             </div>
-            <!-- cpt_container_end -->
-            
-        </div>
+            </div>
+           
       </div>
-      
-      <!-- 비슷한 상품 추천 -->
+
+
+
+<!-- 비슷한 상품 추천 -->
       <!-- <h3 class="productblock-title">Related Products</h3>
       <div class="box">
         <div id="related-slidertab" class="row owl-carousel product-slider">
