@@ -23,18 +23,20 @@
 		이메일 : OK
 		핸드폰번호 : OK
 		*/
-		var memberId = $('#memberId');
+		var memberId = $('#memberId').val();
 		var memberPwd = $('#memberPwd').val();
-		/* var memberAge = parseInt($("#memberBirth").val()); */
+		var memberName = $('#memberName').val();
 		var memberEmail = $("#memberEmail").val();
-		var emailRegex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 		var memberPhone = $("#memberPhone").val();
+		var emailRegex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 		var phoneRegex = /^[0-9]+$/;
 		var passwordRegex = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/; // 영문, 숫자 혼합하여 6~20자리 이내
+		var idRegex = /^[A-Z|a-z|0-9]+$/;
+		var nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|\*]+$/;
 		
-		if (memberId.val().length < 4) {
-			alert("아이디는 최소 4자리 이상 입력하세요.");
-			memberId.focus();
+		if (memberId.length < 4) {
+			alert("아이디는  영문, 숫자를 사용하여 4~16자리 이내로 입력해주세요.");
+			$("#memberId").focus();
 			
 			return false;
 		}
@@ -42,41 +44,61 @@
 		if ($("#memberName").val() == "") {
 			alert("이름을 입력해주세요.");
 			$("#memberName").focus();
+			
 			return false;
 		}
 		
 		if ($("#memberPwd").val() == "") {
 			alert("비밀번호를 입력해주세요.");
 			$("#memberPwd").focus();
+			
 			return false;
 		}
 		
 		if ($("#memberPwdCheck").val() == "") {
 			alert("비밀번호 확인을 해주세요.");
 			$("#memberPwd").focus();
+			
 			return false;
 		}
 		
 		if ($("#memberBirth").val() == "") {
 			alert("나이를  입력해주세요.");
 			$("#memberBirth").focus();
+			
 			return false;
 		}
 		
 		if ($("#memberEmail").val() == "") {
 			alert("이메일을 입력해주세요.");
 			$("#memberEmail").focus();
+			
 			return false;
 		}
 		
 		if ($("#memberPhone").val() == "") {
 			alert("핸드폰번호를 입력해주세요.");
 			$("#memberPhone").focus();
+			
+			return false;
+		}
+		
+		if (!idRegex.test(memberId)) {
+			alert("아이디는  영문, 숫자를 사용하여 4~16자리 이내로 입력해주세요.");
+			$("#memberId").focus();
+			
+			return false;
+		}
+		
+		if (!nameRegex.test(memberName)) {
+			alert("이름은 한글 또는 영어로 입력해주세요.");
+			$("#memberName").focus();
+			
 			return false;
 		}
 		
 		if (!emailRegex.test(memberEmail)) {
-			alert("잘못된 이메일 형식입니다. 다시 입력해주세요.")
+			alert("잘못된 이메일 형식입니다. 다시 입력해주세요.");
 			$("#memberEmail").focus();
 			
 			return false;
@@ -90,7 +112,7 @@
 		}
 		
 		if (!passwordRegex.test(memberPwd)) {
-			alert("비밀번호는 영문, 숫자를 혼합하여 6~20자리 이내로 입력해주세요.");
+			alert("비밀번호는 영문, 숫자, 특수문자를 사용하여 6~20자리 이내로 입력해주세요.");
 			$("#memberPwd").focus();
 			
 			return false;

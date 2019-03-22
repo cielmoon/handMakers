@@ -178,7 +178,7 @@
 							<li><a href="${path }/product/preList.do" class="parent">입점예정</a></li>
 							<li><a href="#" class="active parent">문의하기</a>
 								<ul>
-									<li><a href="category.html">Q &amp; A</a></li>
+									<li><a href="${path }/admin/questionAndAnswer.do">Q &amp; A</a></li>
 									<c:if test="${member.memberAuthority != 'A' }">
 										<li><a href="${path }/shop/shopEnroll.do">입점문의</a></li>
 									</c:if>

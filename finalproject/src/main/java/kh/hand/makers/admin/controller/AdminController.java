@@ -2,8 +2,6 @@ package kh.hand.makers.admin.controller;
 
 
 
-import java.sql.Date;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +35,12 @@ public class AdminController {
 	@Autowired
 	AdminService service;
 	private String sReqState = "B";
-
+	
+	@RequestMapping("/admin/questionAndAnswer.do")
+	public String questionAndAnswerPage() {
+		return "admin/questionAndAnswer";
+	}
+	
 	@RequestMapping("/admin/memberList.do")
 	public ModelAndView manageMember(@RequestParam(value = "cPage", required = false, defaultValue = "0") int cPage) {
 		int numPerPage = 5;
@@ -417,5 +420,4 @@ public class AdminController {
 	public void setsReqState(String sReqState) {
 		this.sReqState = sReqState;
 	}
-
 }
