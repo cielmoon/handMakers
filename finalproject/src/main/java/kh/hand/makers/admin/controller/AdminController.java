@@ -6,10 +6,16 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,8 +60,48 @@ public class AdminController {
     }
  
     // 회원가입 이메일 인증
-    @RequestMapping(value = "/authenticationEmail.do", method = RequestMethod.POST, produces = "application/json")
-    @ResponseBody
+    @RequestMapping(value = "/admin/authenticationEmail.do", method = RequestMethod.POST, produces = "application/json")
+    public void mailSender(HttpServletRequest request) throws AddressException, MessagingException{
+        
+        String subject = (String) request.getParameter("subject"); // 메일 제목
+        String message = (String) request.getParameter("message"); // 메일 내용
+         
+        // SMTP 서버 설정
+        final String host = "smtp.gmail.com"; // 사용할 smtp host, naver라면 smtp.naver.com
+        final String accountId = "#사용자 아이디#";
+        final String accountPwd = "#사용자 비밀번호#";
+        final int port = 465; // SMTP 포트
+         
+        String receiver = "#받는사람 이메일#"; // 받는사람 이메일
+        String sender = "#보내는사람 이메일#"; // 보내는사람 이메일
+         
+        // Property 정보 생성
+        Properties props = System.getProperties();
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", port);
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.ssl.enable", "true");
+        props.put("mail.smtp.ssl.trust", host);
+         
+        // 사용자 인증
+        Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+            protected javax.mail.PasswordAuthentication getPasswordAuthentication(){
+                return new javax.mail.PasswordAuthentication(accountId, accountPwd);
+            }
+        });
+        session.setDebug(true);
+         
+        Message mimeMessage = new MimeMessage(session); //MimeMesage 생성
+        mimeMessage.setFrom(new InternetAddress(sender)); // 보내는 EMAIL (정확히 적어야 SMTP 서버에서 인증 실패되지 않음)
+        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(receiver)); 
+         
+        // Message Setting
+        mimeMessage.setSubject(subject);
+        mimeMessage.setText(message);
+        Transport.send(mimeMessage); // Transfer
+    }
+    
+    /*@ResponseBody
     public boolean sendMailAuth(HttpSession session, @RequestParam String memberEmail) {
     	System.out.println("가져온값:" + memberEmail);
         int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
@@ -70,7 +116,7 @@ public class AdminController {
         System.out.println("memberEmail :"+memberEmail);
     
         return mailService.send(subject, sb.toString(), "babooyea@gmail.com", memberEmail, null);
-    }
+    }*/
  
 /*    // 아이디 찾기
     @RequestMapping(value = "/sendMail/id", method = RequestMethod.POST)
@@ -263,12 +309,14 @@ public class AdminController {
 		ModelAndView mv = new ModelAndView();
 		int contentCount = service.selectProductCount();
 		List<AdminProduct> adminProductList = service.selectProductList(cPage, numPerPage);
-
+		
+		List<Brand> brandList = service.selectBrandList();
 		List<BigCategory> bcList = service.selectBcList();
 		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
 
 		mv.addObject("bcList", bcList);
 		mv.addObject("scList", scList);
+		mv.addObject("brandList", brandList);
 
 		mv.addObject("pageBar",
 				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageProduct.do"));
@@ -318,19 +366,35 @@ public class AdminController {
 	}
 
 	@RequestMapping("/admin/enrollProduct.do")
-	public String enrollProduct() {
-		return "admin/enrollProduct";
+	public ModelAndView enrollProduct() {
+		ModelAndView mv = new ModelAndView();
+		
+		List<Brand> brandList = service.selectBrandList();
+		List<BigCategory> bcList = service.selectBcList();
+		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
+
+		mv.addObject("bcList", bcList);
+		mv.addObject("scList", scList);
+		mv.addObject("brandList", brandList);
+		
+
+		mv.setViewName("admin/enrollProduct");
+		return mv;
+		
 	}
 
 	// 상품 등록에서 등록 날짜는 처음 등록할때만 추가하고 이후에는 업데이트로 감
 	@RequestMapping(value = "/admin/enrollProductEnd.do", method = RequestMethod.POST)
-	public ModelAndView enrollProductEnd(Member m, NewProduct n, String newProductDetail, MultipartFile newProductProfile,
+	public ModelAndView enrollProductEnd(Member m, String brandNo, String bcNo, String scNo, NewProduct n, String newProductDetail, MultipartFile newProductProfile,
 			MultipartFile[] newProductDetailImg, String[] newProductOption, HttpServletRequest request) {
 		logger.debug("enrollProductEnd");
 
+		String sellerNo = service.selectSellerNo(brandNo);
+		logger.debug("sadfasdfasdfasdfasdf :"+sellerNo);
+		
 		ModelAndView mv = new ModelAndView();
 		Products p = new Products();
-		logger.debug("상세내용 :"+newProductDetail);
+
 		String savDir = request.getSession().getServletContext().getRealPath("/resources/image/product");
 
 		if (!newProductProfile.isEmpty()) {
@@ -375,10 +439,10 @@ public class AdminController {
 			}
 		}
 		
-		n.setNewProductBigCategory("B_C_NO_1");
-		n.setNewProductSmallCategory("S_C_NO_1");
-		n.setNewProductBrand("B_NO_1");
-		n.setNewProductMemberNo("M_NO_1");
+		n.setNewProductBigCategory(bcNo);
+		n.setNewProductSmallCategory(scNo);
+		n.setNewProductBrand(brandNo);
+		n.setNewProductMemberNo(sellerNo);
 
 		for (String string : newProductOption) {
 			n.setNewProductOptionList(string);
