@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -335,6 +334,24 @@ public class ProductController {
 		mv.setViewName("jsonView");
 		
 		return mv;
+	}
+	
+	@RequestMapping("/product/selectWishYewon.do")
+	@ResponseBody
+	public int selectWishYewon(HttpSession session, String productNo) {
+		String memberNo=null;
+		 
+		
+		if(session.getAttribute("member") != null) {
+			memberNo = ((Member)session.getAttribute("member")).getMemberNo();
+		}
+		Map<String, String> map = new HashMap();
+		map.put("productNo", productNo);
+		map.put("memberNo", memberNo);
+		
+		int result = service.selectWishYewon(map);
+		
+		return result;
 	}
 	
 }

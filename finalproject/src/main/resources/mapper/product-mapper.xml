@@ -156,6 +156,18 @@
 	<select id="selectReviewCommentSeconds" resultType="map" parameterType="string">
 		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_REF = #{commentNo} AND COMMENT_TYPE = 'R'
 	</select>
+	
+	<select id="selectWishYewon" parameterType="map" resultType="_int" >
+	SELECT * FROM WISH WHERE PRODUCT_NO=#{productNo} AND MEMBER_NO=#{memberNo}
+	</select>
+	
+	<delete id="deleteWishYewon" parameterType="map">
+		DELETE WISH WHERE PRODUCT_NO=#{productNo} AND MEMBER_NO=#{memberNo}
+	</delete>
+	
+	<insert id="insertWishYewon" parameterType="map">
+		INSERT INTO WISH VALUES('W_NO_'||SEQ_WISH_NO.NEXTVAL,#{productNo}, #{memberNo})
+	</insert>
 
 	
 	<!-- 

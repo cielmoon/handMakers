@@ -20,6 +20,12 @@ public class ProductServiceImpl implements ProductService {
 	
 	
 	@Override
+	public int selectWishYewon(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.selectWishYewon(map);
+	}
+
+	@Override
 	public int selectProductCount(String category) {
 		// TODO Auto-generated method stub
 		return dao.selectProductCount(category);

@@ -78,6 +78,6 @@
 	<bean id="mailService" class="kh.hand.makers.admin.model.service.MailServiceImpl">
 		<property name="javaMailSender" ref="javaMailSender" />
 	</bean>
-
+	
 
 </beans>

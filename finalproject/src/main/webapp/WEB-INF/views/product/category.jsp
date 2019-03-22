@@ -93,12 +93,12 @@
                
                <div class="button-group">
                 <c:if test="${member.memberNo != null and product.wishChk eq member.memberNo }">
-                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Remove to Wish List" value="${product.productNo}" onclick="fn_wishCk(this.value);">
+                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Remove to Wish List" value="${product.productNo}" onclick="fn_wishChk(this.value);">
                 	<i class="fa fa-heart"></i>
                	</button>
                </c:if>
                <c:if test="${product.wishChk eq null }">
-                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" value="${product.productNo}" onclick="fn_wishCk(this.value);">
+                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" value="${product.productNo}" onclick="fn_wishChk(this.value);">
                 	<i class="fa fa-heart-o"></i>
                	</button>
                </c:if>
@@ -169,15 +169,29 @@ $('#numPerPagesFrm').submit();
 });
 
 
-function fn_wishCk(test){
-       		console.log(test);
-      		console.log("'#"+test+"'");
-      		/* var str = '#' + test; */ 
-      		$('#' + test).html('<i class="fa fa-heart"></i>');
+function fn_wishChk(productNo){
+       		console.log(productNo);
+      		var str = '#' + productNo; 
+      		/* $('#' + productNo).html('<i class="fa fa-heart"></i>'); */
+      		console.log(str);
+      		
+      		$.ajax({
+      			url:"${path}/product/selectWishYewon.do",
+      			data: {"productNo":productNo},
+      			success:function(data){
+                    if(data > 0){	
+                    	$('#' + productNo).html('<i class="fa fa-heart"></i>');
+                    }
+                    else
+                    	$('#' + productNo).html('<i class="fa fa-heart-o"></i>');
+                    }
+      		});
+      		
+      		
+}
       		
       		/* console.log(this.attr(class)); */
       		/* $(str).addClass("testClass"); */
-}
 	/* $("'#"+test+"'").html('<i class="fa fa-heart-o"></i>'); */
 /* var wishBtn = $('#wishBtn'); */
 	/* var wishCount = $('input[name=wishCount]').val(); */
