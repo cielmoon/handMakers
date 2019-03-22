@@ -6,20 +6,32 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.admin.model.service.AdminService;
+import kh.hand.makers.admin.model.service.MailService;
 import kh.hand.makers.admin.model.vo.AdminProduct;
 import kh.hand.makers.admin.model.vo.NewProduct;
 import kh.hand.makers.admin.model.vo.Products;
@@ -38,6 +50,133 @@ public class AdminController {
 	@Autowired
 	AdminService service;
 	private String sReqState = "B";
+	
+    private MailService mailService;
+ 
+ 
+ 
+    public void setMailService(MailService mailService) {
+        this.mailService = mailService;
+    }
+ 
+    // 회원가입 이메일 인증
+    @RequestMapping(value = "/admin/authenticationEmail.do", method = RequestMethod.POST, produces = "application/json")
+    public void mailSender(HttpServletRequest request) throws AddressException, MessagingException{
+        
+        String subject = (String) request.getParameter("subject"); // 메일 제목
+        String message = (String) request.getParameter("message"); // 메일 내용
+         
+        // SMTP 서버 설정
+        final String host = "smtp.gmail.com"; // 사용할 smtp host, naver라면 smtp.naver.com
+        final String accountId = "#사용자 아이디#";
+        final String accountPwd = "#사용자 비밀번호#";
+        final int port = 465; // SMTP 포트
+         
+        String receiver = "#받는사람 이메일#"; // 받는사람 이메일
+        String sender = "#보내는사람 이메일#"; // 보내는사람 이메일
+         
+        // Property 정보 생성
+        Properties props = System.getProperties();
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", port);
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.ssl.enable", "true");
+        props.put("mail.smtp.ssl.trust", host);
+         
+        // 사용자 인증
+        Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+            protected javax.mail.PasswordAuthentication getPasswordAuthentication(){
+                return new javax.mail.PasswordAuthentication(accountId, accountPwd);
+            }
+        });
+        session.setDebug(true);
+         
+        Message mimeMessage = new MimeMessage(session); //MimeMesage 생성
+        mimeMessage.setFrom(new InternetAddress(sender)); // 보내는 EMAIL (정확히 적어야 SMTP 서버에서 인증 실패되지 않음)
+        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(receiver)); 
+         
+        // Message Setting
+        mimeMessage.setSubject(subject);
+        mimeMessage.setText(message);
+        Transport.send(mimeMessage); // Transfer
+    }
+    
+    /*@ResponseBody
+    public boolean sendMailAuth(HttpSession session, @RequestParam String memberEmail) {
+    	System.out.println("가져온값:" + memberEmail);
+        int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
+        String joinCode = String.valueOf(ran);
+        session.setAttribute("joinCode", joinCode);
+ 
+        String subject = "회원가입 인증 코드 발급 안내 입니다.";
+        StringBuilder sb = new StringBuilder();
+        sb.append("귀하의 인증 코드는 " + joinCode + " 입니다.");
+        System.out.println("subject :"+subject);
+        System.out.println("sb :"+sb.toString());
+        System.out.println("memberEmail :"+memberEmail);
+    
+        return mailService.send(subject, sb.toString(), "babooyea@gmail.com", memberEmail, null);
+    }*/
+ 
+/*    // 아이디 찾기
+    @RequestMapping(value = "/sendMail/id", method = RequestMethod.POST)
+    public String sendMailId(HttpSession session, @RequestParam String email, @RequestParam String captcha, RedirectAttributes ra) {
+        String captchaValue = (String) session.getAttribute("captcha");
+        if (captchaValue == null || !captchaValue.equals(captcha)) {
+            ra.addFlashAttribute("resultMsg", "자동 방지 코드가 일치하지 않습니다.");
+            return "redirect:/find/id";
+        }
+ 
+        User user = userService.findAccount(email);
+        if (user != null) {
+            String subject = "아이디 찾기 안내 입니다.";
+            StringBuilder sb = new StringBuilder();
+            sb.append("귀하의 아이디는 " + user.getId() + " 입니다.");
+            mailService.send(subject, sb.toString(), "아이디@gmail.com", email, null);
+            ra.addFlashAttribute("resultMsg", "귀하의 이메일 주소로 해당 이메일로 가입된 아이디를 발송 하였습니다.");
+        } else {
+            ra.addFlashAttribute("resultMsg", "귀하의 이메일로 가입된 아이디가 존재하지 않습니다.");
+        }
+        return "redirect:/find/id";
+    }*/
+ 
+/*    // 비밀번호 찾기
+    @RequestMapping(value = "/sendMail/password", method = RequestMethod.POST)
+    public String sendMailPassword(HttpSession session, @RequestParam String id, @RequestParam String email, @RequestParam String captcha, RedirectAttributes ra) {
+        String captchaValue = (String) session.getAttribute("captcha");
+        if (captchaValue == null || !captchaValue.equals(captcha)) {
+            ra.addFlashAttribute("resultMsg", "자동 방지 코드가 일치하지 않습니다.");
+            return "redirect:/find/password";
+        }
+ 
+        User user = userService.findAccount(email);
+        if (user != null) {
+            if (!user.getId().equals(id)) {
+                ra.addFlashAttribute("resultMsg", "입력하신 이메일의 회원정보와 가입된 아이디가 일치하지 않습니다.");
+                return "redirect:/find/password";
+            }
+            int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
+            String password = String.valueOf(ran);
+            userService.updateInfo(user.getNo(), "password", password); // 해당 유저의 DB정보 변경
+ 
+            String subject = "임시 비밀번호 발급 안내 입니다.";
+            StringBuilder sb = new StringBuilder();
+            sb.append("귀하의 임시 비밀번호는 " + password + " 입니다.");
+            mailService.send(subject, sb.toString(), "아이디@gmail.com", email, null);
+            ra.addFlashAttribute("resultMsg", "귀하의 이메일 주소로 새로운 임시 비밀번호를 발송 하였습니다.");
+        } else {
+            ra.addFlashAttribute("resultMsg", "귀하의 이메일로 가입된 아이디가 존재하지 않습니다.");
+        }
+        return "redirect:/find/password";
+    }*/
+
+    
+    
+    
+	
+	
+	
+	
 	
 	@RequestMapping("/admin/questionAndAnswer.do")
 	public String questionAndAnswerPage() {
@@ -170,12 +309,14 @@ public class AdminController {
 		ModelAndView mv = new ModelAndView();
 		int contentCount = service.selectProductCount();
 		List<AdminProduct> adminProductList = service.selectProductList(cPage, numPerPage);
-
+		
+		List<Brand> brandList = service.selectBrandList();
 		List<BigCategory> bcList = service.selectBcList();
 		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
 
 		mv.addObject("bcList", bcList);
 		mv.addObject("scList", scList);
+		mv.addObject("brandList", brandList);
 
 		mv.addObject("pageBar",
 				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageProduct.do"));
@@ -225,16 +366,32 @@ public class AdminController {
 	}
 
 	@RequestMapping("/admin/enrollProduct.do")
-	public String enrollProduct() {
-		return "admin/enrollProduct";
+	public ModelAndView enrollProduct() {
+		ModelAndView mv = new ModelAndView();
+		
+		List<Brand> brandList = service.selectBrandList();
+		List<BigCategory> bcList = service.selectBcList();
+		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
+
+		mv.addObject("bcList", bcList);
+		mv.addObject("scList", scList);
+		mv.addObject("brandList", brandList);
+		
+
+		mv.setViewName("admin/enrollProduct");
+		return mv;
+		
 	}
 
 	// 상품 등록에서 등록 날짜는 처음 등록할때만 추가하고 이후에는 업데이트로 감
 	@RequestMapping(value = "/admin/enrollProductEnd.do", method = RequestMethod.POST)
-	public ModelAndView enrollProductEnd(Member m, NewProduct n, String newProductDetailComments, MultipartFile newProductProfile,
+	public ModelAndView enrollProductEnd(Member m, String brandNo, String bcNo, String scNo, NewProduct n, String newProductDetail, MultipartFile newProductProfile,
 			MultipartFile[] newProductDetailImg, String[] newProductOption, HttpServletRequest request) {
 		logger.debug("enrollProductEnd");
 
+		String sellerNo = service.selectSellerNo(brandNo);
+		logger.debug("sadfasdfasdfasdfasdf :"+sellerNo);
+		
 		ModelAndView mv = new ModelAndView();
 		Products p = new Products();
 
@@ -281,11 +438,11 @@ public class AdminController {
 
 			}
 		}
-		logger.debug("상세내용 :"+n.getNewProductDetailComments());
-		n.setNewProductBigCategory("B_C_NO_1");
-		n.setNewProductSmallCategory("S_C_NO_1");
-		n.setNewProductBrand("B_NO_1");
-		n.setNewProductMemberNo("M_NO_1");
+		
+		n.setNewProductBigCategory(bcNo);
+		n.setNewProductSmallCategory(scNo);
+		n.setNewProductBrand(brandNo);
+		n.setNewProductMemberNo(sellerNo);
 
 		for (String string : newProductOption) {
 			n.setNewProductOptionList(string);
@@ -303,6 +460,8 @@ public class AdminController {
 		p.setProductTitle(n.getNewProductName());
 		p.setProductProfile(n.getNewProductProfileImg());
 		p.setProductEnrollDate(n.getNewProductSaleStart());
+		logger.debug("등록날짜: "+n.getNewProductSaleStart());
+		logger.debug("끝날짜: "+n.getNewProductSaleEnd());
 		p.setProductUpdate(n.getNewProductSaleStart());
 		p.setProductEndDate(n.getNewProductSaleEnd());
 		p.setProductComment(n.getNewProductComment());
@@ -324,7 +483,7 @@ public class AdminController {
 		n.setNewProductNo(p.getProductNo());
 		Map<String, String> detail = new HashMap<String, String>();
 		detail.put("productNo", p.getProductNo());
-		detail.put("productDetail", n.getNewProductDetailComments());
+		detail.put("productDetail", newProductDetail);
 		int result2 = service.enrollProductDetail(detail);
 		int result3 = 0;
 		int result4 = 0;
@@ -360,8 +519,9 @@ public class AdminController {
 		return mv;
 	}
 
-	@RequestMapping("/admin/handleFileUpload.do")
-	public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+	@PostMapping("/admin/handleFileUpload.do")
+    @ResponseBody
+	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
 		String saveDir = request.getSession().getServletContext().getRealPath("/resources/image/product");
 		logger.debug("img핸들러 도착");
 		// 파일명 생성(rename)
@@ -379,12 +539,9 @@ public class AdminController {
 		} catch (IllegalStateException | IOException e) { // IllegalStateException : 파일 저장 경로를 못 찾을 경우
 			e.printStackTrace();
 		}
-
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("url", reName);
-		mv.addObject("url", reName);
-		mv.setViewName("jsonView");
-		return mv;
+		logger.debug("받아온 이미지 원래이름: "+oriFileName);
+		logger.debug("받아온 이미지 새이름: "+reName);
+		return ResponseEntity.ok().body(reName);
 	}
 
 	@RequestMapping("/admin/manageRequest.do")
@@ -474,4 +631,5 @@ public class AdminController {
 	public void setsReqState(String sReqState) {
 		this.sReqState = sReqState;
 	}
+
 }

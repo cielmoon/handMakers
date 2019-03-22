@@ -295,4 +295,14 @@
 	<insert id="enrollProductDetail" parameterType="map">
 		INSERT INTO PRODUCT_DETAIL VALUES(#{productNo},#{productDetail})
 	</insert>
+		<!-- javaType="string" -->
+	<select id="selectAllBrandList" resultMap="brandMap">
+		select * from brand order
+		by brand_enrolldate desc
+	</select>
+	
+	<select id="selectSellerNo" parameterType="string" resultType="string">
+		select member_no from brand where brand_no =#{brandNo}
+	</select>
+	
 </mapper>

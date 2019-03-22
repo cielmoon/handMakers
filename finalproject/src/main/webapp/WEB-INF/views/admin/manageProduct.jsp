@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 <style>
-#select-bigCategory, #select-smallCategory {
+#select-brand, #select-bigCategory, #select-smallCategory {
 	margin-bottom: 10px;
 }
 </style>
@@ -65,7 +65,14 @@ $(function() {
 			<!-- 정보 변경 전에 다시 비밀번호 확인 -->
 			<div class="col-sm-9" id="content">
 				<div class="row">
-					<div class="col-sm-12">			
+					<div class="col-sm-12">
+						<div class="col-sm-3">
+						<select class="form-control" id="select-brand" name="brandNo" required>
+							<c:forEach items="${brandList }" var="b" varStatus="vs">
+								<option ${vs.count==1? "selected" : ""} value="${b.brandNo }">${b.brandTitle}</option>
+							</c:forEach>
+						</select>
+						</div>			
 						<div class="col-sm-3">
 						<select class="form-control" id="select-bigCategory" name="bcNo" required>
 							<c:forEach items="${bcList }" var="b" varStatus="vs">
@@ -77,13 +84,6 @@ $(function() {
 						<select class="form-control" id="select-smallCategory" name="scNo" required>
 							<c:forEach items="${scList }" var="s" varStatus="vs">
 								<option ${vs.count==1? "selected" : ""} value="${s.scNo }">${s.scTitle}</option>
-							</c:forEach>
-						</select>
-						</div>
-						<div class="col-sm-3">
-						<select class="form-control" id="select-brand" name="brandNo" required>
-							<c:forEach items="${brandList }" var="b" varStatus="vs">
-								<option ${vs.count==1? "selected" : ""} value="${b.brandNo }">${b.brandTitle}</option>
 							</c:forEach>
 						</select>
 						</div>

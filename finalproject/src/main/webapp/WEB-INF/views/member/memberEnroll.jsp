@@ -201,16 +201,12 @@
 									<input type="text" class="form-control" id="memberName"
 										placeholder="이름" name="memberName">
 								</div>
-								<!-- <div class="form-group">
-									<input type="text" class="form-control" id="memberBirth"
-										placeholder="나이 (1~100사이 숫자만)" value="" name="memberBirth">
-								</div> -->
 								
 								<div class="form-group">
 									<input type="text" class="form-control" id="memberEmail"
 										placeholder="이메일" name="memberEmail">
-								</div>
-								
+								</div>						
+							
 								<div class="form-group">
 									<input type="text" class="form-control" id="memberPhone"
 										placeholder="핸드폰번호 (-제외)" name="memberPhone" maxlength="11">
@@ -219,7 +215,25 @@
 							</form>
 						</div>
 					</div>
-					<div class="col-sm-3"></div>
+					<div class="col-sm-3">
+						<form name="contact-form" class="form"
+							action="${path}/admin/authenticationEmail.do" method="POST">
+							<div class="col-xs-12">
+								<label> <span>제목:</span> <input type="text"
+									name="subject" value="" placeholder="제목" required>
+								</label>
+							</div>
+							<div class="col-xs-12">
+								<label> <span>내용:</span> <textarea name="message"
+										rows="4" placeholder="메시지" required></textarea>
+								</label>
+								<button type="submit" class="button">
+									<span class="default">Send <i
+										class="icon fa fa-paper-plane"></i></span>
+								</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
