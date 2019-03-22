@@ -20,7 +20,8 @@ import kh.hand.makers.shop.model.vo.SmallCategory;
 public class AdminServiceImpl implements AdminService {
 	@Autowired
 	AdminDao dao;
-	
+
+
 	@Override
 	public int selectProductCount() {
 		return dao.selectProductCount();
