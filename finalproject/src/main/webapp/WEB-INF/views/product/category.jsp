@@ -19,14 +19,6 @@
         <div class="category_block">
           <%-- <h1>${sCategoryList}</h1> --%>
           <ul class="box-category treeview-list treeview">
-            <!-- <li><a href="#s1" class="activSub">Desktops</a>
-            <li><a href="#s2">Tablets</a></li>
-            <li><a href="#s3">Software</a></li>
-            <li><a href="#s4">Phones & PDAs</a></li>
-            <li><a href="#s5">Cameras</a></li>
-            <li><a href="#s6">MP3 Players</a></li> -->
-            
-            
             <c:forEach items="${sCategoryList}" var="scList" varStatus="vs">
             <li><a href="${path }/product/category.do?category=${category}&sc=${scList.SC_NO}">${scList.SC_TITLE }</a></li>
             </c:forEach>
@@ -70,10 +62,6 @@
     		</c:otherwise>
 			</c:choose>
             
-            
-              <!-- <option value="9">9</option>selected="selected"
-              <option value="18">18</option>
-              <option value="27">27</option> -->
             </select>
           </form>
           </div>
@@ -81,8 +69,9 @@
       </div>
       <br />
       
-      
-      
+      <!--  -->
+      <p>${productList }</p>
+	<!--  -->      
       <div class="grid-list-wrapper">
       
       
@@ -97,21 +86,22 @@
          <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
          <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
         <!-- 상품 프로필 사진 product_profile, alt=? product_title, title=product_title -->
-              <div class="button-group">
+              <!-- 원본 -->
+              <!-- <div class="button-group">
                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List">
-                <i class="fa fa-heart-o"></i></button>
+                <i class="fa fa-heart-o"></i></button> -->
                
-               
-                <%-- <c:if test="${wishCount eq 1}">
-                <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" onclick="fn_wishCk();">
+               <div class="button-group">
+                <c:if test="${product.wishChk eq member.memberNo }">
+                <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" value="${product.productNo}" onclick="fn_wishCk();">
                 	<i class="fa fa-heart"></i>
                	</button>
                </c:if>
-               <c:if test="${wishCount eq 0}">
-                <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" onclick="fn_wishCk();">
+               <c:if test="${product.wishChk eq null }">
+                <button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" value="${product.productNo}" onclick="fn_wishCk();">
                 	<i class="fa fa-heart-o"></i>
                	</button>
-               </c:if> --%>
+               </c:if>
                
                
                 <button type="button" class="addtocart-btn">Add to Cart</button>
@@ -121,9 +111,9 @@
             <div class="caption product-detail">
               <h4 class="product-name">
               <a href="${path }/product/productView.do?productNo=${product.productNo}" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
-                                    <p class="rating">${product.productComment }</p><!-- div? -->
+                                    <div style="border : 1px solid red"><p class="rating">1?${product.productComment }</p><!-- div? --></div>
               <!-- 상품상세페이지 링크 , title=product_title , value = product_title -->
-              <div class="product-desc">${product.productComment }</div>
+              <%-- <div class="product-desc">2?${product.productComment }</div> --%>
                 <!-- product_comment -->
                 <p class="price product-price"><span class="price-old"></span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 <span class="price-tax"></span> </p>
               <%-- <p class="price product-price"><span class="price-old"></span> ${product.productPrice } <span class="price-tax"></span> </p><!-- 원본 --> --%>
@@ -182,7 +172,7 @@ $('#numPerPagesFrm').submit();
 function fn_wishCk(){
       		var wishBtn = $('#wishBtn');
       		var wishCount = $('input[name=wishCount]').val();
-       		console.log("처음에 왔을 때 확인 : "+wishCount);
+       		/* console.log("처음에 왔을 때 확인 : "+wishCount); */
       		var productNo = $('#input-productNo').val();
       		$.ajax({
   				url:"${path}/product/selectWish.do",
