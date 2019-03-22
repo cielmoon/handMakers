@@ -45,7 +45,7 @@ public class ProductController {
 		
 		System.out.println(productNo);
 		
-		int numPerPage = 3;
+		int numPerPage = 4;
 		
 		ModelAndView mv = new ModelAndView();
 		
@@ -109,6 +109,8 @@ public class ProductController {
 		//문의 정보 select
 		List<Map<String,String>> questionCommentList = service.selectComment(questionMap, cPage, numPerPage);
 		int questionCommentCount = service.selectCommentCount(questionMap.get("commentType"));
+		//누적점수 select
+		/*Map<String,String> totalscore = service.selectTotalScore(productNo);*/
 		
 		mv.addObject("brand",brandMap);
 		mv.addObject("cPage", cPage);
