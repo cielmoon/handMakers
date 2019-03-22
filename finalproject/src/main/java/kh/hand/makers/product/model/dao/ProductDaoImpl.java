@@ -109,14 +109,8 @@ public class ProductDaoImpl implements ProductDao {
 		
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		
-		System.out.println(map);
-		System.out.println("=============================================");
 		
-		if(map.get("reviewCommentType")!=null) {
-			map.put("commentType", "R");
-		}else{
-			map.put("commentType", "Q");
-		}
+		System.out.println("=============================================");
 		
 		System.out.println("이거 보자~~");
 		System.out.println(map);
@@ -166,6 +160,18 @@ public class ProductDaoImpl implements ProductDao {
 	public Map<String, String> selectBrand(String productNo) {
 		
 		return session.selectOne("product.selectBrand",productNo);
+	}
+
+	@Override
+	public int insertCommentReview(Map<String, String> map) {
+		
+		return session.insert("product.insertCommentReview",map);
+	}
+
+	@Override
+	public int insertTotalScoreReview(Map<String, String> map) {
+		System.out.println(map);
+		return session.insert("product.insertTotalScoreReview",map);
 	}
 	
 	

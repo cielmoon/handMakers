@@ -56,8 +56,8 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public List<PreProduct> selectPreProductList(String brandNo, int cPage, int numPerPage) {
-		return dao.selectPreProductList(brandNo, cPage, numPerPage);
+	public List<PreProduct> selectPreProductList(Map<String, Object> map, int cPage, int numPerPage) {
+		return dao.selectPreProductList(map, cPage, numPerPage);
 	}
 
 	@Override
@@ -66,8 +66,8 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public int selectPreProductCount(String brandNo) {
-		return dao.selectPreProductCount(brandNo);
+	public int selectPreProductCount(Map<String, Object> map) {
+		return dao.selectPreProductCount(map);
 	}
 
 
@@ -173,6 +173,7 @@ public class ShopServiceImpl implements ShopService {
 	public int updateTracking(Map<String, String> map) {
 		return dao.updateTracking(map);
 	}
+
 	
 	
 	

@@ -19,6 +19,9 @@ import kh.hand.makers.order.model.service.OrderService;
 import kh.hand.makers.order.model.service.OrderServiceImpl;
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.order.model.vo.Order;
+import kh.hand.makers.product.model.service.ProductService;
+import kh.hand.makers.shop.model.service.ShopService;
+import kh.hand.makers.shop.model.vo.SmallCategory;
 
 @Controller
 public class OrderController {
@@ -27,6 +30,10 @@ public class OrderController {
 	
 	@Autowired
 	OrderService service = new OrderServiceImpl();
+	@Autowired
+	ProductService productService;
+	@Autowired
+	ShopService shopService;
 	
 	@RequestMapping("/order/orderEnroll.do")
 	public ModelAndView orderEnroll(@RequestParam Map<String,Object> map, HttpSession session) {
@@ -39,14 +46,22 @@ public class OrderController {
 		
 		String productOptionNo = (String)map.get("productOption"); 
 		
-		System.out.println(productOptionNo);
-		
 		Map<String,String> productOption = service.selectProductOption(productOptionNo);
+		
+		String productNo = (String)map.get("productNo");
+		
+		Map<String,String> categoryMap = service.selectCategoryMap(productNo); 
+		
+		String bcTitle = productService.selectBcTitle(categoryMap.get("BC_NO"));
+		
+		List<SmallCategory> scList = shopService.selectScList(categoryMap.get("BC_NO"));
 		
 		logger.debug(productOption+"");
 		
 		List<Map<String,String>> deliveryList = service.selectDeliveryList(memberNo);
 		
+		mv.addObject("bcTitle",bcTitle);
+		mv.addObject("scList",scList);
 		mv.addObject("deliveryList", deliveryList);
 		mv.addObject("orderList", map);
 		mv.addObject("productOption",productOption);

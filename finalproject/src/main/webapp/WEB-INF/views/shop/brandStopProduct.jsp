@@ -8,10 +8,13 @@
 <%@page import="java.util.*" %>
 
 <style>
-.sale-modal-body {
-    position: relative;
-    padding: 20px;
+.img-stop-product
+{
+	opacity:0.5;
+	width: 220px;
+    height: auto;
 }
+
 .inline {
 	display: inline;
 }
@@ -58,40 +61,9 @@
 $(function(){
 	$("#select-bigCategory").change(function(){
 		var bcNo = $("#select-bigCategory").find(":selected").val();
-		location.href="${path}/shop/brandEndProduct.do?brandNo=${brand.brandNo}&bcNo=" + bcNo;
+		location.href="${path}/shop/brandStopProduct.do?brandNo=${brand.brandNo}&bcNo=" + bcNo;
 	});
 });
-
-function reSale(productNo, productTitle)
-{
-	$.ajax({
-		url:"${path}/shop/selectReqState.do",
-		data:{"reqRef" : productNo, "reqState": '4'},
-		success:function(data){
-			var result = data.result;		
-			if(result > 0)
-			{
-				alert("이미 요청 처리중 입니다.");
-			}
-			else
-			{					
-				$("#saleModalTitle").text("재판매 요청");
-				$("#saleModalSubTitle").text("(" + productTitle + ")");
-				$("#input-sale-requestTitle").val("");
-				$("#input-sale-requestReason").val("");
-				$("#input-sale-requestType").val('P');
-				$("#input-sale-requestState").val('4');
-				$("#input-sale-requestRef").val(productNo);
-				$("#input-sale-requestLoc").val("/shop/brandEndProduct.do?brandNo=");
-				$("#frm-saleRequestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
-				$("#saleRequestModal").modal();
-			}
-		}
-	});
-	
-	
-
-}
 
 function deleteBrand()
 {
@@ -159,7 +131,7 @@ function deleteBrand()
 			<div class="col-sm-9" id="content">
 				<div class="row">
 					<div class="col-sm-3">			
-						<label>판매종료</label>
+						<label>판매중지</label>
 					</div>
 					<div class="col-sm-5"></div>
 					<div class="col-sm-4">
@@ -180,20 +152,15 @@ function deleteBrand()
 						</div>
 						<div class="grid-list-wrapper mt-0">
 							<c:if test="${productList.size() == 0 }">
-								<div class='col-xs-12 text-center'><span>판매 종료된 상품이 없습니다.</span></div>
+								<div class='col-xs-12 text-center'><span>판매 중지된 상품이 없습니다.</span></div>
 							</c:if>
 							<c:forEach items="${productList }" var="p">
 								<div class="product-layout product-list col-xs-4">
 									<div class="product-thumb">
 										<div class="image product-imageblock">
 											<a href="${path }/shop/brandProductHome.do?productNo=${p.PRODUCT_NO}&brandNo=${brand.brandNo}"> 
-												<img src="${path }/resources/image/product/${p.PRODUCT_PROFILE}" class="img-responsive" />
+												<img class="img-stop-product" src="${path }/resources/image/stop_sale.png" style="text-align: center;" class="img-responsive" />
 											</a>
-											<div class="button-group">
-												<button type="button" class="wishlist" data-toggle="tooltip" title="재판매 요청" onclick="reSale('${p.PRODUCT_NO}','${p.PRODUCT_TITLE }');">
-													<i class="fas fa-ban"></i>
-												</button>
-											</div>
 										</div>
 										<div class="caption product-detail">
 											<h4 class="product-name">
@@ -215,36 +182,6 @@ function deleteBrand()
 					</c:if>
 					</div>
 				</div>
-			</div>
-			
-			<!-- 재판매 요청  Modal -->
-			<div class="modal fade" tabindex="-1" role="dialog" id="saleRequestModal">
-			  <div class="modal-dialog">
-			    <div class="modal-content">
-			      <form name="saleRequestFrm" id="frm-saleRequestModal" method="post">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			        	<span aria-hidden="true">×</span>
-			        </button>
-			        <h4 class="modal-title" id="saleModalTitle" style="display: inline;"></h4>
-			        <h4 class="modal-title" id="saleModalSubTitle" style="display: inline;"></h4>
-			      </div>
-			      <div class="sale-modal-body">
-					<span>해당 상품을 재판매 요청할까요?</span>
-				  </div>
-				  <input type="hidden" id="input-saleRequestTitle" name="requestTitle" value="재판매 요청"/>
-				  <input type="hidden" id="input-saleRequestReason" name="requestReason" value="상품 재판매 요청입니다."/>
-				 
-			      <div class="modal-footer" style="padding-top: 9px; padding-bottom: 9px;">
-			      	<input type="hidden" name="requestRef" id="input-sale-requestRef"/>
-			      	<input type="hidden" name="requestType" id="input-sale-requestType"/> 
-			      	<input type="hidden" name="requestState" id="input-sale-requestState"/>
-			      	<input type="hidden" name="requestLoc" id="input-sale-requestLoc"/>   
-			      	<button type="submit" class="btn btn-primary float-right">완료</button>     
-			      </div>
-			      </form>
-			    </div>
-			  </div>
 			</div>
 			
 			<!-- 폐점신고  Modal -->

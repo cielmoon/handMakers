@@ -151,14 +151,21 @@
 					</div>
 					<div class="col-sm-3"></div>
 					<div class="col-sm-5 float-right text-right">		
-						<c:if test="${product.PRODUCT_CURSELL < product.PRODUCT_MIN}">
-							<label>최소 주문수량 미달 <i class="fa fa-times" style="font-size:18px; color: firebrick;"></i></label>&nbsp;&nbsp;							
-							<label>현재 ${product.PRODUCT_MIN - product.PRODUCT_CURSELL}개 남음</label>
-						</c:if>
-						<c:if test="${product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">	
-							<label>최소 주문수량 달성 <i class="fa fa-check" style="font-size:18px; color: lightgreen;"></i></label>&nbsp;&nbsp;	
-							<label>현재 ${product.PRODUCT_CURSELL}개 주문중</label>
-						</c:if>
+						<c:choose>
+							<c:when test="${product.PRODUCT_STATE == '2'}">
+								<label>판매중지&nbsp;<i class="fa fa-times" style="font-size:18px; color: firebrick;"></i></label>						
+							</c:when>
+							<c:otherwise>
+								<c:if test="${product.PRODUCT_CURSELL < product.PRODUCT_MIN}">
+								<label>최소 주문수량 미달 <i class="fa fa-times" style="font-size:18px; color: firebrick;"></i></label>&nbsp;&nbsp;							
+								<label>현재 ${product.PRODUCT_MIN - product.PRODUCT_CURSELL}개 남음</label>
+								</c:if>
+								<c:if test="${product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">	
+									<label>최소 주문수량 달성 <i class="fa fa-check" style="font-size:18px; color: lightgreen;"></i></label>&nbsp;&nbsp;	
+									<label>현재 ${product.PRODUCT_CURSELL}개 주문중</label>
+								</c:if>
+							</c:otherwise>
+						</c:choose>	
 					</div>
 					<div class="col-sm-12 mt-10">					
 						<table id='tbl-board' class='table table-striped table-hover'>
@@ -176,7 +183,7 @@
 							</c:if>
  							<c:forEach var="q" items="${qnaList }" varStatus="vs">
 								<tr>
-									<td>${vs.count }</td>
+									<td>${index + vs.index }</td>	
 									<td><a href="javascript:void(0);" onclick="qnaView('${q.COMMENT_NO}', '${q.MEMBER_ID}','${q.COMMENT_CONTENT }','<fmt:formatDate value="${q.COMMENT_DATE}" pattern="yyyy-MM-dd HH:mm"/>');">상품 문의입니다.</a></td>
 									<td>${fn:replace(q.MEMBER_ID, fn:substring(q.MEMBER_ID, q.MEMBER_ID.length()-2, q.MEMBER_ID.length()), '**')}</td>
 									<td><fmt:formatDate value="${q.COMMENT_DATE}" pattern="yyyy-MM-dd HH:mm"/></td>

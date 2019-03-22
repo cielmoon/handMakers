@@ -51,8 +51,7 @@
 $(function(){
 	$("#select-bigCategory").change(function(){
 		var bcNo = $("#select-bigCategory").find(":selected").val();
-		
-		
+		location.href="${path}/shop/brandHome.do?brandNo=${brand.brandNo}&bcNo=" + bcNo;
 	});
 });
 
@@ -160,10 +159,10 @@ function preProductView(preNo)
 					<div class="tbl-header">
 						<div class="col-sm-3">
 							<select class="form-control" id="select-bigCategory">
-								<option value="allList" selected>전체 카테고리</option>
+								<option value="all" selected>전체 카테고리</option>
 								<c:forEach items="${bcList }" var="b" varStatus="vs">
-										<option value="${b.bcNo }">${b.bcTitle}</option>
-								</c:forEach>	
+										<option value="${b.bcNo }" ${bcNo eq b.bcNo? "selected" : "" }>${b.bcTitle}</option>
+								</c:forEach>
 							</select>
 						</div>
 						<div class="col-sm-9">
@@ -187,7 +186,7 @@ function preProductView(preNo)
 							</c:if>
  							<c:forEach var="p" items="${preList }" varStatus="vs">
 								<tr>
-									<td>${vs.count }</td>							
+									<td>${index + vs.index }</td>							
 									<td>${p.bcTitle }</td>
 									<td>${p.scTitle }</td>
 									<td><a href="javascript:void(0);" onclick="preProductView('${p.preProductNo}');">${p.preProductTitle }</a></td>	

@@ -58,9 +58,16 @@ public class ShopDaoImpl implements ShopDao {
 	}
 
 	@Override
-	public List<PreProduct> selectPreProductList(String brandNo, int cPage, int numPerPage) {
+	public List<PreProduct> selectPreProductList(Map<String, Object> map, int cPage, int numPerPage) {
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
-		return sqlSession.selectList("shop.selectPreProductList", brandNo, rb);
+		if(map.get("bcNo").equals("all"))
+		{
+			return sqlSession.selectList("shop.selectPreProductList", map, rb);
+		}
+		else
+		{
+			return sqlSession.selectList("shop.selectPreProductBcList", map, rb);
+		}
 	}
 
 	@Override
@@ -69,19 +76,40 @@ public class ShopDaoImpl implements ShopDao {
 	}
 
 	@Override
-	public int selectPreProductCount(String brandNo) {
-		return sqlSession.selectOne("shop.selectPreProductCount", brandNo);
+	public int selectPreProductCount(Map<String, Object> map) {
+		if(map.get("bcNo").equals("all"))
+		{
+			return sqlSession.selectOne("shop.selectPreProductCount", map);			
+		}
+		else 
+		{
+			return sqlSession.selectOne("shop.selectPreProductBcCount", map);
+		}
 	}
 
 	@Override
 	public int selectBrandProductCount(Map<String, Object> map) {
-		return sqlSession.selectOne("shop.selectBrandProductCount", map);
+		if(map.get("bcNo").equals("all"))
+		{
+			return sqlSession.selectOne("shop.selectBrandProductCount", map);			
+		}
+		else 
+		{
+			return sqlSession.selectOne("shop.selectBrandProductBcCount", map);			
+		}
 	}
 
 	@Override
 	public List<Map<String, Object>> selectBrandProductList(Map<String, Object> map, int cPage, int numPerPage) {
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
-		return sqlSession.selectList("shop.selectBrandProductList", map, rb);
+		if(map.get("bcNo").equals("all"))
+		{
+			return sqlSession.selectList("shop.selectBrandProductList", map, rb);
+		}
+		else 
+		{
+			return sqlSession.selectList("shop.selectBrandProductBcList", map, rb);			
+		}
 	}
 
 	@Override
@@ -195,6 +223,6 @@ public class ShopDaoImpl implements ShopDao {
 	public int updateTracking(Map<String, String> map) {
 		return sqlSession.update("shop.updateTracking", map);
 	}
-	
+
 	
 }

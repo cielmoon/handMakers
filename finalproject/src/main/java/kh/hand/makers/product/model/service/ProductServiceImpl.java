@@ -138,6 +138,18 @@ public class ProductServiceImpl implements ProductService {
 		
 		return dao.selectBrand(productNo);
 	}
+
+	@Override
+	public int insertCommentReview(Map<String, String> map) {
+		
+		return dao.insertCommentReview(map);
+	}
+
+	@Override
+	public int insertTotalScoreReview(Map<String, String> map) {
+		
+		return dao.insertTotalScoreReview(map);
+	}
 	
 	
 	

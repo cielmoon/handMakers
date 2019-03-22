@@ -53,9 +53,7 @@
 $(function(){
 	$("#select-bigCategory").change(function(){
 		var bcNo = $("#select-bigCategory").find(":selected").val();
-
-			
-		
+		location.href="${path}/shop/brandSaleProduct.do?brandNo=${brand.brandNo}&bcNo=" + bcNo;
 	});
 });
 
@@ -161,9 +159,9 @@ function deleteBrand()
 					<div class="col-sm-5"></div>
 					<div class="col-sm-4">
 						<select class="form-control" id="select-bigCategory">
-							<option value="allList" selected>전체 카테고리</option>
+							<option value="all" selected>전체 카테고리</option>
 							<c:forEach items="${bcList }" var="b" varStatus="vs">
-									<option value="${b.bcNo }">${b.bcTitle}</option>
+									<option value="${b.bcNo }" ${bcNo eq b.bcNo? "selected" : "" }>${b.bcTitle}</option>
 							</c:forEach>	
 						</select>
 					</div>
