@@ -1,9 +1,8 @@
 package kh.hand.makers.admin.controller;
 
-
-
-import java.sql.Date;
-
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.admin.model.service.AdminService;
@@ -37,7 +38,12 @@ public class AdminController {
 	@Autowired
 	AdminService service;
 	private String sReqState = "B";
-
+	
+	@RequestMapping("/admin/questionAndAnswer.do")
+	public String questionAndAnswerPage() {
+		return "admin/questionAndAnswer";
+	}
+	
 	@RequestMapping("/admin/memberList.do")
 	public ModelAndView manageMember(@RequestParam(value = "cPage", required = false, defaultValue = "0") int cPage) {
 		int numPerPage = 5;
@@ -224,51 +230,85 @@ public class AdminController {
 	}
 
 	// 상품 등록에서 등록 날짜는 처음 등록할때만 추가하고 이후에는 업데이트로 감
-	@RequestMapping("/admin/enrollProductEnd.do")
-	public ModelAndView enrollProductEnd(Member m, NewProduct n, HttpServletRequest request) {
+	@RequestMapping(value="/admin/enrollProductEnd.do", method=RequestMethod.POST)
+	public ModelAndView enrollProductEnd(Member m, NewProduct n, MultipartFile newProductProfile, MultipartFile[] newProductDetailImg, String[] newProductOption, HttpServletRequest request) {
 		logger.debug("enrollProductEnd");		
 		
-		ModelAndView mv = new ModelAndView();
-		
+		ModelAndView mv = new ModelAndView();		
 		Products p = new Products();
+				
 		
+		String savDir=request.getSession()
+							.getServletContext()
+							.getRealPath("/resources/image/product");
+		
+		if(!newProductProfile.isEmpty()) {
+			//파일명을 생성(rename)
+			String orifileName = newProductProfile.getOriginalFilename();
+			System.out.println("현재파일:"+orifileName);
+			String ext=orifileName.substring(orifileName.lastIndexOf("."));
+			//rename 규칙설정
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rdv=(int)(Math.random()*1000);
+			String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
+			//파일을 저장해보자
+			try {
+				newProductProfile.transferTo(new File(savDir+"/"+reName));
+			}catch(IllegalStateException | IOException e)
+			{
+				e.printStackTrace();
+			}
+			n.setNewProductProfileImg(reName);
+			System.out.println("바뀐파일:"+reName);
+
+		}
+		
+		for(MultipartFile f : newProductDetailImg)
+		{
+			if(!f.isEmpty()) {
+				//파일명을 생성(rename)
+				String orifileName=f.getOriginalFilename();
+				System.out.println("현재파일:"+orifileName);
+				String ext=orifileName.substring(orifileName.lastIndexOf("."));
+				//rename 규칙설정
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+				int rdv=(int)(Math.random()*1000);
+				String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
+				//파일을 저장해보자
+				try {
+					f.transferTo(new File(savDir+"/"+reName));
+				}catch(IllegalStateException | IOException e)
+				{
+					e.printStackTrace();
+				}
+				n.setNewProductDetailImgList(reName);
+				System.out.println("바뀐파일:"+reName);
+
+			}
+		}
+
 		n.setNewProductBigCategory("B_C_NO_1");
 		n.setNewProductSmallCategory("S_C_NO_1");
 		n.setNewProductBrand("B_NO_1");
 		n.setNewProductMemberNo("M_NO_1");
-		
+/*		
 		n.setNewProductDetailImgList("김연아1.jpg");
 		n.setNewProductDetailImgList("김연아2.jpg");
-		n.setNewProductDetailImgList("김연아3.jpg");
+		n.setNewProductDetailImgList("김연아3.jpg");*/
 		
-		n.setNewProductOptionList("옵션1");
-		n.setNewProductOptionList("옵션2");
-		n.setNewProductOptionList("옵션3");
+		for (String string : newProductOption) {
+			n.setNewProductOptionList(string);			
+		}
 		
+		for (String s : n.getNewProductDetailImgList()) {
+			System.out.println("상세이미지: "+s);
+		}
 
 		// 위의 setter들은 강제로 추가해준 값 (나중에 변경해줘야 함)
 		
 
 		n.setNewProductUpdateDate(n.getNewProductSaleStart());
 		n.setNewProductAdminNo("M_NO_1");
-
-		
-		/*String root = pageContext.request.contextPath;
-		String saveDir = root + "assets"+"\\upload" + File.separator + "boardImage";
-
-		// 파일에 대한 크기제한 설정
-		int maxSize = 1024 * 1024 * 10;// 10Mb
-
-		MultipartRequest mr = new MultipartRequest(request, saveDir, maxSize, "UTF-8", new DefaultFileRenamePolicy());
-
-		
-		Enumeration e = mr.getFileNames();
-		while(e.hasMoreElements())
-		{
-			n.setNewProductDetailImgList(mr.getFilesystemName((String)e.nextElement()));
-			
-		}*/
-		
 	
 		String msg = "";
 		String loc = "";
@@ -372,8 +412,10 @@ public class AdminController {
 		String loc = "";
 		String reqType = rNoSplit[3].trim();//B or P
 		String reqRef = rNoSplit[4].trim();//브랜드 or 상품 no
+		
 		Map<String, String> sr1 = new HashMap<String, String>();//process
 		Map<String, String> sr2 = new HashMap<String, String>();//state
+		
 		sr1.put("sellerReqNo", rNoSplit[0].trim());
 		sr1.put("sellerReqProcess", rNoSplit[1]);
 		
@@ -417,5 +459,4 @@ public class AdminController {
 	public void setsReqState(String sReqState) {
 		this.sReqState = sReqState;
 	}
-
 }

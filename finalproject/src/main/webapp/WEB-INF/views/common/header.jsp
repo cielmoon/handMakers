@@ -17,6 +17,8 @@
 <meta name="description"
 	content="e-commerce site well design with responsive view." />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
 
 <link href="${path }/resources/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet" media="screen" />
@@ -179,7 +181,7 @@
 							<li><a href="${path }/product/preList.do" class="parent">입점예정</a></li>
 							<li><a href="#" class="active parent">문의하기</a>
 								<ul>
-									<li><a href="category.html">Q &amp; A</a></li>
+									<li><a href="${path }/admin/questionAndAnswer.do">Q &amp; A</a></li>
 									<c:if test="${member.memberAuthority != 'A' }">
 										<li><a href="${path }/shop/shopEnroll.do">입점문의</a></li>
 									</c:if>

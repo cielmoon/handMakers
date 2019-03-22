@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+
 <section>
 	<div class="container">
 		<div class="mainbanner"><!-- 메인배너엔 뭘넣어야할까? -->
