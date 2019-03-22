@@ -52,10 +52,24 @@
 			<aop:before pointcut-ref="publicMethod" method="myBefore"/>
 		</aop:aspect>
 	</aop:config>  어렵네 AOP-->
-	<!-- Aspect 설정: Advice를 어떤 Pointcut에 적용할 지 설정 -->
+	<!-- Aspect 설정: Advice를 어떤 Pointcut에 적용할 지 설정 -->	
+	
+	<!-- SMTP -->
+   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+      <property name="host" value="smtp.gmail.com" />
+      <property name="port" value="587" />
+      <property name="username" value="diekdaldzl@gmail.com" />
+      <property name="password" value="wjdeorbs123" />
 
-	
-	
-	
-	
+
+   <!-- email 요청시는 SMTP -->
+      <property name="javaMailProperties">
+         <props>
+            <prop key="mail.transport.protocol">smtp</prop>
+            <prop key="mail.smtp.auth">true</prop>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+            <prop key="mail.debug">true</prop>
+         </props>
+      </property>
+   </bean>
 </beans>

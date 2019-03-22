@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -34,7 +35,6 @@ public class ProductController {
 	ShopService shopService;
 	
 	public static String categoryNo;
-	/*public static String numPerPage;*/
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
 	//상품 상세화면 보여주는 서블릿
@@ -180,31 +180,29 @@ public class ProductController {
 		}
 	
 	@RequestMapping("/product/category.do")
-	public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="numPerPage", required=false, defaultValue="9") int numPerPage, String category, String sc)
+	public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="numPerPage", required=false, defaultValue="9") int numPerPage, String category, String sc, HttpSession session)
 	{
-		
 		if(category != null ) { categoryNo = category;	}
 		
-		//logger.debug(numPerPages+"pages");
-		//logger.debug(numPerPage+"nomal");
-		//int contentCount = service.selectProductCount(categoryNo);
 		ModelAndView mv = new ModelAndView();
-		//logger.debug("ProductController In -");logger.debug("+_+_+_+query : "+category);
 		Map<String, String> map = new HashMap();
 		map.put("category", categoryNo);
 		if( sc != null)	{ map.put("sc", sc); }
-		logger.debug("가져온 sc 있니? : "+sc);
+
+		if(session.getAttribute("member") != null) {
+			String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
+			map.put("memberNo", memberNo); 
+			//logger.debug(memberNo+" : PC_category_mem");
+			}
 		String bcTitle = service.selectBcTitle(categoryNo);
 		List<Map<String, String>> sCategoryList = service.sCategoryList(categoryNo);
 		int contentCount = service.selectProductCount(map);
 		List<Map<String, String>> productList = service.productList(map, cPage, numPerPage);
-		logger.debug("P.C- sCategoryList : "+sCategoryList);
 		
+		logger.debug("리스트는 ? : "+productList+"  ----- count ?? : "+contentCount);				
 		
 		mv.addObject("productList", productList);
 		mv.addObject("sCategoryList", sCategoryList);
-		//mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"));
-		//페이징 다른 버전 url+=cpage
 		mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do?category="+categoryNo+"&numPerPage="+numPerPage));
 		mv.addObject("cPage", cPage);
 		mv.addObject("numPerPage", numPerPage);
