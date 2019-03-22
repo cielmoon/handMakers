@@ -1,6 +1,7 @@
 package kh.hand.makers.admin.controller;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -31,7 +32,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.admin.model.service.AdminService;
-import kh.hand.makers.admin.model.service.MailService;
 import kh.hand.makers.admin.model.vo.AdminProduct;
 import kh.hand.makers.admin.model.vo.NewProduct;
 import kh.hand.makers.admin.model.vo.Products;
@@ -50,133 +50,6 @@ public class AdminController {
 	@Autowired
 	AdminService service;
 	private String sReqState = "B";
-	
-    private MailService mailService;
- 
- 
- 
-    public void setMailService(MailService mailService) {
-        this.mailService = mailService;
-    }
- 
-    // 회원가입 이메일 인증
-    @RequestMapping(value = "/admin/authenticationEmail.do", method = RequestMethod.POST, produces = "application/json")
-    public void mailSender(HttpServletRequest request) throws AddressException, MessagingException{
-        
-        String subject = (String) request.getParameter("subject"); // 메일 제목
-        String message = (String) request.getParameter("message"); // 메일 내용
-         
-        // SMTP 서버 설정
-        final String host = "smtp.gmail.com"; // 사용할 smtp host, naver라면 smtp.naver.com
-        final String accountId = "#사용자 아이디#";
-        final String accountPwd = "#사용자 비밀번호#";
-        final int port = 465; // SMTP 포트
-         
-        String receiver = "#받는사람 이메일#"; // 받는사람 이메일
-        String sender = "#보내는사람 이메일#"; // 보내는사람 이메일
-         
-        // Property 정보 생성
-        Properties props = System.getProperties();
-        props.put("mail.smtp.host", host);
-        props.put("mail.smtp.port", port);
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.ssl.enable", "true");
-        props.put("mail.smtp.ssl.trust", host);
-         
-        // 사용자 인증
-        Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-            protected javax.mail.PasswordAuthentication getPasswordAuthentication(){
-                return new javax.mail.PasswordAuthentication(accountId, accountPwd);
-            }
-        });
-        session.setDebug(true);
-         
-        Message mimeMessage = new MimeMessage(session); //MimeMesage 생성
-        mimeMessage.setFrom(new InternetAddress(sender)); // 보내는 EMAIL (정확히 적어야 SMTP 서버에서 인증 실패되지 않음)
-        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(receiver)); 
-         
-        // Message Setting
-        mimeMessage.setSubject(subject);
-        mimeMessage.setText(message);
-        Transport.send(mimeMessage); // Transfer
-    }
-    
-    /*@ResponseBody
-    public boolean sendMailAuth(HttpSession session, @RequestParam String memberEmail) {
-    	System.out.println("가져온값:" + memberEmail);
-        int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
-        String joinCode = String.valueOf(ran);
-        session.setAttribute("joinCode", joinCode);
- 
-        String subject = "회원가입 인증 코드 발급 안내 입니다.";
-        StringBuilder sb = new StringBuilder();
-        sb.append("귀하의 인증 코드는 " + joinCode + " 입니다.");
-        System.out.println("subject :"+subject);
-        System.out.println("sb :"+sb.toString());
-        System.out.println("memberEmail :"+memberEmail);
-    
-        return mailService.send(subject, sb.toString(), "babooyea@gmail.com", memberEmail, null);
-    }*/
- 
-/*    // 아이디 찾기
-    @RequestMapping(value = "/sendMail/id", method = RequestMethod.POST)
-    public String sendMailId(HttpSession session, @RequestParam String email, @RequestParam String captcha, RedirectAttributes ra) {
-        String captchaValue = (String) session.getAttribute("captcha");
-        if (captchaValue == null || !captchaValue.equals(captcha)) {
-            ra.addFlashAttribute("resultMsg", "자동 방지 코드가 일치하지 않습니다.");
-            return "redirect:/find/id";
-        }
- 
-        User user = userService.findAccount(email);
-        if (user != null) {
-            String subject = "아이디 찾기 안내 입니다.";
-            StringBuilder sb = new StringBuilder();
-            sb.append("귀하의 아이디는 " + user.getId() + " 입니다.");
-            mailService.send(subject, sb.toString(), "아이디@gmail.com", email, null);
-            ra.addFlashAttribute("resultMsg", "귀하의 이메일 주소로 해당 이메일로 가입된 아이디를 발송 하였습니다.");
-        } else {
-            ra.addFlashAttribute("resultMsg", "귀하의 이메일로 가입된 아이디가 존재하지 않습니다.");
-        }
-        return "redirect:/find/id";
-    }*/
- 
-/*    // 비밀번호 찾기
-    @RequestMapping(value = "/sendMail/password", method = RequestMethod.POST)
-    public String sendMailPassword(HttpSession session, @RequestParam String id, @RequestParam String email, @RequestParam String captcha, RedirectAttributes ra) {
-        String captchaValue = (String) session.getAttribute("captcha");
-        if (captchaValue == null || !captchaValue.equals(captcha)) {
-            ra.addFlashAttribute("resultMsg", "자동 방지 코드가 일치하지 않습니다.");
-            return "redirect:/find/password";
-        }
- 
-        User user = userService.findAccount(email);
-        if (user != null) {
-            if (!user.getId().equals(id)) {
-                ra.addFlashAttribute("resultMsg", "입력하신 이메일의 회원정보와 가입된 아이디가 일치하지 않습니다.");
-                return "redirect:/find/password";
-            }
-            int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
-            String password = String.valueOf(ran);
-            userService.updateInfo(user.getNo(), "password", password); // 해당 유저의 DB정보 변경
- 
-            String subject = "임시 비밀번호 발급 안내 입니다.";
-            StringBuilder sb = new StringBuilder();
-            sb.append("귀하의 임시 비밀번호는 " + password + " 입니다.");
-            mailService.send(subject, sb.toString(), "아이디@gmail.com", email, null);
-            ra.addFlashAttribute("resultMsg", "귀하의 이메일 주소로 새로운 임시 비밀번호를 발송 하였습니다.");
-        } else {
-            ra.addFlashAttribute("resultMsg", "귀하의 이메일로 가입된 아이디가 존재하지 않습니다.");
-        }
-        return "redirect:/find/password";
-    }*/
-
-    
-    
-    
-	
-	
-	
-	
 	
 	@RequestMapping("/admin/questionAndAnswer.do")
 	public String questionAndAnswerPage() {

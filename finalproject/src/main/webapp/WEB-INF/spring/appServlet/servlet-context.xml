@@ -47,8 +47,8 @@
 			<exclude-mapping path="/member/memberEnroll.do" />
 			<exclude-mapping path="/member/memberEnrollEnd.do" />
 			<exclude-mapping path="/member/memberLogout.do" />
-			<exclude-mapping
-				path="/member/memberWithdrawalEnds.do" />
+			<exclude-mapping path="/member/memberWithdrawalEnds.do" />
+			<exclude-mapping path="/member/mailSending.do"/>
 			<beans:bean id="loggerInterceptor"
 				class="kh.hand.makers.common.LoggerInterceptor" />
 		</interceptor>
