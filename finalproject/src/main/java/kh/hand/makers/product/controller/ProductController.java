@@ -167,7 +167,7 @@ public class ProductController {
 		List<Map<String, String>> list = service.productList(map, cPage, numPerPage);
 		
 		mv.addObject("productList", list);
-		mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/newList.do?numPerPage="+numPerPage));
+		mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/preList.do?numPerPage="+numPerPage));
 		mv.addObject("cPage", cPage);
 		mv.addObject("numPerPage", numPerPage);
 		mv.addObject("contentCount", contentCount);

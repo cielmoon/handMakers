@@ -44,7 +44,7 @@
 }
 </style>
 <script>
-$(function(){
+$(function(){	
 	/* 운송장 번호 입력 시 글자 제한 및 자동 하이픈 추가 */
 	$('#input-trackingNo').on('keydown',function(){
      var key = event.charCode || event.keyCode || 0;
@@ -90,13 +90,13 @@ function checkAllOrder(state)
 {
 	if(state == 0)
 	{
-		$("input[type=checkbox]").prop("checked",false);
+		$("input[type=checkbox]").not(':disabled').prop("checked",false);
 		$("#uncheck-all-order").css("display", "none");	
 		$("#check-all-order").css("display", "inline");	
 	}
 	else
 	{		
-		$("input[type=checkbox]").prop("checked",true);
+		$("input[type=checkbox]").not(':disabled').prop("checked",true);
 		$("#uncheck-all-order").css("display", "inline");	
 		$("#check-all-order").css("display", "none");	
 	}
@@ -104,22 +104,22 @@ function checkAllOrder(state)
 function exportOrders()
 {
 	var orders = new Array();
-	$("input[type=checkbox]:checked").each(function(){
+	$("input[name=checkOrders]:checked").each(function(){
 		orders.push($(this).val());
 	});
-
 	if(orders.length == 0)
 	{
 		alert("처리할 주문을 선택해주세요.");
 	}
 	else
 	{
-		var result = confirm("상품을 출고하셨나요?");
+		var result = confirm("상품을 출고하셨나요?"); 
+
 		if(result)
 		{
 			location.href="${path}/shop/exportOrders.do?orders=" + orders + "&productNo=" + '${product.PRODUCT_NO}' + "&brandNo=" + '${brand.brandNo}';
-		}
- 	}
+		} 
+	}
 }
 
 function orderView(orderNo)
@@ -145,6 +145,8 @@ function orderView(orderNo)
 			if(data.order.ORDER_STATE == '0')
 			{
 				$("#input-trackingNo").prop("readonly", false);
+			}else{
+				$("#input-trackingNo").prop("readonly", true);
 			}
 			
 			$("#input-orderNo").val(data.order.ORDER_NO);
@@ -156,9 +158,9 @@ function orderView(orderNo)
 function updateTracking()
 {	
 	var orderState = $("#input-orderState").val();
-
-	if(orderState == '0'){ //출고 전 (배송준비중)
-		var trackingNo = $("#input-trackingNo").val();
+	var trackingNo = $("#input-trackingNo").val();
+	
+	if(orderState == '0' && trackingNo.trim().length > 0){ //출고 전 (배송준비중)
 		if(trackingNo.trim().length >= 14 && trackingNo.startsWith('0329')){
 			var orderNo = $("#input-orderNo").val();
 			location.href="${path}/shop/updateTracking.do?trackingNo=" + trackingNo + "&orderNo=" + orderNo + "&productNo=" + '${product.PRODUCT_NO}' + "&brandNo=" + '${brand.brandNo}';
@@ -207,15 +209,22 @@ function updateTracking()
 						<label>주문목록</label>
 					</div>
 					<div class="col-sm-3"></div>
-					<div class="col-sm-5 float-right text-right">		
-						<c:if test="${product.PRODUCT_CURSELL < product.PRODUCT_MIN}">
-							<label>최소 주문수량 미달 <i class="fa fa-times" style="font-size:18px; color: firebrick;"></i></label>&nbsp;&nbsp;							
-							<label>현재 ${product.PRODUCT_MIN - product.PRODUCT_CURSELL}개 남음</label>
-						</c:if>
-						<c:if test="${product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">	
-							<label>최소 주문수량 달성 <i class="fa fa-check" style="font-size:18px; color: lightgreen;"></i></label>&nbsp;&nbsp;	
-							<label>현재 ${product.PRODUCT_CURSELL}개 주문중</label>
-						</c:if>
+					<div class="col-sm-5 float-right text-right">	
+						<c:choose>
+							<c:when test="${product.PRODUCT_STATE == '2'}">
+								<label>판매중지&nbsp;<i class="fa fa-times" style="font-size:18px; color: firebrick;"></i></label>						
+							</c:when>
+							<c:otherwise>
+								<c:if test="${product.PRODUCT_CURSELL < product.PRODUCT_MIN}">
+								<label>최소 주문수량 미달 <i class="fa fa-times" style="font-size:18px; color: firebrick;"></i></label>&nbsp;&nbsp;							
+								<label>현재 ${product.PRODUCT_MIN - product.PRODUCT_CURSELL}개 남음</label>
+								</c:if>
+								<c:if test="${product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">	
+									<label>최소 주문수량 달성 <i class="fa fa-check" style="font-size:18px; color: lightgreen;"></i></label>&nbsp;&nbsp;	
+									<label>현재 ${product.PRODUCT_CURSELL}개 주문중</label>
+								</c:if>
+							</c:otherwise>
+						</c:choose>	
 					</div>
 					<div class="col-sm-12 mt-10">					
 						<table id='tbl-board' class='table table-striped table-hover'>
@@ -242,19 +251,30 @@ function updateTracking()
  							<c:forEach var="o" items="${orderList }" varStatus="vs">
 								<tr>
 									<c:if test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">
-										<td><input type="checkbox" name="checkOrders" id="check-order" value="${o.ORDER_NO }"/></td>
+										<td>
+											<input type="checkbox" name="checkOrders" id="check-order" value="${o.ORDER_NO }" 
+											${o.ORDER_STATE == '1'? "style='display:none;'" : o.ORDER_TRACKINGNO == null ? "disabled" : ""}/>
+										</td>
 									</c:if>
-									<td>${vs.count }</td>
+									<td>${index + vs.index }</td>	
 									<td>${fn:replace(o.MEMBER_ID, fn:substring(o.MEMBER_ID, o.MEMBER_ID.length()-2, o.MEMBER_ID.length()), '**')}</td>
 									<td>${o.PRODUCT_OPTION }</td>
 									<td>${o.PRODUCT_OPTION_QTY }개</td>
 									<td><fmt:formatDate value="${o.ORDER_DATE}" pattern="yyyy-MM-dd HH:mm"/></td>
 									<td><a href="javascript:void(0);" onclick="orderView('${o.ORDER_NO}');">
-										<c:if test="${o.ORDER_TRACKINGNO == null}">미등록</c:if>${o.ORDER_TRACKINGNO }
-										</a>
+										<c:if test="${o.ORDER_TRACKINGNO == null}">미등록</c:if>
+										${o.ORDER_TRACKINGNO }</a>
 									</td>
-									<td><c:if test="${o.ORDER_STATE == '0'}">배송준비중</c:if>
-										<c:if test="${o.ORDER_STATE == '1'}">출고완료</c:if>
+									<td>
+										<c:choose>
+											<c:when test="${product.PRODUCT_STATE == '2'}">
+												<label>출고불가</label>						
+											</c:when>
+											<c:otherwise>
+												<c:if test="${o.ORDER_STATE == '0'}">배송준비중</c:if>
+												<c:if test="${o.ORDER_STATE == '1'}">출고완료</c:if>
+											</c:otherwise>
+										</c:choose>
 									</td>
 								</tr>
 							</c:forEach>

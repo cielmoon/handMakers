@@ -137,7 +137,7 @@ function recordView(recordNo)
 							</c:if>
  							<c:forEach var="s" items="${salesRecordsList }" varStatus="vs">
 								<tr>
-									<td>${vs.count }</td>
+									<td>${index + vs.index }</td>	
 									<td><fmt:formatDate value="${s.PRODUCT_ENROLLDATE}" pattern="yyyy-MM-dd"/> - <fmt:formatDate value="${s.PRODUCT_ENDDATE}" pattern="yyyy-MM-dd"/></td>
 									<td><a href="javascript:void(0);" onclick="recordView('${s.SALESRECORDS_NO}');">${vs.count } 회차 판매이력</a></td>
 								</tr>
