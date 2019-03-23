@@ -5,7 +5,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<%-- <jsp:param value="handMakers - 신규" name="pageTitle"/> --%>
 <section>
 <div class="container">
   <ul class="breadcrumb">
@@ -56,11 +55,6 @@
               <option value="32">32</option>
     		</c:otherwise>
 			</c:choose>
-            
-            
-              <!-- <option value="9">9</option>selected="selected"
-              <option value="18">18</option>
-              <option value="27">27</option> -->
             </select>
           </form>
           </div>
@@ -68,27 +62,6 @@
 					
 					
 				</div>
-      <!-- <div class="category-page-wrapper">
-        <div class="col-md-6 list-grid-wrapper">
-          <div class="btn-group btn-list-grid">          
-          	스타일줘야함 이버튼 흰색으로 바궈놔야함
-            <button type="button" id="grid-view" class="btn btn-default grid" data-toggle="tooltip" title="Grid"><i class="fa fa-th"></i></button>
-          </div>         
-        <div class="col-md-1 text-right page-wrapper">
-          
-          <div class="limit">
-            <select id="input-limit" class="form-control">
-              <option value="8" selected="selected">8</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="75">75</option>
-              <option value="100">100</option>
-            </select>
-          </div>
-        </div>
-
-      </div>
-      <br /> -->
       <div class="grid-list-wrapper">
       <c:forEach items="${productList }" var="product" varStatus="vs">
       
@@ -98,7 +71,24 @@
          <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
          <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
               <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>        
+               <c:if test="${member==null }">
+               <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="alert('위시리스트 추가는 로그인이 필요합니다.')">
+                	<i class="fa fa-heart-o"></i>
+               </button>
+               </c:if>
+                <c:if test="${member.memberNo != null and product.wishChk eq member.memberNo }">
+                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishChk(this.value);">
+                	<i class="fa fa-heart"></i>
+               	</button>
+               </c:if>
+               <c:if test="${member.memberNo != null and product.wishChk eq null }">
+                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishChk(this.value);">
+                	<i class="fa fa-heart-o"></i>
+               	</button>
+               </c:if>
+               
+               
+                <!-- <button type="button" class="addtocart-btn">Add to Cart</button> -->
               </div>
             </div>
 

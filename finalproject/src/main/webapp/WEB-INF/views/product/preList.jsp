@@ -72,7 +72,24 @@
          <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
          <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
               <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
+               <c:if test="${member==null }">
+               <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="alert('위시리스트 추가는 로그인이 필요합니다.')">
+                	<i class="fa fa-heart-o"></i>
+               </button>
+               </c:if>
+                <c:if test="${member.memberNo != null and product.wishChk eq member.memberNo }">
+                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishChk(this.value);">
+                	<i class="fa fa-heart"></i>
+               	</button>
+               </c:if>
+               <c:if test="${member.memberNo != null and product.wishChk eq null }">
+                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishChk(this.value);">
+                	<i class="fa fa-heart-o"></i>
+               	</button>
+               </c:if>
+               
+               
+                <!-- <button type="button" class="addtocart-btn">Add to Cart</button> -->
               </div>
             </div>
 

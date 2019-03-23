@@ -85,12 +85,6 @@
          <%-- <h1>${product.productNo}</h1> 확인용 --%>
          <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
          <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
-        <!-- 상품 프로필 사진 product_profile, alt=? product_title, title=product_title -->
-              <!-- 원본 -->
-              <!-- <div class="button-group">
-               <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List">
-                <i class="fa fa-heart-o"></i></button> -->
-               
                <div class="button-group">
                <c:if test="${member==null }">
                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="alert('위시리스트 추가는 로그인이 필요합니다.')">
@@ -165,14 +159,10 @@ function fn_wishChk(productNo){
       			success:function(data){
                     if(data > 0){	
                     	$('#' + productNo).html('<i class="fa fa-heart"></i>');
-                    	
-                    	/* $('#' + productNo).attr('data-original-title', 'Remove to Wish List'); */
                     	$('#' + productNo).attr( "title" , "Remove to Wish List");
                     }
                     else
                     	$('#' + productNo).html('<i class="fa fa-heart-o"></i>');
-                    /* $('#' + productNo).removeattr('title'); */
-                		/* $('#' + productNo).attr(['data-original-title', 'Add to Wish List']); */
                     $('#' + productNo).attr( "title" , "Add to Wish List");
                     }
       		});
