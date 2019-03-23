@@ -157,11 +157,8 @@
 								</ul> --%>
 								<ul>
 								<div id = "menuList"></div>
-								<li><a href="${path }/product/productTest.do">얘만 나오면 B카테고리 추가.</a></li>
 								</ul>
 								</li>
-							<!-- <li><a href="index.html" class="parent">신규</a></li>
-							<li><a href="category.html" class="parent">베스트</a></li> -->
 							<li><a href="${path }/product/newList.do" class="parent">신규</a></li>
 							<li><a href="${path }/product/bestList.do" class="parent">베스트</a></li>
 							<li><a href="${path }/product/preList.do" class="parent">입점예정</a></li>
@@ -184,30 +181,12 @@
 	
 	<script type="text/javascript">
 	$(function(){
-		/* var ttt='sadasd';
-		ttt+=ttt.append('1231233123');
-		console.log(ttt); */
-/* 		console.log("로드-"); */
 		$.ajax({
 			url:"${path}/common/menuList.do",
 			success: function(data){
-			/* 	console.log(data); */
-				/* alert(data); */
-				/* console.log(data.length); */
-				/* console.log("끝-"); */
-				/* $('#menuList').append('<ul>'); */
 				for(var i = 0 ; i < data.length ; i++){
-					/* console.log(data[i].BC_TITLE+"다~"); */
 					$('#menuList').append('<li><a href="${path }/product/category.do?category='+data[i].BC_NO+'">'+data[i].BC_TITLE+'</a></li>');
 				}
-				/* $('#menuList').append('</ul>'); */
-				/* for(var i = 0 ; i < data.length ; i++){
-					$('#level1').append('<tr><td>'+(i+1)+'번째'+data[i].BC_NO+'</td><td>'+data[i].BC_TITLE+'</td></tr>'); */
-					/* $('#level1').append('<tr><td>'+(i+1));
-					$('#level1').append('번째'+data[i].BC_NO+'</td><td>');
-					$('#level1').append(data[i].BC_TITLE+'</td></tr>'); 
-				}*/
-				
 			}
 		});
 	});

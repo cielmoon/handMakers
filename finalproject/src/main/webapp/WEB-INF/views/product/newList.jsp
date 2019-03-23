@@ -103,11 +103,14 @@
             </div>
 
             <div class="caption product-detail">
-              <h4 class="product-name">
+              <h4 class="product-name ellips">
               <a href="${path }/product/productView.do?productNo=${product.productNo}" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
-                                    <p class="rating">${product.productComment }</p><!-- div? -->
+              <div style="width : 200px; height : 24px;" class="rating ellips">
+                                    ${product.productComment }
+                                    </div>
               <!-- 상품상세페이지 링크 , title=product_title , value = product_title -->
-              <div class="product-desc">${product.productComment }</div>
+              <%-- <div class="product-desc">${product.productComment }</div> --%>
+              
                 <!-- product_comment -->
                 <p class="price product-price"><span class="price-old"></span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 <span class="price-tax"></span> </p>
               <%-- <p class="price product-price"><span class="price-old"></span> ${product.productPrice } <span class="price-tax"></span> </p><!-- 원본 --> --%>

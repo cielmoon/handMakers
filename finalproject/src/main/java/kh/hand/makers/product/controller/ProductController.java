@@ -34,6 +34,7 @@ public class ProductController {
 	ShopService shopService;
 	
 	public static String categoryNo;
+	public static String bestCategoryNo;
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
 	//상품 상세화면 보여주는 서블릿
@@ -132,9 +133,38 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/product/bestList.do")
-	public String productBestList()
+	public ModelAndView productBestList(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="numPerPage", required=false, defaultValue="9") int numPerPage, String category, String sc, HttpSession session)
 	{
-		return "product/bestList";
+		if(category != null ) { bestCategoryNo = category;	}
+		ModelAndView mv = new ModelAndView();
+		Map<String, String> map = new HashMap();
+		map.put("productStep", "2");//2= 베스트
+		map.put("category", bestCategoryNo);
+		if( sc != null)	{ map.put("sc", sc); }
+
+		if(session.getAttribute("member") != null) {
+			String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
+			map.put("memberNo", memberNo); 
+			//logger.debug(memberNo+" : PC_category_mem");
+			}
+		String bcTitle = service.selectBcTitle(bestCategoryNo);
+		List<Map<String, String>> sCategoryList = service.sCategoryList(bestCategoryNo);
+		int contentCount = service.selectProductCount(map);
+		List<Map<String, String>> productList = service.productList(map, cPage, numPerPage);
+		
+		logger.debug("리스트는 ? : "+productList+"  ----- count ?? : "+contentCount);				
+		
+		mv.addObject("productList", productList);
+		mv.addObject("sCategoryList", sCategoryList);
+		mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/bestList.do?category="+bestCategoryNo+"&numPerPage="+numPerPage));
+		mv.addObject("cPage", cPage);
+		mv.addObject("numPerPage", numPerPage);
+		mv.addObject("contentCount", contentCount);
+		mv.addObject("bcTitle", bcTitle);
+		mv.addObject("category", bestCategoryNo);
+		
+		return mv;
+
 	}
 	
 	@RequestMapping("/product/newList.do")

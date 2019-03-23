@@ -32,9 +32,7 @@ public class ProductDaoImpl implements ProductDao {
 		// TODO Auto-generated method stub
 		logger.debug("들어옴 : selectWishYewon");
 		int result;
-		String a = session.selectOne("product.selectWishYewon", map);
-		logger.debug("aaaaaaaaaaaaaaaa"+a);
-		if(a != null)
+		if(session.selectOne("product.selectWishYewon", map) != null)
 		{
 			result = session.delete("product.deleteWishYewon", map);
 			logger.debug("있을때 : "+ result);

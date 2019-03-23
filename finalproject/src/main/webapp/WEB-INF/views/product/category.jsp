@@ -5,7 +5,15 @@
    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-
+<style>
+<!--
+.ellips{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+-->
+</style>
 <section class="product col-2 left-col">
 <div class="container">
   <ul class="breadcrumb">
@@ -27,16 +35,12 @@
       </div>
     </div>
     <div id="content" class="col-sm-9">
-      <!-- <h2 class="category-title">Desktops</h2> -->
       <div class="category-page-wrapper">
         <div class="col-md-6 list-grid-wrapper">
           <div class="btn-group btn-list-grid">
-            <!-- <button type="button" id="list-view" class="btn btn-default list" data-toggle="tooltip" title="List"><i class="fa fa-th-list"></i></button>
-            <button type="button" id="grid-view" class="btn btn-default grid" data-toggle="tooltip" title="Grid"><i class="fa fa-th"></i></button> -->
             <div class="result-inner">(총 ${contentCount }건의 상품)</div>
             <div id="grid-view" class="btn btn-default grid"></div><!-- <i class="fa fa-th"></i> -->
           </div>
-          <!-- <a href="#" id="compare-total">Product Compare (0)</a> -->
           </div>
         <div class="col-md-1 text-right page-wrapper">
           <label class="control-label" for="input-limit">Show :</label>
@@ -69,14 +73,10 @@
       </div>
       <br />
       
-      <!--  -->
-      <p>${productList }</p>
-	<!--  -->      
       <div class="grid-list-wrapper">
       
       
-      
-       <!-- 작업중 --><!-- 리스트는 input-limit 갯수 만큼. -->
+       <!-- 리스트는 input-limit 갯수 만큼. -->
        <c:forEach items="${productList }" var="product" varStatus="vs">
        
 		<div class="product-layout product-list col-xs-12">
@@ -92,48 +92,46 @@
                 <i class="fa fa-heart-o"></i></button> -->
                
                <div class="button-group">
+               <c:if test="${member==null }">
+               <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="alert('위시리스트 추가는 로그인이 필요합니다.')">
+                	<i class="fa fa-heart-o"></i>
+               </button>
+               </c:if>
                 <c:if test="${member.memberNo != null and product.wishChk eq member.memberNo }">
-                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Remove to Wish List" value="${product.productNo}" onclick="fn_wishChk(this.value);">
+                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishChk(this.value);">
                 	<i class="fa fa-heart"></i>
                	</button>
                </c:if>
-               <c:if test="${product.wishChk eq null }">
-                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" value="${product.productNo}" onclick="fn_wishChk(this.value);">
+               <c:if test="${member.memberNo != null and product.wishChk eq null }">
+                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishChk(this.value);">
                 	<i class="fa fa-heart-o"></i>
                	</button>
                </c:if>
                
                
-                <button type="button" class="addtocart-btn">Add to Cart</button>
+                <!-- <button type="button" class="addtocart-btn">Add to Cart</button> -->
               </div>
             </div>
             
             <div class="caption product-detail">
-              <h4 class="product-name">
+              <h4 class="product-name ellips">
               <a href="${path }/product/productView.do?productNo=${product.productNo}" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
-                                    <div style="border : 1px solid red"><p class="rating">1?${product.productComment }</p><!-- div? --></div>
+			<div style="width : 200px; height : 24px;" class="rating ellips">${product.productComment }</div>
               <!-- 상품상세페이지 링크 , title=product_title , value = product_title -->
-              <%-- <div class="product-desc">2?${product.productComment }</div> --%>
                 <!-- product_comment -->
                 <p class="price product-price"><span class="price-old"></span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 <span class="price-tax"></span> </p>
-              <%-- <p class="price product-price"><span class="price-old"></span> ${product.productPrice } <span class="price-tax"></span> </p><!-- 원본 --> --%>
-              <%-- <p class="price product-price"><span class="price-old">${product.productPrice }</span>${product.productPrice + product.productDiscount } <span class="price-tax"></span> </p> --%>
               <!-- product_price -->
               <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
-              <!-- totalProductPoint 별이 다섯개  이부분은 좀더 고민-->
+              <!-- totalProductPoint 별-->
             </div>
-            <div class="button-group"><!-- 리스트형식으로 볼때의 추가 버튼들 -->
+            <%-- <div class="button-group"><!-- 리스트형식으로 볼때의 추가 버튼들 -->
               <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List" value="${product.productNo}"><i class="fa fa-heart-o"></i></button>
               <button type="button" class="addtocart-btn">Add to Cart</button>
-            </div>
+            </div> --%>
           </div>
         </div>
-        
-        <!-- 여기까지가 상품 한사이클 패이징방식에따라서 채워주어야함. 어떤식으로 걸러서 몇개를 들고올것인가? -->
-		
        
        </c:forEach>
-       <!-- 작업중 -->
           
       </div>
       <div class="category-page-wrapper">
@@ -152,15 +150,6 @@
 </div>
 </section>
 
-<!-- <script type="text/javascript">
-window.onload=function()
-{
-	 var numPerPages = document.querySelector('#input-limit');
-	 input-limit.addEventListener("change",function(){
-   	 document.numPerPageFrm.submit(); 
-     });
-}
-</script> -->
 
 <script>
 $('#input-limit').on('change', function(){
@@ -170,71 +159,24 @@ $('#numPerPagesFrm').submit();
 
 
 function fn_wishChk(productNo){
-       		console.log(productNo);
-      		var str = '#' + productNo; 
-      		/* $('#' + productNo).html('<i class="fa fa-heart"></i>'); */
-      		console.log(str);
-      		
       		$.ajax({
       			url:"${path}/product/selectWishYewon.do",
       			data: {"productNo":productNo},
       			success:function(data){
                     if(data > 0){	
                     	$('#' + productNo).html('<i class="fa fa-heart"></i>');
+                    	
+                    	/* $('#' + productNo).attr('data-original-title', 'Remove to Wish List'); */
+                    	$('#' + productNo).attr( "title" , "Remove to Wish List");
                     }
                     else
                     	$('#' + productNo).html('<i class="fa fa-heart-o"></i>');
+                    /* $('#' + productNo).removeattr('title'); */
+                		/* $('#' + productNo).attr(['data-original-title', 'Add to Wish List']); */
+                    $('#' + productNo).attr( "title" , "Add to Wish List");
                     }
       		});
-      		
-      		
 }
-      		
-      		/* console.log(this.attr(class)); */
-      		/* $(str).addClass("testClass"); */
-	/* $("'#"+test+"'").html('<i class="fa fa-heart-o"></i>'); */
-/* var wishBtn = $('#wishBtn'); */
-	/* var wishCount = $('input[name=wishCount]').val(); */
-	/* console.log("처음에 왔을 때 확인 : "+wishCount); */
-	/* var productNo = $('#input-productNo').val(); */
-/* <div class="button-group">
-<c:if test="${member.memberNo != null and product.wishChk eq member.memberNo }">
-<button type="button" id="wishBtn" data-toggle="tooltip" 
-class="btn btn-default wishlist" title="Add to Wish List" value="${product.productNo}" 
-onclick="fn_wishCk();">
-	<i class="fa fa-heart"></i>
-	</button>
-</c:if>
-<c:if test="${product.wishChk eq null }">
-<button type="button" id="wishBtn" data-toggle="tooltip" class="btn btn-default wishlist" 
-title="Add to Wish List" value="${product.productNo}" onclick="fn_wishCk();">
-	<i class="fa fa-heart-o"></i>
-	</button>
-</c:if> */
-
-
-
-       		
-      		/* $.ajax({
-  				url:"${path}/product/selectWish.do",
-  				data:{"productNo":productNo,"wishCount":wishCount},
-  				success:function(data){
-  					console.log(data);
-  					console.log(wishBtn);
-  					if(data["wishCount"]==0){
-  						console.log("이벤트 발생 후 0 : "+data["wishCount"]);
-  						wishBtn.html('<i class="fa fa-heart-o"></i>');
-  						$('input[name=wishCount]').val(data["wishCount"]);
-  					}
-  					if(data["wishCount"]!=0){
-  						console.log("이벤트 발생 후 1 : "+data["wishCount"]);
-  						wishBtn.html('<i class="fa fa-heart"></i>');
-  						$('input[name=wishCount]').val(data["wishCount"]);
-  					}
-  				}
-  			}); */
-      /* 	}; */
-      	
 </script>
 
 
