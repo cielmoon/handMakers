@@ -678,11 +678,7 @@ function fn_sallerInfo(){
                                     <!-- <a id="btn-comment" class="btn btn-primary btn-circle text-uppercase btn-reply" data-toggle="collapse" href="#${questionComment['COMMENT_NO']}">
                                        <i class="far fa-comment-dots"></i>&nbsp;comment</a> -->
                                        
-                                    <a class="btn btn-success btn-circle text-uppercase btn-reply" href="#" id="reply">
-                                       <i class="far fa-thumbs-up"></i></a>
-                                    <a class="btn btn-warning btn-circle text-uppercase btn-reply" href="#" id="reply" style="background-color: #b7c7c7;">
-                                       <i class="far fa-thumbs-down"></i></a>   
-                                       <div class="float-right">
+                                       <div style="text-align: right;">
                                           <a class="btn btn-primary text-uppercase btn-reply" onclick="fn_reviewUpdate();">수정</a>
                                           <a class="btn btn-primary text-uppercase btn-reply" onclick="fn_reviewDelete();">삭제</a>
                                        </div>
