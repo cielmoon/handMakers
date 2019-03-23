@@ -8,20 +8,58 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import kh.hand.makers.product.model.vo.Product;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import kh.hand.makers.product.model.vo.Product2;
 import kh.hand.makers.product.model.vo.ProductImg;
 import kh.hand.makers.product.model.vo.Wish;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
-	
+		
 	@Autowired
 	SqlSession session;
 	
+	private static final Logger logger = LoggerFactory.getLogger(ProductDaoImpl.class);
+	
+	@Override
+	public int selectWishYewon(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		logger.debug("들어옴 : selectWishYewon");
+		int result;
+		if(session.selectOne("product.selectWishYewon", map) != null)
+		{
+			result = session.delete("product.deleteWishYewon", map);
+			logger.debug("있을때 : "+ result);
+			return 0;
+		}
+		else
+		{
+			result = session.delete("product.insertWishYewon", map);
+			logger.debug("없을때 : "+ result);
+			return 1;
+		}
+		/*int result = session.selectOne("product.selectWishYewon", map);
+		logger.debug("1차 : "+ result);
+		if(result > 0)//있음
+		{
+			result = session.delete("product.deleteWishYewon", map);
+			logger.debug("있을때 : "+ result);
+			return 0;
+		}
+		else
+		{
+			result = session.delete("product.insertWishYewon", map);
+			logger.debug("없을때 : "+ result);
+			return 1;
+		}*/
+	}
+
 	@Override
 	public int selectProductCount(String category) {
 		// TODO Auto-generated method stub
