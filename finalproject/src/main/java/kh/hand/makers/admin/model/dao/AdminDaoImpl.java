@@ -190,6 +190,30 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectSellerNo",brandNo);
 	}
+
+	@Override
+	public int memberStateUpdate(String memberNo) {
+		// TODO Auto-generated method stub
+		return session.update("admin.memberStateUpdate", memberNo);
+	}
+
+	@Override
+	public int memberAuthorityChange(String memberNo) {
+		// TODO Auto-generated method stub
+		return session.update("admin.memberAuthorityChange", memberNo);
+	}
+
+	@Override
+	public int selectBrandStateCount(String memberNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectBrandStateCount",memberNo);
+	}
+
+	@Override
+	public int updateProductState(String brandNo) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateProductState", brandNo);
+	}
 	
 	
 }

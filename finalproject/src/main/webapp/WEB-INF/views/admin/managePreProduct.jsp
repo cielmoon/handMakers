@@ -139,23 +139,17 @@ $(function(){
 										</c:otherwise>
 									</c:choose>									
 									<td>${p.preProductDate }</td>
-									<c:choose>
-										<c:when test="${p.preProductState.toString() == '1' }">
-											<td><a
-												href="${path}/admin/changePreProductState.do?preProductNo=${p.preProductNo}+,0"><button
-														class="AgreeBtn">수락취소</button></a></td>
-										</c:when>
-										<c:when test="${p.preProductState.toString() == '2' }">
-											<td><a
-												href="${path}/admin/changePreProductState.do?preProductNo=${p.preProductNo}+,0"><button
-														class="AgreeBtn">거절취소</button></a></td>
-										</c:when>
-										<c:otherwise>
+									<c:choose>	
+				
+										<c:when test="${p.preProductState.toString() == '0' }">
 											<td><a
 												href="${path}/admin/changePreProductState.do?preProductNo=${p.preProductNo}+,1"><button
 														class="AgreeBtn">수락</button></a> <a
 												href="${path}/admin/changePreProductState.do?preProductNo=${p.preProductNo}+,2"><button
 														class="AgreeBtn">거절</button></a></td>
+										</c:when>
+										<c:otherwise>
+											<td></td>
 										</c:otherwise>
 									</c:choose>
 									

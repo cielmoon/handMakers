@@ -266,13 +266,15 @@
 	</select>
 
 	<insert id="enrollProduct" parameterType="products">
-		INSERT INTO PRODUCT
-		VALUES('P_NO_'||SEQ_PRODUCT_NO.NEXTVAL,
+		INSERT INTO PRODUCT VALUES('P_NO_'||SEQ_PRODUCT_NO.NEXTVAL,
 		#{productTitle},
-		TO_DATE(#{productEnrollDate}), TO_DATE(#{productUpdate}), #{productProfile}, #{productComment}, default, default,
+		TO_DATE(#{productEnrollDate}),
+		TO_DATE(#{productUpdate}), #{productProfile}, #{productComment},
+		default, default,
 		#{productPrice}, #{productMax}, #{productMin},
 		TO_DATE(#{productEndDate}), #{scNo},
-		#{bcNo}, #{brandNo}, #{memberNo}, #{adminNo}, default, default,
+		#{bcNo}, #{brandNo}, #{memberNo},
+		#{adminNo}, default, default,
 		#{productDiscount})
 		<selectKey keyProperty="productNo" resultType="string"
 			order="AFTER">
@@ -281,28 +283,58 @@
 	</insert>
 
 	<insert id="enrollProductImg" parameterType="map">
-		INSERT INTO PRODUCT_IMG
-		VALUES('P_I_NO_'||SEQ_PRODUCT_IMG_NO.NEXTVAL,#{productImg}, #{productNo})
+		INSERT INTO
+		PRODUCT_IMG
+		VALUES('P_I_NO_'||SEQ_PRODUCT_IMG_NO.NEXTVAL,#{productImg},
+		#{productNo})
 
 	</insert>
 
 	<insert id="enrollProductOption" parameterType="map">
-		INSERT INTO PRODUCT_OPTION
-		VALUES('P_O_NO_'||SEQ_PRODUCT_OPTION_NO.NEXTVAL, #{productOption}, #{productNo} )
+		INSERT INTO
+		PRODUCT_OPTION
+		VALUES('P_O_NO_'||SEQ_PRODUCT_OPTION_NO.NEXTVAL,
+		#{productOption}, #{productNo} )
 
 	</insert>
-	
+
 	<insert id="enrollProductDetail" parameterType="map">
-		INSERT INTO PRODUCT_DETAIL VALUES(#{productNo},#{productDetail})
+		INSERT INTO
+		PRODUCT_DETAIL VALUES(#{productNo},#{productDetail})
 	</insert>
-		<!-- javaType="string" -->
+	<!-- javaType="string" -->
 	<select id="selectAllBrandList" resultMap="brandMap">
-		select * from brand order
+		select * from brand
+		order
 		by brand_enrolldate desc
 	</select>
-	
-	<select id="selectSellerNo" parameterType="string" resultType="string">
+
+	<select id="selectSellerNo" parameterType="string"
+		resultType="string">
 		select member_no from brand where brand_no =#{brandNo}
 	</select>
+
+	<update id="memberStateUpdate" parameterType="string">
+		update member set
+		member_authority = 'S' where member_no = #{memberNo}
+
+	</update>
+	<update id="memberAuthorityChange" parameterType="string">
+		update member
+		set member_authority = 'M' where member_no = #{memberNo}
+
+	</update>
+
+	<select id="selectBrandStateCount" resultType="_int">
+		select count(*)
+		from brand where member_no = #{memberNo} and brand_state != 'a' and
+		brand_state != 'e'
+	</select>
 	
+	<update id="updateProductState" parameterType="string">
+		update product
+		set product_state = 3 where brand_no = #{brandNo}
+	</update>
+
+
 </mapper>

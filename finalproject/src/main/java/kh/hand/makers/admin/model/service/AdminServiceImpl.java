@@ -188,6 +188,30 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectSellerNo(brandNo);
 	}
+
+	@Override
+	public int memberStateUpdate(String memberNo) {
+		// TODO Auto-generated method stub
+		return dao.memberStateUpdate(memberNo);
+	}
+
+	@Override
+	public int memberAuthorityChange(String memberNo) {
+		// TODO Auto-generated method stub
+		return dao.memberAuthorityChange(memberNo);
+	}
+
+	@Override
+	public int selectBrandStateCount(String memberNo) {
+		// TODO Auto-generated method stub
+		return dao.selectBrandStateCount(memberNo);
+	}
+
+	@Override
+	public int updateProductState(String brandNo) {
+		// TODO Auto-generated method stub
+		return dao.updateProductState(brandNo);
+	}
 	
 	
 	

@@ -36,28 +36,26 @@
 				</div>
 
 				<div class="column-block">
-					<c:if test="${brandList.size() != 0}">
+					<c:if test="${member.memberAuthority == 'S'}">		
 						<div class="columnblock-title">판매자페이지</div>
 					</c:if>
 					<div class="account-block">
-
+					
 						<div class="list-group">
 							<c:forEach items="${brandList }" var="b">
-								<c:if test="${b.brandState.toString()!='4'}">
-									<a class="list-group-item brand-list"
-										href="javascript:selectBrand('${b.brandNo }', '${b.brandState }');">${b.brandTitle }
-										<c:if test="${b.brandState.toString()=='0'}">
-											<i class="fa fa-clock-o"
-												style="font-size: 20px; float: right;"></i>
-										</c:if> <c:if test="${b.brandState.toString()=='2'}">
-											<i class="fa fa-exclamation-circle"
-												style="font-size: 20px; color: firebrick; float: right;"></i>
-										</c:if>
-									</a>
+								<c:if test="${b.brandState.toString()!='e'}"> <!-- 폐점완료 상태 -->
+								<a class="list-group-item brand-list" href="javascript:selectBrand('${b.brandNo }', '${b.brandState }');">${b.brandTitle }				
+									<c:if test="${b.brandState.toString()=='a'}"> <!-- 승인요청 상태 -->
+										<i class="fa fa-clock-o" style="font-size:20px; float: right;"></i>
+									</c:if>
+									<c:if test="${b.brandState.toString()=='c'}"> <!-- 브랜드 등록 반려상태 -->
+										<i class="fa fa-exclamation-circle" style="font-size:20px; color: firebrick; float: right;"></i>
+									</c:if>
+								</a>
 								</c:if>
 							</c:forEach>
-						</div>
-					</div>
+						</div>	
+					</div>					
 				</div>
 
 

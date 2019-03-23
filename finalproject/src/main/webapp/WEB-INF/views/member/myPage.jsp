@@ -44,7 +44,7 @@ function selectBrand(brandNo, brandState)
 				</div>
 				
 				<div class="column-block">
-					<c:if test="${brandList.size() != 0}">		
+					<c:if test="${member.memberAuthority == 'S'}">		
 						<div class="columnblock-title">판매자페이지</div>
 					</c:if>
 					<div class="account-block">

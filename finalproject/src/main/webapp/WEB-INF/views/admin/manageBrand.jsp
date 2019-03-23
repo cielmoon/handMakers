@@ -74,10 +74,10 @@
 											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,b"><button class="AgreeBtn">승인</button></a>
 											<a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,c"><button class="AgreeBtn">반려</button></a></td>											
 										</c:when>	
-										<c:when test="${b.brandState.toString() == 'd' }">
+<%-- 										<c:when test="${b.brandState.toString() == 'd' }">
 											<td><a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,e"><button class="AgreeBtn">승인</button></a>
 											<a href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,b"><button class="AgreeBtn">반려</button></a></td>											
-										</c:when>								
+										</c:when> --%>								
 										<c:otherwise>
 											<td></td>	
 										</c:otherwise>								

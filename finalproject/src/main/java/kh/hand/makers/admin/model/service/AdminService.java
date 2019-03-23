@@ -53,5 +53,9 @@ public interface AdminService {
 	
 	List<Brand> selectBrandList();
 	String selectSellerNo(String brandNo);
+	int memberStateUpdate(String memberNo);
+	int memberAuthorityChange(String memberNo);
+	int selectBrandStateCount(String memberNo);
+	int updateProductState(String brandNo);
 	
 }

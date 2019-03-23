@@ -91,33 +91,45 @@ public class AdminController {
 	@RequestMapping("/admin/changeBrandState.do")
 	public ModelAndView changeBrandState(String brandNo) {
 
+		ModelAndView mv = new ModelAndView();
 		System.out.println("지금 받아온 값:" + brandNo);
 		String[] bNoSplit = brandNo.split(",");
 		String msg = "";
 		String loc = "";
 		Map<String, String> bs = new HashMap<String, String>();
-
-		bs.put("brandNo", bNoSplit[0].trim());
+		String bNo = bNoSplit[0].trim();
+		
+		bs.put("brandNo", bNo);
 		bs.put("brandState", bNoSplit[1]);
-		if (bNoSplit[1].equals("0") || bNoSplit[1].equals("2")) {
-			// 입점제안 승인취소 또 반려 + 상품도 재등록으로 이동
-			// 입점제안 상태와 상품의 상태를 조작해야함
-			// int results=service.preProductStateUpdate(bs);
-			// int results=service.productStateUpdate(bs);
-		}
+		
+		String memberNo = service.selectSellerNo(bNo);
 		int result = service.brandStateUpdate(bs);
-		if (result > 0) {
+		if(result > 0 && bNoSplit[1].equals("b")) {
+			int updateResult = service.memberStateUpdate(memberNo);
+			if(updateResult >0) {
+				msg = "수정완료";
+				loc = "/admin/manageBrand.do";
+			}else {
+				Map<String, String> bbs = new HashMap<String, String>();
+				bbs.put("brandNo", bNo);
+				bbs.put("brandState", "a");
+				int results = service.brandStateUpdate(bbs);
+				msg = "수정실패(판매자 등록 실패)";
+				loc = "/admin/manageBrand.do";
+			}
+		}else if(result > 0 && bNoSplit[1].equals("c")) {
 			msg = "수정완료";
 			loc = "/admin/manageBrand.do";
-		} else {
+		}else {
 			msg = "수정실패";
 			loc = "/admin/manageBrand.do";
 		}
-		ModelAndView mv = new ModelAndView();
+		
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.setViewName("common/msg");
 		return mv;
+
 	}
 
 	// 입점 관리
@@ -457,7 +469,8 @@ public class AdminController {
 		String loc = "";
 		String reqType = rNoSplit[3].trim();// B or P
 		String reqRef = rNoSplit[4].trim();// 브랜드 or 상품 no
-
+		
+		
 		Map<String, String> sr1 = new HashMap<String, String>();// process
 		Map<String, String> sr2 = new HashMap<String, String>();// state
 
@@ -476,6 +489,20 @@ public class AdminController {
 		if (reqType.equals("B")) {
 			bs.put("brandNo", reqRef);
 			bs.put("brandState", rNoSplit[2]);
+			String memberNo = service.selectSellerNo(reqRef);
+			int count = service.selectBrandStateCount(memberNo);
+			if(rNoSplit[2].equals("e") && count == 1) {
+				//멤버 권한을 S -> M
+				int updateResult = service.memberAuthorityChange(memberNo);
+			}
+			if(rNoSplit[2].equals("e")){
+				int updateProductStateResult = service.updateProductState(reqRef);
+				if(updateProductStateResult > 0 ) {
+					logger.debug("해당 브랜드의 모든 상품 판매중지 완료(상태는:판매완료)");
+				}else {
+					logger.debug("해당 브랜드의 모든 상품 상태 변경 실패");
+				}
+			}
 			r = service.brandStateUpdate(bs);
 		} else if (reqType.equals("P")) {
 			ps.put("productNo", reqRef);
