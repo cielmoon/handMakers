@@ -122,7 +122,8 @@ public class MemberController {
 				
 		Member member = service.memberFind(findMember);
 		System.out.println("내가 찾은 멤버: "+ member);
-		if(member.getMemberId().equals(memberEmailId) && member.getMemberEmail().equals(memberEmail)) {
+		/*if(member.getMemberId().equals(memberEmailId) && member.getMemberEmail().equals(memberEmail))*/
+		if(member != null) {
 			//존재한다
 			
 			String setfrom = "admin";
@@ -149,7 +150,7 @@ public class MemberController {
 			mv.setViewName("jsonView");
 			
 			return mv;
-		}else {
+		} else {
 			
 			mv.addObject("memberState", memberState);
 			mv.setViewName("jsonView");
@@ -172,7 +173,17 @@ public class MemberController {
 		boolean isId = service.checkId(memberId) == 0 ? false : true;
 		map.put("isId", isId);
 
-		System.out.println("checkId~~~~~~~~~~~");
+		mv.addAllObjects(map);
+		mv.setViewName("jsonView");
+
+		return mv;
+	}
+	
+	@RequestMapping("/member/checkEmail.do")
+	public ModelAndView checkEmail(String memberEmail, ModelAndView mv) throws UnsupportedEncodingException {
+		Map map = new HashMap();
+		boolean isEmail = service.checkEmail(memberEmail) == 0 ? false : true;
+		map.put("isEmail", isEmail);
 
 		mv.addAllObjects(map);
 		mv.setViewName("jsonView");

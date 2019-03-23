@@ -167,4 +167,9 @@
 		member_pwd=#{newChangedPwd}
 		where member_id=#{memberId}
 	</update>
+	
+	<select id="checkEmail" parameterType="string" resultType="_int">
+		select
+		count(*) from member where MEMBER_EMAIL=#{memberEmail}
+	</select>
 </mapper>

@@ -122,5 +122,12 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.deleteLocation(deliveryNo);
 	}
+
+	@Override
+	public int checkEmail(String memberEmail) {
+		// TODO Auto-generated method stub
+		return dao.checkEmail(memberEmail);
+	}
+	
 	
 }

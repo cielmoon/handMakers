@@ -20,7 +20,12 @@
     margin-bottom: 10px;
 }
 
-#memberEmail, #memberEmailForPwd {
+#memberEmail, #memberEmailForPwd, #checkCerCode, #checkCerCodeForPwd {
+	margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#memberNewPwd, #memberNewPwdCheck {
 	margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -99,8 +104,8 @@
 	
 	
 	$(function() {
-		$("#emailCertificationForPwd").click(function() {			
-							
+		$("#emailCertificationForPwd").click(function() {
+			if(checkEmailCountForPwd==0){
 				var memberEmailForPwd = $("#memberEmailForPwd").val();
 				var memberEmailIdForPwd = $("#memberIdForPwd").val();
 				console.log("memberEmailForPwd: " + memberEmailForPwd);
@@ -116,16 +121,21 @@
 								
 								$("#enterCerCodeForPwd").append(input);
 								$("#enterForPwd").append(enter);
-							
-							}else{
-								alert("아이디를 못찾았았다");
+								checkEmailCountForPwd = 1;
+							} else {
+								alert("이메일 또는 아이디가 일치하지 않습니다.");
+								$("#memberIdForPwd").val('');
+								$("#memberEmailForPwd").val('');
+								$("#memberIdForPwd").focus();
 							}
 						}
 					});
 				}else{
 					alert("이메일 또는 아이디의 빈칸이 존재합니다.");
 				}
-		
+			} else {
+				alert("이메일을 확인해주세요. 인증코드가 이미 발송되었습니다.");
+			}
 		});
 	});
 	
@@ -176,31 +186,61 @@
 	
 	updateNewPwd = function(e) {      	   
 		var newPwd = $("#memberNewPwd").val();
-		
+		var newPwdCheck = $("#memberNewPwdCheck").val();
+		var passwordRegex = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/; // 영문, 숫자 혼합하여 6~20자리 이내
 	    var memberId = $(e).attr("id");
 
 		console.log("newPwd:  " + newPwd);
 		console.log("memberId:  " + memberId);
 		
-		$.ajax({
-			url:"${path}/member/newPwdChange.do",
-			data:{"newPwd" : newPwd, "memberId" : memberId},
-			success:function(data) {	
-				if(data.memberState == "T"){
-					alert("비밀번호 변경이 완료되었습니다.");
-					location.href="${path}/member/memberLogin.do";
-				
-				}else{
-					alert("비밀번호 변경에 실패하였습니다.");					
+		if (newPwd == "" || newPwdCheck == "") {
+			alert("비밀번호란 또는 비밀번호 확인란에 빈칸이 존재합니다.");
+			$("#memberNewPwd").focus();
+		} else if (newPwd != newPwdCheck) {
+			alert("패스워드가 일치하지 않습니다.");
+			$("#memberNewPwd").val('');
+			$("#memberNewPwdCheck").val('');
+			$("#memberNewPwd").focus();
+		} else if (!passwordRegex.test(newPwd)) {
+			alert("비밀번호는 영문, 숫자, 특수문자를 사용하여 6~20자리 이내로 입력해주세요.");
+			$("#memberNewPwdCheck").val('');
+			$("#memberNewPwd").val('');
+			$("#memberNewPwd").focus();
+		} else {
+			$.ajax({
+				url:"${path}/member/newPwdChange.do",
+				data:{"newPwd" : newPwd, "memberId" : memberId},
+				success:function(data) {	
+					if(data.memberState == "T"){
+						alert("비밀번호 변경이 완료되었습니다.");
+						location.href="${path}/member/memberLogin.do";
+					
+					}else{
+						alert("비밀번호 변경에 실패하였습니다.");					
+					}
 				}
-			}
-		});
-		
+			});
+		}	
 	}
 	
 	
 	
  	function validate() {
+ 		if ($("#memberId").val() == "") {
+			alert("아이디를 입력해주세요.");
+			$("#memberId").focus();
+			
+			return false;
+		}
+ 		
+ 		if ($("#memberPwd").val() == "") {
+			alert("비밀번호를 입력해주세요.");
+			$("#memberPwd").focus();
+			
+			return false;
+		}
+ 		
+ 		return true;
 /* 		var memberEmail = $("#memberEmail").val();
 		var emailRegex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
@@ -315,10 +355,9 @@
 						</div>
 						<div class="col-sm-9" id="enterCerCodeForPwd"></div>
 						<div class="col-sm-3" id="enterForPwd"></div>
-						<div class="col-sm-3"></div>						
-						<div class="col-sm-9" id="newPassword"></div>
-						<div class="col-sm-3"></div>
-						<div class="col-sm-9" id="newPasswordCheck"></div>
+												
+						<div class="col-sm-12" id="newPassword"></div>
+						<div class="col-sm-12" id="newPasswordCheck"></div>
 						<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="button" data-toggle="modal" data-target="#emailModal">이메일 인증</button> -->
 						<%-- <input type="button" value="메일 보내기" id='btn-add' class='btn btn-outline-success' onclick='location.href="${path}/member/mailSending.do"'/> --%>	
 					</div>	

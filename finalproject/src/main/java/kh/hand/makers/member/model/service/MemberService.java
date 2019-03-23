@@ -28,4 +28,5 @@ public interface MemberService {
 	String memberIdFind(String memberEmail);
 	Member memberFind(Map<String,String> findMember);
 	int memberNewPwdUpdate(Map<String,String> cP);
+	int checkEmail(String memberEmail);
 }

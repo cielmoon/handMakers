@@ -122,6 +122,12 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("member.deleteLocation", deliveryNo);
 	}
+
+	@Override
+	public int checkEmail(String memberEmail) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.checkEmail", memberEmail);
+	}
 	
 	
 }
