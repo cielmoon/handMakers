@@ -35,17 +35,29 @@
 	<select id="selectProductList" resultMap="productMap">
 		SELECT P.*, W.MEMBER_NO as wishChk FROM PRODUCT P LEFT JOIN WISH W ON (P.PRODUCT_NO = W.PRODUCT_NO AND W.MEMBER_NO = #{memberNo})
 		<where>
-		<if test="category != null and sc != null">
+		<if test="category != null and sc != null and productStep == null">
 		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC 
 		</if>
-		<if test="category != null and sc == null">
+		<if test="category != null and sc == null and productStep == null">
 		 BC_NO = #{category} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
 		</if>
 		<if test="sCategory != null">
 		SC_NO = #{sCategory} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
 		</if>
-		<if test="productStep != null">
+		<if test="productStep == 1">
 		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
+		</if>
+		<if test="productStep == 2 and category == null and sc == null">
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_TOTALSELL DESC
+		</if>
+		<if test="productStep ==2 and category != null and sc != null">
+		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_TOTALSELL DESC
+		</if>
+		<if test="productStep == 2 and sc != null and category == null" >
+		(SC_NO = #{sc}) AND PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_TOTALSELL DESC
+		</if>
+		<if test="productStep ==2 and category != null and sc == null">
+		(BC_NO = #{category}) AND PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_TOTALSELL DESC
 		</if>
 		</where>
 	</select>
@@ -53,18 +65,19 @@
 	<select id="selectProductCount" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
 		<where>
-		<if test="category != null and sc != null">
+		<if test="category != null and sc != null and productStep == null">
 		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3)
 		</if>
-		<if test="category != null and sc == null">
+		<if test="category != null and sc == null and productStep == null">
 		BC_NO = #{category} AND not PRODUCT_STATE in (2,3)
 		</if>
-		<!-- <if test="productStep != null and category != null">
-		(BC_NO = #{category}) AND PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3)
-		</if> -->
-		<if test="productStep != null">
+		<if test="productStep != null and category == null">
 		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3)
 		</if>
+		<if test="productStep != null and category != null">
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) AND (BC_NO = #{category})
+		</if>
+		
 		</where>
 	</select>
 	
@@ -117,12 +130,15 @@
 		<if test="COMMENT_TYPE = 'R'">AND COMMENT_LEVEL='1'</if>
 	</select>
 	
-	<select id="selectComment" parameterType="map" resultType="map">
-		SELECT *
-		FROM PRODUCT_COMMENT JOIN MEMBER USING(MEMBER_NO) 
-		WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo}
-		<!-- <if test="COMMENT_TYPE = 'R'">AND COMMENT_LEVEL='1'</if> --> 
-		ORDER BY COMMENT_DATE DESC
+	<select id="selectCommentR" parameterType="map" resultType="map">
+		SELECT P.*, M.*, NVL(C.CNT,0)CN FROM PRODUCT_COMMENT P JOIN MEMBER M ON(P.MEMBER_NO=M.MEMBER_NO)
+		LEFT JOIN(SELECT COMMENT_REF, COUNT(COMMENT_REF) CNT FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} group by COMMENT_REF)C ON(P.COMMENT_NO=C.COMMENT_REF)
+		WHERE COMMENT_LEVEL='1' AND COMMENT_TYPE=#{commentType} ORDER BY COMMENT_DATE DESC
+
+	</select>
+	
+	<select id="selectCommentQ" parameterType="map" resultType="map">
+		SELECT * FROM PRODUCT_COMMENT JOIN MEMBER M USING(MEMBER_NO) WHERE COMMENT_TYPE=#{commentType} ORDER BY COMMENT_DATE DESC
 	</select>
 	
 	<select id="selectProductOption" parameterType="string" resultType="map">
@@ -158,7 +174,7 @@
 	</insert>
 			
 	<select id="selectReviewCommentSeconds" resultType="map" parameterType="string">
-		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_REF = #{commentNo} AND COMMENT_TYPE = 'R'
+		SELECT * FROM PRODUCT_COMMENT JOIN MEMBER USING(MEMBER_NO) WHERE COMMENT_LEVEL = '2' AND COMMENT_TYPE = 'R' ORDER BY COMMENT_DATE DESC
 	</select>
 	
 	<select id="selectWishYewon" parameterType="map" resultType="map">
@@ -172,28 +188,5 @@
 	<insert id="insertWishYewon" parameterType="map">
 		INSERT INTO WISH VALUES('W_NO_'||SEQ_WISH_NO.NEXTVAL,#{productNo}, #{memberNo})
 	</insert>
-
 	
-	<!-- 
-	<select id="selectProductList" resultMap="productMap">
-		SELECT * FROM PRODUCT
-		<where>
-		<if test="category != null and sc != null">
-		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC 
-		</if>
-		<if test="category != null and sc == null">
-		 BC_NO = #{category} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
-		</if>
-		<if test="sCategory != null">
-		SC_NO = #{sCategory} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
-		</if>
-		<if test="productStep != null">
-		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
-		</if>
-		</where>
-	</select>
-	
-	
-	
-	 -->		
 </mapper>

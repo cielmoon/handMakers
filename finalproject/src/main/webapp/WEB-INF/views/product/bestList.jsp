@@ -28,14 +28,17 @@
           <%-- <h1>${sCategoryList}</h1> --%>
           <ul class="box-category treeview-list treeview">
             <div id = bestMenuList>
+            
             <c:forEach items="${sCategoryList}" var="scList" varStatus="vs">
             <li><a href="${path }/product/bestList.do?category=${category}&sc=${scList.SC_NO}">${scList.SC_TITLE }</a></li>
             </c:forEach>
+            
             </div>
           </ul>
         </div>
       </div>
     </div>
+    <c:if test="${productList.size() != 0 }">
     <div id="content" class="col-sm-9">
       <div class="category-page-wrapper">
         <div class="col-md-6 list-grid-wrapper">
@@ -137,6 +140,10 @@
       </div>
       
     </div>
+    </c:if>
+    <c:if test="${productList.size() == 0 }">
+       <h1>해당하는 조건의 상품이 없습니다.</h1>
+       </c:if>
   </div>
 </div>
 </section>
@@ -165,6 +172,9 @@ function fn_wishChk(productNo){
 </script>
 <script type="text/javascript">
 	$(function(){
+		var a = '${sCategoryList}';
+		console.log(a);
+		if(a == ""){
 		$.ajax({
 			url:"${path}/common/menuList.do",
 			success: function(data){
@@ -173,6 +183,7 @@ function fn_wishChk(productNo){
 				}
 			}
 		});
+		}
 	});
 	</script>
 

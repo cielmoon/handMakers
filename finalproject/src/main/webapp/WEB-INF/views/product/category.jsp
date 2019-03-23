@@ -34,6 +34,7 @@
         </div>
       </div>
     </div>
+    <c:if test="${productList.size() != 0 }">
     <div id="content" class="col-sm-9">
       <div class="category-page-wrapper">
         <div class="col-md-6 list-grid-wrapper">
@@ -77,6 +78,7 @@
       
       
        <!-- 리스트는 input-limit 갯수 만큼. -->
+       
        <c:forEach items="${productList }" var="product" varStatus="vs">
        
 		<div class="product-layout product-list col-xs-12">
@@ -126,7 +128,7 @@
         </div>
        
        </c:forEach>
-          
+       
       </div>
       <div class="category-page-wrapper">
         <%-- <div class="result-inner">Showing 1 to 8 of 10 (${cPage } Pages)</div> --%>
@@ -140,6 +142,10 @@
       </div>
       
     </div>
+    </c:if>
+    <c:if test="${productList.size() == 0 }">
+       <h1>해당하는 조건의 상품이 없습니다.</h1>
+       </c:if>
   </div>
 </div>
 </section>
