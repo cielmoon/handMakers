@@ -221,14 +221,14 @@ function fn_sallerInfo(){
                   </button>
                </c:if>
                
-                <!-- 결재 버튼 -->
+                <!-- 결제 버튼 -->
                 <c:if test="${member==null }">
-                <input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결재하기" onclick="fn_noLogin();"/>
+                <input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기" onclick="fn_noLogin();"/>
                 <!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
                 </c:if>
                 
                 <c:if test="${member!=null }">
-                <input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결재하기"/>
+                <input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기"/>
                 <!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
                 </c:if>
               </div>
@@ -439,7 +439,7 @@ function fn_sallerInfo(){
             <div class="cpt_product_description ">
               <div id="productinfoContent">
                 ${productDetail.PRODUCT_DETAIL }
-                ${orderList }
+                
               </div>
             </div>
             <!-- cpt_container_end -->

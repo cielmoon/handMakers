@@ -125,8 +125,8 @@ public class ProductController {
 		mv.addObject("questionCommentList",questionCommentList);
 		mv.addObject("reviewCommentCount",reviewCommentCount);
 		mv.addObject("questionCommentCount",questionCommentCount);
-		mv.addObject("reviewPageBar",PageFactory.getConditionPageBar(reviewCommentCount, cPage, numPerPage, "/makers/product/productView.do?productNo="+productNo+"&commentType="+reviewMap.get("commentType")));
-		mv.addObject("questionPageBar",PageFactory.getConditionPageBar(questionCommentCount, cPage, numPerPage, "/makers/product/productView.do?productNo="+productNo+"&commentType="+questionMap.get("commentType")));
+		mv.addObject("reviewPageBar",PageFactory.getConditionPageBar(reviewCommentCount, cPage, numPerPage, "/makers/product/productView.do?productNo="+productNo+"&commentType=R"));
+		mv.addObject("questionPageBar",PageFactory.getConditionPageBar(questionCommentCount, cPage, numPerPage, "/makers/product/productView.do?productNo="+productNo+"&commentType=Q"));
 		mv.setViewName("/product/productView");
 		
 		return mv;
