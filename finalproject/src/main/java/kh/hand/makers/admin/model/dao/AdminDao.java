@@ -50,4 +50,5 @@ public interface AdminDao {
 	
 	List<Brand> selectBrandList();
 	String selectSellerNo(String brandNo);
+	
 }
