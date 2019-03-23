@@ -4,13 +4,17 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +47,38 @@ public class MemberController {
 	ShopService shopService;
 	@Autowired
 	ProductService productService; 
+	@Autowired
+	private JavaMailSender mailSender;
+	
+	// mailSending 코드
+	@RequestMapping("/member/mailSending.do")
+	public ModelAndView mailSending(String memberEmail, ModelAndView mv) throws UnsupportedEncodingException {
+		int ran = new Random().nextInt(100000) + 10000; // 인증 코드용 난수 발생 10000 ~ 99999
 
+		String setfrom = "admin";
+		String title = "handmakers 인증 코드"; // 제목
+		String content = "인증 코드는 " + Integer.toString(ran) + " 입니다. 인증 코드란에 입력해주세요."; // 인증 코드
+
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message,
+					true, "UTF-8");
+
+			messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
+			messageHelper.setTo(memberEmail); // 받는사람 이메일
+			messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+			messageHelper.setText(content); // 메일 내용
+
+			mailSender.send(message);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		mv.setViewName("jsonView");
+		
+		return mv;
+	}
+	
 	@RequestMapping("/member/checkId.do")
 	/*
 	 * public void checkId(String userId,HttpServletResponse response) throws
