@@ -35,10 +35,10 @@
 	<select id="selectProductList" resultMap="productMap">
 		SELECT P.*, W.MEMBER_NO as wishChk FROM PRODUCT P LEFT JOIN WISH W ON (P.PRODUCT_NO = W.PRODUCT_NO AND W.MEMBER_NO = #{memberNo})
 		<where>
-		<if test="category != null and sc != null">
+		<if test="category != null and sc != null and productStep == null">
 		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC 
 		</if>
-		<if test="category != null and sc == null">
+		<if test="category != null and sc == null and productStep == null">
 		 BC_NO = #{category} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
 		</if>
 		<if test="sCategory != null">
@@ -47,14 +47,17 @@
 		<if test="productStep == 1">
 		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
 		</if>
-		<if test="productStep == 2">
+		<if test="productStep == 2 and category == null and sc == null">
 		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_TOTALSELL DESC
 		</if>
-		<if test="productStep == 2 and category != null and sc != null">
+		<if test="productStep ==2 and category != null and sc != null">
 		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_TOTALSELL DESC
 		</if>
-		<if test="productStep == 2 and sc != null">
-		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_TOTALSELL DESC
+		<if test="productStep == 2 and sc != null and category == null" >
+		(SC_NO = #{sc}) AND PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_TOTALSELL DESC
+		</if>
+		<if test="productStep ==2 and category != null and sc == null">
+		(BC_NO = #{category}) AND PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_TOTALSELL DESC
 		</if>
 		</where>
 	</select>
@@ -62,18 +65,19 @@
 	<select id="selectProductCount" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
 		<where>
-		<if test="category != null and sc != null">
+		<if test="category != null and sc != null and productStep == null">
 		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3)
 		</if>
-		<if test="category != null and sc == null">
+		<if test="category != null and sc == null and productStep == null">
 		BC_NO = #{category} AND not PRODUCT_STATE in (2,3)
 		</if>
-		<!-- <if test="productStep != null and category != null">
-		(BC_NO = #{category}) AND PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3)
-		</if> -->
-		<if test="productStep != null">
+		<if test="productStep != null and category == null">
 		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3)
 		</if>
+		<if test="productStep != null and category != null">
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) AND (BC_NO = #{category})
+		</if>
+		
 		</where>
 	</select>
 	

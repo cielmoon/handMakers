@@ -34,7 +34,7 @@
         </div>
       </div>
     </div>
-    <c:if test="${productList != null }">
+    <c:if test="${productList.size() != 0 }">
     <div id="content" class="col-sm-9">
       <div class="category-page-wrapper">
         <div class="col-md-6 list-grid-wrapper">
@@ -143,7 +143,7 @@
       
     </div>
     </c:if>
-    <c:if test="${productList eq null }">
+    <c:if test="${productList.size() == 0 }">
        <h1>해당하는 조건의 상품이 없습니다.</h1>
        </c:if>
   </div>
