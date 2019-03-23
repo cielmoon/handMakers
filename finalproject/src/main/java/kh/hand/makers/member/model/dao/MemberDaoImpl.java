@@ -19,6 +19,24 @@ public class MemberDaoImpl implements MemberDao {
 	SqlSessionTemplate sqlSession;
 	
 	@Override
+	public int memberNewPwdUpdate(Map<String, String> cP) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.memberNewPwdUpdate", cP);
+	}
+
+	@Override
+	public String memberIdFind(String memberEmail) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.memberIdFind",memberEmail);
+	}
+
+	@Override
+	public Member memberFind(Map<String, String> findMember) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.memberFind",findMember);
+	}
+
+	@Override
 	public Member memberLogin(String memberId) {
 		return sqlSession.selectOne("member.login",memberId);
 	}

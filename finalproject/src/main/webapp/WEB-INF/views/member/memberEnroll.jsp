@@ -22,6 +22,7 @@
     /* 바깥쪽 div */
     .well {
     	height: 465px;
+    	border-color: white;
     }
     
     /* input text들 */
@@ -38,23 +39,58 @@
 </style>
 
 <script>
+	var checkEmailCount = 0;
+	var checkEmailState = false;
 	$(function() {
 		$("#emailCertification").click(function() {
-			var memberEmail = $("#memberEmail").val();
 			
-			$.ajax({
-				url:"${path}/member/mailSending.do",
-				data:{"memberEmail" : memberEmail},
-				success:function(data) {					
-					var input = $('<input type="text" class="form-control" id="checkCerCode" placeholder="인증 코드 입력" name="checkCerCode">');
-					var enter = $('<input type="button" value="인증 코드 확인" id="enterCertification" class="btn btn-primary">');
-					$("#enterCerCode").append(input);
-					$("#enter").append(enter);
+			if(checkEmailCount==0){				
+				var memberEmail = $("#memberEmail").val();
+				if(memberEmail!=""){				
+					$.ajax({
+						url:"${path}/member/mailSending.do",
+						data:{"memberEmail" : memberEmail},
+						success:function(data) {	
+							if(checkEmailCount == 0){
+								alert("인증번호가 발송되었습니다. 이메일을 확인해주세요.");
+								var input = $('<input type="text" class="form-control" id="checkCerCode" placeholder="인증 코드 입력" name="checkCerCode">');
+								var enter = $('<a id="'+data.randomNumber+'" onclick="compareCode(this);"><input type="button" value="인증 코드 확인" id="enterCertification" class="btn btn-primary"/></a>');
+								$("#enterCerCode").append(input);
+								$("#enter").append(enter);
+								checkEmailCount = 1;													
+								console.log("보내준 인증코드: "+data.randomNumber);
+							}
+						}
+					});
+				}else{
+					alert("이메일을 입력해주세요.");
 				}
-			});
+				
+			}else{
+				
+				alert("이메일을 확인해주세요. 인증코드가 이미 발송되었습니다.");
+			}
 		});
 	});
-	
+
+
+	compareCode = function(e) {      	   
+		var inputCode = $("#checkCerCode").val();
+	    var ranNumber = $(e).attr("id");
+		console.log("ranNumber:  " + ranNumber);
+		console.log("inputCode:  " + inputCode);
+		
+		if(ranNumber == inputCode){
+			alert("인증이 완료되었습니다.");
+			checkEmailState = true;
+			$("#enterCerCode").remove();
+			$("#enter").remove();
+			$("#memberEmail").attr("readonly",true);
+			$("#emailCertification").attr("disabled",true);
+		}else{
+			alert("잘못된 인증코드입니다.");
+		}
+	}
 	
 	
 	function validate() {
@@ -153,7 +189,13 @@
 			
 			return false;
 		}
-
+		
+		if (checkEmailState == false) {
+			alert("이메일 인증이 되지 않았습니다. 이메일 인증을 해주세요.");
+			$("#memberEmail").focus();
+			
+			return false;
+		}
 		return true;
 	};
 	
@@ -220,10 +262,6 @@
             						<span class="guide error">이 아이디는 사용할 수 없습니다. </span>
             						<input type="hidden" name="checkId" value="0"/>
 									</div>
-									
-            						<!-- <script>
-            							
-            						</script> -->
 								</div>
 								
 								<div class="form-group">
@@ -246,7 +284,7 @@
 								
 								<div class="form-group">
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="memberEmail" placeholder="이메일" name="memberEmail">
+											<input type="email" class="form-control" id="memberEmail" placeholder="이메일" name="memberEmail">
 										</div>
 										<div class="col-sm-3">
 											<input type="button" value="인증 코드 발송" id="emailCertification" class="btn btn-primary">
@@ -254,7 +292,7 @@
 										<div class="col-sm-9" id="enterCerCode"></div>
 										<div class="col-sm-3" id="enter"></div>
 										<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="button" data-toggle="modal" data-target="#emailModal">이메일 인증</button> -->
-									<%-- <input type="button" value="메일 보내기" id='btn-add' class='btn btn-outline-success' onclick='location.href="${path}/member/mailSending.do"'/> --%>	
+										<%-- <input type="button" value="메일 보내기" id='btn-add' class='btn btn-outline-success' onclick='location.href="${path}/member/mailSending.do"'/> --%>	
 								</div>						
 							
 								<div class="form-group">

@@ -53,5 +53,5 @@ public interface AdminService {
 	
 	List<Brand> selectBrandList();
 	String selectSellerNo(String brandNo);
-
+	
 }

@@ -49,16 +49,18 @@ public class MemberController {
 	ProductService productService; 
 	@Autowired
 	private JavaMailSender mailSender;
+	private String emailCode;
 	
 	// mailSending 코드
 	@RequestMapping("/member/mailSending.do")
 	public ModelAndView mailSending(String memberEmail, ModelAndView mv) throws UnsupportedEncodingException {
 		int ran = new Random().nextInt(100000) + 10000; // 인증 코드용 난수 발생 10000 ~ 99999
-
+		System.out.println("왔다");
+		System.out.println("이메일 : " + memberEmail);
 		String setfrom = "admin";
 		String title = "handmakers 인증 코드"; // 제목
 		String content = "인증 코드는 " + Integer.toString(ran) + " 입니다. 인증 코드란에 입력해주세요."; // 인증 코드
-
+		emailCode= Integer.toString(ran);
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message,
@@ -73,11 +75,90 @@ public class MemberController {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-
+		
+		mv.addObject("randomNumber",ran);
 		mv.setViewName("jsonView");
 		
 		return mv;
 	}
+	
+	@RequestMapping("/member/memberIdFind.do")
+	public ModelAndView memberIdFind(String memberEmail, ModelAndView mv) throws UnsupportedEncodingException {
+	
+		String memberId = service.memberIdFind(memberEmail);
+		String setfrom = "admin";
+		String title = "handmakers 아이디 찾기 이메일입니다."; // 제목
+		String content = "귀하의 ID는  " + memberId + " 입니다."; // 인증 코드
+		
+		logger.debug("내 아이디 왔니?" + content);
+		
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message,
+					true, "UTF-8");
+
+			messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
+			messageHelper.setTo(memberEmail); // 받는사람 이메일
+			messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+			messageHelper.setText(content); // 메일 내용
+
+			mailSender.send(message);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		mv.setViewName("jsonView");
+		
+		return mv;
+	}
+	@RequestMapping("/member/mailSendingForPwd.do")
+	public ModelAndView mailSendingForPwd(String memberEmail, String memberEmailId, ModelAndView mv) throws UnsupportedEncodingException {
+		System.out.println("찾으러왔다");
+		int ran = new Random().nextInt(100000) + 10000; // 인증 코드용 난수 발생 10000 ~ 99999
+		Map<String, String> findMember = new HashMap<String, String>();
+		findMember.put("memberEmail", memberEmail);
+		findMember.put("memberId", memberEmailId);
+		String memberState = "F";
+				
+		Member member = service.memberFind(findMember);
+		System.out.println("내가 찾은 멤버: "+ member);
+		if(member.getMemberId().equals(memberEmailId) && member.getMemberEmail().equals(memberEmail)) {
+			//존재한다
+			
+			String setfrom = "admin";
+			String title = "handmakers 인증 코드"; // 제목
+			String content = "인증 코드는 " + Integer.toString(ran) + " 입니다. 인증 코드란에 입력해주세요."; // 인증 코드
+			emailCode= Integer.toString(ran);
+			try {
+				MimeMessage message = mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper = new MimeMessageHelper(message,
+						true, "UTF-8");
+
+				messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
+				messageHelper.setTo(memberEmail); // 받는사람 이메일
+				messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+				messageHelper.setText(content); // 메일 내용
+
+				mailSender.send(message);
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+			memberState = "T";	
+			mv.addObject("randomNumber",emailCode);
+			mv.addObject("memberState", memberState);
+			mv.setViewName("jsonView");
+			
+			return mv;
+		}else {
+			
+			mv.addObject("memberState", memberState);
+			mv.setViewName("jsonView");
+			
+			return mv;
+		}
+		
+	}
+	
 	
 	@RequestMapping("/member/checkId.do")
 	/*
@@ -347,7 +428,37 @@ public class MemberController {
 	public String changePassword() {
 		return "member/changePassword";
 	}
+	
+	@RequestMapping("/member/newPwdChange.do")
+	public ModelAndView newPwdChange(String newPwd, String memberId) {
+		ModelAndView mv = new ModelAndView();
+		logger.debug("패스워드 변경");
+		logger.debug("memberId: " + memberId);
+		logger.debug("newPwd: " + newPwd);
+		String newChangedPwd = pwEncoder.encode(newPwd);
+		String memberState = "F";
+		Map<String, String> cP = new HashMap<String, String>();
+		cP.put("memberId", memberId);
+		cP.put("newChangedPwd", newChangedPwd);
+		
+		
+		int result = service.memberNewPwdUpdate(cP);
 
+	
+		if (result > 0) {
+			memberState = "T";
+			mv.addObject("memberState", memberState);
+			mv.setViewName("jsonView");
+			return mv;
+		} else {
+			
+			mv.addObject("memberState", memberState);
+			mv.setViewName("jsonView");
+			return mv;
+		}
+
+	}
+	
 	@RequestMapping("/member/changePasswordEnd.do")
 	public ModelAndView changePasswordEnd(Member m) {
 		ModelAndView mv = new ModelAndView();

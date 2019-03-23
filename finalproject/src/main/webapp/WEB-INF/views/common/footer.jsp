@@ -8,6 +8,8 @@
   <div class="container">
     <div class="row">
       <div class="footer-top-cms">
+      <p>handmakers(주)는 통신판매중개자로서 입점마켓의 거래당사자가 아니며, 
+      입점판매자가 등록한 상품정보 및 거래에 대해 handmakers(주)는 일체 책임을 지지 않습니다.</p>
         <div class="col-sm-7">
           <div class="newslatter">
             <form>
