@@ -828,8 +828,12 @@ footer ul li {
 	padding: 6px 20px;
 	border: none;
 }
-.btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
+.btn-primary:hover, .btn-primary:active, .btn-primary.active {
 	background: #D7CE24;
+	color: #ffffff;
+}
+.btn-primary.disabled, .btn-primary[disabled]{
+	background: gray;
 	color: #ffffff;
 }
 .btn-warning {

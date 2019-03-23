@@ -21,6 +21,24 @@ public class MemberServiceImpl implements MemberService {
 	MemberDao dao;
 	
 	@Override
+	public int memberNewPwdUpdate(Map<String, String> cP) {
+		// TODO Auto-generated method stub
+		return dao.memberNewPwdUpdate(cP);
+	}
+
+	@Override
+	public Member memberFind(Map<String, String> findMember) {
+		// TODO Auto-generated method stub
+		return dao.memberFind(findMember);
+	}
+
+	@Override
+	public String memberIdFind(String memberEmail) {
+		// TODO Auto-generated method stub
+		return dao.memberIdFind(memberEmail);
+	}
+
+	@Override
 	public Member memberLogin(String memberId) {
 		return dao.memberLogin(memberId);
 	}

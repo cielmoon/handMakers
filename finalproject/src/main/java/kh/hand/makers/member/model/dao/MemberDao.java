@@ -24,4 +24,7 @@ public interface MemberDao {
 	List<Map<String,String>> selectWishList(String memberNo, int cPage, int numPerPage);
 	int selectWishCount(String memberNo);
 	int deleteLocation(String deliveryNo);
+	String memberIdFind(String memberEmail);
+	Member memberFind(Map<String,String> findMember);
+	int memberNewPwdUpdate(Map<String,String> cP);
 }
