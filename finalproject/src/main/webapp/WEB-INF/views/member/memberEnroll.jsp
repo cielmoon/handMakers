@@ -11,9 +11,52 @@
     div.well span.guide {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
     div.well span.ok{color:green;}
     div.well span.error{color:red;}
+    
+    /* 인증 코드 발송, 인증 코드 확인 버튼 */
+    #emailCertification, #enterCertification {
+    	padding: 6px 17px;
+    	margin-top: 10px;
+    	margin-bottom: 10px;
+    }
+    
+    /* 바깥쪽 div */
+    .well {
+    	height: 465px;
+    }
+    
+    /* input text들 */
+    #memberId, #memberPwd, #memberPwdCheck, #memberName, #memberEmail, #checkCerCode, #memberPhone {
+    	margin-top: 10px;
+    	margin-bottom: 10px;
+    }
+    
+    /* 회원가입 버튼 */
+    #submit {
+    	margin-top: 10px;
+    	margin-bottom: 10px;
+    }
 </style>
 
 <script>
+	$(function() {
+		$("#emailCertification").click(function() {
+			var memberEmail = $("#memberEmail").val();
+			
+			$.ajax({
+				url:"${path}/member/mailSending.do",
+				data:{"memberEmail" : memberEmail},
+				success:function(data) {					
+					var input = $('<input type="text" class="form-control" id="checkCerCode" placeholder="인증 코드 입력" name="checkCerCode">');
+					var enter = $('<input type="button" value="인증 코드 확인" id="enterCertification" class="btn btn-primary">');
+					$("#enterCerCode").append(input);
+					$("#enter").append(enter);
+				}
+			});
+		});
+	});
+	
+	
+	
 	function validate() {
 		/* 
 		아이디 : OK (아이디 존재 유무 확인은 해주는데 중복가입을 막아야 함 -> 버튼 활성화 / 비활성화로 함)
@@ -58,13 +101,6 @@
 		if ($("#memberPwdCheck").val() == "") {
 			alert("비밀번호 확인을 해주세요.");
 			$("#memberPwd").focus();
-			
-			return false;
-		}
-		
-		if ($("#memberBirth").val() == "") {
-			alert("나이를  입력해주세요.");
-			$("#memberBirth").focus();
 			
 			return false;
 		}
@@ -177,62 +213,62 @@
 						<div class="well">
 							<form name="memberEnrollFrm" action="${path}/member/memberEnrollEnd.do" method="post" onsubmit="return validate();" >
 								<div class="form-group">
+									<div class="col-sm-12">
 									<input type="text" class="form-control" id="memberId"
 										placeholder="아이디 (4글자이상)" name="memberId">
 									<span class="guide ok">이 아이디는 사용할 수 있습니다. </span>
             						<span class="guide error">이 아이디는 사용할 수 없습니다. </span>
             						<input type="hidden" name="checkId" value="0"/>
+									</div>
+									
             						<!-- <script>
             							
             						</script> -->
 								</div>
 								
 								<div class="form-group">
-									<input type="password" class="form-control" id="memberPwd"
-										placeholder="패스워드 (영문숫자포함 6글자이상)" value="" name="memberPwd">
+									<div class="col-sm-12">
+									<input type="password" class="form-control" id="memberPwd" placeholder="패스워드 (영문숫자포함 6글자이상)" value="" name="memberPwd">
+									</div>
 								</div>
 								
 								<div class="form-group">
-									<input type="password" class="form-control" id="memberPwdCheck"
-										placeholder="패스워드 확인" value="" name="memberPwdCheck">
+									<div class="col-sm-12">
+									<input type="password" class="form-control" id="memberPwdCheck" placeholder="패스워드 확인" value="" name="memberPwdCheck">
+									</div>
 								</div>
 								
 								<div class="form-group">
-									<input type="text" class="form-control" id="memberName"
-										placeholder="이름" name="memberName">
+									<div class="col-sm-12">
+									<input type="text" class="form-control" id="memberName" placeholder="이름" name="memberName">
+									</div>
 								</div>
 								
 								<div class="form-group">
-									<input type="text" class="form-control" id="memberEmail"
-										placeholder="이메일" name="memberEmail">
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="memberEmail" placeholder="이메일" name="memberEmail">
+										</div>
+										<div class="col-sm-3">
+											<input type="button" value="인증 코드 발송" id="emailCertification" class="btn btn-primary">
+										</div>
+										<div class="col-sm-9" id="enterCerCode"></div>
+										<div class="col-sm-3" id="enter"></div>
+										<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="button" data-toggle="modal" data-target="#emailModal">이메일 인증</button> -->
+									<%-- <input type="button" value="메일 보내기" id='btn-add' class='btn btn-outline-success' onclick='location.href="${path}/member/mailSending.do"'/> --%>	
 								</div>						
 							
 								<div class="form-group">
-									<input type="text" class="form-control" id="memberPhone"
-										placeholder="핸드폰번호 (-제외)" name="memberPhone" maxlength="11">
+									<div class="col-sm-12">
+										<input type="text" class="form-control" id="memberPhone" placeholder="핸드폰번호 (-제외)" name="memberPhone" maxlength="11">
+									</div>
 								</div>
+								<div class="col-sm-12">
 								<input type="submit" id="submit" class="btn btn-primary" value="회원가입">
+								</div>
 							</form>
 						</div>
 					</div>
 					<div class="col-sm-3">
-						<form name="contact-form" class="form"
-							action="${path}/admin/authenticationEmail.do" method="POST">
-							<div class="col-xs-12">
-								<label> <span>제목:</span> <input type="text"
-									name="subject" value="" placeholder="제목" required>
-								</label>
-							</div>
-							<div class="col-xs-12">
-								<label> <span>내용:</span> <textarea name="message"
-										rows="4" placeholder="메시지" required></textarea>
-								</label>
-								<button type="submit" class="button">
-									<span class="default">Send <i
-										class="icon fa fa-paper-plane"></i></span>
-								</button>
-							</div>
-						</form>
 					</div>
 				</div>
 			</div>
