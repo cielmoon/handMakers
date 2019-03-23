@@ -6,7 +6,6 @@ import java.util.Map;
 import kh.hand.makers.member.model.vo.ManageOrder;
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.vo.Delivery;
-import kh.hand.makers.product.model.vo.Wish;
 
 public interface MemberService {
 	Member memberLogin(String memberId);
@@ -26,4 +25,7 @@ public interface MemberService {
 	int selectWishCount(String memberNo);
 	
 	int deleteLocation(String deliveryNo);
+	String memberIdFind(String memberEmail);
+	Member memberFind(Map<String,String> findMember);
+	int memberNewPwdUpdate(Map<String,String> cP);
 }

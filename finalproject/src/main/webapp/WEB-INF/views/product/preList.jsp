@@ -72,20 +72,41 @@
          <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
          <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
               <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
+               <c:if test="${member==null }">
+               <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="alert('위시리스트 추가는 로그인이 필요합니다.')">
+                	<i class="fa fa-heart-o"></i>
+               </button>
+               </c:if>
+                <c:if test="${member.memberNo != null and product.wishChk eq member.memberNo }">
+                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishChk(this.value);">
+                	<i class="fa fa-heart"></i>
+               	</button>
+               </c:if>
+               <c:if test="${member.memberNo != null and product.wishChk eq null }">
+                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishChk(this.value);">
+                	<i class="fa fa-heart-o"></i>
+               	</button>
+               </c:if>
+               
+               
+                <!-- <button type="button" class="addtocart-btn">Add to Cart</button> -->
               </div>
             </div>
 
             <div class="caption product-detail">
-              <h4 class="product-name">
+              <h4 class="product-name ellips">
               <a href="${path }/product/productView.do?productNo=${product.productNo}" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
-                                    <p class="rating">${product.productComment }</p><!-- div? -->
+              <div style="width : 200px; height : 24px;" class="rating ellips">
+                                    ${product.productComment }
+                                    </div>
               <!-- 상품상세페이지 링크 , title=product_title , value = product_title -->
-              <div class="product-desc">${product.productComment }</div>
+              <%-- <div class="product-desc">${product.productComment }</div> --%>
                 <!-- product_comment -->
               <%-- <p class="price product-price"><span class="price-old"></span> ${product.productPrice } <span class="price-tax"></span> </p> --%><!-- 원본 -->
               <%-- <p class="price product-price"><span class="price-old">${product.productPrice }</span> ${product.productPrice + product.productDiscount } <span class="price-tax"></span> </p> --%>
-              <p class="price product-price"><span class="price-old"><fmt:formatNumber value="${product.productPrice * product.productDiscount }" type="currency" currencySymbol="￦"/>원</span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원(수정x) <span class="price-tax"></span> </p>
+              <div style="width : 200px; height : 24px;" class="price product-price">
+              <span class="price-old"><fmt:formatNumber value="${product.productPrice * product.productDiscount }" type="currency" currencySymbol="￦"/>원</span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원<span class="price-tax"></span>
+              </div>
               <!-- product_price -->
               <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
               <!-- totalProductPoint 별이 다섯개  이부분은 좀더 고민-->

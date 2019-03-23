@@ -59,6 +59,9 @@
 		<if test="category != null and sc == null">
 		BC_NO = #{category} AND not PRODUCT_STATE in (2,3)
 		</if>
+		<!-- <if test="productStep != null and category != null">
+		(BC_NO = #{category}) AND PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3)
+		</if> -->
 		<if test="productStep != null">
 		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3)
 		</if>
@@ -157,7 +160,19 @@
 	<select id="selectReviewCommentSeconds" resultType="map" parameterType="string">
 		SELECT * FROM PRODUCT_COMMENT JOIN MEMBER USING(MEMBER_NO) WHERE COMMENT_LEVEL = '2' AND COMMENT_TYPE = 'R' ORDER BY COMMENT_DATE DESC
 	</select>
-
+	
+	<select id="selectWishYewon" parameterType="map" resultType="map">
+	SELECT * FROM WISH WHERE PRODUCT_NO=#{productNo} AND MEMBER_NO=#{memberNo}
+	</select>
+	
+	<delete id="deleteWishYewon" parameterType="map">
+		DELETE WISH WHERE PRODUCT_NO=#{productNo} AND MEMBER_NO=#{memberNo}
+	</delete>
+	
+	<insert id="insertWishYewon" parameterType="map">
+		INSERT INTO WISH VALUES('W_NO_'||SEQ_WISH_NO.NEXTVAL,#{productNo}, #{memberNo})
+	</insert>
+	
 	<!-- 
 	<select id="selectProductList" resultMap="productMap">
 		SELECT * FROM PRODUCT

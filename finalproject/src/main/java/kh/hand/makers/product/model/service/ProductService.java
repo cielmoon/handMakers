@@ -32,4 +32,5 @@ public interface ProductService {
 	int insertCommentReview(Map<String,String> map);
 	int insertTotalScoreReview(Map<String,String> map);
 	List<Map<String, String>> selectReviewCommentSeconds();
+	int selectWishYewon(Map<String, String> map);
 }
