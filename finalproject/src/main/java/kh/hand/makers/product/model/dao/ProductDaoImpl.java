@@ -147,13 +147,15 @@ public class ProductDaoImpl implements ProductDao {
 		
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		
-		
-		System.out.println("=============================================");
-		
-		System.out.println("이거 보자~~");
-		System.out.println(map);
-		
-		return session.selectList("product.selectComment", map, rb);
+		if(map.get("commentType").equals("R"))
+		{
+			return session.selectList("product.selectCommentR", map, rb);
+		}else 
+		{
+			return session.selectList("product.selectCommentQ", map, rb);
+		}
+
+	
 	}
 
 	@Override
