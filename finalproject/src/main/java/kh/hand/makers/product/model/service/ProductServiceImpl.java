@@ -153,10 +153,10 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Map<String, String>> selectReviewCommentSeconds(String commentNo) {
-		return dao.selectReviewCommentSeconds(commentNo);
+	public List<Map<String, String>> selectReviewCommentSeconds() {
+		return dao.selectReviewCommentSeconds();
 	}
 
-	
+
 	
 }

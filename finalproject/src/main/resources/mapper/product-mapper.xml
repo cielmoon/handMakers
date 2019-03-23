@@ -115,11 +115,11 @@
 	</select>
 	
 	<select id="selectComment" parameterType="map" resultType="map">
-		SELECT *
-		FROM PRODUCT_COMMENT JOIN MEMBER USING(MEMBER_NO) 
-		WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo}
-		<!-- <if test="COMMENT_TYPE = 'R'">AND COMMENT_LEVEL='1'</if> --> 
-		ORDER BY COMMENT_DATE DESC
+<!-- 	SELECT * FROM PRODUCT_COMMENT JOIN MEMBER M USING(MEMBER_NO) WHERE COMMENT_LEVEL='1' AND COMMENT_TYPE=#{commentType} ORDER BY COMMENT_DATE DESC
+ -->	
+	SELECT P.*, M.*, NVL(C.CNT,0)CN FROM PRODUCT_COMMENT P JOIN MEMBER M ON(P.MEMBER_NO=M.MEMBER_NO)
+	LEFT JOIN(SELECT COMMENT_REF, COUNT(COMMENT_REF) CNT FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} group by COMMENT_REF)C ON(P.COMMENT_NO=C.COMMENT_REF)
+	WHERE COMMENT_LEVEL='1' AND COMMENT_TYPE=#{commentType} ORDER BY COMMENT_DATE DESC
 	</select>
 	
 	<select id="selectProductOption" parameterType="string" resultType="map">
@@ -155,10 +155,9 @@
 	</insert>
 			
 	<select id="selectReviewCommentSeconds" resultType="map" parameterType="string">
-		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_REF = #{commentNo} AND COMMENT_TYPE = 'R'
+		SELECT * FROM PRODUCT_COMMENT JOIN MEMBER USING(MEMBER_NO) WHERE COMMENT_LEVEL = '2' AND COMMENT_TYPE = 'R' ORDER BY COMMENT_DATE DESC
 	</select>
 
-	
 	<!-- 
 	<select id="selectProductList" resultMap="productMap">
 		SELECT * FROM PRODUCT
