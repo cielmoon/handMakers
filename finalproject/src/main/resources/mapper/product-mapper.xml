@@ -44,8 +44,17 @@
 		<if test="sCategory != null">
 		SC_NO = #{sCategory} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
 		</if>
-		<if test="productStep != null">
+		<if test="productStep == 1">
 		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
+		</if>
+		<if test="productStep == 2">
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_TOTALSELL DESC
+		</if>
+		<if test="productStep == 2 and category != null and sc != null">
+		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_TOTALSELL DESC
+		</if>
+		<if test="productStep == 2 and sc != null">
+		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_TOTALSELL DESC
 		</if>
 		</where>
 	</select>
@@ -172,28 +181,6 @@
 	<insert id="insertWishYewon" parameterType="map">
 		INSERT INTO WISH VALUES('W_NO_'||SEQ_WISH_NO.NEXTVAL,#{productNo}, #{memberNo})
 	</insert>
-
 	
-	<!-- 
-	<select id="selectProductList" resultMap="productMap">
-		SELECT * FROM PRODUCT
-		<where>
-		<if test="category != null and sc != null">
-		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC 
-		</if>
-		<if test="category != null and sc == null">
-		 BC_NO = #{category} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
-		</if>
-		<if test="sCategory != null">
-		SC_NO = #{sCategory} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
-		</if>
-		<if test="productStep != null">
-		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
-		</if>
-		</where>
-	</select>
-	
-	
-	
-	 -->		
+		
 </mapper>
