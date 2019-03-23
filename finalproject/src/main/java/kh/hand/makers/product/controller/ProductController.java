@@ -40,10 +40,10 @@ public class ProductController {
 	//상품 상세화면 보여주는 서블릿
 	// 3월 14일 상세상품 보여주기 위함
 	@RequestMapping("/product/productView.do")
-	public ModelAndView productView(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+	public ModelAndView productView(@RequestParam(value="rcPage", required=false, defaultValue="1") int rcPage,
+			@RequestParam(value="qcPage", required=false, defaultValue="1") int qcPage,
+			@RequestParam(value="commentType", required=false, defaultValue="none") String commentType,
 			String productNo, HttpServletRequest request) {
-		
-		System.out.println(productNo);
 		
 		int numPerPage = 4;
 		
@@ -104,16 +104,21 @@ public class ProductController {
 		//업체 정보 select
 		Map<String,String> brandMap = service.selectBrand(productNo);
 		//후기 정보 select
-		List<Map<String,String>> reviewCommentList = service.selectComment(reviewMap, cPage, numPerPage);
+		List<Map<String,String>> reviewCommentList = service.selectComment(reviewMap, rcPage, numPerPage);
 		int reviewCommentCount = service.selectCommentCount(reviewMap.get("commentType"));
 		//문의 정보 select
-		List<Map<String,String>> questionCommentList = service.selectComment(questionMap, cPage, numPerPage);
+		List<Map<String,String>> questionCommentList = service.selectComment(questionMap, qcPage, numPerPage);
 		int questionCommentCount = service.selectCommentCount(questionMap.get("commentType"));
+		
+		//후기 대댓글 리스트
+		List<Map<String, String>> reviewSecondCommentList = service.selectReviewCommentSeconds();
+		
 		//누적점수 select
 		/*Map<String,String> totalscore = service.selectTotalScore(productNo);*/
 		
 		mv.addObject("brand",brandMap);
-		mv.addObject("cPage", cPage);
+		mv.addObject("rcPage", rcPage);
+		mv.addObject("qcPage", qcPage);
 		mv.addObject("productOption",productOption);
 		mv.addObject("productDetail",productDetail);
 		mv.addObject("productImg", productImg);
@@ -125,8 +130,15 @@ public class ProductController {
 		mv.addObject("questionCommentList",questionCommentList);
 		mv.addObject("reviewCommentCount",reviewCommentCount);
 		mv.addObject("questionCommentCount",questionCommentCount);
-		mv.addObject("reviewPageBar",PageFactory.getConditionPageBar(reviewCommentCount, cPage, numPerPage, "/makers/product/productView.do?productNo="+productNo+"&commentType="+reviewMap.get("commentType")));
-		mv.addObject("questionPageBar",PageFactory.getConditionPageBar(questionCommentCount, cPage, numPerPage, "/makers/product/productView.do?productNo="+productNo+"&commentType="+questionMap.get("commentType")));
+		mv.addObject("reviewSecondCommentList", reviewSecondCommentList);
+		if(commentType.equals("R"))
+		{
+			mv.addObject("pageBar",PageFactory.getConditionProductPageBar(reviewCommentCount, rcPage, numPerPage, "/makers/product/productView.do?commentType=R&productNo="+productNo, "R"));
+			mv.addObject("type", "R");
+		}else if(commentType.equals("Q")){
+			mv.addObject("pageBar",PageFactory.getConditionProductPageBar(questionCommentCount, qcPage, numPerPage, "/makers/product/productView.do?commentType=Q&productNo="+productNo, "Q"));
+			mv.addObject("type", "Q");
+		}
 		mv.setViewName("/product/productView");
 		
 		return mv;
@@ -373,7 +385,7 @@ public class ProductController {
 		return mv;
 	}
 	
-	@RequestMapping("/product/selectReviewCommentSeconds.do")
+	/*@RequestMapping("/product/selectReviewCommentSeconds.do")
 	public ModelAndView selectReviewCommentSeconds(String commentNo)
 	{
 		ModelAndView mv = new ModelAndView();
@@ -382,7 +394,7 @@ public class ProductController {
 		mv.setViewName("jsonView");
 		
 		return mv;
-	}
+	}*/
 	
 	@RequestMapping("/product/selectWishYewon.do")
 	@ResponseBody

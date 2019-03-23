@@ -30,9 +30,9 @@ $(function(){
 	
 	//상품 특징 입력 글자수 제한
 	$('#input-productDiscript').on('keyup', function() {
-		if (this.value.length > 200) {
-			alert("상품 특징은 최대 100자 까지만 입력해 주세요.");
-			this.value = this.value.substring(0, 200);
+		if (this.value.length > 600) {
+			alert("상품 특징은 최대 300자 까지만 입력해 주세요.");
+			this.value = this.value.substring(0, 600);
 			this.focus();
 		}
 	});
