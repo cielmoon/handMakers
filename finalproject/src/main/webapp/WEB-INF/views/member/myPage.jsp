@@ -90,7 +90,7 @@ function selectBrand(brandNo, brandState)
 								<div class="well">
 									<%-- <a href="<%=request.getContextPath()%>/memberProfileChange"> --%>
 									<a href="#" onclick="return false;"> 
-										<img src="${path }/resources/image/profile/default.png" width="100" height="100" style="border-radius: 50%;"onclick="fileUpload()" />
+										<img src="${path }/resources/image/${member.memberProfile}" width="100" height="100" style="border-radius: 50%;"onclick="fileUpload()" />
 									
 									</a>
 

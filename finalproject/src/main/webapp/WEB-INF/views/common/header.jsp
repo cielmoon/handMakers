@@ -75,14 +75,7 @@
 													<li><a href="#" onclick="location.href='${path}/member/memberLogout.do'">로그아웃</a></li>
 												</ul>
 											</c:when>
-			
-											<c:when test="${member.memberAuthority == 'S' }">
-												<ul class="dropdown-menu dropdown-menu-right">
-													<li><a href="#" onclick="location.href='${path}/member/myPage.do'">마이페이지</a></li>
-													<li><a href="#" onclick="location.href='${path}/member/memberLogout.do'">로그아웃</a></li>
-														</ul>
-											</c:when>
-											
+														
 											<c:when test="${member.memberAuthority == 'A' }">
 												<ul class="dropdown-menu dropdown-menu-right">
 													<li><a href="#" onclick="location.href='${path}/admin/adminPage.do'">관리자페이지</a></li>

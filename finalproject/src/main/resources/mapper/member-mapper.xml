@@ -70,7 +70,7 @@
 		#{memberName}, #{memberEmail}, #{memberPhone},
 		default,
 		default,
-		default, default)
+		default, 'default.png')
 	</insert>
 
 	<select id="selectBrandCloseCount" resultType="_int">

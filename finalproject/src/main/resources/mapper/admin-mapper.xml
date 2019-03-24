@@ -82,7 +82,31 @@
 		<result column="sc_title" property="scTitle" />
 		<result column="bc_no" property="bcNo" />
 	</resultMap>
-
+	<resultMap type="product" id="productMap">
+		<result column="product_no" property="productNo" />
+		<result column="product_title" property="productTitle" />
+		<result column="product_enrolldate"
+			property="productEnrollDate" />
+		<result column="product_update" property="productUpdate" />
+		<result column="product_profile" property="productProfile" />
+		<result column="product_comment" property="productComment" />
+		<result column="product_state" property="productState" />
+		<result column="product_step" property="productStep" />
+		<result column="product_price" property="productPrice" />
+		<result column="product_max" property="productMax" />
+		<result column="product_min" property="productMin" />
+		<result column="product_enddate" property="productEndDate" />
+		<result column="sc_no" property="scNo" />
+		<result column="bc_no" property="bcNo" />
+		<result column="brand_no" property="brandNo" />
+		<result column="member_no" property="memberNo" />
+		<result column="admin_no" property="adminNo" />
+		<result column="product_totalsell" property="productTotalSell" />
+		<result column="product_cursell" property="productCurSell" />
+		<result column="product_discount" property="productDiscount" />
+		<result column="wishChk" property="wishChk" />
+	</resultMap>
+	
 	<!-- javaType="string" -->
 	<select id="selectBrandList" resultMap="brandMap">
 		select * from brand order
@@ -135,29 +159,39 @@
 		#{preProductNo}
 	</select>
 
-	<select id="selectProductList" resultMap="adminProductMap">
+	<select id="selectProductList" parameterType="map"
+		resultMap="adminProductMap">
 		select
 		big_category.bc_title as "product_bc_title",
 		small_category.sc_title as
 		"product_sc_title",
-		product.product_title as "product_product_title",
+		product.product_title as
+		"product_product_title",
 		brand.brand_title as "product_brand_title",
 		product.product_enrolldate
 		as "product_enrolldate",
 		product.product_enddate as "product_enddate" ,
-		product.product_no as "product_no" ,
+		product.product_no as
+		"product_no" ,
 		product.product_state as
 		"product_state"
-		from product join big_category on
+		from product join
+		big_category on
 		(big_category.bc_no =
 		product.bc_no) join
-		brand on (brand.brand_no =
+		brand on
+		(brand.brand_no =
 		product.brand_no) join
 		small_category on
 		(small_category.sc_no =
-		product.sc_no) where
-		product.product_state =
-		'0' order by product_update desc
+		product.sc_no)
+		where (product.product_state = '0' or product.product_state = '4')
+		and
+		product.brand_no = #{brandNo}
+		and product.bc_no = #{bcNo}
+		and
+		product.sc_no = #{scNo}
+		order by product_update desc
 	</select>
 
 	<select id="selectReProductList" resultMap="adminProductMap">
@@ -181,13 +215,19 @@
 		small_category on
 		(small_category.sc_no =
 		product.sc_no) where
-		product.product_state !=
-		'0' order by product_update desc
+		product.product_state = '2' or product.product_state = '3' or
+		product.product_state = '1' order by product_update desc
 	</select>
 
-	<select id="selectProductCount" resultType="_int">
+	<select id="selectProductCount" parameterType="map"
+		resultType="_int">
 		select count(*) from
-		product where product.product_state = '0'
+		product where product.product_state =
+		'0'
+		and product.brand_no = #{brandNo}
+		and product.sc_no = #{scNo}
+		and
+		product.bc_no = #{bcNo}
 	</select>
 
 	<select id="selectReProductCount" resultType="_int">
@@ -195,7 +235,8 @@
 		from product where product.product_state != '0'
 	</select>
 
-	<select id="selectMemberCount" resultType="_int">
+	<select id="selectMemberCount" parameterType="map"
+		resultType="_int">
 		select count(*) from
 		member
 	</select>
@@ -268,8 +309,8 @@
 	<insert id="enrollProduct" parameterType="products">
 		INSERT INTO PRODUCT VALUES('P_NO_'||SEQ_PRODUCT_NO.NEXTVAL,
 		#{productTitle},
-		TO_DATE(#{productEnrollDate}),
-		TO_DATE(#{productUpdate}), #{productProfile}, #{productComment},
+		default,
+		default, #{productProfile}, #{productComment},
 		default, default,
 		#{productPrice}, #{productMax}, #{productMin},
 		TO_DATE(#{productEndDate}), #{scNo},
@@ -305,8 +346,9 @@
 	<!-- javaType="string" -->
 	<select id="selectAllBrandList" resultMap="brandMap">
 		select * from brand
+		where brand_state='b'
 		order
-		by brand_enrolldate desc
+		by brand_enrolldate
 	</select>
 
 	<select id="selectSellerNo" parameterType="string"
@@ -316,7 +358,7 @@
 
 	<update id="memberStateUpdate" parameterType="string">
 		update member set
-		member_authority = 'S' and member_profile ='seller_img.png' where member_no = #{memberNo}
+		member_authority = 'S' where member_no = #{memberNo}
 
 	</update>
 	<update id="memberAuthorityChange" parameterType="string">
@@ -330,11 +372,37 @@
 		from brand where member_no = #{memberNo} and brand_state != 'a' and
 		brand_state != 'e'
 	</select>
-	
+
 	<update id="updateProductState" parameterType="string">
 		update product
-		set product_state = 3 where brand_no = #{brandNo}
+		set
+		product_state = 3 where brand_no = #{brandNo}
 	</update>
 
 
+	<update id="sellerProfileUpdate" parameterType="string">
+		update member set
+		member_profile ='seller_img.png' where member_no = #{memberNo}
+
+	</update>
+	
+	<select id="selectProduct" parameterType="string" resultType="map">
+		SELECT *
+		FROM PRODUCT P
+		JOIN BRAND B ON(B.BRAND_NO=P.BRAND_NO)
+		WHERE P.PRODUCT_NO = #{productNo}
+	</select>
+	
+	<update id="updateProduct" parameterType="map">
+		UPDATE product SET
+		product_price =#{productPrice},
+		product_update= TO_DATE(#{productEndDate}),
+		product_enddate=TO_DATE(#{productEndDate}),
+		product_min=TO_NUMBER(#{productMin}),
+		product_max=TO_NUMBER(#{productMax}),
+		product_state = 0,
+		product_step = 1
+		where product_no=#{productNo}
+	</update>
+	
 </mapper>
