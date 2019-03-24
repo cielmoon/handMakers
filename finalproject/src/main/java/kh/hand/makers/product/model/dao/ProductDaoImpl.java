@@ -225,6 +225,12 @@ public class ProductDaoImpl implements ProductDao {
 		return session.insert("product.insertCommentQuestion",map);
 	}
 
+	@Override
+	public int updateComment(Map<String, String> map) {
+		
+		return session.update("product.updateComment",map);
+	}
+
 	
 
 	

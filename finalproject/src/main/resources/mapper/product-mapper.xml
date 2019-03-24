@@ -193,4 +193,8 @@
 		VALUES ('P_C_NO_'||SEQ_COMMENT_NO.NEXTVAL, #{questionContent}, SYSDATE, #{questionType}, DEFAULT, NULL, #{memberNo}, #{questionCommentProductNo})
 	</insert>
 	
+	<update id="updateComment" parameterType="map">
+		UPDATE PRODUCT_COMMENT SET COMMENT_CONTENT=#{commentContent} WHERE COMMENT_NO=#{commentNo}	
+	</update>
+
 </mapper>

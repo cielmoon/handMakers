@@ -168,6 +168,12 @@ public class ProductServiceImpl implements ProductService {
 		
 		return dao.insertCommentQuestion(map);
 	}
+
+	@Override
+	public int updateComment(Map<String, String> map) {
+		
+		return dao.updateComment(map);
+	}
 	
 	
 

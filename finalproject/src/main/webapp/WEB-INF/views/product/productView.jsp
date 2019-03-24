@@ -172,6 +172,39 @@ function fn_insertQuestionComment() {
 	$('#input-questionCommentProductNo').val(productNo);
 	$('#commentQuestion').submit();
 }
+
+function fn_reviewComment(commentNo){
+	console.log(commentNo);
+	$('#'+commentNo).attr('style','display:none');
+	$('#input-'+commentNo).attr('type','text');
+	$('#btn-'+commentNo).attr('style','display:inline');
+};
+
+function fn_updateReviewComment(inputCommentNo, inputCommentContent){
+	console.log(inputCommentNo);
+	console.log(inputCommentContent);
+	var commentNo = $('#' + inputCommentNo).val();
+	var commentContent = $('#input-'+inputCommentContent).val();
+	var commentType = $('input[name=commentType]').val();
+	console.log(commentType);
+	console.log(commentNo);
+	console.log(commentContent);
+	$.ajax({
+		url : "${path}/product/updateReviewComment.do",
+		data : {
+			"commentNo" : commentNo,
+			"commentContent": commentContent,
+			"commentType" : commentType
+		},
+		success : function(data) {
+			console.log(data);
+			$('#'+inputCommentContent).text(commentContent);
+			$('#'+inputCommentContent).attr('style','display:""');
+			$('#input-'+inputCommentContent).attr('type','hidden');
+			$('#btn-'+inputCommentContent).attr('style','display:none');
+		}
+	});
+};
 </script>
 
 <style>
@@ -371,7 +404,7 @@ function fn_insertQuestionComment() {
             <div class="cpt_product_description ">
               <div id="productinfoContent">
                 ${productDetail.PRODUCT_DETAIL }
-                
+                ${sessionScope.member }
               </div>
             </div>
             <!-- cpt_container_end -->
@@ -399,25 +432,29 @@ function fn_insertQuestionComment() {
                                     <ul class="media-date text-uppercase reviews list-inline display-inline">
                                         <li class="dd"><fmt:formatDate value="${reviewComment['COMMENT_DATE'] }" pattern="yyyy MM dd"/></li>
                                     </ul>
-                                    <c:if test="${reviewComment['MEMBER_NO'] == member.memberNo || member.memberAuthority == 'A'}"> 
+                                    <c:if test="${reviewComment['MEMBER_NO'] eq member.memberNo or member.memberAuthority eq 'A'}"> 
                                        <ul class="float-right">
                                        	<li>
-                                       	  <c:if test="${member.memberAuthority == 'M' }">
-                                       	  	<i class="fas fa-pen" style="font-size: 15px;"></i> &nbsp;
+                                       	  <c:if test="${member.memberAuthority eq 'M' }">
+                                       	  	<a href="javascript:void(0);" onclick="fn_reviewComment('${reviewComment['COMMENT_NO'] }Level1');"><i class="fas fa-pen" style="font-size: 15px;"></i></a> &nbsp;
                                           </c:if>
                                           <i class="fas fa-times" style="font-size: 18px;"></i>
                                         </li>
                                        </ul>
                                      </c:if>
       
-                                    <p class="media-comment">${reviewComment['COMMENT_CONTENT'] }</p>
+                                    <p class="media-comment" id="${reviewComment['COMMENT_NO'] }Level1">${reviewComment['COMMENT_CONTENT'] }</p>
+                                    <input type="hidden" id="input-${reviewComment['COMMENT_NO'] }Level1" style='width:100%;'value="${reviewComment['COMMENT_CONTENT'] }"/>
+                                    <input type="button" id="btn-${reviewComment['COMMENT_NO'] }Level1" value="등록" style="display:none" onclick="fn_updateReviewComment('inputNo-${reviewComment['COMMENT_NO'] }Level1','${reviewComment['COMMENT_NO'] }Level1')"/>
+                                    <input type="hidden" id="inputNo-${reviewComment['COMMENT_NO'] }Level1" name="commentNo" value="${reviewComment['COMMENT_NO'] }"/>
+                                    <input type="hidden" name="commentType" value="R"/>
                                     <div>
                                     <a id="btn-comment" class="btn btn-primary btn-circle text-uppercase btn-reply" data-toggle="collapse" href="#${reviewComment['COMMENT_NO']}"> <!--onclick="fn_selectCommentLevel2('${reviewComment.COMMENT_NO}'); -->
                                        <i class="far fa-comment-dots"></i>&nbsp;${reviewComment['CN']}개 comment</a>
                                        
-                                    <a class="btn btn-success btn-circle text-uppercase btn-reply" href="#" id="reply">
+                                    <a class="btn btn-success btn-circle text-uppercase btn-reply" href="#" id="replyUp">
                                        <i class="far fa-thumbs-up"></i></a>
-                                    <a class="btn btn-warning btn-circle text-uppercase btn-reply" href="#" id="reply" style="background-color: #b7c7c7;">
+                                    <a class="btn btn-warning btn-circle text-uppercase btn-reply" href="#" id="replyDown" style="background-color: #b7c7c7;">
                                        <i class="far fa-thumbs-down"></i></a>  
                                        
                                     </div>
@@ -441,17 +478,21 @@ function fn_insertQuestionComment() {
 	                                          <li class="dd"><fmt:formatDate value="${second['COMMENT_DATE'] }" pattern="yyyy MM dd"/></li>
 	                                       </ul>
 	                                       
-		                                  <c:if test="${second['MEMBER_NO'] == member.memberNo || member.memberAuthority == 'A'}"> 
+		                                  <c:if test="${second['MEMBER_NO'] eq member.memberNo or member.memberAuthority eq 'A'}"> 
 	                                       <ul class="float-right">
 	                                       	<li>
-	                                       	  <c:if test="${member.memberAuthority == 'M' }">
-	                                       	  	<i class="fas fa-pen" style="font-size: 13px;"></i> &nbsp;
+	                                       	  <c:if test="${member.memberAuthority eq 'M' }">
+	                                       	  	<a href="javascript:void(0);" onclick="fn_reviewComment('${second['COMMENT_NO'] }Level2');"><i class="fas fa-pen" style="font-size: 13px;"></i></a> &nbsp;
 	                                          </c:if>
 	                                          <i class="fas fa-times" style="font-size: 16px;"></i>
 	                                        </li>
 	                                       </ul>
 	                                     </c:if>	                                       
-	                                    <p class="media-comment">${second['COMMENT_CONTENT'] }</p>	                                      
+	                                    <p class="media-comment" id="${second['COMMENT_NO'] }Level2">${second['COMMENT_CONTENT'] }</p>
+	                                    <input type="hidden" id="input-${second['COMMENT_NO'] }Level2" style='width:100%;'value="${second['COMMENT_CONTENT'] }"/>
+	                                    <input type="button" id="btn-${second['COMMENT_NO'] }Level2" value="등록" style="display:none" onclick="fn_updateReviewComment('inputNo-${second['COMMENT_NO'] }Level2','${second['COMMENT_NO'] }Level2')"/>
+	                                    <input type="hidden" id="inputNo-${second['COMMENT_NO'] }Level2" name="commentNo" value="${second['COMMENT_NO'] }"/>
+	                                    <input type="hidden" name="commentType" value="R"/>	                                      
 	                                 </div>
 	                              </li>
                               </c:if>
@@ -459,7 +500,9 @@ function fn_insertQuestionComment() {
 
 							  <c:if test="${member!=null}">
                               <!-- 대댓글 작성부분 -->
+                              
                               <li class="media media-replied">
+                              <form id="fm-insertReviewCommentLevel2" action="${path }/product/insertReviewCommentLevel2.do" method="post">
                               <a class="pull-left" href="javascript:void(0);"> 
                               	<img class="media-object img-circle" width="80px;" src="${path }/resources/image/profile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
                           	  </a>
@@ -468,16 +511,19 @@ function fn_insertQuestionComment() {
                                        <h4 class="media-heading text-uppercase reviews display-inline">${member.memberId}</h4>
                                        <hr/>
                                         <p class="media-comment">
-										 <textarea name="text" name="reviewContentLevel2" class="form-control" style="resize: none; border: 0px;" placeholder="댓글을 작성해주세요"></textarea>
+										 <textarea name="reviewContentLevel2" class="form-control" style="resize: none; border: 0px;" placeholder="댓글을 작성해주세요"></textarea>
+										 <input type="hidden" id="input-reviewCommentNoLevel2" name="commentNo" value="${reviewComment['COMMENT_NO'] }"/>
 										</p>
 										<hr/>
 										<div style="text-align: right;">
-                                         <a class="btn btn-primary text-uppercase btn-reply" onclick="fn_reviewUpdate();"><i class="far fa-edit"></i></a>
+                                         <a class="btn btn-primary text-uppercase btn-reply" onclick="fn_insertReviewComment();"><i class="far fa-edit"></i></a>
                                     	</div>
                                     </div>
                                     
                                  </div>
+                                 </form>
                               </li>
+                              
                               </c:if>
                              </ul>
                     	   </div>
@@ -490,6 +536,17 @@ function fn_insertQuestionComment() {
                   ${pageBar }
                </div>
             </div>
+            
+            <script>
+            	function fn_insertReviewComment(){
+            		var commentNo = $('#input-reviewCommentNoLevel2').val();
+            		var productNo = $('#input-productNo').val();
+            		console.log(commentNo);
+            		console.log(productNo);
+            		$('#fm-insertReviewCommentLevel2').submit(commentNo,productNo);
+            	}
+            
+            </script>
             
             <c:if test="${member!=null && orderList[0].ORDER_PAYSTATE eq '3' }">
             <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
@@ -625,7 +682,7 @@ function fn_insertQuestionComment() {
                      <input type="text" name="name" id="input-name" class="form-control" value="${member.memberName }" readonly/>
                      <input type="hidden" name="questionCommentProductNo" id="input-questionCommentProductNo"/>
                      <input type="hidden" name="memberNo" id="input-memberNo" value="${member.memberNo }"/>
-                     <input type="hidden" name="reviewType" value="Q"/>
+                     <input type="hidden" name="questionType" value="Q"/>
                   </c:if>
                 </div>
               </div>

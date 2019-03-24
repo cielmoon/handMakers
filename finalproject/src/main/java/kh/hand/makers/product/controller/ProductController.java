@@ -443,4 +443,29 @@ public class ProductController {
 		return mv;
 	}
 	
+	@RequestMapping("/product/updateReviewComment.do")
+	public ModelAndView updateReviewComment(@RequestParam Map<String,String> map) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		logger.debug(map+"");
+		
+		int result = service.updateComment(map);
+		
+		logger.debug(result+"");
+		
+		mv.setViewName("jsonView");
+		return mv;
+	}
+	
+	@RequestMapping("/product/insertReviewCommentLevel2.do")
+	public ModelAndView insertCommentLevel2(@RequestParam Map<String,String> map) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		logger.debug(map+"");
+		
+		return mv;
+	}
+	
 }
