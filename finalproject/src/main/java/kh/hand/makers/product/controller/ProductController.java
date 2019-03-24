@@ -258,11 +258,23 @@ public class ProductController {
 		int contentCount = service.selectProductCount(map);
 		List<Map<String, String>> productList = service.productList(map, cPage, numPerPage);
 		
-		logger.debug("리스트는 ? : "+productList+"  ----- count ?? : "+contentCount);				
+		logger.debug("리스트는 ? : "+productList);
+		logger.debug("리스트갯수는 ? : "+productList.size());
+		logger.debug("  ----- count ?? : "+contentCount);
 		
 		mv.addObject("productList", productList);
 		mv.addObject("sCategoryList", sCategoryList);
-		mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do?category="+categoryNo+"&numPerPage="+numPerPage));
+		
+		if(sc != null ) {
+			mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do?category="+categoryNo+"&sc="+sc+"&numPerPage="+numPerPage));
+			}else
+			{
+				mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do?category="+categoryNo+"&numPerPage="+numPerPage));
+			}
+		
+		
+		
+		
 		mv.addObject("cPage", cPage);
 		mv.addObject("numPerPage", numPerPage);
 		mv.addObject("contentCount", contentCount);

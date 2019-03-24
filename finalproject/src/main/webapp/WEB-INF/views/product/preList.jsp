@@ -13,6 +13,7 @@
     <li><a href="${path }/product/preList.do">입점예정</a></li>
   </ul>
   <div class="row">
+  <c:if test="${productList.size() != 0 }">
     <div id="content" class="col-sm-12">    
 
 <div class="category-page-wrapper">
@@ -128,6 +129,10 @@
         </div>
       </div>
     </div>
+    </c:if>
+    <c:if test="${productList.size() == 0 }">
+       <h1>해당하는 조건의 상품이 없습니다.</h1>
+       </c:if>
   </div>
 </div>
 </section>
