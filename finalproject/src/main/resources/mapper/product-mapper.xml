@@ -44,7 +44,7 @@
 		<if test="sCategory != null">
 		SC_NO = #{sCategory} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
 		</if>
-		<if test="productStep == 1">
+		<if test="productStep == 1 or productStep == 0">
 		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
 		</if>
 		<if test="productStep == 2 and category == null and sc == null">
