@@ -8,6 +8,7 @@ import kh.hand.makers.admin.model.vo.Products;
 import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
@@ -18,9 +19,9 @@ public interface AdminDao {
 	int selectReProductCount();
 	List<AdminProduct> selectReProductList(int cPage,int numPerPage);
 	
-	List<AdminProduct> selectProductList(int cPage,int numPerPage);
+	List<AdminProduct> selectProductList(int cPage,int numPerPage, Map<String, String> sortingProductList);
 	List<Brand> selectBrandList(int cPage, int numPerPage);
-	int selectProductCount();
+	int selectProductCount(Map<String, String> sortingProductList);
 	int selectBrandCount();
 	int brandStateUpdate(Map<String,String> bs);
 	int productStateUpdate(Map<String,String> ps);
@@ -32,7 +33,7 @@ public interface AdminDao {
 	PreProduct selectPreProduct(String preProductNo);
 	int selectPreProductCount();
 	int preProductStateUpdate(Map<String,String> ps);
-	int selectMemberCount();
+	int selectMemberCount(List<Member> memberList);
 	List<Member> selectMemberList(int cPage,int numPerPage);
 	
 	int selectRequestCount(String reqRefType);
@@ -50,5 +51,11 @@ public interface AdminDao {
 	
 	List<Brand> selectBrandList();
 	String selectSellerNo(String brandNo);
-	
+	int memberStateUpdate(String memberNo);
+	int memberAuthorityChange(String memberNo);
+	int selectBrandStateCount(String memberNo);
+	int updateProductState(String brandNo);
+	int sellerProfileUpdate(String memberNo);
+	Map<String,String> selectProduct(String productNo);
+	int updateProduct(Map<String,String> product);
 }

@@ -12,6 +12,7 @@
     <li><a href="${path }/product/newList.do">신규</a></li>
   </ul>
   <div class="row">
+  <c:if test="${productList.size() != 0 }">
     <div id="content" class="col-sm-12">    
 
 <div class="category-page-wrapper">
@@ -67,7 +68,7 @@
       
 	<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-         <div class="image product-imageblock" style="height:220px;">
+         <div class="image product-imageblock" style="height:220px; object-fit: cover;">
          <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
          <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
               <div class="button-group">
@@ -126,6 +127,10 @@
         </div>
       </div>
     </div>
+       </c:if>
+    <c:if test="${productList.size() == 0 }">
+       <h1>해당하는 조건의 상품이 없습니다.</h1>
+       </c:if>
   </div>
 </div>
 </section>

@@ -73,9 +73,9 @@ $(function(){
 							<a class="list-group-item" href="${path}/admin/memberList.do">회원목록</a>
 							<a class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 등록관리</a>							
 							<a class="list-group-item" href="${path}/admin/managePreProduct.do">입점 제안관리</a>
-							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a>												 
-							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 재등록 관리</a>
-							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고 및 상품 판매중지 요청</a>					 
+							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 등록/수정 관리</a>												 
+							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 종료/중지 목록</a>
+							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고/상품 판매중지 요청</a>					 
 						</div>
 					</div>
 				</div>
@@ -139,23 +139,17 @@ $(function(){
 										</c:otherwise>
 									</c:choose>									
 									<td>${p.preProductDate }</td>
-									<c:choose>
-										<c:when test="${p.preProductState.toString() == '1' }">
-											<td><a
-												href="${path}/admin/changePreProductState.do?preProductNo=${p.preProductNo}+,0"><button
-														class="AgreeBtn">수락취소</button></a></td>
-										</c:when>
-										<c:when test="${p.preProductState.toString() == '2' }">
-											<td><a
-												href="${path}/admin/changePreProductState.do?preProductNo=${p.preProductNo}+,0"><button
-														class="AgreeBtn">거절취소</button></a></td>
-										</c:when>
-										<c:otherwise>
+									<c:choose>	
+				
+										<c:when test="${p.preProductState.toString() == '0' }">
 											<td><a
 												href="${path}/admin/changePreProductState.do?preProductNo=${p.preProductNo}+,1"><button
 														class="AgreeBtn">수락</button></a> <a
 												href="${path}/admin/changePreProductState.do?preProductNo=${p.preProductNo}+,2"><button
 														class="AgreeBtn">거절</button></a></td>
+										</c:when>
+										<c:otherwise>
+											<td></td>
 										</c:otherwise>
 									</c:choose>
 									

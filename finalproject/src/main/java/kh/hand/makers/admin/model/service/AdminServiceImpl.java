@@ -12,6 +12,7 @@ import kh.hand.makers.admin.model.vo.Products;
 import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
@@ -23,8 +24,8 @@ public class AdminServiceImpl implements AdminService {
 
 
 	@Override
-	public int selectProductCount() {
-		return dao.selectProductCount();
+	public int selectProductCount(Map<String, String> sortingProductList) {
+		return dao.selectProductCount(sortingProductList);
 	}
 
 	@Override
@@ -70,15 +71,15 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<AdminProduct> selectProductList(int cPage, int numPerPage) {
+	public List<AdminProduct> selectProductList(int cPage, int numPerPage, Map<String, String> sortingProductList) {
 		// TODO Auto-generated method stub
-		return dao.selectProductList(cPage, numPerPage);
+		return dao.selectProductList(cPage, numPerPage ,sortingProductList);
 	}
 
 	@Override
-	public int selectMemberCount() {
+	public int selectMemberCount(List<Member> memberList) {
 		// TODO Auto-generated method stub
-		return dao.selectMemberCount();
+		return dao.selectMemberCount(memberList);
 	}
 
 	@Override
@@ -187,6 +188,48 @@ public class AdminServiceImpl implements AdminService {
 	public String selectSellerNo(String brandNo) {
 		// TODO Auto-generated method stub
 		return dao.selectSellerNo(brandNo);
+	}
+
+	@Override
+	public int memberStateUpdate(String memberNo) {
+		// TODO Auto-generated method stub
+		return dao.memberStateUpdate(memberNo);
+	}
+
+	@Override
+	public int memberAuthorityChange(String memberNo) {
+		// TODO Auto-generated method stub
+		return dao.memberAuthorityChange(memberNo);
+	}
+
+	@Override
+	public int selectBrandStateCount(String memberNo) {
+		// TODO Auto-generated method stub
+		return dao.selectBrandStateCount(memberNo);
+	}
+
+	@Override
+	public int updateProductState(String brandNo) {
+		// TODO Auto-generated method stub
+		return dao.updateProductState(brandNo);
+	}
+
+	@Override
+	public int sellerProfileUpdate(String memberNo) {
+		// TODO Auto-generated method stub
+		return dao.sellerProfileUpdate(memberNo);
+	}
+
+	@Override
+	public Map<String,String> selectProduct(String productNo) {
+		// TODO Auto-generated method stub
+		return dao.selectProduct(productNo);
+	}
+
+	@Override
+	public int updateProduct(Map<String, String> product) {
+		// TODO Auto-generated method stub
+		return  dao.updateProduct(product);
 	}
 	
 	

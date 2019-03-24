@@ -13,6 +13,7 @@ import kh.hand.makers.admin.model.vo.Products;
 import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
@@ -30,8 +31,8 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public int selectProductCount() {
-		return session.selectOne("admin.selectProductCount");
+	public int selectProductCount(Map<String, String> sortingProductList) {
+		return session.selectOne("admin.selectProductCount", sortingProductList);
 	}
 
 	@Override
@@ -77,15 +78,15 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public List<AdminProduct> selectProductList(int cPage, int numPerPage) {
+	public List<AdminProduct> selectProductList(int cPage, int numPerPage, Map<String, String> sortingProductList) {
 		RowBounds rb = new RowBounds((cPage - 1) * numPerPage, numPerPage);
-		return session.selectList("admin.selectProductList", null, rb);
+		return session.selectList("admin.selectProductList", sortingProductList, rb);
 	}
 
 	@Override
-	public int selectMemberCount() {
+	public int selectMemberCount(List<Member> memberList) {
 		// TODO Auto-generated method stub
-		return session.selectOne("admin.selectMemberCount");
+		return session.selectOne("admin.selectMemberCount", memberList);
 	}
 
 	@Override
@@ -190,6 +191,48 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectSellerNo",brandNo);
 	}
+
+	@Override
+	public int memberStateUpdate(String memberNo) {
+		// TODO Auto-generated method stub
+		return session.update("admin.memberStateUpdate", memberNo);
+	}
+
+	@Override
+	public int memberAuthorityChange(String memberNo) {
+		// TODO Auto-generated method stub
+		return session.update("admin.memberAuthorityChange", memberNo);
+	}
+
+	@Override
+	public int selectBrandStateCount(String memberNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectBrandStateCount",memberNo);
+	}
+
+	@Override
+	public int updateProductState(String brandNo) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateProductState", brandNo);
+	}
+
+	@Override
+	public int sellerProfileUpdate(String memberNo) {
+		// TODO Auto-generated method stub
+		return session.update("admin.sellerProfileUpdate", memberNo);
+	}
+
+	@Override
+	public Map<String,String> selectProduct(String productNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectProduct",productNo);
+	}
+
+	@Override
+	public int updateProduct(Map<String, String> product) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateProduct", product);
+	}	
 	
 	
 }

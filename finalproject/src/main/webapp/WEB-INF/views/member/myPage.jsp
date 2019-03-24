@@ -44,7 +44,7 @@ function selectBrand(brandNo, brandState)
 				</div>
 				
 				<div class="column-block">
-					<c:if test="${brandList.size() != 0}">		
+					<c:if test="${member.memberAuthority == 'S'}">		
 						<div class="columnblock-title">판매자페이지</div>
 					</c:if>
 					<div class="account-block">
@@ -90,7 +90,7 @@ function selectBrand(brandNo, brandState)
 								<div class="well">
 									<%-- <a href="<%=request.getContextPath()%>/memberProfileChange"> --%>
 									<a href="#" onclick="return false;"> 
-										<img src="${path }/resources/image/profile/default.png" width="100" height="100" style="border-radius: 50%;"onclick="fileUpload()" />
+										<img src="${path }/resources/image/${member.memberProfile}" width="100" height="100" style="border-radius: 50%;"onclick="fileUpload()" />
 									
 									</a>
 

@@ -6,11 +6,16 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <style>
-	/*중복아이디체크관련*/
+	/*중복아이디 체크 관련*/
     div.well {position:relative; padding:0px;}
     div.well span.guide {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
     div.well span.ok{color:green;}
     div.well span.error{color:red;}
+    
+    /* 중복이메일 체크 관련 */
+    div.well span.guideEmail {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
+    div.well span.emailOk {color: green;}
+    div.well span.emailError {color:red;}
     
     /* 인증 코드 발송, 인증 코드 확인 버튼 */
     #emailCertification, #enterCertification {
@@ -65,9 +70,7 @@
 				}else{
 					alert("이메일을 입력해주세요.");
 				}
-				
 			}else{
-				
 				alert("이메일을 확인해주세요. 인증코드가 이미 발송되었습니다.");
 			}
 		});
@@ -226,6 +229,35 @@
 		});
 	});
 	
+	$(function(){
+		var emailRegex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+		$("#memberEmail").keyup(function(){
+		var memberEmail=$("#memberEmail").val().trim();
+		
+		if(!emailRegex.test(memberEmail))
+		{
+			$(".guideEmail").hide();
+			return;
+		}
+		
+		$.ajax({
+			url:"${path}/member/checkEmail.do",
+			data:{"memberEmail":memberEmail},
+			success:function(data){
+				if(data.isEmail==true) {
+					$(".guideEmail.emailOk").hide();
+					$(".guideEmail.emailError").show();
+					$("#emailCertification").attr("disabled", true).attr("readonly", false);
+				} else {
+					$(".guideEmail.emailOk").show();
+					$(".guideEmail.emailError").hide();
+					$("#emailCertification").attr("disabled", false).attr("readonly", true);
+				}	
+			}
+		});
+		});
+	});
+	
 	$(function() {
 		$("#memberPwdCheck").blur(function() {
 			var p1 = $("#memberPwd").val(), p2 = $("#memberPwdCheck").val();
@@ -285,14 +317,15 @@
 								<div class="form-group">
 										<div class="col-sm-9">
 											<input type="email" class="form-control" id="memberEmail" placeholder="이메일" name="memberEmail">
+											<span class="guideEmail emailOk">이 이메일은 사용할 수 있습니다. </span>
+            								<span class="guideEmail emailError">이 이메일은 사용할 수 없습니다. </span>
+            								<input type="hidden" name="checkEmail" value="0"/>
 										</div>
 										<div class="col-sm-3">
 											<input type="button" value="인증 코드 발송" id="emailCertification" class="btn btn-primary">
 										</div>
 										<div class="col-sm-9" id="enterCerCode"></div>
 										<div class="col-sm-3" id="enter"></div>
-										<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="button" data-toggle="modal" data-target="#emailModal">이메일 인증</button> -->
-										<%-- <input type="button" value="메일 보내기" id='btn-add' class='btn btn-outline-success' onclick='location.href="${path}/member/mailSending.do"'/> --%>	
 								</div>						
 							
 								<div class="form-group">

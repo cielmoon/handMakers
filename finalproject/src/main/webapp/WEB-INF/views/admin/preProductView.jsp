@@ -28,9 +28,9 @@
 							<a class="list-group-item" href="${path}/admin/memberList.do">회원목록</a>
 							<a class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 등록관리</a>							
 							<a class="list-group-item" href="${path}/admin/managePreProduct.do">입점 제안관리</a>
-							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a>												 
-							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 재등록 관리</a>
-							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고 및 상품 판매중지 요청</a>					 
+							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 등록/수정 관리</a>												 
+							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 종료/중지 목록</a>
+							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고/상품 판매중지 요청</a>					 
 						</div>
 					</div>
 				</div>

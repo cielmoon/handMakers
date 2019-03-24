@@ -35,9 +35,9 @@
 							<a class="list-group-item" href="${path}/admin/memberList.do">회원목록</a>
 							<a class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 등록관리</a>							
 							<a class="list-group-item" href="${path}/admin/managePreProduct.do">입점 제안관리</a>
-							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a>												 
-							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 재등록 관리</a>
-							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고 및 상품 판매중지 요청</a>					 
+							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 등록/수정 관리</a>												 
+							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 종료/중지 목록</a>
+							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고/상품 판매중지 요청</a>					 
 						</div>
 					</div>
 				</div>
@@ -113,6 +113,9 @@
 												<td>판매중단요청</td>		
 											</c:when>
 											<c:when test="${r.sellerReqState == '2' }">
+												<td>판매중지</td>											
+											</c:when>	
+											<c:when test="${r.sellerReqState == '3' }">
 												<td>판매종료</td>											
 											</c:when>														
 										</c:choose>	
@@ -135,12 +138,16 @@
 															
 											</c:when>
 											<c:when test="${r.sellerReqProcess == '0' and r.sellerReqState == '1'}">											
-													<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,2,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">수락</button></a>
+													<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,3,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">수락</button></a>
 													<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,0,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">반려</button></a></td>		
 																
-											</c:when>								
+											</c:when>
+											<c:otherwise>
+											<td></td>
+											</c:otherwise>								
 										</c:choose>								
 									</c:when>
+								
 								</c:choose>		
 
 								</tr>
