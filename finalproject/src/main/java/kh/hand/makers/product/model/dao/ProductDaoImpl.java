@@ -219,6 +219,13 @@ public class ProductDaoImpl implements ProductDao {
 		return session.selectList("product.selectReviewCommentSeconds");
 	}
 
+	@Override
+	public int insertCommentQuestion(Map<String, String> map) {
+		logger.debug("문의 등록 전 확인"+map+"");
+		return session.insert("product.insertCommentQuestion",map);
+	}
+
+	
 
 	
 

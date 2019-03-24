@@ -163,6 +163,14 @@ public class ProductServiceImpl implements ProductService {
 		return dao.selectReviewCommentSeconds();
 	}
 
+	@Override
+	public int insertCommentQuestion(Map<String, String> map) {
+		
+		return dao.insertCommentQuestion(map);
+	}
+	
+	
+
 
 	
 }

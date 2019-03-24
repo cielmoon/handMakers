@@ -33,4 +33,5 @@ public interface ProductDao {
 	int insertTotalScoreReview(Map<String,String> map);
 	List<Map<String, String>> selectReviewCommentSeconds();
 	int selectWishYewon(Map<String, String> map);
+	int insertCommentQuestion(Map<String,String> map);
 }

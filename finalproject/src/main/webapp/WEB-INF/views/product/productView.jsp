@@ -49,7 +49,7 @@ $(function() {
 		$("#tab-question").attr('class', 'tab-pane');
 		$("#tab-sallerInfo").attr('class', 'tab-pane');
 	}
-})
+});
 
 function fn_sallerInfo() {
 	var addr = $('#addr').val();
@@ -70,40 +70,34 @@ function fn_sallerInfo() {
 	var geocoder = new daum.maps.services.Geocoder();
 
 	// 주소로 좌표를 검색합니다
-	geocoder
-			.addressSearch(
-					addr,
-					function(result, status) {
+	geocoder.addressSearch(addr,function(result, status) {
+		// 정상적으로 검색이 완료됐으면 
+		if (status === daum.maps.services.Status.OK) {
 
-						// 정상적으로 검색이 완료됐으면 
-						if (status === daum.maps.services.Status.OK) {
+			var coords = new daum.maps.LatLng(result[0].y,result[0].x);
 
-							var coords = new daum.maps.LatLng(result[0].y,
-									result[0].x);
+			// 결과값으로 받은 위치를 마커로 표시합니다
+			var marker = new daum.maps.Marker({
+				map : map,
+				position : coords
+			});
 
-							// 결과값으로 받은 위치를 마커로 표시합니다
-							var marker = new daum.maps.Marker({
-								map : map,
-								position : coords
-							});
+			// 인포윈도우로 장소에 대한 설명을 표시합니다
+			var infowindow = new daum.maps.InfoWindow(
+			{
+				content : '<div style="width:150px;text-align:center;padding:6px 0;">'+ title + '</div>'
+			});
+			infowindow.open(map, marker);
 
-							// 인포윈도우로 장소에 대한 설명을 표시합니다
-							var infowindow = new daum.maps.InfoWindow(
-									{
-										content : '<div style="width:150px;text-align:center;padding:6px 0;">'
-												+ title + '</div>'
-									});
-							infowindow.open(map, marker);
+			mapContainer.style.width = '600px';
+			mapContainer.style.height = '200px';
 
-							mapContainer.style.width = '600px';
-							mapContainer.style.height = '200px';
+			map.relayout();
 
-							map.relayout();
-
-							// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-							map.setCenter(coords);
-						}
-					});
+			// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+			map.setCenter(coords);
+		}
+	});
 };
 
 function fn_wishCk() {
@@ -170,6 +164,13 @@ function fn_insertReviewComment() {
 	$('#input-reviewCommentProductNo').val(productNo);
 	$('#input-reviewOrderNo').val(orderNo);
 	$('#commentReview').submit();
+}
+
+function fn_insertQuestionComment() {
+	var productNo = $('#input-productNo').val();
+	alert(productNo);
+	$('#input-questionCommentProductNo').val(productNo);
+	$('#commentQuestion').submit();
 }
 </script>
 
@@ -615,13 +616,14 @@ function fn_insertReviewComment() {
                </div>
             </div>
             
-            <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
+            <form id="commentQuestion" class="form-horizontal" action="${path }/product/insertCommentQuestion.do">
               <div  id="div-review"></div>
               <div class="form-group required">
                 <div class="col-sm-12">
                   <label class="control-label" for="input-name">문의 작성자ID</label>
                   <c:if test="${member != null}">
                      <input type="text" name="name" id="input-name" class="form-control" value="${member.memberName }" readonly/>
+                     <input type="hidden" name="questionCommentProductNo" id="input-questionCommentProductNo"/>
                      <input type="hidden" name="memberNo" id="input-memberNo" value="${member.memberNo }"/>
                      <input type="hidden" name="reviewType" value="Q"/>
                   </c:if>
@@ -629,8 +631,8 @@ function fn_insertReviewComment() {
               </div>
               <div class="form-group required">
                 <div class="col-sm-12">
-                  <label class="control-label" for="input-review">상품 문의</label>
-                  <textarea name="text" rows="5" id="input-review" name="reviewContent" class="form-control"></textarea>
+                  <label class="control-label" for="input-question">상품 문의</label>
+                  <textarea rows="5" id="input-question" name="questionContent" class="form-control"></textarea>
                 </div>
               </div>
               
@@ -638,11 +640,11 @@ function fn_insertReviewComment() {
                 <div class="pull-right">
                   
                   <c:if test="${member==null }">
-                     <button type="button" id="button-review" class="btn btn-primary" onclick="fn_noLoginComment();">문의등록</button>
+                     <button type="button" id="button-question" class="btn btn-primary" onclick="fn_noLoginComment();">문의등록</button>
                   </c:if>
                   
                   <c:if test="${member!=null }">
-                     <input type="submit" id="button-review" class="btn btn-primary" value="문의등록"/>
+                     <input type="button" id="button-question" class="btn btn-primary" value="문의등록" onclick="fn_insertQuestionComment();"/>
                   </c:if>
                 </div>
               </div>
@@ -664,9 +666,9 @@ function fn_insertReviewComment() {
               </address>
             </div>
             <div class="col-sm-8 right">
-              <div class="map">
+              <!-- <div class="map"> -->
                   <div id="map" style="height:200px;width:600px;"></div>
-              </div>
+              <!-- </div> -->
             </div>
             </div>
             </div>    
