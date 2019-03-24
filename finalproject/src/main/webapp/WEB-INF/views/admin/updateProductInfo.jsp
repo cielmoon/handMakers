@@ -58,23 +58,20 @@
 
 <script>
 	function validate() {
+		var date = new Date();
+		var selectedEndDate = $("#productNewEndDate").val();
+		var selectedEndDateArr = selectedEndDate.split('-');
+		var endDate = new Date(selectedEndDateArr[0], parseInt(selectedEndDateArr[1]) -1, selectedEndDateArr[2]);
+		
 		if ($("#productNewPrice").val() == "") {
-			alert("상품가격을 입력해주세요.");
+			alert("상품 가격을 입력해주세요.");
 			$("#productNewPrice").focus();
 
 			return false;
 		}
 	
-		// 추가할 제약조건 : 상품 마감날짜는 무조건 등록날짜 이후여야 함
-		if ($("#productNewEndDate").val() == "") {
-			alert("상품 마감날짜를 입력해주세요.");
-			$("#productNewEndDate").focus();
-			
-			return false;
-		}
-
 		if ($("#productNewMin").val() == "") {
-			alert("최소주문량을 입력해주세요.");
+			alert("최소 주문량을 입력해주세요.");
 			$("#productNewMin").focus();
 
 			return false;
@@ -82,9 +79,34 @@
 	
 		// 추가할 제약조건 : 최대주문량은 최소주문량보다 커야 함
 		if ($("#productNewMax").val() == "") {
-			alert("최대주문량을 입력해주세요.");
+			alert("최대 주문량을 입력해주세요.");
 			$("#productNewMax").focus();
 
+			return false;
+		}
+		
+		// 추가할 제약조건 : 상품 마감날짜는 무조건 등록날짜 이후여야 함
+		if ($("#productNewEndDate").val() == "") {
+			alert("상품 마감 날짜를 입력해주세요.");
+			$("#productNewEndDate").focus();
+			
+			return false;
+		}
+		
+		if (parseInt($("#productNewMin").val()) >= parseInt($("#productNewMax").val())) {
+			alert("최대 수량은 최소 수량보다 크게 입력해주세요.")
+			$("#productNewMin").val('');
+			$("#productNewMax").val('');
+			$("#productNewMin").focus();
+			
+			return false;
+		}
+		
+		if (date >= endDate) {
+			alert("판매 종료일은 오늘 날짜 이후로 선택해주세요.");
+			$("#productNewEndDate").val('');
+			$("#productNewEndDate").focus();
+			
 			return false;
 		}
 		
@@ -173,7 +195,7 @@
 							<hr>
 							<ul class="list-unstyled productinfo-details-top">
 								<li><label>가격:</label> <span>
-										<input type="text" name="productNewPrice" placeholder="상품 가격"/></span>
+										<input type="text" id="productNewPrice" name="productNewPrice" placeholder="상품 가격"/></span>
 								
 								</li>
 							
@@ -182,29 +204,24 @@
 
 							<ul class="list-unstyled product_info">
 								<li><label>최소수량:</label> <span>
-										<input type="text"  name="productNewMin" placeholder="최소 수량"/></span></li>
+										<input type="text" id="productNewMin" name="productNewMin" placeholder="최소 수량"/></span></li>
 								<li><label>최대수량:</label> <span>
-										<input type="text" name="productNewMax" placeholder="최대 수량" /></span></li>
+										<input type="text" id="productNewMax" name="productNewMax" placeholder="최대 수량" /></span></li>
 										
-								<li><label>판매종료일:</label> <span>
-										<input type="date" name="productNewEndDate"  /></span></li>
+								<li><label>판매 종료일:</label> <span>
+										<input type="date" id="productNewEndDate" name="productNewEndDate"  /></span></li>
 								
 							</ul>
 							<hr />
 
 
-							<div id="product">
-								<div class="form-group">
-									
-									<div class="btn-group" id="divBtn">
-
-									
-										<c:if test="${member!=null }">
-											<input type="submit" class="btn btn-primary" value="상품 재등록하기" />
-											<!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
-										</c:if>
-									</div>
-								</div>
+							<div class="buttons">																
+								<div class="pull right">									
+									<c:if test="${member!=null }">
+										<input type="submit" class="btn btn-primary" value="상품 재등록하기" />
+										<!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
+									</c:if>
+								</div>								
 							</div>
 						</form>
 					</div>

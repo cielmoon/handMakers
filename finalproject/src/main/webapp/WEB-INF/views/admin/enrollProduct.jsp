@@ -112,6 +112,12 @@
       }
 	
 	function validate() {
+		var date = new Date();
+		var selectedEndDate = $("#newProductSaleEnd").val();
+		var selectedEndDateArr = selectedEndDate.split('-');
+		var endDate = new Date(selectedEndDateArr[0], parseInt(selectedEndDateArr[1]) -1, selectedEndDateArr[2]);
+		var priceRegex = /^[0-9]+$/;
+		
 		if ($("#newProductName").val() == "") {
 			alert("상품명을 입력해주세요.");
 			$("#newProductName").focus();
@@ -134,7 +140,7 @@
 		}
 
 		if ($("#newProductPrice").val() == "") {
-			alert("상품가격을 입력해주세요.");
+			alert("상품 가격을 입력해주세요.");
 			$("#newProductPrice").focus();
 
 			return false;
@@ -143,21 +149,21 @@
 		// 추가할 제약조건 : 할인율은 0부터 100까지로 설정해줘야 함
 		if ($("#newProductSale").val() == "") {
 			alert("할인율을 입력해주세요.");
-			$("#adminProductSale").focus();
+			$("#newProductSale").focus();
 
 			return false;
 		}
 		
 		// 추가할 제약조건 : 상품 마감날짜는 무조건 등록날짜 이후여야 함
 		if ($("#newProductSaleEnd").val() == "") {
-			alert("상품 마감날짜를 입력해주세요.");
+			alert("상품 마감 날짜를 입력해주세요.");
 			$("#newProductSaleEnd").focus();
 			
 			return false;
 		}
 
 		if ($("#newProductMin").val() == "") {
-			alert("최소주문량을 입력해주세요.");
+			alert("최소 주문량을 입력해주세요.");
 			$("#newProductMin").focus();
 
 			return false;
@@ -165,33 +171,67 @@
 	
 		// 추가할 제약조건 : 최대주문량은 최소주문량보다 커야 함
 		if ($("#newProductMax").val() == "") {
-			alert("최대주문량을 입력해주세요.");
+			alert("최대 주문량을 입력해주세요.");
 			$("#newProductMax").focus();
 
 			return false;
 		}
 		
 		if ($("#newProductProfile").val() == "") {
-			alert("메인사진을 등록해주세요.");
+			alert("메인 사진을 등록해주세요.");
 			$("#newProductProfile").focus();
 			
 			return false;
 		}
 		
 		if ($("#newProductDetailImg").val() == "") {
-			alert("상품사진을 등록해주세요.");
+			alert("상품 사진을 등록해주세요.");
 			$("#newProductDetailImg").focus();
 			
 			return false;
 		}
 		
 		if ($("#newProductOption").val() == "") {
-			alert("상품옵션을 입력해주세요.");
+			alert("상품 옵션을 입력해주세요.");
 			$("#newProductOption").focus();
 			
 			return false;
 		}
  		
+		if(!priceRegex.test($("#newProductPrice").val())) {
+			alert("상품 가격은 숫자만 입력해주세요.");
+			$("#newProductPrice").val('');
+			$("#newProductPrice").focus();
+
+			return false;
+		}
+		
+		if (parseInt($("#newProductSale").val()) < 0 || parseInt($("#newProductSale").val()) > 100) {
+			alert("할인율은 0 ~ 100 사이의 숫자만 입력해주세요.");
+			$("#newProductSale").val('');
+			$("#newProductSale").focus();
+			
+			return false;
+		}
+		
+		if (date >= endDate) {
+			alert("상품 마감 날짜는 오늘 날짜 이후로 선택해주세요.");
+			$("#newProductSaleEnd").val('');
+			$("#newProductSaleEnd").focus();
+			
+			return false;
+		}
+		
+		if (parseInt($("#newProductMin").val()) >= parseInt($("#newProductMax").val())) {
+			alert("최대 주문량은 최소 주문량보다 크게 입력해주세요.")
+			$("#newProductMin").val('');
+			$("#newProductMax").val('');
+			$("#newProductMin").focus();
+			
+			return false;
+		}
+		
+		
 		return true;
 	};
 	
@@ -403,7 +443,7 @@ $(function(){
 									</div>
 									<label for="adminProductSale" class="col-sm-2 control-label">할인율</label>
 									<div class="col-sm-4">									
-										<input type="number" class="form-control" id="newProductSale" name="newProductSale"  min='0' max='100' step='4'>
+										<input type="number" class="form-control" id="newProductSale" name="newProductSale" >
 									</div>
 								</div>
 								<!-- 등록날짜 ~ 마감날짜 -->
@@ -421,11 +461,11 @@ $(function(){
 								<div class="form-group required">
 									<label for="adminProductMin" class="col-sm-2 control-label">최소주문량</label>
 									<div class="col-sm-4">
-										<input type="number" class="form-control" id="newProductMin" name="newProductMin"  min='1' max='10000' step='5'>						
+										<input type="number" class="form-control" id="newProductMin" name="newProductMin"  min='1' max='10000'>						
 									</div>							
 									<label for="adminProductMax" class="col-sm-2 control-label">최대주문량</label>
 									<div class="col-sm-4">
-										<input type="number" class="form-control" id="newProductMax" name="newProductMax"  min='1' max='10000' step='5'>
+										<input type="number" class="form-control" id="newProductMax" name="newProductMax"  min='1' max='10000'>
 									</div>
 								</div>						
 							</fieldset>
