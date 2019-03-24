@@ -114,7 +114,7 @@ public class ProductController {
 		List<Map<String, String>> reviewSecondCommentList = service.selectReviewCommentSeconds();
 		
 		//누적점수 select
-		/*Map<String,String> totalscore = service.selectTotalScore(productNo);*/
+		Map<String,String> avgScore = service.selectTotalScore(productNo);
 		
 		mv.addObject("brand",brandMap);
 		mv.addObject("rcPage", rcPage);
@@ -131,6 +131,8 @@ public class ProductController {
 		mv.addObject("reviewCommentCount",reviewCommentCount);
 		mv.addObject("questionCommentCount",questionCommentCount);
 		mv.addObject("reviewSecondCommentList", reviewSecondCommentList);
+		mv.addObject("score",avgScore);
+		
 		if(commentType.equals("R"))
 		{
 			mv.addObject("pageBar",PageFactory.getConditionProductPageBar(reviewCommentCount, rcPage, numPerPage, "/makers/product/productView.do?commentType=R&productNo="+productNo, "R"));
@@ -470,13 +472,67 @@ public class ProductController {
 		return mv;
 	}
 	
-	@RequestMapping("/product/insertReviewCommentLevel2.do")
-	public ModelAndView insertCommentLevel2(@RequestParam Map<String,String> map) {
+	@RequestMapping("/product/insertCommentLevel2.do")
+	public ModelAndView insertCommentLevel2(@RequestParam Map<String,String> map, HttpServletRequest request) {
 		
 		ModelAndView mv = new ModelAndView();
 		
+		logger.debug("제대로 오나?"+map+"");
+		
+		String memberNo = ((Member)request.getSession().getAttribute("member")).getMemberNo();
+		
+		map.put("memberNo", memberNo);
+		
+		int result = service.insertCommentLevel2(map);
+		String type = "R";
+		String msg = "";
+		String loc = "/product/productView.do?productNo="+map.get("productNo")+"&commentType="+type;
+		
+		if(result>0) {
+			msg = "답글 등록이 되었습니다.";
+		}else {
+			msg = "답글 등록 실패하였습니다.";
+		}
+		
 		logger.debug(map+"");
 		
+		mv.addObject("loc", loc);
+		mv.addObject("msg",msg);
+		mv.setViewName("/common/msg");
+		return mv;
+	}
+	
+	@RequestMapping("/product/deleteComment")
+	public ModelAndView deleteComment(String commentNo, String commentType, String productNo) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		logger.debug(commentNo);
+		logger.debug(commentType);
+		
+		Map<String,String> map = new HashMap();
+		
+		map.put("commentNo", commentNo);
+		map.put("commentType", commentType);
+		map.put("productNo", productNo);
+		
+		int result = service.deleteComment(map);
+		
+		String type = map.get("commentType");
+		String msg = "";
+		String loc = "/product/productView.do?productNo="+map.get("productNo")+"&commentType="+type;
+		
+		if(result>0) {
+			msg = "답글 삭제가 되었습니다.";
+		}else {
+			msg = "답글 삭제 실패하였습니다.";
+		}
+		
+		logger.debug(map+"");
+		
+		mv.addObject("loc", loc);
+		mv.addObject("msg",msg);
+		mv.setViewName("/common/msg");
 		return mv;
 	}
 	

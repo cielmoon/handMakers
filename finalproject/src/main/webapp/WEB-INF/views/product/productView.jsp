@@ -158,7 +158,7 @@ function fn_tabChanged(type) {
 
 }
 
-function fn_insertReviewComment() {
+function fn_insertReviewCommentLevel1() {
 	var productNo = $('#input-productNo').val();
 	var orderNo = $('#orderList').val();
 	$('#input-reviewCommentProductNo').val(productNo);
@@ -205,6 +205,24 @@ function fn_updateReviewComment(inputCommentNo, inputCommentContent){
 		}
 	});
 };
+
+function fn_deleteComment(inputComment){
+	var commentNo = $('#'+inputComment).val();
+	var commentType = $('input[name=commentType]').val();
+	var productNo = $('#input-productNo').val();
+	console.log(commentNo);
+	console.log(commentType);
+	location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo;
+};
+
+function fn_deleteQuestionComment(inputComment){
+	var commentNo = $('#'+inputComment).val();
+	var commentType = $('input[name=questionCommentType]').val();
+	var productNo = $('#input-productNo').val();
+	console.log(commentNo);
+	console.log(commentType);
+	location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo;
+}
 </script>
 
 <style>
@@ -282,20 +300,52 @@ function fn_updateReviewComment(inputCommentNo, inputCommentContent){
           <h1 class="productpage-title">${product.PRODUCT_TITLE }</h1>
           <ul class="list-unstyled productinfo-details-top">
             <li>
-            <!-- 가격 -->
-              <h2 class="productpage-price">( 누적평점 :  누적 판매량 : ${product.PRODUCT_TOTALSELL } ) </h2>
+            <!-- 별점 -->
+                           평점 : <%-- ${score.SCORE } --%>
+            <c:if test="${score.SCORE ge 0 and score.SCORE lt 1}">
+            	<i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${score.SCORE ge 1 and score.SCORE lt 1.5}">
+            	<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${score.SCORE ge 1.5 and score.SCORE lt 2}">
+            	<i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${score.SCORE ge 2 and score.SCORE lt 2.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${score.SCORE ge 2.5 and score.SCORE lt 3}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${score.SCORE ge 3 and score.SCORE lt 3.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${score.SCORE ge 3.5 and score.SCORE lt 4}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${score.SCORE ge 4 and score.SCORE lt 4.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${score.SCORE ge 4.5 and score.SCORE lt 5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+            </c:if>
+            <c:if test="${score.SCORE eq 5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </c:if>
+            
+              <h2 class="productpage-price">( 누적 판매량 : ${product.PRODUCT_TOTALSELL } ) </h2>
             </li>
           </ul>             
           <hr>
           <ul class="list-unstyled productinfo-details-top">
             <li>
             <!-- 가격 -->
-              <h2 class="productpage-price">가격 : <fmt:formatNumber value="${product.PRODUCT_PRICE }" type="currency" currencySymbol="￦"/>원</h2>
-              <input type="hidden" name="productPrice" value="${product.PRODUCT_PRICE }"/>
+              <h2 class="productpage-price">가격 : <fmt:formatNumber value="${product.PRODUCT_PRICE -(product.PRODUCT_PRICE*(product.PRODUCT_DISCOUNT div 100)) }" type="currency" currencySymbol="￦"/>원</h2>
+              <input type="hidden" name="productPrice" value="${product.PRODUCT_PRICE -(product.PRODUCT_PRICE*(product.PRODUCT_DISCOUNT/100)) }"/>
             </li>
             <c:if test="${product.PRODUCT_STEP eq 0}">
                <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
-               <li><span class="productinfo-tax"><fmt:formatNumber value="${product.PRODUCT_DISCOUNT }" type="currency" currencySymbol="￦"/></span></li>
+               <li><span class="productinfo-tax"><fmt:formatNumber value="${product.PRODUCT_DISCOUNT }" type="currency"/>%</span></li>
             </c:if>
           </ul>
           <hr>
@@ -320,7 +370,10 @@ function fn_updateReviewComment(inputCommentNo, inputCommentContent){
               </li>
             <li>
               <label>판매종료일:</label>
-              <span><fmt:formatDate value="${product.PRODUCT_ENDDATE }" pattern="yyyy-MM-dd"/></span></li>  
+              <span><fmt:formatDate value="${product.PRODUCT_ENDDATE }" pattern="yyyy-MM-dd"/></span></li>
+            <li>
+              <label>판매 남은일:</label>
+              <span id="remainperiod" style="color:red"><fmt:formatNumber value="${product.REMAINPERIOD }"/>일</span></li>
           </ul>
           <hr/>
              
@@ -438,7 +491,7 @@ function fn_updateReviewComment(inputCommentNo, inputCommentContent){
                                        	  <c:if test="${member.memberAuthority eq 'M' }">
                                        	  	<a href="javascript:void(0);" onclick="fn_reviewComment('${reviewComment['COMMENT_NO'] }Level1');"><i class="fas fa-pen" style="font-size: 15px;"></i></a> &nbsp;
                                           </c:if>
-                                          <i class="fas fa-times" style="font-size: 18px;"></i>
+                                            <a href="javascript:void(0);" onclick="fn_deleteComment('inputNo-${reviewComment['COMMENT_NO'] }Level1');"><i class="fas fa-times" style="font-size: 18px;"></i></a>
                                         </li>
                                        </ul>
                                      </c:if>
@@ -484,7 +537,7 @@ function fn_updateReviewComment(inputCommentNo, inputCommentContent){
 	                                       	  <c:if test="${member.memberAuthority eq 'M' }">
 	                                       	  	<a href="javascript:void(0);" onclick="fn_reviewComment('${second['COMMENT_NO'] }Level2');"><i class="fas fa-pen" style="font-size: 13px;"></i></a> &nbsp;
 	                                          </c:if>
-	                                          <i class="fas fa-times" style="font-size: 16px;"></i>
+	                                            <a href="javascript:void(0);" onclick="fn_deleteComment('inputNo-${second['COMMENT_NO'] }Level2');"><i class="fas fa-times" style="font-size: 16px;"></i></a>
 	                                        </li>
 	                                       </ul>
 	                                     </c:if>	                                       
@@ -500,9 +553,8 @@ function fn_updateReviewComment(inputCommentNo, inputCommentContent){
 
 							  <c:if test="${member!=null}">
                               <!-- 대댓글 작성부분 -->
-                              
                               <li class="media media-replied">
-                              <form id="fm-insertReviewCommentLevel2" action="${path }/product/insertReviewCommentLevel2.do" method="post">
+                              <form id="fm-${reviewComment['COMMENT_NO'] }" action="${path}/product/insertCommentLevel2.do?productNo=${product.PRODUCT_NO}" method="post">
                               <a class="pull-left" href="javascript:void(0);"> 
                               	<img class="media-object img-circle" width="80px;" src="${path }/resources/image/profile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
                           	  </a>
@@ -511,12 +563,12 @@ function fn_updateReviewComment(inputCommentNo, inputCommentContent){
                                        <h4 class="media-heading text-uppercase reviews display-inline">${member.memberId}</h4>
                                        <hr/>
                                         <p class="media-comment">
-										 <textarea name="reviewContentLevel2" class="form-control" style="resize: none; border: 0px;" placeholder="댓글을 작성해주세요"></textarea>
-										 <input type="hidden" id="input-reviewCommentNoLevel2" name="commentNo" value="${reviewComment['COMMENT_NO'] }"/>
+										 <textarea id="reviewContent${reviewComment['COMMENT_NO'] }" name="reviewContent" class="form-control" style="resize: none; border: 0px;" placeholder="댓글을 작성해주세요"></textarea>
+										 <input type="hidden" id="inputRLevel2-${reviewComment['COMMENT_NO'] }" name="commentNo" value="${reviewComment['COMMENT_NO'] }"/>
 										</p>
 										<hr/>
 										<div style="text-align: right;">
-                                         <a class="btn btn-primary text-uppercase btn-reply" onclick="fn_insertReviewComment();"><i class="far fa-edit"></i></a>
+                                         <a class="btn btn-primary text-uppercase btn-reply" onclick="fn_insertReviewComment('inputRLevel2-${reviewComment['COMMENT_NO'] }');"><i class="far fa-edit"></i></a>
                                     	</div>
                                     </div>
                                     
@@ -538,13 +590,12 @@ function fn_updateReviewComment(inputCommentNo, inputCommentContent){
             </div>
             
             <script>
-            	function fn_insertReviewComment(){
-            		var commentNo = $('#input-reviewCommentNoLevel2').val();
-            		var productNo = $('#input-productNo').val();
+            	function fn_insertReviewComment(inputCommentNo){
+            		console.log(inputCommentNo);
+            		var commentNo = $('#'+inputCommentNo).val();
             		console.log(commentNo);
-            		console.log(productNo);
-            		$('#fm-insertReviewCommentLevel2').submit(commentNo,productNo);
-            	}
+            		$('#fm-'+commentNo).submit();
+            	};
             
             </script>
             
@@ -599,7 +650,7 @@ function fn_updateReviewComment(inputCommentNo, inputCommentContent){
               <div class="buttons clearfix">
                 <div class="pull-right">
                   <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
-				    <input type="button" id="button-review" class="btn btn-primary" value="후기등록" onclick="fn_insertReviewComment();"/>
+				    <input type="button" id="button-review" class="btn btn-primary" value="후기등록" onclick="fn_insertReviewCommentLevel1();"/>
                 </div>
               </div>
             </form>
@@ -631,15 +682,17 @@ function fn_updateReviewComment(inputCommentNo, inputCommentContent){
                                        <ul class="float-right">
                                        	<li>
                                        	  <c:if test="${member.memberAuthority == 'M' }">
-                                       	  	<i class="fas fa-pen" style="font-size: 15px;"></i> &nbsp;
+                                       	  	<a href="javascript:void(0);" onclick="fn_reviewComment('${questionComment['COMMENT_NO'] }Level1');"><i class="fas fa-pen" style="font-size: 15px;"></i></a> &nbsp;
                                           </c:if>
-                                          <i class="fas fa-times" style="font-size: 18px;"></i>
+                                            <a href="javascript:void(0);" onclick="fn_deleteQuestionComment('inputNo-${questionComment['COMMENT_NO'] }Level1');"><i class="fas fa-times" style="font-size: 18px;"></i></a>
                                         </li>
                                        </ul>
                                      </c:if>
-                                     
-                                    <p class="media-comment">${questionComment['COMMENT_CONTENT'] }</p>
-                                    
+                                    <p class="media-comment" id="${questionComment['COMMENT_NO'] }Level1">${questionComment['COMMENT_CONTENT'] }</p>
+                                    <input type="hidden" id="input-${questionComment['COMMENT_NO'] }Level1" style='width:100%;'value="${questionComment['COMMENT_CONTENT'] }"/>
+                                    <input type="button" id="btn-${questionComment['COMMENT_NO'] }Level1" value="등록" style="display:none" onclick="fn_updateReviewComment('inputNo-${questionComment['COMMENT_NO'] }Level1','${questionComment['COMMENT_NO'] }Level1')"/>
+                                    <input type="hidden" id="inputNo-${questionComment['COMMENT_NO'] }Level1" name="commentNo" value="${questionComment['COMMENT_NO'] }"/>
+                                    <input type="hidden" name="questionCommentType" value="Q"/>
                                  </div>
                               </div>
                         </c:if>
@@ -682,7 +735,7 @@ function fn_updateReviewComment(inputCommentNo, inputCommentContent){
                      <input type="text" name="name" id="input-name" class="form-control" value="${member.memberName }" readonly/>
                      <input type="hidden" name="questionCommentProductNo" id="input-questionCommentProductNo"/>
                      <input type="hidden" name="memberNo" id="input-memberNo" value="${member.memberNo }"/>
-                     <input type="hidden" name="questionType" value="Q"/>
+                     <input type="hidden" name="commentType" value="Q"/>
                   </c:if>
                 </div>
               </div>

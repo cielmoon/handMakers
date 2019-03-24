@@ -231,6 +231,24 @@ public class ProductDaoImpl implements ProductDao {
 		return session.update("product.updateComment",map);
 	}
 
+	@Override
+	public int insertCommentLevel2(Map<String, String> map) {
+		
+		return session.insert("product.insertCommentLevel2",map);
+	}
+
+	@Override
+	public int deleteComment(Map<String, String> map) {
+		
+		return session.delete("product.deleteComment",map);
+	}
+
+	@Override
+	public Map<String, String> selectTotalScore(String productNo) {
+		
+		return session.selectOne("product.selectTotalScore",productNo);
+	}
+
 	
 
 	

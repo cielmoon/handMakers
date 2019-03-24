@@ -35,4 +35,7 @@ public interface ProductDao {
 	int selectWishYewon(Map<String, String> map);
 	int insertCommentQuestion(Map<String,String> map);
 	int updateComment(Map<String,String> map);
+	int insertCommentLevel2(Map<String,String> map);
+	int deleteComment(Map<String,String> map);
+	Map<String,String> selectTotalScore(String productNo);
 }

@@ -69,6 +69,8 @@
          <a href="${path }/product/productView.do?productNo=${wish.PRODUCT_NO}">
          <img src="${path}/resources/image/product/${wish.PRODUCT_PROFILE }" alt="${wish.PRODUCT_TITLE }" title="${wish.PRODUCT_TITLE }" class="img-responsive" /></a>
               <div class="button-group">
+              
+              <!-- 이거 좀 봐야됨 해당 품목 클릭이 안됨! -->
               <input id="wishProductNo" type="hidden" value="${wish.PRODUCT_NO}"/>
                 <button type="button" id="wishBtn" class="wishlist" title="Add to Wish List" onclick="deleteWish();">
                 	<i class="fa fa-heart"></i>

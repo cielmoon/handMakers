@@ -174,6 +174,26 @@ public class ProductServiceImpl implements ProductService {
 		
 		return dao.updateComment(map);
 	}
+
+	@Override
+	public int insertCommentLevel2(Map<String, String> map) {
+		
+		return dao.insertCommentLevel2(map);
+	}
+
+	@Override
+	public int deleteComment(Map<String, String> map) {
+		
+		return dao.deleteComment(map);
+	}
+
+	@Override
+	public Map<String, String> selectTotalScore(String productNo) {
+		
+		return dao.selectTotalScore(productNo);
+	}
+
+	
 	
 	
 

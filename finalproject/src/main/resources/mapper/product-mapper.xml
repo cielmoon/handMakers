@@ -82,7 +82,7 @@
 	</select>
 	
 	<select id="selectProduct" parameterType="string" resultType="map">
-		SELECT *
+		SELECT P.*, (P.PRODUCT_UPDATE-P.PRODUCT_ENDDATE) AS REMAINPERIOD
 		FROM PRODUCT P
 		JOIN BRAND B ON(B.BRAND_NO=P.BRAND_NO)
 		WHERE P.PRODUCT_NO = #{productNo}
@@ -190,11 +190,24 @@
 	
 	<insert id="insertCommentQuestion" parameterType="map">
 		INSERT INTO PRODUCT_COMMENT (COMMENT_NO, COMMENT_CONTENT, COMMENT_DATE, COMMENT_TYPE, COMMENT_LEVEL, COMMENT_REF, MEMBER_NO, PRODUCT_NO) 
-		VALUES ('P_C_NO_'||SEQ_COMMENT_NO.NEXTVAL, #{questionContent}, SYSDATE, #{questionType}, DEFAULT, NULL, #{memberNo}, #{questionCommentProductNo})
+		VALUES ('P_C_NO_'||SEQ_COMMENT_NO.NEXTVAL, #{questionContent}, SYSDATE, #{commentType}, DEFAULT, NULL, #{memberNo}, #{questionCommentProductNo})
 	</insert>
 	
 	<update id="updateComment" parameterType="map">
 		UPDATE PRODUCT_COMMENT SET COMMENT_CONTENT=#{commentContent} WHERE COMMENT_NO=#{commentNo}	
 	</update>
 
+	<insert id="insertCommentLevel2" parameterType="map">
+		INSERT INTO PRODUCT_COMMENT(COMMENT_NO, COMMENT_CONTENT, COMMENT_DATE, COMMENT_TYPE, COMMENT_LEVEL, COMMENT_REF, MEMBER_NO, PRODUCT_NO)
+		VALUES('P_C_NO_'||SEQ_COMMENT_NO.NEXTVAL, #{reviewContent}, SYSDATE, 'R', '2', #{commentNo}, #{memberNo}, #{productNo})
+	</insert>
+	
+	<delete id="deleteComment" parameterType="map">
+		DELETE FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} AND COMMENT_NO=#{commentNo}
+	</delete>
+	
+	<select id="selectTotalScore" parameterType="map" resultType="map">
+		select round(avg(product_score),1) as score from totalscore where product_no=#{productNo} group by product_no
+	</select>
+	
 </mapper>
