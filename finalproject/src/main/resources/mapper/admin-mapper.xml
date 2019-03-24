@@ -316,7 +316,7 @@
 
 	<update id="memberStateUpdate" parameterType="string">
 		update member set
-		member_authority = 'S' where member_no = #{memberNo}
+		member_authority = 'S' and member_profile ='seller_img.png' where member_no = #{memberNo}
 
 	</update>
 	<update id="memberAuthorityChange" parameterType="string">
