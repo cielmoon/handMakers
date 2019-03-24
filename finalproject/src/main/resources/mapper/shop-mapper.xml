@@ -33,7 +33,7 @@
   		<result column="bc_title" property="bcTitle" />
 		<result column="sc_title" property="scTitle" />
 	</resultMap>
-	
+	<!-- brand_state = 'b'를 추가해야할지도.. -->
 	<select id="selectBrandList" resultMap="brandMap" parameterType="string">
 		SELECT * FROM BRAND WHERE MEMBER_NO = #{memberNo}	
 	</select>

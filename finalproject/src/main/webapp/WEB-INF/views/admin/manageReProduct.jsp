@@ -11,7 +11,7 @@
 		<ul class="breadcrumb">
 			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
 			<li><a href="${path}/admin/adminPage.do">관리자페이지</a></li>
-			<li><a href="${path}/admin/manageProduct.do">상품 관리</a></li>
+			<li><a href="${path}/admin/manageProduct.do">상품 종료/중지 목록</a></li>
 		</ul>
 		<br />
 		<div class="row">
@@ -24,9 +24,9 @@
 							<a class="list-group-item" href="${path}/admin/memberList.do">회원목록</a>
 							<a class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 등록관리</a>							
 							<a class="list-group-item" href="${path}/admin/managePreProduct.do">입점 제안관리</a>
-							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a>												 
-							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 재등록 관리</a>
-							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고 및 상품 판매중지 요청</a>					 
+							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 등록/수정 관리</a>												 
+							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 종료/중지 목록</a>
+							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고/상품 판매중지 요청</a>					 
 						</div>
 					</div>
 				</div>
@@ -62,9 +62,7 @@
 										<c:when test="${a.productState == '3' }">
 											<td>판매완료</td>
 										</c:when>
-										<c:when test="${a.productState == '4' }">
-											<td>판매 재등록요청</td>
-										</c:when>
+							
 									</c:choose>		
 									<td>${a.productEnrollDate }</td>	
 									<td>${a.productEndDate }</td>

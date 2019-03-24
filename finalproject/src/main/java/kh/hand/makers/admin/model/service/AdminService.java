@@ -8,6 +8,7 @@ import kh.hand.makers.admin.model.vo.Products;
 import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
@@ -15,8 +16,8 @@ import kh.hand.makers.shop.model.vo.SmallCategory;
 
 public interface AdminService {	
 	
-	int selectProductCount();
-	List<AdminProduct> selectProductList(int cPage,int numPerPage);
+	int selectProductCount(Map<String, String> sortingProductList);
+	List<AdminProduct> selectProductList(int cPage,int numPerPage, Map<String, String> sortingProductList);
 	
 	int selectReProductCount();
 	List<AdminProduct> selectReProductList(int cPage,int numPerPage);
@@ -35,7 +36,7 @@ public interface AdminService {
 	int selectPreProductCount();
 	int preProductStateUpdate(Map<String,String> ps);
 	
-	int selectMemberCount();
+	int selectMemberCount(List<Member> memberList);
 	List<Member> selectMemberList(int cPage,int numPerPage);
 	
 	int selectRequestCount(String reqRefType);
@@ -57,5 +58,7 @@ public interface AdminService {
 	int memberAuthorityChange(String memberNo);
 	int selectBrandStateCount(String memberNo);
 	int updateProductState(String brandNo);
-	
+	int sellerProfileUpdate(String memberNo);
+	Map<String,String> selectProduct(String productNo);
+	int updateProduct(Map<String,String> product);
 }

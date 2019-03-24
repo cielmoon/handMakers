@@ -13,13 +13,9 @@
 <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> -->
 <!-- <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> -->
 <!-- include summernote css/js-->
+
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
-
-
-
-
-
 
 <!-- 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
@@ -57,8 +53,9 @@
 </style>
 
 <script>
-
-	$(document).ready(function() {	
+	$(document).ready(function() {
+		  $("#newProductProfile").on("change", enrollMainImg);
+		
 	      $('#summernote').summernote({
 	          height: 300,
 	          minHeight: null,
@@ -70,29 +67,9 @@
 	                sendFile(files[i], this);
 	              }
 	            }
-	          }
-	        });
+	      	}
+	    });
 	     
-		$("#newProductProfile").on("change", enrollMainImg);
-		// 상품 등록날짜, 마감날짜 
-		// 날짜에서 추가할 내용 : 마감날짜는 등록날짜 이후만 클릭되도록 설정해줘야 함
-/* 		$("#newProductSaleStart").datepicker({
-			language : 'ko',
-			format : 'yyyy/mm/dd',
-			autoclose : true,
-			calendarWeeks : false,
-			todayHighlight : true
-		});
-		
-		$("#newProductSaleEnd").datepicker({
-			language : 'ko',
-			format : 'yyyy/mm/dd',
-			autoclose : true,
-			calendarWeeks : false,
-			todayHighlight : true
-
-		}); */
-		
 		$("#select-bigCategory").change(function(){
 			var bcNo = $("#select-bigCategory").find(":selected").val();
 			/* 소카테고리 리스트 초기화  */
@@ -113,7 +90,6 @@
 				}
 			});
 		});
-		
 	});
 	
     function sendFile(file, el) {
@@ -134,14 +110,6 @@
           }
         });
       }
-    
-/* 	function checkDate() {
-		var startDate = $("#newProductSaleStart").val();
-		var endDate = $("#newProductSaleEnd").val();
-		
-		console.log("startDate : " + startDate);
-		console.log("endDate : " + endDate);
-	} */
 	
 	function validate() {
 		if ($("#newProductName").val() == "") {
@@ -177,14 +145,6 @@
 			alert("할인율을 입력해주세요.");
 			$("#adminProductSale").focus();
 
-			return false;
-		}
-
-		// 추가할 제약조건 : 상품 등록날짜는 당일 이전은 불가능
-		if ($("#newProductSaleStart").val() == "") {
-			alert("상품 등록날짜를 입력해주세요.");
-			$("#newProductSaleStart").focus();
-			
 			return false;
 		}
 		
@@ -299,30 +259,10 @@ $(function(){
 
     	}else{
     		console.log(filecount);
-    		alert('파일은 최대 4개까지 가능합니다.');
-        	
-    	}
-    		
+    		alert('파일은 최대 4개까지 가능합니다.');	
+    	}   		
     });
 })
-
-    /* function test(){
-       window.onload();
-    } */
-    
-    /* function validate(){
-       var content=$('[name=content]').val();
-       if(content.trim().length==0)
-       {
-          alert("내용을 입력하세요.");
-       }
-       return true;
-    } */
-    
-    <%-- function fn_boardList(){
-       location.href = "<%=request.getContextPath()%>/board/boardList";
-	} --%>
-	
 	
 // 상품 옵션 추가
 var optioncount = 1;
@@ -362,7 +302,6 @@ $(function(){
     		alert('파일은 최대 4개까지 가능합니다.');
         	
     	}
-    		
     });
 })
 </script>
@@ -388,9 +327,9 @@ $(function(){
 							<a class="list-group-item" href="${path}/admin/memberList.do">회원목록</a>
 							<a class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 등록관리</a>							
 							<a class="list-group-item" href="${path}/admin/managePreProduct.do">입점 제안관리</a>
-							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a>												 
-							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 재등록 관리</a>
-							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고 및 상품 판매중지 요청</a>					 
+							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 등록/수정 관리</a>												 
+							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 종료/중지 목록</a>
+							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고/상품 판매중지 요청</a>					 
 						</div>
 					</div>
 				</div>
@@ -425,8 +364,7 @@ $(function(){
 						</div>
 							
 							</fieldset>
-							
-							
+																					
 							<fieldset id="productField1">	
 								<!-- 상품명 -->							
 								<div class="form-group required">
@@ -465,18 +403,18 @@ $(function(){
 									</div>
 									<label for="adminProductSale" class="col-sm-2 control-label">할인율</label>
 									<div class="col-sm-4">									
-										<input type="number" class="form-control" id="newProductSale" name="newProductSale"  min='1' max='100' step='4'>
+										<input type="number" class="form-control" id="newProductSale" name="newProductSale"  min='0' max='100' step='4'>
 									</div>
 								</div>
 								<!-- 등록날짜 ~ 마감날짜 -->
 								<div class="form-group required">
-									<label for="adminProductSaleStart" class="col-sm-2 control-label">등록날짜</label>
+									<label for="adminProductSaleStart" class="col-sm-2 control-label">판매 시작일</label>
 									<div class="col-sm-4">
-										<input type="date" class="form-control" id="newProductSaleStart" name="newProductSaleStart" placeholder="등록날짜" onclick="checkDate();">
+										<input type="datetime" class="form-control" id="newProductSaleStart" name="newProductSaleStart" placeholder="오늘부터 판매가 시작됩니다." readonly="readonly">
 									</div>								
-									<label for="adminProductSaleEnd" class="col-sm-2 control-label">마감날짜</label>
+									<label for="adminProductSaleEnd" class="col-sm-2 control-label">판매 종료일</label>
 									<div class="col-sm-4">
-										<input type="date" class="form-control" id="newProductSaleEnd" name="newProductSaleEnd" placeholder="마감날짜" onclick="checkDate();">
+										<input type="date" class="form-control" id="newProductSaleEnd" name="newProductSaleEnd" placeholder="마감날짜">
 									</div>
 								</div>
 								<!-- 최소주문량 ~ 최대주문량 -->

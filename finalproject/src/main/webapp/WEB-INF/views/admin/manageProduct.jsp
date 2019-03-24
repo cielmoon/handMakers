@@ -14,10 +14,48 @@
 
 <script>
 $(function() {
+	
+	$("#select-brand").change(function(){
+		/* brandNo를 찾아서 이걸 가져가서 상품들을 해당 브랜드로 페이징 처리  */
+		var brandNo = $("#select-brand").find(":selected").val();
+		var bcNo = $("#select-bigCategory").find(":selected").val();
+		var scNo = $("#select-smallCategory").find(":selected").val();
+		
+		console.log("brandNo :"+brandNo);
+		console.log("bcNo :"+bcNo);
+		console.log("scNo :"+scNo);
+		/* 빅카테고리, 소카테고리 리스트 초기화  */
+		$.ajax({
+			//${path}/admin/productEnrollB randSet.do
+			url:"${path}/admin/selectBList.do",
+			data:{"brandNo" : brandNo, "bcNo" : bcNo, "scNo" : scNo},
+			success:function(data){
+				$("#oriProductListTable").remove();
+				$("#tbl-board").remove();
+				console.log(data);
+				console.log(data.adProductList);
+				var tr1 = $('<tr><th>카테고리(대)</th><th>카테고리(소)</th><th>상품명</th><th>브랜드명</th><th>상품상태</th><th>등록날짜</th><th>마감날짜</th><th></th></tr>	');
+				var table = $('<table id="tbl-board" class="table table-striped table-hover"></table>');
+				table.append(tr1);
+				for(var i=0;i<data.adProductList.length;i++){
+					
+					/* console.log(data.adminProductList[i]); */
+					var tr2 = $("<tr><th>"+data.adProductList.productBcTitle+"</th><th>카테고리(소)</th><th>상품명</th><th>브랜드명</th><th>상품상태</th><th>등록날짜</th><th>마감날짜</th><th></th></tr>");
+					table.append(tr2);
+				}
+				
+			
+				
+				$("#newProductListTable").append(table);
+			}
+		});
+	});
+	
 	$("#select-bigCategory").change(function(){
 		var bcNo = $("#select-bigCategory").find(":selected").val();
 		/* 소카테고리 리스트 초기화  */
 		$("#select-smallCategory")[0].options.length = 0;
+		
 		$.ajax({
 			//${path}/admin/productEnrollB randSet.do
 			url:"${path}/admin/productEnrollScSet.do",
@@ -42,7 +80,7 @@ $(function() {
 		<ul class="breadcrumb">
 			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
 			<li><a href="${path}/admin/adminPage.do">관리자페이지</a></li>
-			<li><a href="${path}/admin/manageProduct.do">상품 관리</a></li>
+			<li><a href="${path}/admin/manageProduct.do">상품 등록/수정 관리</a></li>
 		</ul>
 		<br />
 		<div class="row">
@@ -55,9 +93,9 @@ $(function() {
 							<a class="list-group-item" href="${path}/admin/memberList.do">회원목록</a>
 							<a class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 등록관리</a>							
 							<a class="list-group-item" href="${path}/admin/managePreProduct.do">입점 제안관리</a>
-							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a>												 
-							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 재등록 관리</a>
-							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고 및 상품 판매중지 요청</a>					 
+							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 등록/수정 관리</a>												 
+							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 종료/중지 목록</a>
+							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고/상품 판매중지 요청</a>					 
 						</div>
 					</div>
 				</div>
@@ -89,7 +127,8 @@ $(function() {
 						</div>
 						<div class="col-sm-3">
 						</div>
-						<table id='tbl-board' class='table table-striped table-hover'>
+						<div class="col-sm-12" id="oriProductListTable">
+							<table id='tbl-board' class='table table-striped table-hover'>
 							<tr>
 								<th>카테고리(대)</th>
 								<th>카테고리(소)</th>								
@@ -106,16 +145,31 @@ $(function() {
 									<td>${a.productScTitle }</td>
 									<td>${a.productTitle }</td>	
 									<td>${a.productBrandTitle }</td>
-									<td>정상판매</td>									
+									<c:choose>
+										<c:when test="${a.productState == '0' }">
+											<td>정상판매</td>	
+										</c:when>
+										<c:when test="${a.productState == '4' }">
+											<td>재등록요청</td>	
+										</c:when>
+									</c:choose>																
 									<td>${a.productEnrollDate }</td>	
-									<td>${a.productEndDate }</td>	
-									<td><a href="${path}/admin/updateProduct.do?productNo=${a.productNo}"><button class="btn btn-primary">상품수정</button></a></td>						
-											
+									<td>${a.productEndDate }</td>
+									<c:choose>
+										<c:when test="${a.productState == '4' }">
+											<td><a href="${path}/admin/updateProductInfo.do?productNo=${a.productNo}"><button class="btn btn-primary">상품 재등록</button></a></td>
+										</c:when>	
+										<c:otherwise>
+											<td></td>
+										</c:otherwise>			
+									</c:choose>	
 								</tr>										
 						
 							</c:forEach>
 						</table>
 						${pageBar }
+						</div>
+						<div class="col-sm-12" id="newProductListTable"></div>
 					</div>
    					<div class="col-sm-12">
 						<div class="col-sm-9"></div>
