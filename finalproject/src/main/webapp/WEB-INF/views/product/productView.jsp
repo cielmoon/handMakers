@@ -48,7 +48,7 @@ $(function() {
 		$("#tab-review").attr('class', 'tab-pane');
 		$("#tab-question").attr('class', 'tab-pane');
 		$("#tab-sallerInfo").attr('class', 'tab-pane');
-	}
+	};
 	
 	$('#orderBtn').on('click',function(){
 		var stock = ${product.REMAININVENTORY};
@@ -380,13 +380,6 @@ function fn_deleteQuestionComment(inputComment){
             <li>
               <label>남은 수량 : </label>
               <span style="color:red"> ${product.REMAININVENTORY }</span></li>    
-            <%-- <li>
-            <span>${product.PRODUCT_CURSELL }</span>
-            <div class="progress1">
-          	<div class="dioprogress_radius dioprogress_size_l dioprogress_padding" style="background: 'rgb(230, 230, 230);'">
-          		<div class="dioprogress_radius dioprogress_size_l" style="background: rgb(0, 0, 0); width: 78%; opacity: 1;"></div>
-          	</div>
-          	</div></li> --%>
           </ul>
           
           <hr/>
@@ -484,12 +477,12 @@ function fn_deleteQuestionComment(inputComment){
             <div class="cpt_product_description ">
               <div id="productinfoContent">
                 ${productDetail.PRODUCT_DETAIL }
-                ${sessionScope.member }
               </div>
             </div>
             <!-- cpt_container_end -->
             </div>
-
+			
+			
           <!-- 후기 댓글 등록 창 -->
          <div class="tab-pane" id="tab-review">
             <div id="reviewComment" class="form-group"> <!-- style="border:1px solid red" -->
@@ -524,7 +517,7 @@ function fn_deleteQuestionComment(inputComment){
                                      </c:if>
       
                                     <p class="media-comment" id="${reviewComment['COMMENT_NO'] }Level1">${reviewComment['COMMENT_CONTENT'] }</p>
-                                    <input type="hidden" id="input-${reviewComment['COMMENT_NO'] }Level1" style='width:100%;'value="${reviewComment['COMMENT_CONTENT'] }"/>
+                                    <input type="hidden" id="input-${reviewComment['COMMENT_NO'] }Level1" style="width:100%;" value="${reviewComment['COMMENT_CONTENT'] }"/>
                                     <input type="button" id="btn-${reviewComment['COMMENT_NO'] }Level1" value="등록" style="display:none" onclick="fn_updateReviewComment('inputNo-${reviewComment['COMMENT_NO'] }Level1','${reviewComment['COMMENT_NO'] }Level1')"/>
                                     <input type="hidden" id="inputNo-${reviewComment['COMMENT_NO'] }Level1" name="commentNo" value="${reviewComment['COMMENT_NO'] }"/>
                                     <input type="hidden" name="commentType" value="R"/>
@@ -803,86 +796,14 @@ function fn_deleteQuestionComment(inputComment){
               </address>
             </div>
             <div class="col-sm-8 right">
-              <!-- <div class="map"> -->
                   <div id="map" style="height:200px;width:600px;"></div>
-              <!-- </div> -->
             </div>
             </div>
-            </div>    
+            </div>
+                
       	 </div>  
-        </div>
-      </div>
-      
-      <!-- 비슷한 상품 추천 -->
-      <!-- <h3 class="productblock-title">Related Products</h3>
-      <div class="box">
-        <div id="related-slidertab" class="row owl-carousel product-slider">
         
-        상품 1
-          <div class="item">
-            <div class="product-thumb transition">
-              <div class="image product-imageblock"> <a href="#"> <img src="image/product/pro-1-220x294.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /> </a>
-                <div class="button-group">
-                  <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
-                  <button type="button" class="addtocart-btn">Add to Cart</button>
-                  <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
-                </div>
-              </div>
-              <div class="caption product-detail">
-                <h4 class="product-name"><a href="product.html" title="women's New Wine is an alcoholic">women's New Wine is an alcoholic</a></h4>
-                <p class="price product-price"> <span class="price-new">$254.00</span> <span class="price-old">$272.00</span> <span class="price-tax">Ex Tax: $210.00</span> </p>
-              </div>
-              <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
-                <button type="button" class="addtocart-btn">Add to Cart</button>
-                <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
-              </div>
-            </div>
-          </div>
-          
-          상품 2
-          <div class="item">
-            <div class="product-thumb transition">
-              <div class="image product-imageblock"> <a href="#"> <img src="image/product/pro-2-220x294.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /> </a>
-                <div class="button-group">
-                  <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
-                  <button type="button" class="addtocart-btn">Add to Cart</button>
-                  <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
-                </div>
-              </div>
-              <div class="caption product-detail">
-                <h4 class="product-name"><a href="product.html" title="women's New Wine is an alcoholic">women's New Wine is an alcoholic</a></h4>
-                <p class="price product-price"> <span class="price-new">$254.00</span> <span class="price-old">$272.00</span> <span class="price-tax">Ex Tax: $210.00</span> </p>
-              </div>
-              <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
-                <button type="button" class="addtocart-btn">Add to Cart</button>
-                <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
-              </div>
-            </div>
-          </div>
-          
-          상품 3
-          <div class="item">
-            <div class="product-thumb transition">
-              <div class="image product-imageblock"> <a href="#"> <img src="image/product/pro-3-220x294.jpg" alt="women's New Wine is an alcoholic" title="women's New Wine is an alcoholic" class="img-responsive" /> </a>
-                <div class="button-group">
-                  <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
-                  <button type="button" class="addtocart-btn">Add to Cart</button>
-                  <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
-                </div>
-              </div>
-              <div class="caption product-detail">
-                <h4 class="product-name"><a href="product.html" title="women's New Wine is an alcoholic">women's New Wine is an alcoholic</a></h4>
-                <p class="price product-price"> <span class="price-new">$254.00</span> <span class="price-old">$272.00</span> <span class="price-tax">Ex Tax: $210.00</span> </p>
-              </div>
-              <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>
-                <button type="button" class="addtocart-btn">Add to Cart</button>
-                <button type="button" class="compare" data-toggle="tooltip" title="Compare this Product"><i class="fa fa-exchange"></i></button>
-              </div>
-            </div>
-          </div> -->
+      </div>
           
         </div>
       </div>
