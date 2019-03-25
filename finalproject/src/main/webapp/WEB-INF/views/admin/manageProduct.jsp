@@ -25,8 +25,6 @@ $(function() {
 		manageProductAjax(1);
 	});
 	
-	
-	
 	$("#select-bigCategory").change(function(){
 		var bcNo = $("#select-bigCategory").find(":selected").val();
 		/* 소카테고리 리스트 초기화  */
