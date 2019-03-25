@@ -23,6 +23,7 @@
 						alt="main-banner3" class="img-responsive" /></a>
 				</div>
 			</div>
+		
 		</div>
 	</div>
 	<div class="container">

@@ -47,15 +47,15 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int selectPreProductCount() {
+	public int selectPreProductCount(Map<String, String> sortingProductList) {
 		// TODO Auto-generated method stub
-		return dao.selectPreProductCount();
+		return dao.selectPreProductCount(sortingProductList);
 	}
 
 	@Override
-	public List<managePreProduct> selectPreProductList(int cPage, int numPerPage) {
+	public List<managePreProduct> selectPreProductList(int cPage, int numPerPage,Map<String, String> sortingProductList) {
 		// TODO Auto-generated method stub
-		return dao.selectPreProductList(cPage, numPerPage);
+		return dao.selectPreProductList(cPage, numPerPage,sortingProductList);
 	}
 
 	@Override

@@ -83,13 +83,19 @@
        
 		<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-         <div class="image product-imageblock" style="height:220px;">
-         <%-- <h1>${product.productNo}</h1> 확인용 --%>
+          <div
+										onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}'"
+										class="image product-imageblock"
+										style="height : 220px; background-size : cover; background-image : url(${path}/resources/image/product/${product.productProfile }); cursor : pointer;">
+										
+										
+         <%-- <div class="image product-imageblock" style="height:220px;">
+         <h1>${product.productNo}</h1> 확인용
          <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
-         <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
+         <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a> --%>
                <div class="button-group">
                <c:if test="${member==null }">
-               <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="alert('위시리스트 추가는 로그인이 필요합니다.')">
+               <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishLoginChk();">
                 	<i class="fa fa-heart-o"></i>
                </button>
                </c:if>
@@ -117,7 +123,44 @@
                 <!-- product_comment -->
                 <p class="price product-price"><span class="price-old"></span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 <span class="price-tax"></span> </p>
               <!-- product_price -->
-              <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
+              <div class="rating">
+              ${ product.score }평점 : <%-- ${product.score } --%>
+			<c:if test="${product.score ge 0 and product.score lt 0.5 }">
+               <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 0.5 and product.score lt 1}">
+            	<i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 1 and product.score lt 1.5}">
+            	<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 1.5 and product.score lt 2}">
+            	<i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 2 and product.score lt 2.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 2.5 and product.score lt 3}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 3 and product.score lt 3.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 3.5 and product.score lt 4}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 4 and product.score lt 4.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 4.5 and product.score lt 5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+            </c:if>
+            <c:if test="${product.score eq 5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </c:if>
+               <!-- <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> --> 
+               
+               </div>
               <!-- totalProductPoint 별-->
             </div>
             <%-- <div class="button-group"><!-- 리스트형식으로 볼때의 추가 버튼들 -->
@@ -157,21 +200,27 @@ $('#input-limit').on('change', function(){
 $('#numPerPagesFrm').submit();
 });
 
-
 function fn_wishChk(productNo){
-      		$.ajax({
-      			url:"${path}/product/selectWishYewon.do",
-      			data: {"productNo":productNo},
-      			success:function(data){
-                    if(data > 0){	
-                    	$('#' + productNo).html('<i class="fa fa-heart"></i>');
-                    	$('#' + productNo).attr( "title" , "Remove to Wish List");
-                    }
-                    else
-                    	$('#' + productNo).html('<i class="fa fa-heart-o"></i>');
-                    $('#' + productNo).attr( "title" , "Add to Wish List");
-                    }
-      		});
+	event.stopPropagation();
+	/* console.log(event); */
+	$.ajax({
+		url:"${path}/product/selectWishYewon.do",
+		data: {"productNo":productNo},
+		success:function(data){
+        if(data > 0){	
+        	$('#' + productNo).html('<i class="fa fa-heart"></i>');
+        	$('#' + productNo).attr( "title" , "Remove to Wish List");
+        }
+        else
+        	$('#' + productNo).html('<i class="fa fa-heart-o"></i>');
+        $('#' + productNo).attr( "title" , "Add to Wish List");
+        }
+	});
+}
+
+function fn_wishLoginChk(){
+event.stopPropagation();
+alert('위시리스트 추가는 로그인이 필요합니다.');
 }
 </script>
 

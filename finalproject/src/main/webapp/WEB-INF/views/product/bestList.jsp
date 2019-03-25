@@ -86,15 +86,21 @@
        
 		<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-         <div class="image product-imageblock" style="height:220px;">
-         <%-- <h1>${product.productNo}</h1> 확인용 --%>
+          <div
+										onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}'"
+										class="image product-imageblock"
+										style="height : 220px; background-size : cover; background-image : url(${path}/resources/image/product/${product.productProfile }); cursor : pointer;">
+										
+										
+<%--          <div class="image product-imageblock" style="height:220px;">
+         <h1>${product.productNo}</h1> 확인용
          <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
          <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
-        <!-- 상품 프로필 사진 product_profile, alt=? product_title, title=product_title -->
+        <!-- 상품 프로필 사진 product_profile, alt=? product_title, title=product_title --> --%>
                        
                <div class="button-group">
                <c:if test="${member==null }">
-               <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" value="${product.productNo}" onclick="alert('위시리스트 추가는 로그인이 필요합니다.')">
+               <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Add to Wish List" value="${product.productNo}" onclick="fn_wishLoginChk();">
                 	<i class="fa fa-heart-o"></i>
                </button>
                </c:if>
@@ -155,19 +161,27 @@ $('#input-limit').on('change', function(){
 $('#numPerPagesFrm').submit();
 });
 
-
 function fn_wishChk(productNo){
-      		$.ajax({
-      			url:"${path}/product/selectWishYewon.do",
-      			data: {"productNo":productNo},
-      			success:function(data){
-                    if(data > 0){	
-                    	$('#' + productNo).html('<i class="fa fa-heart"></i>');
-                    }
-                    else
-                    	$('#' + productNo).html('<i class="fa fa-heart-o"></i>');
-                    }
-      		});
+	event.stopPropagation();
+	/* console.log(event); */
+	$.ajax({
+		url:"${path}/product/selectWishYewon.do",
+		data: {"productNo":productNo},
+		success:function(data){
+        if(data > 0){	
+        	$('#' + productNo).html('<i class="fa fa-heart"></i>');
+        	$('#' + productNo).attr( "title" , "Remove to Wish List");
+        }
+        else
+        	$('#' + productNo).html('<i class="fa fa-heart-o"></i>');
+        $('#' + productNo).attr( "title" , "Add to Wish List");
+        }
+	});
+}
+
+function fn_wishLoginChk(){
+event.stopPropagation();
+alert('위시리스트 추가는 로그인이 필요합니다.');
 }
 </script>
 <script type="text/javascript">

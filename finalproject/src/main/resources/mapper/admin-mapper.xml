@@ -45,11 +45,11 @@
 		<result column="product_product_title" property="productTitle" />
 		<result column="product_brand_title"
 			property="productBrandTitle" />
-		<result column="product_enrolldate"
-			property="productEnrollDate" />
+		<result column="product_enrolldate"	property="productEnrollDate" />
 		<result column="product_enddate" property="productEndDate" />
 		<result column="product_no" property="productNo" />
 		<result column="product_state" property="productState" />
+		<result column="product_update" property="updateDate" />
 	</resultMap>
 
 	<resultMap type="viewmemberList" id="viewMemberListMap">
@@ -129,7 +129,7 @@
 	</update>
 
 	<!-- javaType="string" -->
-	<select id="selectPreProductList"
+	<select id="selectPreProductList" parameterType="map" 
 		resultMap="managePreProductMap">
 		select big_category.bc_title as "pre_product_bctitle",
 		small_category.sc_title as "pre_product_sctitle", brand.brand_title as
@@ -138,13 +138,20 @@
 		"pre_product_date", pre_product_no as "pre_product_no" from
 		pre_product join brand on (brand.brand_no = pre_product.brand_no) join
 		big_category on (pre_product.bc_no = big_category.bc_no) join
-		small_category on (pre_product.sc_no = small_category.sc_no) order by
-		pre_product_date desc
+		small_category on (pre_product.sc_no = small_category.sc_no) 
+		where pre_product.brand_no = #{brandNo}
+		and pre_product.sc_no = #{scNo}
+		and	pre_product.bc_no = #{bcNo}
+		order by pre_product_date desc
 	</select>
 
-	<select id="selectPreProductCount" resultType="_int">
+	<select id="selectPreProductCount" parameterType="map"  resultType="_int">
 		select count(*)
-		from pre_product order by pre_product_date desc
+		from pre_product 
+		where brand_no = #{brandNo}
+		and sc_no = #{scNo}
+		and	bc_no = #{bcNo}
+		order by pre_product_date desc
 	</select>
 
 	<update id="preProductStateUpdate" parameterType="map">
@@ -159,8 +166,7 @@
 		#{preProductNo}
 	</select>
 
-	<select id="selectProductList" parameterType="map"
-		resultMap="adminProductMap">
+	<select id="selectProductList" parameterType="map" resultMap="adminProductMap">
 		select
 		big_category.bc_title as "product_bc_title",
 		small_category.sc_title as
@@ -173,8 +179,8 @@
 		product.product_enddate as "product_enddate" ,
 		product.product_no as
 		"product_no" ,
-		product.product_state as
-		"product_state"
+		product.product_state as "product_state",
+		product.product_update as "product_update"		
 		from product join
 		big_category on
 		(big_category.bc_no =
@@ -187,11 +193,8 @@
 		product.sc_no)
 		where (product.product_state = 0 or product.product_state = 4)
 		and
-		product.brand_no = #{brandNo}
-		and product.bc_no = #{bcNo}
-		and
-		product.sc_no = #{scNo}
-		order by product_update desc
+		product.brand_no = #{brandNo} and product.bc_no = #{bcNo} and product.sc_no = #{scNo}
+		order by product.product_update desc
 	</select>
 
 	<select id="selectReProductList" parameterType="map" resultMap="adminProductMap">
@@ -205,8 +208,8 @@
 		as "product_enrolldate",
 		product.product_enddate as "product_enddate" ,
 		product.product_no as "product_no" ,
-		product.product_state as
-		"product_state"
+		product.product_state as "product_state",
+		product.product_update as "product_update"
 		from product join big_category on
 		(big_category.bc_no =
 		product.bc_no) join
@@ -219,7 +222,7 @@
 		and product.brand_no = #{brandNo}
 		and product.sc_no = #{scNo}
 		and	product.bc_no = #{bcNo}
-		order by product_update desc
+		order by product.product_update desc
 	</select>
 
 	<select id="selectProductCount" parameterType="map"
@@ -401,7 +404,7 @@
 	<update id="updateProduct" parameterType="map">
 		UPDATE product SET
 		product_price =#{productPrice},
-		product_update= TO_DATE(#{productEndDate}),
+		product_update= sysdate,
 		product_enddate=TO_DATE(#{productEndDate}),
 		product_min=TO_NUMBER(#{productMin}),
 		product_max=TO_NUMBER(#{productMax}),

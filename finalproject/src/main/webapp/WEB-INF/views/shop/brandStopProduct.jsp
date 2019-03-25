@@ -8,6 +8,11 @@
 <%@page import="java.util.*" %>
 
 <style>
+.img-shop-product
+{
+	height: 220px;
+}
+
 .img-stop-product
 {
 	opacity:0.5;
@@ -159,7 +164,7 @@ function deleteBrand()
 									<div class="product-thumb">
 										<div class="image product-imageblock">
 											<a href="${path }/shop/brandProductHome.do?productNo=${p.PRODUCT_NO}&brandNo=${brand.brandNo}"> 
-												<img class="img-stop-product" src="${path }/resources/image/stop_sale.png" style="text-align: center;" class="img-responsive" />
+												<img class="img-stop-product" src="${path }/resources/image/stop_sale.png" style="text-align: center;" class="img-responsive img-shop-product"/>
 											</a>
 										</div>
 										<div class="caption product-detail">

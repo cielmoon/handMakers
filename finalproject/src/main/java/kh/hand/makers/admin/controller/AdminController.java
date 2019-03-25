@@ -3,7 +3,6 @@ package kh.hand.makers.admin.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,19 +128,68 @@ public class AdminController {
 
 	// 입점 관리
 	@RequestMapping("/admin/managePreProduct.do")
-	public ModelAndView managePreProduct(
-			@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage) {
+	public ModelAndView managePreProduct(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage) {
 		int numPerPage = 5;
 		ModelAndView mv = new ModelAndView();
-		int contentCount = service.selectPreProductCount();
-		List<managePreProduct> preProductList = service.selectPreProductList(cPage, numPerPage);
+		
+		List<Brand> brandList = service.selectBrandList();
+		List<BigCategory> bcList = service.selectBcList();
+		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
+
+		Map<String, String> sortingProductList = new HashMap<String, String>();// state
+
+		sortingProductList.put("brandNo","B_NO_1");
+		sortingProductList.put("bcNo", "B_C_NO_1");
+		sortingProductList.put("scNo","S_C_NO_1");
+		
+		/*List<AdminProduct> adminProductList = service.selectProductList(sortingProductList);*/
+		List<managePreProduct> preProductList = service.selectPreProductList(cPage, numPerPage, sortingProductList);
+		int contentCount = service.selectPreProductCount(sortingProductList);
+	
+		mv.addObject("bcList", bcList);
+		mv.addObject("scList", scList);
+		mv.addObject("brandList", brandList);
+
 		mv.addObject("pageBar",
 				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/managePreProduct.do"));
 		mv.addObject("preProductList", preProductList);
 		mv.setViewName("admin/managePreProduct");
 		return mv;
+
 	}
 
+	@RequestMapping("/admin/selectPList.do")
+	@ResponseBody
+	public Map selectPList(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage
+			,String brandNo, String bcNo, String scNo) {
+		int numPerPage = 5;
+		/*ModelAndView mv = new ModelAndView();*/
+		
+
+		Map<String, String> sortingProductList = new HashMap<String, String>();// state
+
+		sortingProductList.put("brandNo", brandNo);
+		sortingProductList.put("bcNo",  bcNo);
+		sortingProductList.put("scNo", scNo);
+		
+		List<managePreProduct> preProductList = service.selectPreProductList(cPage, numPerPage, sortingProductList);
+
+		int contentCount = service.selectPreProductCount(sortingProductList);
+		logger.debug("현재 brandNo :"+brandNo);
+		logger.debug("현재 Productsize :"+contentCount);
+		
+		
+		Map map=new HashMap();
+		map.put("proc",preProductList);
+		map.put("page",PageFactory.getManageProductPageBar(contentCount, cPage, numPerPage, brandNo, bcNo, scNo, "/makers/admin/selectPList.do"));
+		/*map.put("page",PageFactory.getManageProductPageBar(contentCount, cPage, numPerPage, brandNo, bcNo, scNo, "/makers/admin/selectBList.do"));*/
+		/*mv.addObject("pageBar",
+				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/selectBrandProductList.do"));
+		mv.addObject("adProductList", adProductList);		
+		mv.setViewName("jsonView");*/
+		
+		return map;
+	}
 	@RequestMapping("/admin/changePreProductState.do")
 	public ModelAndView changePreProductState(String preProductNo) {
 
