@@ -139,15 +139,13 @@
 									</c:choose>								
 									<c:choose>
 										<c:when test="${o.orderState == '0' }">
-											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,1"><button class="tBtn">주문취소</button></a></td>					
+											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,2,${o.imp_uid}"><button class="tBtn">주문취소</button></a></td>					
 										</c:when>
 										<c:when test="${o.orderState == '1' }">
-											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,3"><button class="tBtn">구매확정</button></a></td>					
+											<td></td>					
 										</c:when>	
 										<c:when test="${o.orderState == '2' }">
-											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,3"><button class="tBtn">구매확정</button></a>
-											<a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,4"><button class="tBtn">반품요청</button></a>
-											<a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,6"><button class="tBtn">교환요청</button></a></td>					
+											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,3,${o.imp_uid}"><button class="tBtn">구매확정</button></a></td>					
 										</c:when>						
 									</c:choose>
 														

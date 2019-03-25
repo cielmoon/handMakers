@@ -49,6 +49,22 @@ $(function() {
 		$("#tab-question").attr('class', 'tab-pane');
 		$("#tab-sallerInfo").attr('class', 'tab-pane');
 	}
+	
+	$('#orderBtn').on('click',function(){
+		var stock = ${product.REMAININVENTORY};
+		var qty = $('input[name=productQty]').val();
+		var cursell = ${product.PRODUCT_CURSELL};
+		console.log(stock);
+		console.log(qty);
+		console.log(cursell);
+		if(stock < qty+cursell){
+			alert('남은 수량보다 더 주문해서 주문이 안됩니다.');
+			return false;
+		}else{
+			return true;
+		}
+		
+	});
 });
 
 function fn_sallerInfo() {
@@ -223,6 +239,7 @@ function fn_deleteQuestionComment(inputComment){
 	console.log(commentType);
 	location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo;
 }
+
 </script>
 
 <style>
@@ -278,15 +295,15 @@ function fn_deleteQuestionComment(inputComment){
         <!-- 상세 상품 사진 넣는 곳 시작 -->
         <div class="col-sm-6">       
           <div class="thumbnails">        
-            <div><a class="thumbnail" href="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="lorem ippsum dolor dummy"><img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>       
+            <div><a class="thumbnail" href="javascript:void(0)" title="상품 프로필 사진"><img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="상품 프로필 사진" alt="상품 프로필 사진" style="width:460px;height:484.531px;"/></a></div>       
             <div id="product-thumbnail" class="owl-carousel">          
               <div class="item">
-                <div class="image-additional"><a class="thumbnail  " href="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="lorem ippsum dolor dummy"> <img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
+                <div class="image-additional"><a class="thumbnail  " href="javascript:void(0)" title="상품 프로필사진"> <img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="상품 프로필 사진" alt="상품 프로필 사진" style="width:76px;height:80.141px;"/></a></div>
               </div>
               
               <c:forEach items="${productImg }" var="pi">
                  <div class="item">
-                   <div class="image-additional"><a class="thumbnail  " href="${path }/resources/image/product/${pi.productSubImg}" title="lorem ippsum dolor dummy"> <img src="${path }/resources/image/product/${pi.productSubImg}" title="lorem ippsum dolor dummy" alt="lorem ippsum dolor dummy" /></a></div>
+                   <div class="image-additional"><a class="thumbnail  " href="javascript:void(0)" title="상품 서브사진"> <img src="${path }/resources/image/product/${pi.productSubImg}" title="상품 서브 사진" alt="상품 서브 사진" style="width:76px;height:80.141px;"/></a></div>
                  </div>
               </c:forEach>
             </div>
@@ -340,10 +357,10 @@ function fn_deleteQuestionComment(inputComment){
           <ul class="list-unstyled productinfo-details-top">
             <li>
             <!-- 가격 -->
-              <h2 class="productpage-price">가격 : <fmt:formatNumber value="${product.PRODUCT_PRICE -(product.PRODUCT_PRICE*(product.PRODUCT_DISCOUNT div 100)) }" type="currency" currencySymbol="￦"/>원</h2>
+              <h2 class="productpage-price">가격 : <fmt:formatNumber value="${product.PRODUCT_PRICE -(product.PRODUCT_PRICE*(product.PRODUCT_DISCOUNT div 100)) }" type="currency" currencySymbol="￦"/></h2>
               <input type="hidden" name="productPrice" value="${product.PRODUCT_PRICE -(product.PRODUCT_PRICE*(product.PRODUCT_DISCOUNT/100)) }"/>
             </li>
-            <c:if test="${product.PRODUCT_STEP eq 0}">
+            <c:if test="${product.PRODUCT_STEP eq 0 and product.PRODUCT_DISCOUNT != 0}">
                <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
                <li><span class="productinfo-tax"><fmt:formatNumber value="${product.PRODUCT_DISCOUNT }" type="currency"/>%</span></li>
             </c:if>
@@ -359,10 +376,20 @@ function fn_deleteQuestionComment(inputComment){
               <span> ${product.PRODUCT_MAX }</span></li>
             <li>
               <label>현재 판매량 : </label>
-              <span> ${product.PRODUCT_CURSELL }</span></li>  
+              <span> ${product.PRODUCT_CURSELL }</span></li>
+            <li>
+              <label>남은 수량 : </label>
+              <span style="color:red"> ${product.REMAININVENTORY }</span></li>    
+            <%-- <li>
+            <span>${product.PRODUCT_CURSELL }</span>
+            <div class="progress1">
+          	<div class="dioprogress_radius dioprogress_size_l dioprogress_padding" style="background: 'rgb(230, 230, 230);'">
+          		<div class="dioprogress_radius dioprogress_size_l" style="background: rgb(0, 0, 0); width: 78%; opacity: 1;"></div>
+          	</div>
+          	</div></li> --%>
           </ul>
-          <hr/>
           
+          <hr/>
           <ul class="list-unstyled product_info">
             <li>
               <label>판매시작일:</label>
@@ -489,7 +516,7 @@ function fn_deleteQuestionComment(inputComment){
                                        <ul class="float-right">
                                        	<li>
                                        	  <c:if test="${member.memberAuthority eq 'M' }">
-                                       	  	<a href="javascript:void(0);" onclick="fn_reviewComment('${reviewComment['COMMENT_NO'] }Level1');"><i class="fas fa-pen" style="font-size: 15px;"></i></a> &nbsp;
+                                       	  	<a href="javascript:void(0);" onclick="fn_reviewComment('${reviewComment['COMMENT_NO'] }Level1');"><i class="fas fa-pen" style="font-size:15px;"></i></a> &nbsp;
                                           </c:if>
                                             <a href="javascript:void(0);" onclick="fn_deleteComment('inputNo-${reviewComment['COMMENT_NO'] }Level1');"><i class="fas fa-times" style="font-size: 18px;"></i></a>
                                         </li>
