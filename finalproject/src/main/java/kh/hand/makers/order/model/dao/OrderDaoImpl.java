@@ -59,6 +59,12 @@ public class OrderDaoImpl implements OrderDao {
 		
 		return session.selectOne("order.selectCategoryMap",productNo);
 	}
+
+	@Override
+	public int updateOrderState(Map<String, String> map) {
+		System.out.println("업데이트 하기 전 확인 하자~"+map);
+		return session.update("order.updateOrderState",map);
+	}
 	
 	
 
