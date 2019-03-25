@@ -200,7 +200,8 @@ public class AdminController {
 		sortingProductList.put("bcNo", "B_C_NO_1");
 		sortingProductList.put("scNo","S_C_NO_1");
 		
-		List<AdminProduct> adminProductList = service.selectProductList(sortingProductList);
+		/*List<AdminProduct> adminProductList = service.selectProductList(sortingProductList);*/
+		List<AdminProduct> adminProductList = service.selectProductList(cPage, numPerPage, sortingProductList);
 		int contentCount = service.selectProductCount(sortingProductList);
 		
 		mv.addObject("bcList", bcList);
@@ -219,7 +220,7 @@ public class AdminController {
 	public Map selectBList(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage
 			,String brandNo, String bcNo, String scNo) {
 		int numPerPage = 5;
-		ModelAndView mv = new ModelAndView();
+		/*ModelAndView mv = new ModelAndView();*/
 		
 
 		Map<String, String> sortingProductList = new HashMap<String, String>();// state
@@ -228,8 +229,9 @@ public class AdminController {
 		sortingProductList.put("bcNo",  bcNo);
 		sortingProductList.put("scNo", scNo);
 		
-		List<AdminProduct> adProductList = service.selectProductList(sortingProductList);
-		/*List<AdminProduct> adProductList = service.selectProductList(cPage, numPerPage, sortingProductList);*/
+		/*List<AdminProduct> adProductList = service.selectProductList(sortingProductList);*/
+		List<AdminProduct> adProductList = service.selectProductList(cPage, numPerPage, sortingProductList);
+		logger.debug("결과는 잘 나오니?"+adProductList);
 		int contentCount = service.selectProductCount(sortingProductList);
 		logger.debug("현재 brandNo :"+brandNo);
 		logger.debug("현재 Productsize :"+contentCount);
@@ -237,6 +239,7 @@ public class AdminController {
 		
 		Map map=new HashMap();
 		map.put("proc",adProductList);
+		map.put("page",PageFactory.getManageProductPageBar(contentCount, cPage, numPerPage, brandNo, bcNo, scNo, "/makers/admin/selectBList.do"));
 		/*map.put("page",PageFactory.getManageProductPageBar(contentCount, cPage, numPerPage, brandNo, bcNo, scNo, "/makers/admin/selectBList.do"));*/
 		/*mv.addObject("pageBar",
 				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/selectBrandProductList.do"));

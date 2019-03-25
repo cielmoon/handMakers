@@ -161,14 +161,14 @@ public class PageFactory {
 			if(pageNo==1)
 			{
 				pageBar+="<li class='page-item' disabled>";
-				pageBar+="<a class='page-link' href='#' tabindex='-1'>이전</a>";
+				pageBar+="<a class='page-link' href='#' tabindex='-1'>";
 				pageBar+="</li>";
 			}
 			else {
 				pageBar+="<li class='page-item'>";
 				pageBar+="<a class='page-link' "
 						+ "href='javascript:fn_paging("+(pageNo-1)+")'>"
-								+ "이전</a>";
+								+ "";
 				pageBar+="</li>";
 			}
 			
@@ -194,14 +194,14 @@ public class PageFactory {
 			if(pageNo>totalPage)
 			{
 				pageBar+="<li class='page-item' disabled>";
-				pageBar+="<a class='page-link' href='#'>다음</a>";
+				pageBar+="<a class='page-link' href='#'>";
 				pageBar+="</li>";
 			}
 			else {
 				pageBar+="<li class='page-item'>";
 				pageBar+="<a class='page-link' "
 						+ "href='javascript:fn_paging("+(pageNo)+")'>"
-								+ "다음</a>";
+								+ "";
 				pageBar+="</li>";
 			}
 			pageBar+="</ul>";
@@ -220,7 +220,7 @@ public class PageFactory {
 			
 		}
 		
-		/*public static String getManageProductPageBar(int totalCon, int cPage, int numPerPage, String url, String brandNo, String bcNo, String scNo)
+		public static String getManageProductPageBar(int totalCon, int cPage, int numPerPage, String brandNo, String bcNo, String scNo,String url)
 		{
 			String pageBar="";
 			int pageBarSize=5;
@@ -280,16 +280,14 @@ public class PageFactory {
 			}
 			pageBar+="</ul>";
 			
-			//paging처리 script작성
+			//paging처리 script작성				
 			pageBar+="<script>";
 			pageBar+="function fn_paging(cPage){";
-			if(type.equals("R")) pageBar+="location.href='"+url+"&rcPage='+cPage";
-			else pageBar+="location.href='"+url+"&qcPage='+cPage";
-			
+			pageBar+=" manageProductAjax(cPage);";
 			pageBar+="}";
 			pageBar+="</script>";
-					
+			
 			return pageBar;		
 		
-		}*/
+		}
 }

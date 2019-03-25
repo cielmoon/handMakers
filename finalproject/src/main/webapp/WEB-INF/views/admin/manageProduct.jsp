@@ -16,38 +16,16 @@
 $(function() {
 	$("#select-brand").change(function(){
 		/* brandNo를 찾아서 이걸 가져가서 상품들을 해당 브랜드로 페이징 처리  */
-		var brandNo = $("#select-brand").find(":selected").val();
-		var bcNo = $("#select-bigCategory").find(":selected").val();
-		var scNo = $("#select-smallCategory").find(":selected").val();
 		
-		console.log("brandNo :"+brandNo);
+		
+		/* console.log("brandNo :"+brandNo);
 		console.log("bcNo :"+bcNo);
-		console.log("scNo :"+scNo);
-		/* 빅카테고리, 소카테고리 리스트 초기화  */
-		$.ajax({
-			//${path}/admin/productEnrollB randSet.do
-			url:"${path}/admin/selectBList.do",
-			data:{"brandNo" : brandNo, "bcNo" : bcNo, "scNo" : scNo},
-			success:function(data){
-				$("#oriProductListTable").remove();
-				$("#tbl-board").remove();
-				console.log(data);
-				console.log(data.proc);
-				var tr1 = $('<tr><th>카테고리(대)</th><th>카테고리(소)</th><th>상품명</th><th>브랜드명</th><th>상품상태</th><th>등록날짜</th><th>마감날짜</th><th></th></tr>	');
-				var table = $('<table id="tbl-board" class="table table-striped table-hover"></table>');
-				table.append(tr1);
-				for(var i=0;i<data.proc.length;i++){
-					
-					/* console.log(data.adminProductList[i]); */
-					var tr2 = $("<tr><th>" + data.proc[i].productBcTitle + "</th><th>" + data.proc[i].productScTitle + "</th><th>" + data.proc[i].productTitle + "</th><th>" + data.proc[i].productBrandTitle + "</th><th>" + data.proc[i].productState + "</th><th>" + data.proc[i].productEnrollDate + "</th><th>" + data.proc[i].productEndDate + "</th><th></th></tr>");
-					table.append(tr2);
-				}
-				
-				$("#newProductListTable").append(table);
-				$("#newProductListTable").append(data.page);
-			}
-		});
+		console.log("scNo :"+scNo); */
+		
+		manageProductAjax(1);
 	});
+	
+	
 	
 	$("#select-bigCategory").change(function(){
 		var bcNo = $("#select-bigCategory").find(":selected").val();
@@ -71,6 +49,36 @@ $(function() {
 		});
 	});
 });
+
+function manageProductAjax(cPage) {
+	var brandNo = $("#select-brand").find(":selected").val();
+	var bcNo = $("#select-bigCategory").find(":selected").val();
+	var scNo = $("#select-smallCategory").find(":selected").val();
+	/* var productPageBar = $("#productPageBar").val(); */
+	console.log("cPage : " + cPage);
+	/* 빅카테고리, 소카테고리 리스트 초기화  */
+	$.ajax({
+		//${path}/admin/productEnrollB randSet.do
+		url:"${path}/admin/selectBList.do",
+		data:{"brandNo" : brandNo, "bcNo" : bcNo, "scNo" : scNo, "cPage": cPage},
+		success:function(data){
+			console.log(data);
+			console.log(data.proc);
+			var tr1 = $('<tr><th>카테고리(대)</th><th>카테고리(소)</th><th>상품명</th><th>브랜드명</th><th>상품상태</th><th>등록날짜</th><th>마감날짜</th><th></th></tr>	');
+			var table = $('<table id="tbl-board" class="table table-striped table-hover"></table>');
+			table.append(tr1);
+			for(var i=0;i<data.proc.length;i++){
+				
+				/* console.log(data.adminProductList[i]); */
+				var tr2 = $("<tr><th>" + data.proc[i].productBcTitle + "</th><th>" + data.proc[i].productScTitle + "</th><th>" + data.proc[i].productTitle + "</th><th>" + data.proc[i].productBrandTitle + "</th><th>" + data.proc[i].productState + "</th><th>" + data.proc[i].productEnrollDate + "</th><th>" + data.proc[i].productEndDate + "</th><th></th></tr>");
+				table.append(tr2);
+			}
+			
+			$("#oriProductListTable").html(table);
+			$("#pagingcontainer").html(data.page);
+		}
+	});
+}
 </script>
 
 <section>
@@ -165,12 +173,14 @@ $(function() {
 						
 							</c:forEach>
 						</table>
-						${pageBar }
-						</div>
-						<div class="col-sm-12" id="newProductListTable"></div>
 					</div>
+
    					<div class="col-sm-12">
-						<div class="col-sm-9"></div>
+						<div class="col-sm-9">	
+							<div id="pagingcontainer">
+								${pageBar }
+							</div>
+						</div>
 						<div class="col-sm-3">
 							<input type="button" class="btn btn-primary"
 								onclick='location.href="${path}/admin/enrollProduct.do"'
