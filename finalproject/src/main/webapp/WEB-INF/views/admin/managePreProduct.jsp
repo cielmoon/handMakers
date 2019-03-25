@@ -6,16 +6,38 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<%-- <jsp:param value="" name="pageTitle"/> --%>
 <script>
-
-$(function(){
+$(function() {
+	$("#select-brand").change(function(){
+		/* brandNo를 찾아서 이걸 가져가서 상품들을 해당 브랜드로 페이징 처리  */
+		
+		
+		/* console.log("brandNo :"+brandNo);
+		console.log("bcNo :"+bcNo);
+		console.log("scNo :"+scNo); */
+		
+		manageProductAjax(1);
+	});
+	
+	$("#select-smallCategory").change(function(){
+		/* brandNo를 찾아서 이걸 가져가서 상품들을 해당 브랜드로 페이징 처리  */
+		
+		
+		/* console.log("brandNo :"+brandNo);
+		console.log("bcNo :"+bcNo);
+		console.log("scNo :"+scNo); */
+		
+		manageProductAjax(1);
+	});
+	
 	$("#select-bigCategory").change(function(){
 		var bcNo = $("#select-bigCategory").find(":selected").val();
 		/* 소카테고리 리스트 초기화  */
 		$("#select-smallCategory")[0].options.length = 0;
+		
 		$.ajax({
-			url:"${path}/admin/managePreProduct.do",
+			//${path}/admin/productEnrollB randSet.do
+			url:"${path}/admin/productEnrollScSet.do",
 			data:{"bcNo" : bcNo},
 			success:function(data){
 				for(var i=0; i<data.scList.length; i++)
@@ -26,33 +48,57 @@ $(function(){
 				        text : data.scList[i]['scTitle']
 				    }));
 				}
-				//카테고리(소) 누르면 (소)를 가지고 있는 브랜드가 나옴
-				var scNo = $("#select-smallCategory").find(":selected").val();
-				/* 브랜드 리스트 초기화 */
-				$("#select-brand")[0].options.length = 0;
-				$.ajax({
-					url:"${path}/admin/managePreProduct.do",
-					data:{"scNo" : scNo},
-					success:function(data){
-						for(var i=0; i<data.brandList.length; i++)
-						{
-							$('#select-brand').append($('<option>',							{
-						        value: data.brandList[i]['brandNo'],
-						        text : data.brandList[i]['brandTitle']
-						    }));
-						}
-					}
-				});				
 				
+				manageProductAjax(1);
 				
-			}			
-			
+			}
 		});
-	});	
-
+	});
 });
-</script>
 
+function manageProductAjax(cPage) {
+	var brandNo = $("#select-brand").find(":selected").val();
+	var bcNo = $("#select-bigCategory").find(":selected").val();
+	var scNo = $("#select-smallCategory").find(":selected").val();
+	console.log("scNo:" + scNo);
+	var productState = "";
+	var today = new Date();
+	/* var productPageBar = $("#productPageBar").val(); */
+	console.log("cPage : " + cPage);
+	/* 빅카테고리, 소카테고리 리스트 초기화  */
+	$.ajax({
+		//${path}/admin/productEnrollB randSet.do
+		url:"${path}/admin/selectPList.do",
+		data:{"brandNo" : brandNo, "bcNo" : bcNo, "scNo" : scNo, "cPage": cPage},
+		success:function(data){
+			console.log(data);
+			console.log(data.proc);
+			var tr1 = $('<th>카테고리(대)</th><th>카테고리(소)</th><th>제안 상품명</th><th>브랜드명</th><th>입점상태</th><th>등록날짜</th><th>요청관리</th>');
+			var table = $('<table id="tbl-board" class="table table-striped table-hover"></table>');
+			table.append(tr1);
+			for(var i=0;i<data.proc.length;i++){
+				if(data.proc[i].productState == '0'){
+					productState = "정상판매";
+					var tr2 = $("<tr><th>" + data.proc[i].preProductBcTitle + "</th><th>" + data.proc[i].preProductScTitle + "</th><th>" + data.proc[i].productTitle + "</th><th>" + data.proc[i].productBrandTitle + 
+							"</th><th>" + productState + "</th><th>" + data.proc[i].updateDate + "</th><th>" + data.proc[i].productEndDate 
+							+ "</th><th></th></tr>");
+				}else if(data.proc[i].productState == '4'){
+					productState ="재등록요청";
+					var tr2 = $("<tr><th>" + data.proc[i].productBcTitle + "</th><th>" + data.proc[i].productScTitle + "</th><th>" + data.proc[i].productTitle + "</th><th>" + data.proc[i].productBrandTitle + 
+							"</th><th>" + productState + "</th><th>" + data.proc[i].updateDate + "</th><th>" + data.proc[i].productEndDate 
+							+ "</th><th><a href='${path}/admin/updateProductInfo.do?productNo='"+data.proc[i].productNo+"'><button class='btn btn-primary'>상품 재등록</button></a></th></tr>");
+				}
+				/* console.log(data.adminProductList[i]); */
+				
+				table.append(tr2);
+			}
+			
+			$("#oriProductListTable").html(table);
+			$("#pagingcontainer").html(data.page);
+		}
+	});
+}
+</script>
 
 
 <section>
@@ -84,33 +130,32 @@ $(function(){
 			<div class="col-sm-9" id="content">
 				<div class="row">
 					<div class="col-sm-12">
-						<label class="control-label">카테고리 *</label>
-<%-- 						<div class="row">
-							<div class="col-sm-6">
-								<select class="form-control" id="select-bigCategory" name="bcNo"
-									required>
-									<c:forEach items="${bcList }" var="b" varStatus="vs">
-										<option ${vs.count==1? "selected" : ""} value="${b.bcNo }">${b.bcTitle}</option>
-									</c:forEach>
-								</select>
-							</div>
+						<div class="col-sm-3">
+						<select class="form-control" id="select-brand" name="brandNo" required>
+							<c:forEach items="${brandList }" var="b" varStatus="vs">
+								<option ${vs.count==1? "selected" : ""} value="${b.brandNo }">${b.brandTitle}</option>
+							</c:forEach>
+						</select>
+						</div>			
+						<div class="col-sm-3">
+						<select class="form-control" id="select-bigCategory" name="bcNo" required>
+							<c:forEach items="${bcList }" var="b" varStatus="vs">
+								<option ${vs.count==1? "selected" : ""} value="${b.bcNo }">${b.bcTitle}</option>
+							</c:forEach>	
+						</select>
+						</div>
+						<div class="col-sm-3">
+						<select class="form-control" id="select-smallCategory" name="scNo" required>
+							<c:forEach items="${scList }" var="s" varStatus="vs">
+								<option ${vs.count==1? "selected" : ""} value="${s.scNo }">${s.scTitle}</option>
+							</c:forEach>
+						</select>
+						</div>
+						<div class="col-sm-3">
+						</div>
+					</div>
+					<div class="col-sm-12" id="oriProductListTable">
 
-							<div class="col-sm-6">
-								<select class="form-control" id="select-smallCategory" name="scNo" required>
-									<c:forEach items="${scList }" var="s" varStatus="vs">
-										<option ${vs.count==1? "selected" : ""} value="${s.scNo }">${s.scTitle}</option>
-									</c:forEach>
-								</select>
-							</div>
-							
-							<div class="col-sm-6">
-								<select class="form-control" id="select-brand" name="brandNo" required>
-									<c:forEach items="${brandList }" var="brand" varStatus="vs">
-										<option ${vs.count==1? "selected" : ""} value="${brand.brandNo }">${brand.brandTitle}</option>
-									</c:forEach>
-								</select>
-							</div>
-						</div> --%>
 						<table id='tbl-board' class='table table-striped table-hover'>
 							<tr>
 								<th>카테고리(대)</th>
@@ -153,51 +198,24 @@ $(function(){
 										</c:otherwise>
 									</c:choose>
 									
-<%-- 								<c:choose>
-										<c:when test="${b.brandState.toString() == '1' }">
-											<td>승인</td>
-										</c:when>
-										<c:when test="${b.brandState.toString() == '2' }">
-											<td>반려</td>
-										</c:when>
-										<c:otherwise>
-											<td>승인요청</td>
-										</c:otherwise>
-									</c:choose>
-
-									<td>${b.brandEnrollDate}</td>
-									<c:choose>
-										<c:when test="${b.brandState.toString() == '1' }">
-											<td><a
-												href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,0"><button
-														class="AgreeBtn">승인취소</button></a></td>
-										</c:when>
-										<c:when test="${b.brandState.toString() == '2' }">
-											<td><a
-												href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,0"><button
-														class="AgreeBtn">반려취소</button></a></td>
-										</c:when>
-										<c:otherwise>
-											<td><a
-												href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,1"><button
-														class="AgreeBtn">승인</button></a> <a
-												href="${path}/admin/changeBrandState.do?brandNo=${b.brandNo}+,2"><button
-														class="AgreeBtn">반려</button></a></td>
-										</c:otherwise>
-									</c:choose> --%>
 								</tr>
 							</c:forEach>
 						</table>
-						${pageBar }
+						
 					</div>
-					<%-- 					<div class="col-sm-12">
-						<div class="col-sm-9"></div>
+					<div class="col-sm-12">
+						<div class="col-sm-9">	
+							<div id="pagingcontainer">
+								${pageBar }
+							</div>
+						</div>
 						<div class="col-sm-3">
 							<input type="button" class="btn btn-primary"
 								onclick='location.href="${path}/admin/enrollProduct.do"'
 								value="상품등록" />
 						</div>
-					</div> --%>
+					</div>
+
 				</div>
 			</div>
 

@@ -86,19 +86,15 @@ function manageProductAjax(cPage) {
 				if(data.proc[i].productState == '0'){
 					productState = "정상판매";
 					var tr2 = $("<tr><th>" + data.proc[i].productBcTitle + "</th><th>" + data.proc[i].productScTitle + "</th><th>" + data.proc[i].productTitle + "</th><th>" + data.proc[i].productBrandTitle + 
-							"</th><th>" + productState + "</th><th>" + data.proc[i].productEnrollDate + "</th><th>" + data.proc[i].productEndDate 
+							"</th><th>" + productState + "</th><th>" + data.proc[i].updateDate + "</th><th>" + data.proc[i].productEndDate 
 							+ "</th><th></th></tr>");
 				}else if(data.proc[i].productState == '4'){
 					productState ="재등록요청";
 					var tr2 = $("<tr><th>" + data.proc[i].productBcTitle + "</th><th>" + data.proc[i].productScTitle + "</th><th>" + data.proc[i].productTitle + "</th><th>" + data.proc[i].productBrandTitle + 
-							"</th><th>" + productState + "</th><th>" + data.proc[i].productEnrollDate + "</th><th>" + data.proc[i].productEndDate 
+							"</th><th>" + productState + "</th><th>" + data.proc[i].updateDate + "</th><th>" + data.proc[i].productEndDate 
 							+ "</th><th><a href='${path}/admin/updateProductInfo.do?productNo='"+data.proc[i].productNo+"'><button class='btn btn-primary'>상품 재등록</button></a></th></tr>");
 				}
 				/* console.log(data.adminProductList[i]); */
-				
-				
-				console.log("타입뭐야 " + data.proc[i].productEnrollDate);
-				console.log("타입뭐야2 " + typeof(data.proc[i].productEnrollDate));
 				
 				table.append(tr2);
 			}
@@ -188,7 +184,7 @@ function manageProductAjax(cPage) {
 											<td>재등록요청</td>	
 										</c:when>
 									</c:choose>																
-									<td>${a.productEnrollDate }</td>	
+									<td>${a.updateDate }</td>	
 									<td>${a.productEndDate }</td>
 									<c:choose>
 										<c:when test="${a.productState == '4' }">

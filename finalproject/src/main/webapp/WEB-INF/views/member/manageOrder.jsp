@@ -19,7 +19,23 @@
 	color:black;
 }
 </style>
+<script>
+$(function() {
+	
+	$(function() {
+		$("#orderTrackingNo").click(function() {			
+			var trackingNo = $('#orderTrackingNo').val();
+			console.log("현재 No: "+trackingNo);
+			
+			
+		}
+			
 
+	});	
+
+
+});
+</script>
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
@@ -108,45 +124,37 @@
 											<td>배송중</td>					
 										</c:when>	
 										<c:when test="${o.orderState == '2' }">
-											<td>배송완료</td>					
+											<td>배송불가능</td>					
 										</c:when>						
 									</c:choose>									
 									<c:choose>
 										<c:when test="${o.orderPayState == '0' }">
 											<td>결제완료</td>					
-										</c:when>
-										<c:when test="${o.orderPayState == '1' }">
-											<td>결제취소요청</td>					
-										</c:when>	
+										</c:when>									
 										<c:when test="${o.orderPayState == '2' }">
 											<td>결제취소완료</td>					
 										</c:when>
 										<c:when test="${o.orderPayState == '3' }">
 											<td>구매확정</td>					
 										</c:when>
-										<c:when test="${o.orderPayState == '4' }">
-											<td>반품요청</td>					
-										</c:when>	
-										<c:when test="${o.orderPayState == '5' }">
-											<td>반품완료</td>					
-										</c:when>
-										<c:when test="${o.orderPayState == '6' }">
-											<td>교환요청</td>					
-										</c:when>	
-										<c:when test="${o.orderPayState == '7' }">
-											<td>교환완료</td>					
-										</c:when>							
+										<c:otherwise>
+											<td></td>
+										</c:otherwise>	
 									</c:choose>								
 									<c:choose>
 										<c:when test="${o.orderState == '0' }">
 											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,2,${o.imp_uid}"><button class="tBtn">주문취소</button></a></td>					
 										</c:when>
-										<c:when test="${o.orderState == '1' }">
-											<td></td>					
-										</c:when>	
 										<c:when test="${o.orderState == '2' }">
-											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,3,${o.imp_uid}"><button class="tBtn">구매확정</button></a></td>					
-										</c:when>						
+											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,2,${o.imp_uid}"><button class="tBtn">환불요청</button></a></td>					
+										</c:when>	
+										<c:when test="${o.orderState == '1' }">
+											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,3,${o.imp_uid}"><button class="tBtn">구매확정</button></a>
+											<a href="#" value="${o.orderTrackingNo}" id='orderTrackingNo' data-toggle="modal" data-target="#findNumberModal">운송장확인</a></td>					
+										</c:when>
+										<c:otherwise>
+											<td></td>
+										</c:otherwise>						
 									</c:choose>
 														
 								</tr>
@@ -160,5 +168,30 @@
 			</div>
 		</div>
 	</div>
+	
+	   <div class="modal fade" tabindex="-1" role="dialog" id="#findNumberModal">
+           <div class="modal-dialog">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                 </button>
+                 <h4 class="modal-title" id="modalTitle" style="display: inline;">운송장 번호</h4>
+               </div>
+               <div class="modal-body">
+                  <div class="row">
+                    <div class="form-group">
+                   		<div class="col-sm-3"></div>	
+						<div class="col-sm-6">
+							<h2>${o.orderTrackingNo}</h2>
+						</div>
+						<div class="col-sm-3">							
+						</div>						
+					</div>	
+                 </div>
+              </div>     
+             </div>
+           </div>
+         </div>
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
