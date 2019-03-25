@@ -45,6 +45,9 @@
 	width:800px;
 	height:600px;
 }
+.modal-backdrop, .modal-backdrop.in{
+     z-index: -1;
+}/* add yewon summer note modal blank fix */
 </style>
 
 <script>
