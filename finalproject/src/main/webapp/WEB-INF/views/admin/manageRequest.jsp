@@ -17,6 +17,149 @@
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <%-- <jsp:param value="" name="pageTitle"/> --%>
+
+<script>
+$(function() {
+	$("#select-brand").click(function(){
+		
+		manageRequestAjaxBrand(1);
+	});
+	
+	$("#select-product").click(function(){
+			
+		manageRequestAjaxProduct(1);
+	});
+
+});
+
+
+function manageRequestAjaxBrand(cPage) {
+
+	var state = "B";
+	var sellerReqState = "";
+	var sellerReqProcess = "";
+	
+	$.ajax({
+		url:"${path}/admin/manageRequestBrand.do",
+		data:{"state" : state, "cPage": cPage},
+		success:function(data){							
+
+			var tr1 = $('<tr><th>요청번호</th><th>브랜드관련문의</th><th>요청제목</th><th>발신자</th><th>요청상태</th><th>처리상태</th><th>요청일</th><th></th></tr>');
+			var table = $('<table id="tbl-board" class="table table-striped table-hover"></table>');
+			table.append(tr1);
+			for(var i=0;i<data.proc.length;i++){
+				if(data.proc[i].sellerReqState == 'd'){
+					sellerReqState = '폐점신고요청';
+				}else if(data.proc[i].sellerReqState == 'e'){
+					sellerReqState = '폐점완료';
+				}else if(data.proc[i].sellerReqState == 'f'){
+					sellerReqState = '폐점반려';
+				}
+				if(data.proc[i].sellerReqProcess == '0'){
+					sellerReqProcess = '처리중';
+					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].sellerReqRef + "</td><td>" + 
+							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
+							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
+							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>"
+							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+ data.proc[i].sellerReqNo +",1,e,"+ data.proc[i].sellerReqType +","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>수락</button></a>" 
+							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+data.proc[i].sellerReqNo+",2,f,"+data.proc[i].sellerReqType+","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>반려</button></a></td>"+"</td></tr>");
+					
+				}else if(data.proc[i].sellerReqProcess == '1'){
+					sellerReqProcess = '수락';
+					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].sellerReqRef + "</td><td>" + 
+							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
+							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
+							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>" + "</td></tr>");
+				}else if(data.proc[i].sellerReqProcess == '2'){
+					sellerReqProcess = '반려';
+					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].sellerReqRef + "</td><td>" + 
+							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
+							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
+							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>" + "</td></tr>");
+				}
+						
+			
+				table.append(tr2);
+			
+			}
+			
+			$("#oriProductListTable").html(table);
+			$("#pagingcontainer").html(data.page);
+		}
+	});
+}
+
+function manageRequestAjaxProduct(cPage) {
+
+	var state = "P";
+	var sellerReqState = "";
+	var sellerReqProcess = "";
+	
+	$.ajax({
+		url:"${path}/admin/manageRequestProduct.do",
+		data:{"state" : state, "cPage": cPage},
+		success:function(data){							
+
+			var tr1 = $('<tr><th>요청번호</th><th>상품관련문의</th><th>요청제목</th><th>발신자</th><th>요청상태</th><th>처리상태</th><th>요청일</th><th></th></tr>');
+			var table = $('<table id="tbl-board" class="table table-striped table-hover"></table>');
+			table.append(tr1);
+			for(var i=0;i<data.proc.length;i++){
+				if(data.proc[i].sellerReqState == '4'){
+					sellerReqState = '재판매요청';
+				}else if(data.proc[i].sellerReqState == '0'){
+					sellerReqState = '정상등록';
+				}else if(data.proc[i].sellerReqState == '1'){
+					sellerReqState = '판매중단요청';
+				}else if(data.proc[i].sellerReqState == '2'){
+					sellerReqState = '판매중지';
+				}else if(data.proc[i].sellerReqState == '3'){
+					sellerReqState = '판매종료';
+				}
+				
+				if(data.proc[i].sellerReqProcess == '0'){
+					sellerReqProcess = '처리중';					
+					
+				}else if(data.proc[i].sellerReqProcess == '1'){
+					sellerReqProcess = '수락';
+				}else if(data.proc[i].sellerReqProcess == '2'){
+					sellerReqProcess = '반려';
+				}
+
+				
+				if(data.proc[i].sellerReqProcess == '0' && data.proc[i].sellerReqState == '4'){
+					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].sellerReqRef + "</td><td>" 					
+							+ "<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>" +"</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
+							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>"
+							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+ data.proc[i].sellerReqNo +",1,0,"+ data.proc[i].sellerReqType +","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>수락</button></a>" 
+							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+data.proc[i].sellerReqNo+",2,2,"+data.proc[i].sellerReqType+","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>반려</button></a></td>"+"</td></tr>");
+				
+				}else if (data.proc[i].sellerReqProcess == '0' && data.proc[i].sellerReqState == '1'){
+					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].sellerReqRef + "</td><td>" + 
+							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
+							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
+							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>" 
+							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+ data.proc[i].sellerReqNo +",1,3,"+ data.proc[i].sellerReqType +","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>수락</button></a>" 
+							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+data.proc[i].sellerReqNo+",2,0,"+data.proc[i].sellerReqType+","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>반려</button></a></td>"+"</td></tr>");
+				
+				}else{
+					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].sellerReqRef + "</td><td>" + 
+							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
+							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
+							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>" + "</td></tr>");
+				}
+	
+							
+				table.append(tr2);
+			}
+			
+			$("#oriProductListTable").html(table);
+			$("#pagingcontainer").html(data.page);
+		}
+	});
+}
+</script>
+
+
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
@@ -46,12 +189,13 @@
 			<div class="col-sm-9" id="content">
 				<div class="row">
 					<div class="col-sm-12">	
-						<input type="button" class="btn btn-primary" id="srBtn" onclick='location.href="${path}/admin/manageRequest.do?sellerReqState="+"B"' value="브랜드" />		
-						<input type="button" class="btn btn-primary" id="srBtn" onclick='location.href="${path}/admin/manageRequest.do?sellerReqState="+"P"' value="상품" />			
+						<input type="button" class="btn btn-primary" id="select-brand" value="브랜드" />		
+						<input type="button" class="btn btn-primary" id="select-product" value="상품" />			
+						<div class="col-sm-12" id="oriProductListTable" >
 						<table id='tbl-board' class='table table-striped table-hover'>
 							<tr>
 								<th>요청번호</th>
-								<th>요청(브랜드/상품)</th>
+								<th>브랜드관련문의</th>
 								<th>요청제목</th>
 								<th>발신자</th>								
 								<th>요청상태</th>
@@ -65,7 +209,7 @@
 									<c:when test="${r.sellerReqType == 'B' }">
 										<td>${r.sellerReqNo }</td>
 										<td>${r.sellerReqRef }</td>
-										<td>${r.sellerReqTitle }</td>
+										<td><a href="${path}/admin/checkReq.do?sellerReqNo=${r.sellerReqNo }">${r.sellerReqTitle }</a></td>
 										<td>${r.memberId }</td>
 										<c:choose>
 											<c:when test="${r.sellerReqState == 'd' }">
@@ -97,7 +241,7 @@
 											</c:when>						
 										</c:choose>										
 									</c:when>
-									<c:when test="${r.sellerReqType == 'P' }">
+									<%-- <c:when test="${r.sellerReqType == 'P' }">
 										<td>${r.sellerReqNo }</td>
 										<td>${r.sellerReqRef }</td>
 										<td>${r.sellerReqTitle }</td>
@@ -146,23 +290,24 @@
 											<td></td>
 											</c:otherwise>								
 										</c:choose>								
-									</c:when>
-								
+									</c:when>								 --%>
 								</c:choose>		
 
 								</tr>
 							</c:forEach>
 						</table>
-						${pageBar }
-					</div>
-<%-- 					<div class="col-sm-12">
-						<div class="col-sm-9"></div>
-						<div class="col-sm-3">
-							<input type="button" class="btn btn-primary"
-								onclick='location.href="${path}/admin/enrollProduct.do"'
-								value="상품등록" />
 						</div>
-					</div> --%>
+						<div class="col-sm-12">
+						<div class="col-sm-9">	
+							<div id="pagingcontainer">
+								${pageBar }
+							</div>
+						</div>
+						<div class="col-sm-3">						
+						</div>
+					</div>
+					</div>
+
 				</div>
 			</div>
 			

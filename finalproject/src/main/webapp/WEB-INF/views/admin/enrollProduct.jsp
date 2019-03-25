@@ -17,15 +17,6 @@
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
 
-<!-- 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.css" rel="stylesheet">
-<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.js"></script>
- -->
-
-<!-- <script src="http://jonthornton.github.io/Datepair.js/dist/datepair.js"></script>
-<script src="http://jonthornton.github.io/Datepair.js/dist/jquery.datepair.js"></script> -->
 <style>
 #select-brand, #select-bigcategory, #select-smallcategory {
 	margin-bottom: 10px;
