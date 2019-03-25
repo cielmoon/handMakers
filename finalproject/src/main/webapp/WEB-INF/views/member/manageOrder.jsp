@@ -139,7 +139,7 @@
 									</c:choose>								
 									<c:choose>
 										<c:when test="${o.orderState == '0' }">
-											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,2,${o.imp_uid}"><button class="tBtn">주문취소</button></a></td>					
+											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,2,${o.imp_uid},${o.productNo},${o.productOptionQty}"><button class="tBtn">주문취소</button></a></td>					
 										</c:when>
 										<c:when test="${o.orderState == '1' }">
 											<td></td>					

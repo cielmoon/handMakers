@@ -249,6 +249,12 @@ public class ProductDaoImpl implements ProductDao {
 		return session.selectOne("product.selectTotalScore",productNo);
 	}
 
+	@Override
+	public int updateProductMinus(Map<String, Object> productMap) {
+		
+		return session.update("product.updateProductMinus",productMap);
+	}
+
 	
 
 	

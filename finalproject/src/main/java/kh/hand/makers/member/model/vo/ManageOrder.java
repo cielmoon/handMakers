@@ -18,13 +18,15 @@ public class ManageOrder implements Serializable {
 	private String orderState; //배송상태
 	private String orderPayState; //주문상태
 	private String imp_uid; //고유 번호
+	private String productNo;//상품 번호
 	
 	public ManageOrder() {
 		
 	}
 
 	public ManageOrder(String orderNo, String productName, String productOption, int productOptionQty,
-			int orderTotalPrice, Date orderDate, String orderState, String orderPayState, String imp_uid) {
+			int orderTotalPrice, Date orderDate, String orderState, String orderPayState, String imp_uid,
+			String productNo) {
 		super();
 		this.orderNo = orderNo;
 		this.productName = productName;
@@ -35,6 +37,7 @@ public class ManageOrder implements Serializable {
 		this.orderState = orderState;
 		this.orderPayState = orderPayState;
 		this.imp_uid = imp_uid;
+		this.productNo = productNo;
 	}
 
 	public String getOrderNo() {
@@ -109,6 +112,14 @@ public class ManageOrder implements Serializable {
 		this.imp_uid = imp_uid;
 	}
 
+	public String getProductNo() {
+		return productNo;
+	}
+
+	public void setProductNo(String productNo) {
+		this.productNo = productNo;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -118,8 +129,7 @@ public class ManageOrder implements Serializable {
 		return "ManageOrder [orderNo=" + orderNo + ", productName=" + productName + ", productOption=" + productOption
 				+ ", productOptionQty=" + productOptionQty + ", orderTotalPrice=" + orderTotalPrice + ", orderDate="
 				+ orderDate + ", orderState=" + orderState + ", orderPayState=" + orderPayState + ", imp_uid=" + imp_uid
-				+ "]";
+				+ ", productNo=" + productNo + "]";
 	}
-
 	
 }
