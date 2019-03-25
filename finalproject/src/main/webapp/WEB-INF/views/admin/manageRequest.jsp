@@ -44,7 +44,7 @@ function manageRequestAjaxBrand(cPage) {
 		data:{"state" : state, "cPage": cPage},
 		success:function(data){							
 
-			var tr1 = $('<tr><th>요청번호</th><th>브랜드관련문의</th><th>요청제목</th><th>발신자</th><th>요청상태</th><th>처리상태</th><th>요청일</th><th></th></tr>');
+			var tr1 = $('<tr><th>요청번호</th><th>브랜드명</th><th>요청제목</th><th>발신자</th><th>요청상태</th><th>처리상태</th><th>요청일</th><th></th></tr>');
 			var table = $('<table id="tbl-board" class="table table-striped table-hover"></table>');
 			table.append(tr1);
 			for(var i=0;i<data.proc.length;i++){
@@ -57,7 +57,7 @@ function manageRequestAjaxBrand(cPage) {
 				}
 				if(data.proc[i].sellerReqProcess == '0'){
 					sellerReqProcess = '처리중';
-					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].sellerReqRef + "</td><td>" + 
+					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" + 
 							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
 							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
 							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>"
@@ -66,13 +66,13 @@ function manageRequestAjaxBrand(cPage) {
 					
 				}else if(data.proc[i].sellerReqProcess == '1'){
 					sellerReqProcess = '수락';
-					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].sellerReqRef + "</td><td>" + 
+					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" + 
 							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
 							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
 							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>" + "</td></tr>");
 				}else if(data.proc[i].sellerReqProcess == '2'){
 					sellerReqProcess = '반려';
-					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].sellerReqRef + "</td><td>" + 
+					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" + 
 							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
 							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
 							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>" + "</td></tr>");
@@ -100,7 +100,7 @@ function manageRequestAjaxProduct(cPage) {
 		data:{"state" : state, "cPage": cPage},
 		success:function(data){							
 
-			var tr1 = $('<tr><th>요청번호</th><th>상품관련문의</th><th>요청제목</th><th>발신자</th><th>요청상태</th><th>처리상태</th><th>요청일</th><th></th></tr>');
+			var tr1 = $('<tr><th>요청번호</th><th>상품명</th><th>요청제목</th><th>발신자</th><th>요청상태</th><th>처리상태</th><th>요청일</th><th></th></tr>');
 			var table = $('<table id="tbl-board" class="table table-striped table-hover"></table>');
 			table.append(tr1);
 			for(var i=0;i<data.proc.length;i++){
@@ -127,14 +127,14 @@ function manageRequestAjaxProduct(cPage) {
 
 				
 				if(data.proc[i].sellerReqProcess == '0' && data.proc[i].sellerReqState == '4'){
-					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].sellerReqRef + "</td><td>" 					
+					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" 					
 							+ "<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>" +"</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
 							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>"
 							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+ data.proc[i].sellerReqNo +",1,0,"+ data.proc[i].sellerReqType +","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>수락</button></a>" 
 							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+data.proc[i].sellerReqNo+",2,2,"+data.proc[i].sellerReqType+","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>반려</button></a></td>"+"</td></tr>");
 				
 				}else if (data.proc[i].sellerReqProcess == '0' && data.proc[i].sellerReqState == '1'){
-					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].sellerReqRef + "</td><td>" + 
+					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" + 
 							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
 							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
 							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>" 
@@ -142,7 +142,7 @@ function manageRequestAjaxProduct(cPage) {
 							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+data.proc[i].sellerReqNo+",2,0,"+data.proc[i].sellerReqType+","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>반려</button></a></td>"+"</td></tr>");
 				
 				}else{
-					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].sellerReqRef + "</td><td>" + 
+					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" + 
 							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
 							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
 							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>" + "</td></tr>");
@@ -195,7 +195,7 @@ function manageRequestAjaxProduct(cPage) {
 						<table id='tbl-board' class='table table-striped table-hover'>
 							<tr>
 								<th>요청번호</th>
-								<th>브랜드관련문의</th>
+								<th>브랜드명</th>
 								<th>요청제목</th>
 								<th>발신자</th>								
 								<th>요청상태</th>
@@ -208,7 +208,7 @@ function manageRequestAjaxProduct(cPage) {
 								<c:choose>
 									<c:when test="${r.sellerReqType == 'B' }">
 										<td>${r.sellerReqNo }</td>
-										<td>${r.sellerReqRef }</td>
+										<td>${r.refName }</td>
 										<td><a href="${path}/admin/checkReq.do?sellerReqNo=${r.sellerReqNo }">${r.sellerReqTitle }</a></td>
 										<td>${r.memberId }</td>
 										<c:choose>

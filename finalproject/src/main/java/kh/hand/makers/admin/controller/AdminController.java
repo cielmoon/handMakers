@@ -610,10 +610,10 @@ public class AdminController {
 		int contentCount = service.selectRequestCount(getsReqState());
 		List<SellerRequest> requestList = service.selectRequestList(getsReqState(), cPage, numPerPage);
 		for (SellerRequest sellerRequest : requestList) {
-			if (sellerRequest.equals("B")) {
+			if (sellerRequest.getSellerReqType().equals("B")) {
 				String reqBrandName = service.selectBrandName(sellerRequest.getSellerReqRef());
 				sellerRequest.setRefName(reqBrandName);
-			} else if (sellerRequest.equals("P")) {
+			} else if (sellerRequest.getSellerReqType().equals("P")) {
 				String reqProductName = service.selectProductName(sellerRequest.getSellerReqRef());
 				sellerRequest.setRefName(reqProductName);
 			}
@@ -634,9 +634,12 @@ public class AdminController {
 		int numPerPage = 5;
 
 		List<SellerRequest> selectRequestList = service.selectRequestStateList(cPage, numPerPage, state);
-
 		int contentCount = service.selectRequestStateListCount(state);
+		for (SellerRequest sellerRequest : selectRequestList) {
+			String reqBrandName = service.selectBrandName(sellerRequest.getSellerReqRef());
+			sellerRequest.setRefName(reqBrandName);
 
+		}
 		Map map = new HashMap();
 		map.put("proc", selectRequestList);
 		map.put("page", PageFactory.getManageRequestBrandPageBar(contentCount, cPage, numPerPage, state,
@@ -652,9 +655,12 @@ public class AdminController {
 		int numPerPage = 5;
 
 		List<SellerRequest> selectRequestList = service.selectRequestStateList(cPage, numPerPage, state);
-
 		int contentCount = service.selectRequestStateListCount(state);
+		for (SellerRequest sellerRequest : selectRequestList) {
+			String reqProductName = service.selectProductName(sellerRequest.getSellerReqRef());
+			sellerRequest.setRefName(reqProductName);
 
+		}
 		Map map = new HashMap();
 		map.put("proc", selectRequestList);
 		map.put("page", PageFactory.getManageRequestProductPageBar(contentCount, cPage, numPerPage, state,
@@ -772,7 +778,14 @@ public class AdminController {
 	public ModelAndView checkReq(String sellerReqNo) {	
 		ModelAndView mv = new ModelAndView();
 		SellerRequest sellerReq =  service.selectSellerRequest(sellerReqNo);
-		
+		if (sellerReq.getSellerReqType().equals("B")) {
+			String reqBrandName = service.selectBrandName(sellerReq.getSellerReqRef());
+			sellerReq.setRefName(reqBrandName);
+		} else if (sellerReq.getSellerReqType().equals("P")) {
+			String reqProductName = service.selectProductName(sellerReq.getSellerReqRef());
+			sellerReq.setRefName(reqProductName);
+		}
+		System.out.println(sellerReq);
 		mv.addObject("sellerReq", sellerReq);
 		mv.setViewName("admin/sellerReqInfo");
 

@@ -17,12 +17,129 @@ public class SellerRequest implements Serializable{
 	private String sellerReqContent;
 	private Date sellerReqDate;
 	private String sellerReqProcess;
-	private String RefName;
+	private String refName;
 	private String memberId;
+
 	
 	public SellerRequest() {
 		
 	}
+
+
+	public String getSellerReqNo() {
+		return sellerReqNo;
+	}
+
+
+	public void setSellerReqNo(String sellerReqNo) {
+		this.sellerReqNo = sellerReqNo;
+	}
+
+
+	public String getMemberNo() {
+		return memberNo;
+	}
+
+
+	public void setMemberNo(String memberNo) {
+		this.memberNo = memberNo;
+	}
+
+
+	public String getSellerReqRef() {
+		return sellerReqRef;
+	}
+
+
+	public void setSellerReqRef(String sellerReqRef) {
+		this.sellerReqRef = sellerReqRef;
+	}
+
+
+	public String getSellerReqType() {
+		return sellerReqType;
+	}
+
+
+	public void setSellerReqType(String sellerReqType) {
+		this.sellerReqType = sellerReqType;
+	}
+
+
+	public String getSellerReqState() {
+		return sellerReqState;
+	}
+
+
+	public void setSellerReqState(String sellerReqState) {
+		this.sellerReqState = sellerReqState;
+	}
+
+
+	public String getSellerReqTitle() {
+		return sellerReqTitle;
+	}
+
+
+	public void setSellerReqTitle(String sellerReqTitle) {
+		this.sellerReqTitle = sellerReqTitle;
+	}
+
+
+	public String getSellerReqContent() {
+		return sellerReqContent;
+	}
+
+
+	public void setSellerReqContent(String sellerReqContent) {
+		this.sellerReqContent = sellerReqContent;
+	}
+
+
+	public Date getSellerReqDate() {
+		return sellerReqDate;
+	}
+
+
+	public void setSellerReqDate(Date sellerReqDate) {
+		this.sellerReqDate = sellerReqDate;
+	}
+
+
+	public String getSellerReqProcess() {
+		return sellerReqProcess;
+	}
+
+
+	public void setSellerReqProcess(String sellerReqProcess) {
+		this.sellerReqProcess = sellerReqProcess;
+	}
+
+
+	public String getRefName() {
+		return refName;
+	}
+
+
+	public void setRefName(String refName) {
+		this.refName = refName;
+	}
+
+
+	public String getMemberId() {
+		return memberId;
+	}
+
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 
 	public SellerRequest(String sellerReqNo, String memberNo, String sellerReqRef, String sellerReqType,
 			String sellerReqState, String sellerReqTitle, String sellerReqContent, Date sellerReqDate,
@@ -37,110 +154,18 @@ public class SellerRequest implements Serializable{
 		this.sellerReqContent = sellerReqContent;
 		this.sellerReqDate = sellerReqDate;
 		this.sellerReqProcess = sellerReqProcess;
-		RefName = refName;
+		this.refName = refName;
 		this.memberId = memberId;
 	}
 
-	public String getSellerReqNo() {
-		return sellerReqNo;
-	}
-
-	public void setSellerReqNo(String sellerReqNo) {
-		this.sellerReqNo = sellerReqNo;
-	}
-
-	public String getMemberNo() {
-		return memberNo;
-	}
-
-	public void setMemberNo(String memberNo) {
-		this.memberNo = memberNo;
-	}
-
-	public String getSellerReqRef() {
-		return sellerReqRef;
-	}
-
-	public void setSellerReqRef(String sellerReqRef) {
-		this.sellerReqRef = sellerReqRef;
-	}
-
-	public String getSellerReqType() {
-		return sellerReqType;
-	}
-
-	public void setSellerReqType(String sellerReqType) {
-		this.sellerReqType = sellerReqType;
-	}
-
-	public String getSellerReqState() {
-		return sellerReqState;
-	}
-
-	public void setSellerReqState(String sellerReqState) {
-		this.sellerReqState = sellerReqState;
-	}
-
-	public String getSellerReqTitle() {
-		return sellerReqTitle;
-	}
-
-	public void setSellerReqTitle(String sellerReqTitle) {
-		this.sellerReqTitle = sellerReqTitle;
-	}
-
-	public String getSellerReqContent() {
-		return sellerReqContent;
-	}
-
-	public void setSellerReqContent(String sellerReqContent) {
-		this.sellerReqContent = sellerReqContent;
-	}
-
-	public Date getSellerReqDate() {
-		return sellerReqDate;
-	}
-
-	public void setSellerReqDate(Date sellerReqDate) {
-		this.sellerReqDate = sellerReqDate;
-	}
-
-	public String getSellerReqProcess() {
-		return sellerReqProcess;
-	}
-
-	public void setSellerReqProcess(String sellerReqProcess) {
-		this.sellerReqProcess = sellerReqProcess;
-	}
-
-	public String getRefName() {
-		return RefName;
-	}
-
-	public void setRefName(String refName) {
-		RefName = refName;
-	}
-
-	public String getMemberId() {
-		return memberId;
-	}
-
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 	@Override
 	public String toString() {
 		return "SellerRequest [sellerReqNo=" + sellerReqNo + ", memberNo=" + memberNo + ", sellerReqRef=" + sellerReqRef
 				+ ", sellerReqType=" + sellerReqType + ", sellerReqState=" + sellerReqState + ", sellerReqTitle="
 				+ sellerReqTitle + ", sellerReqContent=" + sellerReqContent + ", sellerReqDate=" + sellerReqDate
-				+ ", sellerReqProcess=" + sellerReqProcess + ", RefName=" + RefName + ", memberId=" + memberId + "]";
+				+ ", sellerReqProcess=" + sellerReqProcess + ", refName=" + refName + ", memberId=" + memberId + "]";
 	}
-
 
 
 }

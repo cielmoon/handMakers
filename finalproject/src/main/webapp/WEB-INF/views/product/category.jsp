@@ -121,10 +121,13 @@
 			<div style="width : 200px; height : 24px;" class="rating ellips">${product.productComment }</div>
               <!-- 상품상세페이지 링크 , title=product_title , value = product_title -->
                 <!-- product_comment -->
+                <div style="width : 200px; height : 24px; border: 1px solid blue">
                 <p class="price product-price"><span class="price-old"></span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 <span class="price-tax"></span> </p>
+                </div>
               <!-- product_price -->
-              <div class="rating">
-              ${ product.score }평점 : <%-- ${product.score } --%>
+              <!-- <div class="rating"> --><br>
+              <div style="width : 200px; height : 24px; border: 1px solid red">
+              <%-- ${ product.score }평점 : --%>
 			<c:if test="${product.score ge 0 and product.score lt 0.5 }">
                <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
             </c:if>
@@ -158,8 +161,6 @@
             <c:if test="${product.score eq 5}">
             	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
             </c:if>
-               <!-- <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> --> 
-               
                </div>
               <!-- totalProductPoint 별-->
             </div>

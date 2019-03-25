@@ -39,8 +39,10 @@
     		<div id="content" class="col-sm-9">
     			<div class="blog1 blog">
     				<h4 class="p-name">${sellerReq.sellerReqTitle}</h4>
+    				<p >${sellerReq.refName }</p>
         			<ul class="blog-meta">
-          				<li><i class="far fa-clock"></i><span class="dt-published">${sellerReq.sellerReqDate }</span></li>            			
+          				<li><i class="far fa-clock"></i><span class="dt-published">${sellerReq.sellerReqDate }</span></li> 
+           			
         			</ul>
         			<p class="p-summary"></p>
         			<p>${sellerReq.sellerReqContent }</p>
