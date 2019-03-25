@@ -17,11 +17,11 @@ import kh.hand.makers.shop.model.vo.SmallCategory;
 public interface AdminService {	
 	
 	int selectProductCount(Map<String, String> sortingProductList);
-	/*List<AdminProduct> selectProductList(int cPage,int numPerPage, Map<String, String> sortingProductList);*/
-	List<AdminProduct> selectProductList(Map<String, String> sortingProductList);
+	List<AdminProduct> selectProductList(int cPage,int numPerPage, Map<String, String> sortingProductList);
+	/*List<AdminProduct> selectProductList(Map<String, String> sortingProductList);*/
 	
-	int selectReProductCount();
-	List<AdminProduct> selectReProductList(int cPage,int numPerPage);
+	int selectReProductCount(Map<String, String> sortingProductList);
+	List<AdminProduct> selectReProductList(int cPage,int numPerPage, Map<String, String> sortingProductList);
 	
 	List<Brand> selectBrandList(int cPage,int numPerPage);
 	int selectBrandCount();

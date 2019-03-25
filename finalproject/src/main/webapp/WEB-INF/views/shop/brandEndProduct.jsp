@@ -8,6 +8,10 @@
 <%@page import="java.util.*" %>
 
 <style>
+.img-shop-product
+{
+	height: 220px;
+}
 .sale-modal-body {
     position: relative;
     padding: 20px;
@@ -187,7 +191,7 @@ function deleteBrand()
 									<div class="product-thumb">
 										<div class="image product-imageblock">
 											<a href="${path }/shop/brandProductHome.do?productNo=${p.PRODUCT_NO}&brandNo=${brand.brandNo}"> 
-												<img src="${path }/resources/image/product/${p.PRODUCT_PROFILE}" class="img-responsive" />
+												<img src="${path }/resources/image/product/${p.PRODUCT_PROFILE}" class="img-responsive img-shop-product"/>
 											</a>
 											<div class="button-group">
 												<button type="button" class="wishlist" data-toggle="tooltip" title="재판매 요청" onclick="reSale('${p.PRODUCT_NO}','${p.PRODUCT_TITLE }');">

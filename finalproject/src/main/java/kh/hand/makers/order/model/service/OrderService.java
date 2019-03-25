@@ -14,4 +14,5 @@ public interface OrderService {
 	int updateProductSell(Map<String,Object> insertMap);
 	Map<String,String> selectProductOption(String productOptionNo);
 	Map<String,String> selectCategoryMap(String productNo);
+	int updateOrderState(Map<String,String> map); 
 }

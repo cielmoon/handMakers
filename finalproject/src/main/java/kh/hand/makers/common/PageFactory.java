@@ -220,7 +220,7 @@ public class PageFactory {
 			
 		}
 		
-		/*public static String getManageProductPageBar(int totalCon, int cPage, int numPerPage, String url, String brandNo, String bcNo, String scNo)
+		public static String getManageProductPageBar(int totalCon, int cPage, int numPerPage, String brandNo, String bcNo, String scNo,String url)
 		{
 			String pageBar="";
 			int pageBarSize=5;
@@ -280,16 +280,14 @@ public class PageFactory {
 			}
 			pageBar+="</ul>";
 			
-			//paging처리 script작성
+			//paging처리 script작성				
 			pageBar+="<script>";
 			pageBar+="function fn_paging(cPage){";
-			if(type.equals("R")) pageBar+="location.href='"+url+"&rcPage='+cPage";
-			else pageBar+="location.href='"+url+"&qcPage='+cPage";
-			
+			pageBar+=" manageProductAjax(cPage);";
 			pageBar+="}";
 			pageBar+="</script>";
-					
+			
 			return pageBar;		
 		
-		}*/
+		}
 }

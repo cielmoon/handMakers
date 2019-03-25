@@ -50,7 +50,7 @@
 		<result column="order_date" property="orderDate" />
 		<result column="order_state" property="orderState" />
 		<result column="order_paystate" property="orderPayState" />
-
+		<result column="imp_uid" property="imp_uid"/>
 
 	</resultMap>
 	<select id="checkId" parameterType="string" resultType="_int">
@@ -123,7 +123,8 @@
 		"product_option_qty", product_order.ORDER_TOTAL_PRICE as
 		"ORDER_TOTAL_PRICE", product_order.ORDER_DATE as "ORDER_DATE",
 		product_order.ORDER_STATE as
-		"ORDER_STATE",product_order.ORDER_PAYSTATE as "ORDER_PAYSTATE" from
+		"ORDER_STATE",product_order.ORDER_PAYSTATE as "ORDER_PAYSTATE" 
+		,product_order.imp_uid as "imp_uid" from
 		product_order join product on (product_order.product_no =
 		product.product_no) where product_order.member_no = #{memberNo} order
 		by ORDER_DATE desc
@@ -136,8 +137,12 @@
 
 	<select id="selectWishList" parameterType="string"
 		resultType="map">
-		SELECT * FROM WISH W JOIN PRODUCT P USING(PRODUCT_NO) WHERE
-		W.MEMBER_NO=#{memberNo} AND NOT P.PRODUCT_STATE IN(2,3)
+		<!-- SELECT * FROM WISH W JOIN PRODUCT P USING(PRODUCT_NO) WHERE
+		W.MEMBER_NO=#{memberNo} AND NOT P.PRODUCT_STATE IN(2,3) -->
+		SELECT W.*, P.*,P.PRODUCT_PRICE-(P.PRODUCT_PRICE*(P.PRODUCT_DISCOUNT/100)) as SALEPRICE 
+		FROM WISH W 
+		JOIN PRODUCT P ON(P.PRODUCT_NO=W.PRODUCT_NO) 
+		WHERE W.MEMBER_NO='M_NO_1' AND NOT P.PRODUCT_STATE IN(2,3)
 	</select>
 
 	<select id="selectWishCount" parameterType="string"

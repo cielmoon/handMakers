@@ -1,5 +1,6 @@
 package kh.hand.makers.member.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
@@ -24,10 +25,18 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.request.CancelData;
+import com.siot.IamportRestClient.response.AccessToken;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
+
 import kh.hand.makers.common.PageFactory;
 import kh.hand.makers.member.model.service.MemberService;
 import kh.hand.makers.member.model.vo.ManageOrder;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.order.model.service.OrderService;
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.product.model.service.ProductService;
 import kh.hand.makers.product.model.vo.Wish;
@@ -46,7 +55,9 @@ public class MemberController {
 	@Autowired
 	ShopService shopService;
 	@Autowired
-	ProductService productService; 
+	ProductService productService;
+	@Autowired
+	OrderService orderService;
 	@Autowired
 	private JavaMailSender mailSender;
 	private String emailCode;
@@ -591,6 +602,108 @@ public class MemberController {
 		mv.setViewName("common/msg");
 
 
+		return mv;
+	}
+	
+	@RequestMapping("/member/changeOrderState.do")
+	public ModelAndView changeOrderState(String orderNo, HttpServletRequest request) {
+		
+		IamportClient client;
+		
+		String accessToken = null;
+		
+		ModelAndView mv = new ModelAndView();
+		
+		String test_api_key = "0709424890638444";
+	    String test_api_secret = "AblFnSFrDGn4XNWRNAdC4E4dgOosLqbmCx1ZpHr3oP8mC5dqFq3K57YmWmOIN04px6pXOR1cH9zkfMKV";
+	    client = new IamportClient(test_api_key, test_api_secret);
+	      
+	      try {
+	         IamportResponse<AccessToken> auth_response = client.getAuth();
+	         accessToken = auth_response.getResponse().getToken();
+
+	      } catch (IamportResponseException e) {
+	         System.out.println(e.getMessage());
+	         
+	         switch(e.getHttpStatusCode()) {
+	         case 401 :
+	            //TODO
+	            break;
+	         case 500 :
+	            //TODO
+	            break;
+	         }
+	      } catch (IOException e) {
+	         //서버 연결 실패
+	         e.printStackTrace();
+	      }
+	      
+	    String[] s = orderNo.split(",");
+			
+		String oNo = s[0]; //배송번호
+		String oState = s[1]; //상태값
+		String uid = s[2]; //배송취소에 필요한 고유 번호
+		
+		logger.debug(uid);
+		logger.debug(oNo);
+		
+		Map<String,String> map = new HashMap();
+		
+		String memberNo = ((Member)request.getSession().getAttribute("member")).getMemberNo();
+		
+		map.put("orderNo", oNo.trim());
+		map.put("orderState", oState.trim());
+		map.put("imp_uid", uid);
+		map.put("memberNo", memberNo);
+	  
+	    int result = 0;
+	      
+	    try {
+	       result = orderService.updateOrderState(map);
+	       
+	    }catch(Exception e){
+	         e.printStackTrace();
+	    }
+	      
+        String imp_uid = uid;
+        CancelData cancel_data = new CancelData(imp_uid, true); //imp_uid를 통한 전액취소
+      
+        try {
+	         IamportResponse<Payment> payment_response = client.cancelPaymentByImpUid(cancel_data);
+	         logger.debug(payment_response.getMessage());
+	         
+	      } catch (IamportResponseException e) {
+	         System.out.println(e.getMessage());
+	         
+	         switch(e.getHttpStatusCode()) {
+	         case 401 :
+	            //TODO
+	            break;
+	         case 500 :
+	            //TODO
+	            break;
+	         }
+	      } catch (IOException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      }
+	      
+	      logger.debug("result"+result);
+	      //response.getWriter().print(result);
+
+		
+		String msg = "";
+		String loc = "/member/manageOrder.do";
+		
+		if (result > 0) {
+			msg = "결제 취소에 성공했습니다.";
+		} else {
+			msg = "결제 취소에 실패했습니다.";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		
 		return mv;
 	}
 }

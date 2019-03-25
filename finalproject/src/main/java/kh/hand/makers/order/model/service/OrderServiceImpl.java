@@ -58,6 +58,12 @@ public class OrderServiceImpl implements OrderService {
 		
 		return dao.selectCategoryMap(productNo);
 	}
+
+	@Override
+	public int updateOrderState(Map<String, String> map) {
+		
+		return dao.updateOrderState(map);
+	}
 	
 	
 
