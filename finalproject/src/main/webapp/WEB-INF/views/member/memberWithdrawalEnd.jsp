@@ -40,7 +40,7 @@
 					</div>
 				</div>
 				
-				<div class="column-block">
+<%-- 				<div class="column-block">
 					<c:if test="${member.memberAuthority == 'S'}">		
 						<div class="columnblock-title">판매자페이지</div>
 					</c:if>
@@ -61,7 +61,7 @@
 							</c:forEach>
 						</div>	
 					</div>					
-				</div>
+				</div> --%>
 			
 			</div>
 			<!-- 정보 변경 전에 다시 비밀번호 확인 -->

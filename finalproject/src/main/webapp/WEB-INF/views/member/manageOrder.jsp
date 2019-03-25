@@ -65,7 +65,7 @@ $(function() {
 					</div>
 				</div>
 
-				<div class="column-block">
+<%-- 				<div class="column-block">
 					<c:if test="${member.memberAuthority == 'S'}">		
 						<div class="columnblock-title">판매자페이지</div>
 					</c:if>
@@ -86,7 +86,7 @@ $(function() {
 							</c:forEach>
 						</div>	
 					</div>					
-				</div>
+				</div> --%>
 
 
 			</div>
@@ -142,13 +142,13 @@ $(function() {
 										</c:otherwise>	
 									</c:choose>								
 									<c:choose>
-										<c:when test="${o.orderState == '0' }">
+										<c:when test="${o.orderState == '0' and o.orderPayState == '0' }">
 											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,2,${o.imp_uid}"><button class="tBtn">주문취소</button></a></td>					
 										</c:when>
-										<c:when test="${o.orderState == '2' }">
+										<c:when test="${o.orderState == '2' and o.orderPayState == '0'}">
 											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,2,${o.imp_uid}"><button class="tBtn">환불요청</button></a></td>					
 										</c:when>	
-										<c:when test="${o.orderState == '1' }">
+										<c:when test="${o.orderState == '1' and o.orderPayState == '0' }">
 											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,3,${o.imp_uid}"><button class="tBtn">구매확정</button></a>
 											<a href="#" value="${o.orderTrackingNo}" id='orderTrackingNo' data-toggle="modal" data-target="#findNumberModal">운송장확인</a></td>					
 										</c:when>
