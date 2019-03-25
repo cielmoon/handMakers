@@ -68,12 +68,18 @@
       
 	<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-         <div class="image product-imageblock" style="height:220px; object-fit: cover;">
+          <div
+										onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}'"
+										class="image product-imageblock"
+										style="height : 220px; background-size : cover; background-image : url(${path}/resources/image/product/${product.productProfile }); cursor : pointer;">
+										
+										
+         <%-- <div class="image product-imageblock" style="height:220px; object-fit: cover;">
          <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
-         <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
+         <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a> --%>
               <div class="button-group">
                <c:if test="${member==null }">
-               <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="alert('위시리스트 추가는 로그인이 필요합니다.')">
+               <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishLoginChk();">
                 	<i class="fa fa-heart-o"></i>
                </button>
                </c:if>
@@ -139,5 +145,28 @@ $('#input-limit').on('change', function(){
 /* console.log($('#input-limit').val()); */
 $('#numPerPagesFrm').submit();
 });
+
+function fn_wishChk(productNo){
+	event.stopPropagation();
+	/* console.log(event); */
+	$.ajax({
+		url:"${path}/product/selectWishYewon.do",
+		data: {"productNo":productNo},
+		success:function(data){
+        if(data > 0){	
+        	$('#' + productNo).html('<i class="fa fa-heart"></i>');
+        	$('#' + productNo).attr( "title" , "Remove to Wish List");
+        }
+        else
+        	$('#' + productNo).html('<i class="fa fa-heart-o"></i>');
+        $('#' + productNo).attr( "title" , "Add to Wish List");
+        }
+	});
+}
+
+function fn_wishLoginChk(){
+event.stopPropagation();
+alert('위시리스트 추가는 로그인이 필요합니다.');
+}
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
