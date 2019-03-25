@@ -123,7 +123,44 @@
                 <!-- product_comment -->
                 <p class="price product-price"><span class="price-old"></span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 <span class="price-tax"></span> </p>
               <!-- product_price -->
-              <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
+              <div class="rating">
+              ${ product.score }평점 : <%-- ${product.score } --%>
+			<c:if test="${product.score ge 0 and product.score lt 0.5 }">
+               <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 0.5 and product.score lt 1}">
+            	<i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 1 and product.score lt 1.5}">
+            	<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 1.5 and product.score lt 2}">
+            	<i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 2 and product.score lt 2.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 2.5 and product.score lt 3}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 3 and product.score lt 3.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 3.5 and product.score lt 4}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 4 and product.score lt 4.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 4.5 and product.score lt 5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+            </c:if>
+            <c:if test="${product.score eq 5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </c:if>
+               <!-- <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> --> 
+               
+               </div>
               <!-- totalProductPoint 별-->
             </div>
             <%-- <div class="button-group"><!-- 리스트형식으로 볼때의 추가 버튼들 -->

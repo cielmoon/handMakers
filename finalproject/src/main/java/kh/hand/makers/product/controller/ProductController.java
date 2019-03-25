@@ -151,7 +151,8 @@ public class ProductController {
 	{
 		ModelAndView mv = new ModelAndView();
 		Map<String, String> map = new HashMap();
-		map.put("productStep", "2");//2= 베스트
+		map.put("productStep", "1");
+		map.put("best", "best");// 베스트
 		logger.debug("BestList in category : "+category);
 		if(category != null ) {
 			bestCategoryNo = category;	
@@ -248,6 +249,7 @@ public class ProductController {
 		ModelAndView mv = new ModelAndView();
 		Map<String, String> map = new HashMap();
 		map.put("category", categoryNo);
+		map.put("productStep", "1");	//신규
 		if( sc != null)	{ map.put("sc", sc); }
 
 		if(session.getAttribute("member") != null) {
