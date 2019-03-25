@@ -32,9 +32,9 @@ public interface AdminService {
 	int reqStateUpdate(Map<String,String> sr2);
 	
 	
-	List<managePreProduct> selectPreProductList(int cPage,int numPerPage);
+	List<managePreProduct> selectPreProductList(int cPage,int numPerPage,Map<String, String> sortingProductList);
 	PreProduct selectPreProduct(String preProductNo);
-	int selectPreProductCount();
+	int selectPreProductCount(Map<String, String> sortingProductList);
 	int preProductStateUpdate(Map<String,String> ps);
 	
 	int selectMemberCount(List<Member> memberList);

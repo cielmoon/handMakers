@@ -51,7 +51,7 @@
 		<result column="order_state" property="orderState" />
 		<result column="order_paystate" property="orderPayState" />
 		<result column="imp_uid" property="imp_uid"/>
-
+		<result column="order_trackingno" property="orderTrackingNo"/>
 	</resultMap>
 	<select id="checkId" parameterType="string" resultType="_int">
 		select
@@ -124,8 +124,9 @@
 		"ORDER_TOTAL_PRICE", product_order.ORDER_DATE as "ORDER_DATE",
 		product_order.ORDER_STATE as
 		"ORDER_STATE",product_order.ORDER_PAYSTATE as "ORDER_PAYSTATE" 
-		,product_order.imp_uid as "imp_uid" from
-		product_order join product on (product_order.product_no =
+		,product_order.imp_uid as "imp_uid" 
+		,product_order.order_trackingno as "order_trackingno" 
+		from product_order join product on (product_order.product_no =
 		product.product_no) where product_order.member_no = #{memberNo} order
 		by ORDER_DATE desc
 	</select>

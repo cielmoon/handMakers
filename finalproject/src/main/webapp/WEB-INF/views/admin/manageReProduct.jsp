@@ -86,10 +86,9 @@ function manageProductAjax(cPage) {
 				}
 				
 				/* console.log(data.adminProductList[i]); */
-				var tr2 = $("<tr><th>" + data.proc[i].productBcTitle + "</th><th>" + data.proc[i].productScTitle + "</th><th>" + data.proc[i].productTitle + "</th><th>" + data.proc[i].productBrandTitle + "</th><th>" + productState + "</th><th>" + data.proc[i].productEnrollDate + "</th><th>" + data.proc[i].productEndDate + "</th><th></th></tr>");
+				var tr2 = $("<tr><th>" + data.proc[i].productBcTitle + "</th><th>" + data.proc[i].productScTitle + "</th><th>" + data.proc[i].productTitle + "</th><th>" + data.proc[i].productBrandTitle + "</th><th>" + productState + "</th><th>" + data.proc[i].updateDate + "</th><th>" + data.proc[i].productEndDate + "</th><th></th></tr>");
 				
-				console.log("타입뭐야 " + data.proc[i].productEnrollDate);
-				console.log("타입뭐야2 " + typeof(data.proc[i].productEnrollDate));
+				
 				
 				table.append(tr2);
 			}
@@ -185,7 +184,7 @@ function manageProductAjax(cPage) {
 										</c:when>
 							
 									</c:choose>		
-									<td>${a.productEnrollDate }</td>	
+									<td>${a.updateDate }</td>	
 									<td>${a.productEndDate }</td>
 									<td></td>
 							
