@@ -126,9 +126,8 @@
 		product_order.ORDER_STATE as
 		"ORDER_STATE",product_order.ORDER_PAYSTATE as "ORDER_PAYSTATE" 
 		,product_order.imp_uid as "imp_uid" 
-		,product_order.product_no as "product_no" from
-		product_order join product on (product_order.product_no =
-		,product_order.order_trackingno as "order_trackingno" 
+		,product_order.product_no as "product_no" 
+		,product_order.order_trackingno as "order_trackingno"
 		from product_order join product on (product_order.product_no =
 		product.product_no) where product_order.member_no = #{memberNo} order
 		by ORDER_DATE desc
