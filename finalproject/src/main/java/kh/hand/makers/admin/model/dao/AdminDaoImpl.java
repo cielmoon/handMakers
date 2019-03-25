@@ -77,17 +77,25 @@ public class AdminDaoImpl implements AdminDao {
 		return session.selectOne("admin.selectPreProduct", preProductNo);
 	}
 
-	@Override
+	/*@Override
 	public List<AdminProduct> selectProductList(int cPage, int numPerPage, Map<String, String> sortingProductList) {
 		RowBounds rb = new RowBounds((cPage - 1) * numPerPage, numPerPage);
 		return session.selectList("admin.selectProductList", sortingProductList, rb);
+	}*/
+	
+	@Override
+	public List<AdminProduct> selectProductList(Map<String, String> sortingProductList) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectProductList", sortingProductList);
 	}
+	
 
 	@Override
 	public int selectMemberCount(List<Member> memberList) {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectMemberCount", memberList);
 	}
+
 
 	@Override
 	public List<Member> selectMemberList(int cPage, int numPerPage) {

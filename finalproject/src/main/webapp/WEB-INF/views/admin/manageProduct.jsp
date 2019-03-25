@@ -14,7 +14,6 @@
 
 <script>
 $(function() {
-	
 	$("#select-brand").change(function(){
 		/* brandNo를 찾아서 이걸 가져가서 상품들을 해당 브랜드로 페이징 처리  */
 		var brandNo = $("#select-brand").find(":selected").val();
@@ -33,20 +32,19 @@ $(function() {
 				$("#oriProductListTable").remove();
 				$("#tbl-board").remove();
 				console.log(data);
-				console.log(data.adProductList);
+				console.log(data.proc);
 				var tr1 = $('<tr><th>카테고리(대)</th><th>카테고리(소)</th><th>상품명</th><th>브랜드명</th><th>상품상태</th><th>등록날짜</th><th>마감날짜</th><th></th></tr>	');
 				var table = $('<table id="tbl-board" class="table table-striped table-hover"></table>');
 				table.append(tr1);
-				for(var i=0;i<data.adProductList.length;i++){
+				for(var i=0;i<data.proc.length;i++){
 					
 					/* console.log(data.adminProductList[i]); */
-					var tr2 = $("<tr><th>"+data.adProductList.productBcTitle+"</th><th>카테고리(소)</th><th>상품명</th><th>브랜드명</th><th>상품상태</th><th>등록날짜</th><th>마감날짜</th><th></th></tr>");
+					var tr2 = $("<tr><th>" + data.proc[i].productBcTitle + "</th><th>" + data.proc[i].productScTitle + "</th><th>" + data.proc[i].productTitle + "</th><th>" + data.proc[i].productBrandTitle + "</th><th>" + data.proc[i].productState + "</th><th>" + data.proc[i].productEnrollDate + "</th><th>" + data.proc[i].productEndDate + "</th><th></th></tr>");
 					table.append(tr2);
 				}
 				
-			
-				
 				$("#newProductListTable").append(table);
+				$("#newProductListTable").append(data.page);
 			}
 		});
 	});

@@ -3,6 +3,7 @@ package kh.hand.makers.admin.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,6 @@ import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.common.PageFactory;
 import kh.hand.makers.member.model.vo.Member;
-import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
@@ -200,7 +200,7 @@ public class AdminController {
 		sortingProductList.put("bcNo", "B_C_NO_1");
 		sortingProductList.put("scNo","S_C_NO_1");
 		
-		List<AdminProduct> adminProductList = service.selectProductList(cPage, numPerPage, sortingProductList);
+		List<AdminProduct> adminProductList = service.selectProductList(sortingProductList);
 		int contentCount = service.selectProductCount(sortingProductList);
 		
 		mv.addObject("bcList", bcList);
@@ -215,7 +215,8 @@ public class AdminController {
 	}
 
 	@RequestMapping("/admin/selectBList.do")
-	public ModelAndView selectBList(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage
+	@ResponseBody
+	public Map selectBList(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage
 			,String brandNo, String bcNo, String scNo) {
 		int numPerPage = 5;
 		ModelAndView mv = new ModelAndView();
@@ -227,17 +228,22 @@ public class AdminController {
 		sortingProductList.put("bcNo",  bcNo);
 		sortingProductList.put("scNo", scNo);
 		
-		List<AdminProduct> adProductList = service.selectProductList(cPage, numPerPage, sortingProductList);
+		List<AdminProduct> adProductList = service.selectProductList(sortingProductList);
+		/*List<AdminProduct> adProductList = service.selectProductList(cPage, numPerPage, sortingProductList);*/
 		int contentCount = service.selectProductCount(sortingProductList);
 		logger.debug("현재 brandNo :"+brandNo);
 		logger.debug("현재 Productsize :"+contentCount);
 		
-
-		mv.addObject("pageBar",
+		
+		Map map=new HashMap();
+		map.put("proc",adProductList);
+		/*map.put("page",PageFactory.getManageProductPageBar(contentCount, cPage, numPerPage, brandNo, bcNo, scNo, "/makers/admin/selectBList.do"));*/
+		/*mv.addObject("pageBar",
 				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/selectBrandProductList.do"));
-		mv.addObject("adProductList", adProductList);
-		mv.setViewName("jsonView");
-		return mv;
+		mv.addObject("adProductList", adProductList);		
+		mv.setViewName("jsonView");*/
+		
+		return map;
 	}
 	
 	@RequestMapping("/admin/productEnrollScSet.do")
