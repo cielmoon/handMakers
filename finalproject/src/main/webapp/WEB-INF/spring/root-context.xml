@@ -49,8 +49,7 @@
 	</bean>
 
 	<!-- 트랜 잭션 처리하기 위해서 등록 -->
-	<tx:annotation-driven
-		transaction-manager="transactionManager" />
+	<tx:annotation-driven transaction-manager="transactionManager" />
 
 	<!-- 공통 기능을 제공할 클래스를 빈으로 등록 -->
 	<!-- <bean id="headerMenuCaller" class="kh.hand.makers.common.aop.HeaderAspect"> 

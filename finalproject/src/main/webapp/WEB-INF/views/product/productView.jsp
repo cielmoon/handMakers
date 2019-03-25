@@ -51,13 +51,14 @@ $(function() {
 	};
 	
 	$('#orderBtn').on('click',function(){
-		var stock = ${product.REMAININVENTORY};
-		var qty = $('input[name=productQty]').val();
-		var cursell = ${product.PRODUCT_CURSELL};
-		console.log(stock);
-		console.log(qty);
-		console.log(cursell);
-		if(stock < qty+cursell){
+		var stock = Number(${product.REMAININVENTORY});
+		var qty = Number($('input[name=productQty]').val());
+		var cursell = Number(${product.PRODUCT_CURSELL});
+		console.log("재고"+stock);
+		console.log("수량"+qty);
+		console.log("현재판매"+cursell);
+		console.log(typeof (qty));
+		if(stock < qty + cursell){
 			alert('남은 수량보다 더 주문해서 주문이 안됩니다.');
 			return false;
 		}else{
@@ -319,7 +320,10 @@ function fn_deleteQuestionComment(inputComment){
             <li>
             <!-- 별점 -->
                            평점 : <%-- ${score.SCORE } --%>
-            <c:if test="${score.SCORE ge 0 and score.SCORE lt 1}">
+            <c:if test="${score.SCORE ge 0 and score.SCORE lt 0.5 }">
+            	<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${score.SCORE ge 0.5 and score.SCORE lt 1}">
             	<i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
             </c:if>
             <c:if test="${score.SCORE ge 1 and score.SCORE lt 1.5}">

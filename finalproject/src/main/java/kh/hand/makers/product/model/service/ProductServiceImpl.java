@@ -193,6 +193,12 @@ public class ProductServiceImpl implements ProductService {
 		return dao.selectTotalScore(productNo);
 	}
 
+	@Override
+	public int updateProductMinus(Map<String, Object> productMap) {
+		
+		return dao.updateProductMinus(productMap);
+	}
+
 	
 	
 	

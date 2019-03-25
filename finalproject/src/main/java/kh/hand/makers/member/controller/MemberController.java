@@ -643,11 +643,14 @@ public class MemberController {
 		String oNo = s[0]; //배송번호
 		String oState = s[1]; //상태값
 		String uid = s[2]; //배송취소에 필요한 고유 번호
+		String productNo = s[3];//상품 번호
+		String productOptionQty = s[4];//상품 수량
 		
 		logger.debug(uid);
 		logger.debug(oNo);
 		
 		Map<String,String> map = new HashMap();
+		Map<String,Object> productMap = new HashMap();
 		
 		String memberNo = ((Member)request.getSession().getAttribute("member")).getMemberNo();
 		
@@ -655,12 +658,20 @@ public class MemberController {
 		map.put("orderState", oState.trim());
 		map.put("imp_uid", uid);
 		map.put("memberNo", memberNo);
-	  
+		map.put("productNo", productNo.trim());
+		productMap.put("productOptionQty", Integer.parseInt(productOptionQty));
+		productMap.put("productNo", productNo);
+		
 	    int result = 0;
 	      
 	    try {
+	    	//주문 상태 바꾸는 로직
 	       result = orderService.updateOrderState(map);
 	       
+	       if(result>0) {
+	    	   //상품 현재 판매량 수량에 맞춰서 마이너스
+	    	   result = productService.updateProductMinus(productMap);
+	       }
 	    }catch(Exception e){
 	         e.printStackTrace();
 	    }

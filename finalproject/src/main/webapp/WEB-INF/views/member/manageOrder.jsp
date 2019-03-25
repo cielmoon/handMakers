@@ -28,8 +28,7 @@ $(function() {
 			console.log("현재 No: "+trackingNo);
 			
 			
-		}
-			
+		}		
 
 	});	
 
@@ -142,11 +141,11 @@ $(function() {
 										</c:otherwise>	
 									</c:choose>								
 									<c:choose>
-										<c:when test="${o.orderState == '0' and o.orderPayState == '0' }">
-											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,2,${o.imp_uid}"><button class="tBtn">주문취소</button></a></td>					
+										<c:when test="${o.orderState == '0' and o.orderPayState == '0'}">
+											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,2,${o.imp_uid},${o.productNo},${o.productOptionQty}"><button class="tBtn">주문취소</button></a></td>					
 										</c:when>
 										<c:when test="${o.orderState == '2' and o.orderPayState == '0'}">
-											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,2,${o.imp_uid}"><button class="tBtn">환불요청</button></a></td>					
+											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,2,${o.imp_uid},${o.productNo},${o.productOptionQty}">환불요청</button></a></td>					
 										</c:when>	
 										<c:when test="${o.orderState == '1' and o.orderPayState == '0' }">
 											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,3,${o.imp_uid}"><button class="tBtn">구매확정</button></a>

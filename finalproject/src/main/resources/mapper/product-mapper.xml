@@ -200,7 +200,28 @@
 	</delete>
 	
 	<select id="selectTotalScore" parameterType="map" resultType="map">
-		select round(avg(product_score),1) as score from totalscore where product_no=#{productNo} group by product_no
+		select nvl(round(avg(product_score),1),0) as score
+		from totalscore
+		where product_no=#{productNo}
 	</select>
+	
+	<update id="updateProductMinus" parameterType="map">
+		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL-#{productOptionQty}, PRODUCT_TOTALSELL=PRODUCT_TOTALSELL-#{productOptionQty} WHERE PRODUCT_NO = #{productNo} 
+	</update>
+	
+	<select id="selectProductCheck" parameterType="map" resultType="map">
+		SELECT * FROM PRODUCT WHERE PRODUCT_NO=#{productNo} AND PRODUCT_MAX=PRODUCT_CURSELL+#{productOptionQty}
+	</select>
+	
+	<insert id="insertProductSalesRecord" parameterType="string">
+		INSERT INTO SALES_RECORDS
+        SELECT SEQ_SALESRECORDS_NO.NEXTVAL, PRODUCT_ENROLLDATE, PRODUCT_ENDDATE, PRODUCT_CURSELL, PRODUCT_PRICE, (PRODUCT_CURSELL * PRODUCT_PRICE), 5, (PRODUCT_CURSELL * PRODUCT_PRICE) - ((PRODUCT_CURSELL * PRODUCT_PRICE) * 0.05), PRODUCT_NO
+        FROM PRODUCT 
+        WHERE PRODUCT_NO=#{productNo} 
+	</insert>
+	
+	<update id="updateProductState" parameterType="string">
+		UPDATE PRODUCT SET PRODUCT_STATE='3' WHERE product_no=#{productNo}
+	</update>
 	
 </mapper>
