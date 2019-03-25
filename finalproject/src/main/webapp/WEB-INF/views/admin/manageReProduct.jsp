@@ -86,7 +86,7 @@ function manageProductAjax(cPage) {
 				}
 				
 				/* console.log(data.adminProductList[i]); */
-				var tr2 = $("<tr><th>" + data.proc[i].productBcTitle + "</th><th>" + data.proc[i].productScTitle + "</th><th>" + data.proc[i].productTitle + "</th><th>" + data.proc[i].productBrandTitle + "</th><th>" + productState + "</th><th>" + data.proc[i].updateDate + "</th><th>" + data.proc[i].productEndDate + "</th><th></th></tr>");
+				var tr2 = $("<tr><td>" + data.proc[i].productBcTitle + "</td><td>" + data.proc[i].productScTitle + "</td><td>" + data.proc[i].productTitle + "</td><td>" + data.proc[i].productBrandTitle + "</td><td>" + productState + "</td><td>" + data.proc[i].updateDate + "</td><td>" + data.proc[i].productEndDate + "</td><td></td></tr>");
 				
 				
 				
@@ -201,7 +201,8 @@ function manageProductAjax(cPage) {
 								${pageBar }
 							</div>
 						</div>
-					
+						<div class="col-sm-3">						
+						</div>
 					</div>
 					</div>
 				</div>

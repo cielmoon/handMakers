@@ -108,13 +108,7 @@
 										<li><a href="#"	onclick="location.href='${path}/member/wishList.do'" id="wishlist-total" title="Wish List"><i class="fa fa-heart"></i><span>Wish List</span></a></li>
 									</c:if>
 								</ul>
-								<div class="search-box">
-									<input class="input-text" placeholder="Search By Products.."
-										type="text">
-									<button class="search-btn">
-										<i class="fa fa-search"></i>
-									</button>
-								</div>
+				
 							</div>
 						</div>
 					</div>

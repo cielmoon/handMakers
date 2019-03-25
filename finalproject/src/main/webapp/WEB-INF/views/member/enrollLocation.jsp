@@ -106,7 +106,7 @@ function validate() {
 					</div>
 				</div>
 
-				<div class="column-block">
+<%-- 				<div class="column-block">
 					<c:if test="${member.memberAuthority == 'S'}">		
 						<div class="columnblock-title">판매자페이지</div>
 					</c:if>
@@ -127,7 +127,7 @@ function validate() {
 							</c:forEach>
 						</div>	
 					</div>					
-				</div>
+				</div> --%>
 
 
 			</div>
