@@ -139,15 +139,15 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int selectReProductCount() {
+	public int selectReProductCount(Map<String, String> sortingProductList) {
 		// TODO Auto-generated method stub
-		return dao.selectReProductCount();
+		return dao.selectReProductCount(sortingProductList);
 	}
 
 	@Override
-	public List<AdminProduct> selectReProductList(int cPage, int numPerPage) {
+	public List<AdminProduct> selectReProductList(int cPage, int numPerPage, Map<String, String> sortingProductList) {
 		// TODO Auto-generated method stub
-		return dao.selectReProductList(cPage, numPerPage);
+		return dao.selectReProductList(cPage, numPerPage, sortingProductList);
 	}
 
 	@Override

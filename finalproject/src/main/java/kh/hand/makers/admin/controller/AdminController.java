@@ -188,8 +188,6 @@ public class AdminController {
 		int numPerPage = 5;
 		ModelAndView mv = new ModelAndView();
 		
-		
-		
 		List<Brand> brandList = service.selectBrandList();
 		List<BigCategory> bcList = service.selectBcList();
 		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
@@ -203,7 +201,9 @@ public class AdminController {
 		/*List<AdminProduct> adminProductList = service.selectProductList(sortingProductList);*/
 		List<AdminProduct> adminProductList = service.selectProductList(cPage, numPerPage, sortingProductList);
 		int contentCount = service.selectProductCount(sortingProductList);
-		
+		for (AdminProduct adminProduct : adminProductList) {
+			System.out.println("가져온 리스트: "+adminProductList);
+		}
 		mv.addObject("bcList", bcList);
 		mv.addObject("scList", scList);
 		mv.addObject("brandList", brandList);
@@ -231,7 +231,10 @@ public class AdminController {
 		
 		/*List<AdminProduct> adProductList = service.selectProductList(sortingProductList);*/
 		List<AdminProduct> adProductList = service.selectProductList(cPage, numPerPage, sortingProductList);
-		logger.debug("결과는 잘 나오니?"+adProductList);
+		for (AdminProduct adminProduct : adProductList) {
+			System.out.println("등록날짜:"+adminProduct.getProductEnrollDate());
+			System.out.println("마감날짜:"+adminProduct.getProductEndDate());
+		}
 		int contentCount = service.selectProductCount(sortingProductList);
 		logger.debug("현재 brandNo :"+brandNo);
 		logger.debug("현재 Productsize :"+contentCount);
@@ -275,19 +278,75 @@ public class AdminController {
 
 	// 상품재등록 관리
 	@RequestMapping("/admin/manageReProduct.do")
-	public ModelAndView manageReProduct(
-			@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage) {
+	public ModelAndView manageReProduct(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage) {
 		int numPerPage = 5;
-
 		ModelAndView mv = new ModelAndView();
-		int contentCount = service.selectReProductCount();
-		List<AdminProduct> adminProductList = service.selectReProductList(cPage, numPerPage);
+		
+		
+		
+		List<Brand> brandList = service.selectBrandList();
+		List<BigCategory> bcList = service.selectBcList();
+		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
+
+		Map<String, String> sortingProductList = new HashMap<String, String>();// state
+
+		sortingProductList.put("brandNo","B_NO_1");
+		sortingProductList.put("bcNo", "B_C_NO_1");
+		sortingProductList.put("scNo","S_C_NO_1");
+		
+		/*List<AdminProduct> adminProductList = service.selectProductList(sortingProductList);*/
+		List<AdminProduct> adminProductList = service.selectReProductList(cPage, numPerPage, sortingProductList);
+		int contentCount = service.selectReProductCount(sortingProductList);
+		
+		mv.addObject("bcList", bcList);
+		mv.addObject("scList", scList);
+		mv.addObject("brandList", brandList);
+		for (AdminProduct adminProduct : adminProductList) {
+			System.out.println("Admin: "+adminProductList);
+		}
+		
+		
 		mv.addObject("pageBar",
 				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/manageReProduct.do"));
 		mv.addObject("adminProductList", adminProductList);
-		mv.setViewName("admin/manageReProduct");
+		mv.setViewName("admin/manageReProduct");	
+		
 		return mv;
 	}
+	
+	@RequestMapping("/admin/selectRList.do")
+	@ResponseBody
+	public Map selectRList(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage
+			,String brandNo, String bcNo, String scNo) {
+		int numPerPage = 5;
+		/*ModelAndView mv = new ModelAndView();*/
+		
+
+		Map<String, String> sortingProductList = new HashMap<String, String>();// state
+
+		sortingProductList.put("brandNo", brandNo);
+		sortingProductList.put("bcNo",  bcNo);
+		sortingProductList.put("scNo", scNo);
+		
+		/*List<AdminProduct> adProductList = service.selectProductList(sortingProductList);*/
+		List<AdminProduct> adProductList = service.selectReProductList(cPage, numPerPage, sortingProductList);
+
+		int contentCount = service.selectReProductCount(sortingProductList);
+	
+		
+		Map map=new HashMap();
+		map.put("proc",adProductList);
+		map.put("page",PageFactory.getManageProductPageBar(contentCount, cPage, numPerPage, brandNo, bcNo, scNo, "/makers/admin/selectRList.do"));
+		/*map.put("page",PageFactory.getManageProductPageBar(contentCount, cPage, numPerPage, brandNo, bcNo, scNo, "/makers/admin/selectBList.do"));*/
+		/*mv.addObject("pageBar",
+				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/admin/selectBrandProductList.do"));
+		mv.addObject("adProductList", adProductList);		
+		mv.setViewName("jsonView");*/
+		
+		return map;
+	}
+	
+	
 
 	@RequestMapping("/admin/enrollProduct.do")
 	public ModelAndView enrollProduct() {

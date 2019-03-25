@@ -148,15 +148,15 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public int selectReProductCount() {
+	public int selectReProductCount(Map<String, String> sortingProductList) {
 		// TODO Auto-generated method stub
-		return session.selectOne("admin.selectReProductCount");
+		return session.selectOne("admin.selectReProductCount", sortingProductList);
 	}
 
 	@Override
-	public List<AdminProduct> selectReProductList(int cPage, int numPerPage) {
+	public List<AdminProduct> selectReProductList(int cPage, int numPerPage, Map<String, String> sortingProductList) {
 		RowBounds rb = new RowBounds((cPage - 1) * numPerPage, numPerPage);
-		return session.selectList("admin.selectReProductList", null, rb);
+		return session.selectList("admin.selectReProductList", sortingProductList, rb);
 	}
 
 	@Override
