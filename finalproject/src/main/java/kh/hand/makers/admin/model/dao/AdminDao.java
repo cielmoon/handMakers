@@ -20,6 +20,8 @@ public interface AdminDao {
 	List<AdminProduct> selectReProductList(int cPage,int numPerPage);
 	
 	List<AdminProduct> selectProductList(int cPage,int numPerPage, Map<String, String> sortingProductList);
+	/*List<AdminProduct> selectProductList(Map<String, String> sortingProductList);*/
+	
 	List<Brand> selectBrandList(int cPage, int numPerPage);
 	int selectProductCount(Map<String, String> sortingProductList);
 	int selectBrandCount();

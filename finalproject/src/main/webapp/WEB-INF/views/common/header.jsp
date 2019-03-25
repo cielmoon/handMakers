@@ -69,25 +69,27 @@
 									<c:when test="${member != null }">
 												
 										<c:choose>
-											<c:when test="${member.memberAuthority == 'M' }">
-												<ul class="dropdown-menu dropdown-menu-right">
-													<li><a href="#"	onclick="location.href='${path}/member/myPage.do'">마이페이지</a></li>
-													<li><a href="#" onclick="location.href='${path}/member/memberLogout.do'">로그아웃</a></li>
-												</ul>
-											</c:when>
-														
 											<c:when test="${member.memberAuthority == 'A' }">
 												<ul class="dropdown-menu dropdown-menu-right">
 													<li><a href="#" onclick="location.href='${path}/admin/adminPage.do'">관리자페이지</a></li>
 													<li><a href="#" onclick="location.href='${path}/member/memberLogout.do'">로그아웃</a></li>
 													</ul>
 											</c:when>
+										
+											
 											<c:when test="${member.memberAuthority == null }">
 											<ul class="dropdown-menu dropdown-menu-right">
 													<li><a href="#" onclick="location.href='${path}/member/memberLogin.do'">로그인</a></li>
 													<li><a href="#" onclick="location.href='${path}/member/memberEnroll.do'">회원가입</a></li>
 												</ul>
 											</c:when>
+											
+											<c:otherwise>
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"	onclick="location.href='${path}/member/myPage.do'">마이페이지</a></li>
+													<li><a href="#" onclick="location.href='${path}/member/memberLogout.do'">로그아웃</a></li>
+												</ul>
+											</c:otherwise>
 										</c:choose>
 										
 									</c:when>
