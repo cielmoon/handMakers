@@ -25,6 +25,17 @@ $(function() {
 		manageProductAjax(1);
 	});
 	
+	$("#select-smallCategory").change(function(){
+		/* brandNo를 찾아서 이걸 가져가서 상품들을 해당 브랜드로 페이징 처리  */
+		
+		
+		/* console.log("brandNo :"+brandNo);
+		console.log("bcNo :"+bcNo);
+		console.log("scNo :"+scNo); */
+		
+		manageProductAjax(1);
+	});
+	
 	$("#select-bigCategory").change(function(){
 		var bcNo = $("#select-bigCategory").find(":selected").val();
 		/* 소카테고리 리스트 초기화  */
@@ -43,6 +54,9 @@ $(function() {
 				        text : data.scList[i]['scTitle']
 				    }));
 				}
+				
+				manageProductAjax(1);
+				
 			}
 		});
 	});
@@ -52,6 +66,9 @@ function manageProductAjax(cPage) {
 	var brandNo = $("#select-brand").find(":selected").val();
 	var bcNo = $("#select-bigCategory").find(":selected").val();
 	var scNo = $("#select-smallCategory").find(":selected").val();
+	console.log("scNo:" + scNo);
+	var productState = "";
+	var today = new Date();
 	/* var productPageBar = $("#productPageBar").val(); */
 	console.log("cPage : " + cPage);
 	/* 빅카테고리, 소카테고리 리스트 초기화  */
@@ -66,9 +83,23 @@ function manageProductAjax(cPage) {
 			var table = $('<table id="tbl-board" class="table table-striped table-hover"></table>');
 			table.append(tr1);
 			for(var i=0;i<data.proc.length;i++){
-				
+				if(data.proc[i].productState == '0'){
+					productState = "정상판매";
+					var tr2 = $("<tr><th>" + data.proc[i].productBcTitle + "</th><th>" + data.proc[i].productScTitle + "</th><th>" + data.proc[i].productTitle + "</th><th>" + data.proc[i].productBrandTitle + 
+							"</th><th>" + productState + "</th><th>" + data.proc[i].productEnrollDate + "</th><th>" + data.proc[i].productEndDate 
+							+ "</th><th></th></tr>");
+				}else if(data.proc[i].productState == '4'){
+					productState ="재등록요청";
+					var tr2 = $("<tr><th>" + data.proc[i].productBcTitle + "</th><th>" + data.proc[i].productScTitle + "</th><th>" + data.proc[i].productTitle + "</th><th>" + data.proc[i].productBrandTitle + 
+							"</th><th>" + productState + "</th><th>" + data.proc[i].productEnrollDate + "</th><th>" + data.proc[i].productEndDate 
+							+ "</th><th><a href='${path}/admin/updateProductInfo.do?productNo='"+data.proc[i].productNo+"'><button class='btn btn-primary'>상품 재등록</button></a></th></tr>");
+				}
 				/* console.log(data.adminProductList[i]); */
-				var tr2 = $("<tr><th>" + data.proc[i].productBcTitle + "</th><th>" + data.proc[i].productScTitle + "</th><th>" + data.proc[i].productTitle + "</th><th>" + data.proc[i].productBrandTitle + "</th><th>" + data.proc[i].productState + "</th><th>" + data.proc[i].productEnrollDate + "</th><th>" + data.proc[i].productEndDate + "</th><th></th></tr>");
+				
+				
+				console.log("타입뭐야 " + data.proc[i].productEnrollDate);
+				console.log("타입뭐야2 " + typeof(data.proc[i].productEnrollDate));
+				
 				table.append(tr2);
 			}
 			

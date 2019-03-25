@@ -185,7 +185,7 @@
 		small_category on
 		(small_category.sc_no =
 		product.sc_no)
-		where (product.product_state = '0' or product.product_state = '4')
+		where (product.product_state = 0 or product.product_state = 4)
 		and
 		product.brand_no = #{brandNo}
 		and product.bc_no = #{bcNo}
@@ -194,7 +194,7 @@
 		order by product_update desc
 	</select>
 
-	<select id="selectReProductList" resultMap="adminProductMap">
+	<select id="selectReProductList" parameterType="map" resultMap="adminProductMap">
 		select
 		big_category.bc_title as "product_bc_title",
 		small_category.sc_title as
@@ -215,24 +215,29 @@
 		small_category on
 		(small_category.sc_no =
 		product.sc_no) where
-		product.product_state = '2' or product.product_state = '3' or
-		product.product_state = '1' order by product_update desc
+		(product.product_state = '2' or product.product_state = '3' or product.product_state = '1') 
+		and product.brand_no = #{brandNo}
+		and product.sc_no = #{scNo}
+		and	product.bc_no = #{bcNo}
+		order by product_update desc
 	</select>
 
 	<select id="selectProductCount" parameterType="map"
 		resultType="_int">
 		select count(*) from
-		product where product.product_state =
-		'0'
+		product where (product.product_state = 0 or product.product_state = 4)
 		and product.brand_no = #{brandNo}
 		and product.sc_no = #{scNo}
 		and
 		product.bc_no = #{bcNo}
 	</select>
 
-	<select id="selectReProductCount" resultType="_int">
+	<select id="selectReProductCount" parameterType="map"  resultType="_int">
 		select count(*)
-		from product where product.product_state != '0'
+		from product where (product.product_state = '2' or product.product_state = '3' or product.product_state = '1')
+		and product.brand_no = #{brandNo}
+		and product.sc_no = #{scNo}
+		and	product.bc_no = #{bcNo}
 	</select>
 
 	<select id="selectMemberCount" parameterType="map"
