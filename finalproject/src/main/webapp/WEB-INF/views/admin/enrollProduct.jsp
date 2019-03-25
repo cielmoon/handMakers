@@ -10,9 +10,6 @@
 
 <!-- include libraries(jQuery, bootstrap) -->
 
-<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> -->
-<!-- <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> -->
-<!-- include summernote css/js-->
 
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
@@ -24,14 +21,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.js"></script>
  -->
 
-<!-- <script src="http://jonthornton.github.io/Datepair.js/dist/datepair.js"></script>
-<script src="http://jonthornton.github.io/Datepair.js/dist/jquery.datepair.js"></script> -->
 <style>
 #select-brand, #select-bigcategory, #select-smallcategory {
 	margin-bottom: 10px;
 }
 
-#newProductDetailImg, #newProductOption {
+#newProductDetailImg, #newProductOption, .newProductDetailImg, .newProductOption {
 	width: 500px;
 }
 
@@ -191,6 +186,16 @@
 			return false;
 		}
 		
+		for (var i = 1; i < 4; i++) {
+			if ($("#newProductDetailImg" + i).val() == "") {
+				
+				alert("추가할 상품 사진을 등록해주세요.");
+				$("#newProductDetailImg" + i).focus();
+				
+				return false;
+			}
+		}
+		
 		if ($("#newProductOption").val() == "") {
 			alert("상품 옵션을 입력해주세요.");
 			$("#newProductOption").focus();
@@ -198,6 +203,16 @@
 			return false;
 		}
  		
+		for (var i = 1; i < 4; i++) {
+			if ($("#newProductOption" + i).val() == "") {
+				
+				alert("추가할 상품 옵션을 등록해주세요.");
+				$("#newProductOption" + i).focus();
+				
+				return false;
+			}
+		}
+		
 		if(!priceRegex.test($("#newProductPrice").val())) {
 			alert("상품 가격은 숫자만 입력해주세요.");
 			$("#newProductPrice").val('');
@@ -252,7 +267,6 @@
 			var reader = new FileReader();
 			reader.onload = function(e) {
 				$("#adminProductProfileMainImg").attr("src", e.target.result).css('width', '350px').css('height', '350px');
-				console.log("메인사진" + $("#newProductProfileImg").val());
 			}
 			
 			reader.readAsDataURL(f);
@@ -273,8 +287,7 @@ $(function(){
     		var addTr=$("<tr></tr>");
     		var addTh=$("<th>상품사진</th>");
    	 		var addTd=$("<td></td>");
-   	 		var addInput =$("<input type='file' id='newProductDetailImg' name='newProductDetailImg' title='파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능'>");
-    
+   	 		var addInput =$("<input type='file' id='newProductDetailImg" + filecount + "' name='newProductDetailImg' class='newProductDetailImg' title='파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능'>");
     		var addTd2=$("<td></td>");
     		var deleteBtn = $('<th><button type="button" class="btn btn-primary1 pull-left" id="deleteA" name="deleteA">삭제</button></th>');
     		
@@ -314,7 +327,7 @@ $(function(){
     		var addTr=$("<tr></tr>");
     		var addTh=$("<th>상세옵션</th>");
    	 		var addTd=$("<td></td>");
-   	 		var addInput =$("<input type='text' name='newProductOption' id='newProductOption' placeholder='상품 옵션을 추가해주세요.'>");
+   	 		var addInput =$("<input type='text' id='newProductOption" + optioncount + "' name='newProductOption' class='newProductOption' placeholder='상품 옵션을 추가해주세요.'>");
     		
    	 		
     		var addTd2=$("<td></td>");
