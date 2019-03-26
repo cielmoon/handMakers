@@ -293,6 +293,7 @@ public class AdminController {
 		 */
 		List<AdminProduct> adProductList = service.selectProductList(cPage, numPerPage, sortingProductList);
 		for (AdminProduct adminProduct : adProductList) {
+			System.out.println("ProductNo:" + adminProduct.getProductNo());
 			System.out.println("등록날짜:" + adminProduct.getProductEnrollDate());
 			System.out.println("마감날짜:" + adminProduct.getProductEndDate());
 		}
@@ -735,7 +736,7 @@ public class AdminController {
 
 	@RequestMapping("/admin/updateProductInfo.do")
 	public ModelAndView updateProductInfo(String productNo) {
-
+		logger.debug("재등록 상세 productNo: "+productNo);
 		Map<String, String> product = service.selectProduct(productNo);
 
 		ModelAndView mv = new ModelAndView();

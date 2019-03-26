@@ -145,14 +145,13 @@
 		SELECT W.*, P.*,P.PRODUCT_PRICE-(P.PRODUCT_PRICE*(P.PRODUCT_DISCOUNT/100)) as SALEPRICE 
 		FROM WISH W 
 		JOIN PRODUCT P ON(P.PRODUCT_NO=W.PRODUCT_NO) 
-		WHERE W.MEMBER_NO=#{memberNo} AND NOT P.PRODUCT_STATE IN(2,3,4)
+		WHERE W.MEMBER_NO=#{memberNo} AND P.PRODUCT_STATE = 0
 	</select>
 
 	<select id="selectWishCount" parameterType="string"
 		resultType="_int">
 		SELECT COUNT(*) FROM WISH W JOIN PRODUCT P
-		USING(PRODUCT_NO) WHERE W.MEMBER_NO=#{memberNo} AND NOT
-		P.PRODUCT_STATE IN(2,3,4)
+		USING(PRODUCT_NO) WHERE W.MEMBER_NO=#{memberNo} AND P.PRODUCT_STATE = 0
 	</select>
 
 	<delete id="deleteLocation" parameterType="string">
