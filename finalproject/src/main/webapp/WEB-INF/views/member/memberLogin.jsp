@@ -55,8 +55,12 @@
 								alert("인증번호가 발송되었습니다. 이메일을 확인해주세요.");
 								var input = $('<input type="text" class="form-control" id="checkCerCode" placeholder="인증 코드 입력" name="checkCerCode">');
 								var enter = $('<a id="'+data.randomNumber+'" value="'+memberEmail+'"onclick="compareCode(this);"><input type="button" value="인증 코드 확인" id="enterCertification" class="btn btn-primary"/></a>');
+								var newEmailCertification = $('<input type="button" value="인증 코드 발송" id="emailCertification" class="btn btn-primary" disabled="disabled">');
+								
 								$("#enterCerCode").append(input);
 								$("#enter").append(enter);
+								$("#emailCertificationArea").html(newEmailCertification);
+								
 								checkEmailCount = 1;													
 								console.log("보내준 인증코드: "+data.randomNumber);
 							} 
@@ -99,9 +103,7 @@
 		}else{
 			alert("잘못된 인증코드입니다.");
 		}
-	}
-	
-	
+	}		
 	
 	$(function() {
 		$("#emailCertificationForPwd").click(function() {
@@ -116,11 +118,15 @@
 						data:{"memberEmail" : memberEmailForPwd, "memberEmailId" : memberEmailIdForPwd},
 						success:function(data) {	
 							if(data.memberState == "T"){
+								alert("인증번호가 발송되었습니다. 이메일을 확인해주세요.");
 								var input = $('<input type="text" class="form-control" id="checkCerCodeForPwd" placeholder="인증 코드 입력" name="checkCerCodeForPwd">');
 								var enter = $('<a id="'+data.randomNumber+'" value="'+memberEmailIdForPwd+'"onclick="compareCodeForPwd(this);"><input type="button" value="인증 코드 확인" id="enterCertificationForPwd" class="btn btn-primary"/></a>');
+								var newEmailCertificationForPwd = $('<input type="button" value="인증 코드 발송" id="emailCertificationForPwd" class="btn btn-primary" disabled="disabled">');
 								
 								$("#enterCerCodeForPwd").append(input);
 								$("#enterForPwd").append(enter);
+								$("#inputEmailBtnForPwd").html(newEmailCertificationForPwd);
+								
 								checkEmailCountForPwd = 1;
 							} else {
 								alert("이메일 또는 아이디가 일치하지 않습니다.");
@@ -158,11 +164,10 @@
 			var newPwd = $('<input type="password" class="form-control" id="memberNewPwd" placeholder="패스워드 (영문숫자포함 6글자이상)" value="" name="memberNewPwd">');
 			var newPwdCheck = $('<input type="password" class="form-control" id="memberNewPwdCheck" placeholder="패스워드 확인" value="" name="memberNewPwdCheck">');
 			var submitBtn = $('<a id="'+memberId+'" onclick="updateNewPwd(this);"><input type="button" value="비밀번호 변경" class="btn btn-primary"/></a>');
-			
+				
 			$("#newPassword").append(newPwd);
 			$("#newPasswordCheck").append(newPwdCheck);
-			
-			
+						
 			/* 
 			$("#memberEmailForPwd").attr("readonly",true);
 			$("#emailCertificationForPwd").attr("disabled",true);	 */		
@@ -291,13 +296,16 @@
 					 				
 					 				<a href="#" data-toggle="modal" data-target="#findIdModal">아이디 찾기</a>
 					 				<a> / </a>
-									<a href="#" data-toggle="modal" data-target="#findPwdModal">비밀번호 찾기</a> 								
+									<a href="#" data-toggle="modal" data-target="#findPwdModal">비밀번호 찾기</a>
+									<a> / </a>
+									<a href="#" onclick="location.href='${path}/member/memberEnroll.do'">회원가입</a>						
 								</div>
 								<input type="submit" class="btn btn-primary" value="로그인">
 							</form>
 						</div>
 					</div>
-					<div class="col-sm-3"></div>
+					<div class="col-sm-3">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -318,7 +326,7 @@
 						<div class="col-sm-9">
 							<input type="email" class="form-control" id="memberEmail" placeholder="이메일" name="memberEmail">
 						</div>
-						<div class="col-sm-3">
+						<div class="col-sm-3" id="emailCertificationArea">
 							<input type="button" value="인증 코드 발송" id="emailCertification" class="btn btn-primary">
 						</div>
 						<div class="col-sm-9" id="enterCerCode"></div>

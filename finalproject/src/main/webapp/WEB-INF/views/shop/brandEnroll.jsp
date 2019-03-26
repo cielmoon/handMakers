@@ -9,11 +9,15 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 $(function(){
-	/* 사업자 등록번호 입력 시 글자 제한 및 자동 하이픈 추가 */
+	 /* 사업자 등록번호 입력 시 글자 제한 및 자동 하이픈 추가 */
 	$('#input-license').on('keydown',function(){
-     var key = event.charCode || event.keyCode || 0;
+     var key = event.charCode || event.keyCode || 0;     
      $text = $(this); 
-     if (key !== 8 && key !== 9) {
+     if(key == 229)
+   	 {
+    	 $text.val('');
+   	 }
+     if ((key !== 8 && key !== 9)) {
          if ($text.val().length === 3) {
              $text.val($text.val() + '-');
          }
@@ -23,11 +27,20 @@ $(function(){
      }
      return (key == 8 || key == 9 || key == 46 || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));
  	})
+	 
 });
 
 function validate(){
-	/* 사업자 등록번호 길이 확인(12자리) */
+	/* 사업자 등록번호 길이 확인(12자리) 및 한글 체크 */
+	var check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 	var license = $('#input-license').val();
+	
+    if(check.test(license)){
+    	alert("사업자 등록번호를 정확하게 입력해 주세요.");
+		$('#input-license').focus();
+		return false;
+    }
+    
 	if(license.trim().length < 12)
 	{
 		alert("사업자 등록번호를 정확하게 입력해 주세요.");
@@ -76,6 +89,7 @@ function searchAddr(){
 }
 </script>
 <style>
+
 .mt-1 {
 	margin-top: 10px;
 }
@@ -111,7 +125,7 @@ function searchAddr(){
 										<p>* 표시는 필수 입력 사항입니다.</p> 
 										<div class="form-group">
 											<label for="input-license" class="control-label">사업자 등록번호 *</label>
-											<input type="text" class="form-control" id="input-license" name="brandLicense" maxlength="12" required
+											<input type="text" class="form-control" id="input-license" name="brandLicense" maxlength="12"
 											value="${brand.brandLicense}" ${brand!=null? "readonly" : "" }>
 										</div>
 										<div class="form-group">
@@ -127,8 +141,11 @@ function searchAddr(){
 											</div>
 											<div class="col-sm-6">
 												<label for="input-brandType" class="control-label">업종 *</label>
-												<input type="text" class="form-control" id="input-brandType" name="brandType" placeholder="ex)의류" 
-												value="${brand.brandType}" required>
+												<select class="form-control" id="input-brandType" name="brandType" required>
+													<c:forEach items="${bcList }" var="b" varStatus="vs">
+															<option ${brand!=null && brand.brandType eq b.bcTitle? "selected" : ""} value="${b.bcTitle }">${b.bcTitle}</option>
+													</c:forEach>	
+												</select>
 											</div>
 										</div>
 										

@@ -28,4 +28,9 @@ public interface MemberDao {
 	Member memberFind(Map<String,String> findMember);
 	int memberNewPwdUpdate(Map<String,String> cP);
 	int checkEmail(String memberEmail);
+
+	int changeProfile(Member m);
+
+	int updateOrderState(String orderNo);
+
 }

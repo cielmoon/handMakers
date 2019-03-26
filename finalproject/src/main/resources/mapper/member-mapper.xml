@@ -146,12 +146,14 @@
 		FROM WISH W 
 		JOIN PRODUCT P ON(P.PRODUCT_NO=W.PRODUCT_NO) 
 		WHERE W.MEMBER_NO=#{memberNo} AND P.PRODUCT_STATE IN (0,1)
+
 	</select>
 
 	<select id="selectWishCount" parameterType="string"
 		resultType="_int">
 		SELECT COUNT(*) FROM WISH W JOIN PRODUCT P
 		USING(PRODUCT_NO) WHERE W.MEMBER_NO=#{memberNo} AND P.PRODUCT_STATE IN (0,1)
+
 	</select>
 
 	<delete id="deleteLocation" parameterType="string">
@@ -179,4 +181,17 @@
 		select
 		count(*) from member where MEMBER_EMAIL=#{memberEmail}
 	</select>
+	
+
+	<update id="changeProfile" parameterType="member">
+		UPDATE MEMBER SET
+		member_profile=#{memberProfile}
+		where member_no=#{memberNo}
+	</update>
+	
+	<update id="updateOrderState" parameterType="string">
+		UPDATE product_order SET order_paystate= '3'
+		where order_no = #{orderNo}
+	</update>
+	
 </mapper>

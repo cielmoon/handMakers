@@ -38,22 +38,22 @@
 	SELECT P.*, W.MEMBER_NO as wishChk, NVL( (SELECT ROUND(AVG(PRODUCT_SCORE),1) FROM TOTALSCORE WHERE PRODUCT_NO = P.PRODUCT_NO GROUP BY(PRODUCT_NO)), 0) score FROM PRODUCT P LEFT JOIN WISH W ON (P.PRODUCT_NO = W.PRODUCT_NO AND W.MEMBER_NO = #{memberNo})
 		<where>
 		<if test="productStep != null and category == null and sc == null and best == null"> <!-- 입점예정 + 신규 -->
-		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3,4) ORDER BY PRODUCT_UPDATE DESC
 		</if>
 		<if test="productStep != null and category != null and sc == null and best == null"> <!-- 카테고리 Lv1 -->
-		PRODUCT_STEP = #{productStep} AND BC_NO = #{category} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
+		PRODUCT_STEP = #{productStep} AND BC_NO = #{category} AND not PRODUCT_STATE in (2,3,4) ORDER BY PRODUCT_UPDATE DESC
 		</if>
 		<if test="productStep != null and category != null and sc != null and best == null"> <!-- 카테고리 Lv2 -->
-		PRODUCT_STEP = #{productStep} AND (BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_UPDATE DESC
+		PRODUCT_STEP = #{productStep} AND (BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3,4) ORDER BY PRODUCT_UPDATE DESC
 		</if>
 		<if test="productStep != null and category == null and sc == null and best != null"> <!-- 베스트 Lv0 -->
-		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_CURSELL DESC
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3,4) ORDER BY PRODUCT_CURSELL DESC
 		</if>
 		<if test="productStep != null and category != null and sc == null and best != null"> <!-- 베스트 Lv1 -->
-		PRODUCT_STEP = #{productStep} AND BC_NO = #{category} AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_CURSELL DESC
+		PRODUCT_STEP = #{productStep} AND BC_NO = #{category} AND not PRODUCT_STATE in (2,3,4) ORDER BY PRODUCT_CURSELL DESC
 		</if>
 		<if test="productStep != null and category != null and sc != null and best != null"> <!-- 베스트 Lv2 -->
-		PRODUCT_STEP = #{productStep} AND (BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3) ORDER BY PRODUCT_CURSELL DESC
+		PRODUCT_STEP = #{productStep} AND (BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3,4) ORDER BY PRODUCT_CURSELL DESC
 		</if>
 		</where>
 	</select>
@@ -63,13 +63,13 @@
 		SELECT COUNT(*) FROM PRODUCT
 		<where>
 		<if test="productStep != null and category == null and sc == null">
-		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3)
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3,4)
 		</if><!-- 입점 신규 기본 카운트 -->
 		<if test="productStep != null and category != null and sc == null">
-		PRODUCT_STEP = #{productStep} AND BC_NO = #{category} AND not PRODUCT_STATE in (2,3)
+		PRODUCT_STEP = #{productStep} AND BC_NO = #{category} AND not PRODUCT_STATE in (2,3,4)
 		</if><!-- 큰카테고리 카운트 카테 + 베스트 -->
 		<if test="productStep != null and category != null and sc != null">
-		PRODUCT_STEP = #{productStep} AND (BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3)
+		PRODUCT_STEP = #{productStep} AND (BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3,4)
 		</if><!-- 큰카테고리 + 작은카테 카운트 카테 + 베스트 -->
 		</where>
 	</select>

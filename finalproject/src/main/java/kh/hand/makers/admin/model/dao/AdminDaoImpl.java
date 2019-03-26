@@ -54,6 +54,12 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
+	public int updatePState(String productNo) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updatePState", productNo);
+	}
+
+	@Override
 	public int selectPreProductCount(Map<String, String> sortingProductList) {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectPreProductCount",sortingProductList);
@@ -259,7 +265,8 @@ public class AdminDaoImpl implements AdminDao {
 	public SellerRequest selectSellerRequest(String sellerReqNo) {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectSellerRequest",sellerReqNo);
-	}	
-	
+	}
+
+
 	
 }

@@ -243,16 +243,13 @@
 		and	product.bc_no = #{bcNo}
 	</select>
 
-	<select id="selectMemberCount" parameterType="map"
-		resultType="_int">
-		select count(*) from
-		member
+	<select id="selectMemberCount" parameterType="map"	resultType="_int">		
+		select count(*) from member	where MEMBER_AUTHORITY != 'A' and member_state != 0 order by member_enrolldate asc
 	</select>
 
-	<select id="selectMemberList" resultMap="viewMemberListMap"> select member_id,
-		member_name, member_email, member_phone, member_enrolldate
-		from member
-		where member_no != 'M_NO_1' order by member_enrolldate asc
+	<select id="selectMemberList" resultMap="viewMemberListMap"> 
+	select member_id, member_name, member_email, member_phone, member_enrolldate
+		from member	where MEMBER_AUTHORITY != 'A' and member_state != 0 order by member_enrolldate asc
 	</select>
 
 
@@ -453,4 +450,8 @@
 		where SELLER_REQ_NO = #{sellerReqNo}
 		order by SELLER_REQ_DATE
 	</select>
+	
+	<update id="updatePState" parameterType="string">
+		update product set product_state = 2 where product_no = #{productNo}
+	</update>
 </mapper>
