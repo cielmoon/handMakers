@@ -32,5 +32,6 @@ public interface MemberDao {
 	int changeProfile(Member m);
 
 	int updateOrderState(String orderNo);
-
+	
+	Member memberEmailFind(String memberEmail);
 }
