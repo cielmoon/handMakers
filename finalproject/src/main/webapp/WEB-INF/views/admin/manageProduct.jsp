@@ -88,13 +88,14 @@ function manageProductAjax(cPage) {
 					var tr2 = $("<tr><td>" + data.proc[i].productBcTitle + "</td><td>" + data.proc[i].productScTitle + "</td><td>" + data.proc[i].productTitle + "</td><td>" + data.proc[i].productBrandTitle + 
 							"</td><td>" + productState + "</td><td>" + data.proc[i].updateDate + "</td><td>" + data.proc[i].productEndDate 
 							+ "</td><td></td></tr>");
-				}else if(data.proc[i].productState == '4'){
+				}else if(data.proc[i].productState == '4'){	
+			
 					productState ="재등록요청";
 					var tr2 = $("<tr><td>" + data.proc[i].productBcTitle + "</td><td>" + data.proc[i].productScTitle + "</td><td>" + data.proc[i].productTitle + "</td><td>" + data.proc[i].productBrandTitle + 
 							"</td><td>" + productState + "</td><td>" + data.proc[i].updateDate + "</td><td>" + data.proc[i].productEndDate 
-							+ "</td><td><a href='${path}/admin/updateProductInfo.do?productNo='"+data.proc[i].productNo+"'><button class='btn btn-primary'>상품 재등록</button></a></td></tr>");
+							+ "</td><td><a href='${path}/admin/updateProductInfo.do?productNo="+data.proc[i].productNo+"'> <button class='btn btn-primary'>상품 재등록</button></a></td></tr>");
 				}
-				/* console.log(data.adminProductList[i]); */
+			
 				
 				table.append(tr2);
 			}
