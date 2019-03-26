@@ -40,7 +40,7 @@ $(function() {
 		<ul class="breadcrumb">
 			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
 			<li><a href="${path }/member/myPage.do">마이페이지</a></li>
-			<li><a href="${path }/member/manageOrder.do">주문/배송내역 조회</a></li>
+			<li><a href="#">주문/배송내역 조회</a></li>
 			
 		</ul>
 		<br />

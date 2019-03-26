@@ -274,8 +274,7 @@
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
-			<li><a href="${pageContext.request.contextPath }"><i
-					class="fa fa-home"></i></a></li>
+			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
 			<li><a href="#">MyAccount</a></li>
 			<li><a href="#">회원가입</a></li>
 		</ul>

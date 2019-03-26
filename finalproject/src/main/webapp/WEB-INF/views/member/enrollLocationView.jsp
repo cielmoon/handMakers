@@ -12,7 +12,7 @@
 		<ul class="breadcrumb">
 			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
 			<li><a href="${path }/member/memberMyPage">마이페이지</a></li>
-			<li><a href="<%=request.getContextPath()%>/memberMyPage">마이페이지</a></li>
+			<li><a href="#">배송지 설정</a></li>
 		</ul>
 		<br />
 		<div class="row">
