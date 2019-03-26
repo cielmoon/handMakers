@@ -179,4 +179,17 @@
 		select
 		count(*) from member where MEMBER_EMAIL=#{memberEmail}
 	</select>
+	
+
+	<update id="changeProfile" parameterType="member">
+		UPDATE MEMBER SET
+		member_profile=#{memberProfile}
+		where member_no=#{memberNo}
+	</update>
+	
+	<update id="updateOrderState" parameterType="string">
+		UPDATE product_order SET order_paystate= '3'
+		where order_no = #{orderNo}
+	</update>
+	
 </mapper>
