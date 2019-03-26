@@ -137,9 +137,9 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public int selectCommentCount(String commentType) {
+	public int selectCommentCount(Map<String,String> mapComment) {
 		
-		return session.selectOne("product.selectCommentCount",commentType);
+		return session.selectOne("product.selectCommentCount",mapComment);
 	}
 
 	@Override

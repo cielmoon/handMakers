@@ -361,12 +361,18 @@ function fn_deleteQuestionComment(inputComment){
           <ul class="list-unstyled productinfo-details-top">
             <li>
             <!-- 가격 -->
-              <h2 class="productpage-price">가격 : <fmt:formatNumber value="${product.PRODUCT_PRICE -(product.PRODUCT_PRICE*(product.PRODUCT_DISCOUNT div 100)) }" type="currency" currencySymbol="￦"/></h2>
-              <input type="hidden" name="productPrice" value="${product.PRODUCT_PRICE -(product.PRODUCT_PRICE*(product.PRODUCT_DISCOUNT/100)) }"/>
+            <c:if test="${product.PRODUCT_STEP ne 0 }">
+            	<h2 class="productpage-price">가격 : <fmt:formatNumber value="${product.PRODUCT_PRICE}" type="currency" currencySymbol="￦"/></h2>
+              	<input type="hidden" name="productPrice" value="${product.PRODUCT_PRICE }"/>
+            </c:if>
+            <c:if test="${product.PRODUCT_STEP eq 0 }">
+              <h2 class="productpage-price">가격 : <fmt:formatNumber value="${product.SALES}" type="currency" currencySymbol="￦"/></h2>
+              <input type="hidden" name="productPrice" value="${product.SALES }"/>
+            </c:if>
             </li>
-            <c:if test="${product.PRODUCT_STEP eq 0 and product.PRODUCT_DISCOUNT != 0}">
+            <c:if test="${product.PRODUCT_STEP eq 0 and product.PRODUCT_DISCOUNT ne 0}">
                <!-- 세금 내역 -> 이벤트 할인 가 넣으면 될듯 -->
-               <li><span class="productinfo-tax"><fmt:formatNumber value="${product.PRODUCT_DISCOUNT }" type="currency"/>%</span></li>
+               <li><span class="productinfo-tax"><fmt:formatNumber value="${product.PRODUCT_DISCOUNT }"/>%</span></li>
             </c:if>
           </ul>
           <hr>
@@ -383,7 +389,7 @@ function fn_deleteQuestionComment(inputComment){
               <span> ${product.PRODUCT_CURSELL }</span></li>
             <li>
               <label>남은 수량 : </label>
-              <span style="color:red"> ${product.REMAININVENTORY }</span></li>    
+              <span style="color:red"> ${product.REMAININVENTORY }개</span></li>    
           </ul>
           
           <hr/>
@@ -397,7 +403,7 @@ function fn_deleteQuestionComment(inputComment){
               <span><fmt:formatDate value="${product.PRODUCT_ENDDATE }" pattern="yyyy-MM-dd"/></span></li>
             <li>
               <label>판매 남은일:</label>
-              <span id="remainperiod" style="color:red"><fmt:formatNumber value="${product.REMAINPERIOD }"/>일</span></li>
+              <span id="remainperiod" style="color:red">${product.REMAINPERIOD }일</span></li>
           </ul>
           <hr/>
              
@@ -413,7 +419,7 @@ function fn_deleteQuestionComment(inputComment){
             
             <div class="form-group">
               <label class="control-label qty-label" for="input-qty">수량</label>
-              <input type="number" name="productQty" value="1" size="2" id="input-quantity" class="form-control productpage-qty" />
+              <input type="number" name="productQty" value="1" min="1" size="10" id="input-quantity" class="form-control productpage-qty"/>
               
               <input type="hidden" name="productNo" id="input-productNo" value="${product.PRODUCT_NO }"/>
               <input type="hidden" name="brandNo" value="${product.BRAND_NO }"/>
@@ -490,9 +496,9 @@ function fn_deleteQuestionComment(inputComment){
           <!-- 후기 댓글 등록 창 -->
          <div class="tab-pane" id="tab-review">
             <div id="reviewComment" class="form-group"> <!-- style="border:1px solid red" -->
-                
+               
                 <ul class="media-list">
-                     <c:if test='${reviewCommentList==null }'>
+                     <c:if test='${reviewCommentList.size() eq 0 }'>
                         <span id="level1">등록된 상품 후기가 없습니다.
                         </span>
                      </c:if>
@@ -685,7 +691,7 @@ function fn_deleteQuestionComment(inputComment){
           <div class="tab-pane" id="tab-question">
             <div id="questionComment" class="form-group"><!--  style="border:1px solid red" -->
                   <ul class="media-list">
-                     <c:if test='${questionCommentList==null }'>
+                     <c:if test='${questionCommentList.size() eq 0 }'>
                         <span id="level1">등록된 상품 문의가 없습니다.</span>
                      </c:if>
                      <c:if test="${questionCommentList!=null }">

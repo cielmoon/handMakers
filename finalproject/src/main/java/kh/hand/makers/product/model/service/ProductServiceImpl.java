@@ -93,9 +93,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int selectCommentCount(String commentType) {
+	public int selectCommentCount(Map<String,String> mapComment) {
 		
-		return dao.selectCommentCount(commentType);
+		return dao.selectCommentCount(mapComment);
 	}
 
 	@Override

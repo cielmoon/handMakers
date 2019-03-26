@@ -273,6 +273,7 @@ function updateTracking()
 											<c:otherwise>
 												<c:if test="${o.ORDER_STATE == '0'}">배송준비중</c:if>
 												<c:if test="${o.ORDER_STATE == '1'}">출고완료</c:if>
+												<c:if test="${o.ORDER_STATE == '2'}">주문취소</c:if>
 											</c:otherwise>
 										</c:choose>
 									</td>

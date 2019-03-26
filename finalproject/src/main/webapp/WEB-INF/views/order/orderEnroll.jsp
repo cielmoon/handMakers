@@ -189,7 +189,7 @@ function requestPay() {
 										</div>
 										<div class="form-group">
 											<label class="control-label">수량</label>
-											<input type="number" class="form-control" id="input-productOptionQty" name="productOptionQty" value="${orderList.productQty }" required>
+											<input type="number" class="form-control" id="input-productOptionQty" name="productOptionQty" min="1" value="${orderList.productQty }" required>
 										</div>
 										
 										<!-- 배송지 주소 -->
