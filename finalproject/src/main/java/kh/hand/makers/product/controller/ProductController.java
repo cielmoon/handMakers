@@ -426,6 +426,7 @@ public class ProductController {
 		map.put("memberNo", memberNo);
 		
 		int result = service.selectWishYewon(map);
+		logger.debug("나쁜놈아 "+result);
 		
 		return result;
 	}

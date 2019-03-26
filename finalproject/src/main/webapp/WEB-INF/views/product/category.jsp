@@ -119,14 +119,14 @@
               <h4 class="product-name ellips">
               <a href="${path }/product/productView.do?productNo=${product.productNo}" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
 			<div style="width : 200px; height : 24px;" class="rating ellips">${product.productComment }</div>
-              <!-- 상품상세페이지 링크 , title=product_title , value = product_title -->
-                <!-- product_comment -->
+            <!-- product_comment -->
                 <div style="width : 200px; height : 24px;">
-                <p class="price product-price"><span class="price-old"></span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 <span class="price-tax"></span> </p>
-                </div>
+                <p class="price product-price" style="margin-bottom: 0px;"><span class="price-old"></span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 <span class="price-tax"></span> </p>
+                </div><br>
               <!-- product_price -->
-              <!-- <div class="rating"> --><br>
-              <div style="width : 200px; height : 24px;">
+              
+              <!-- <div class="rating"> -->
+              <div style="float: right;">
               <%-- ${ product.score }평점 : --%>
 			<c:if test="${product.score ge 0 and product.score lt 0.5 }">
                <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
@@ -208,13 +208,18 @@ function fn_wishChk(productNo){
 		url:"${path}/product/selectWishYewon.do",
 		data: {"productNo":productNo},
 		success:function(data){
-        if(data > 0){	
+        if(data == 1){	
         	$('#' + productNo).html('<i class="fa fa-heart"></i>');
         	$('#' + productNo).attr( "title" , "Remove to Wish List");
+        	alert('위시리스트에 추가 되었습니다.');
+        	return true;
         }
         else
-        	$('#' + productNo).html('<i class="fa fa-heart-o"></i>');
+        $('#' + productNo).html('<i class="fa fa-heart-o"></i>');
         $('#' + productNo).attr( "title" , "Add to Wish List");
+        alert('위시리스트에서 제거 되었습니다.');
+        return false;
+
         }
 	});
 }

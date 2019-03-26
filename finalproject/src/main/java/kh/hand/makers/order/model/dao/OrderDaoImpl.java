@@ -83,6 +83,18 @@ public class OrderDaoImpl implements OrderDao {
 		
 		return session.update("product.updateProductState",productNo);
 	}
+
+	@Override
+	public int updateOrder(Map<String, Object> map) {
+		
+		return session.update("product.updateOrder",map);
+	}
+
+	@Override
+	public int updateResetOrder(Map<String, String> map) {
+		
+		return session.update("product.updateResetOrder",map);
+	}
 	
 	
 

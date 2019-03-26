@@ -6,6 +6,14 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
+<style>
+	.ellips{
+		overflow:hidden;
+		white-space:nowrap;
+		text-overflow:ellipsis
+	}
+</style>
+
 <section>
 <div class="container">
   <ul class="breadcrumb">
@@ -59,13 +67,13 @@
           </div>
         </div>
 	</div>
-      
-      <div class="grid-list-wrapper">
+     
+     <div class="grid-list-wrapper">
       <c:forEach items="${wishList }" var="wish" varStatus="vs">
       
 	<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-         <div class="image product-imageblock" style="height:220px;">
+         <div class="image product-imageblock" style="height:220px;max-width:220px;">
          <a href="${path }/product/productView.do?productNo=${wish.PRODUCT_NO}">
          <img src="${path}/resources/image/product/${wish.PRODUCT_PROFILE }" alt="${wish.PRODUCT_TITLE }" title="${wish.PRODUCT_TITLE }" class="img-responsive" /></a>
               <div class="button-group">
@@ -81,9 +89,8 @@
             <div class="caption product-detail">
               <h4 class="product-name">
               <a href="${path }/product/productView.do?productNo=${wish.PRODUCT_NO}" title="${wish.PRODUCT_TITLE }"> ${wish.PRODUCT_TITLE } </a> </h4>
-                                    <p class="rating">${wish.PRODUCT_COMMENT }</p>
-              
-              <div class="product-desc">${wish.PRODUCT_COMMENT }</div>
+                                    
+              <p class="product-desc ellips">${wish.PRODUCT_COMMENT }</p>
               
               
               <p class="price product-price"><span class="price-old">${wish.PRODUCT_PRICE }</span> <fmt:formatNumber value="${wish.SALEPRICE }" type="currency" currencySymbol="￦"/> <span class="price-tax"></span> </p>
@@ -94,6 +101,9 @@
         </div>
 	</c:forEach>  
       </div>
+      
+      
+    
       <div class="category-page-wrapper">
  
         <div class="pagination-inner">

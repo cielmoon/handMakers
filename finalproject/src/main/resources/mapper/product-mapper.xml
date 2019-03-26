@@ -75,7 +75,7 @@
 	</select>
 	
 	<select id="selectProduct" parameterType="string" resultType="map">
-		SELECT P.*, (TRUNC(P.PRODUCT_ENDDATE)-TRUNC(P.PRODUCT_UPDATE)+1) AS REMAINPERIOD, P.PRODUCT_MAX-P.PRODUCT_CURSELL AS REMAININVENTORY, P.PRODUCT_PRICE-(P.PRODUCT_PRICE*P.PRODUCT_DISCOUNT/100) AS SALES
+		SELECT P.*, (TRUNC(P.PRODUCT_ENDDATE)-TRUNC(P.PRODUCT_UPDATE)+1) AS REMAINPERIOD, TO_NUMBER(P.PRODUCT_MAX-P.PRODUCT_CURSELL) AS REMAININVENTORY, P.PRODUCT_PRICE-(P.PRODUCT_PRICE*P.PRODUCT_DISCOUNT/100) AS SALES
 		FROM PRODUCT P
 		JOIN BRAND B ON(B.BRAND_NO=P.BRAND_NO)
 		WHERE P.PRODUCT_NO = #{productNo}
@@ -210,7 +210,7 @@
 	</update>
 	
 	<select id="selectProductCheck" parameterType="map" resultType="map">
-		SELECT * FROM PRODUCT WHERE PRODUCT_NO=#{productNo} AND PRODUCT_MAX=PRODUCT_CURSELL+#{productOptionQty}
+		SELECT * FROM PRODUCT WHERE PRODUCT_NO=#{productNo} AND PRODUCT_MAX=PRODUCT_CURSELL
 	</select>
 	
 	<insert id="insertProductSalesRecord" parameterType="string">
@@ -224,4 +224,11 @@
 		UPDATE PRODUCT SET PRODUCT_STATE='3' WHERE product_no=#{productNo}
 	</update>
 	
+	<update id="updateOrder" parameterType="string">
+		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL+TO_NUMBER(#{productQty}), PRODUCT_TOTALSELL=PRODUCT_TOTALSELL+TO_NUMBER(#{productQty}) WHERE PRODUCT_NO=#{productNo}
+	</update>
+	
+	<update id="updateResetOrder" parameterType="map">
+		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL-TO_NUMBER(#{productOptionQty}), PRODUCT_TOTALSELL=PRODUCT_TOTALSELL-TO_NUMBER(#{productOptionQty}) WHERE PRODUCT_NO=#{productNo} 
+	</update>
 </mapper>
