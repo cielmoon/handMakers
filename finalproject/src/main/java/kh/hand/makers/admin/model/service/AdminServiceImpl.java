@@ -239,6 +239,24 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return  dao.updateProduct(product);
 	}
+
+	@Override
+	public List<SellerRequest> selectRequestStateList(int cPage, int numPerPage, String state) {
+		// TODO Auto-generated method stub
+		return dao.selectRequestStateList(cPage, numPerPage, state);
+	}
+
+	@Override
+	public int selectRequestStateListCount(String state) {
+		// TODO Auto-generated method stub
+		return dao.selectRequestStateListCount(state);
+	}
+
+	@Override
+	public SellerRequest selectSellerRequest(String sellerReqNo) {
+		// TODO Auto-generated method stub
+		return dao.selectSellerRequest(sellerReqNo);
+	}
 	
 	
 	

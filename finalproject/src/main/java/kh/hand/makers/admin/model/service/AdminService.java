@@ -62,4 +62,8 @@ public interface AdminService {
 	int sellerProfileUpdate(String memberNo);
 	Map<String,String> selectProduct(String productNo);
 	int updateProduct(Map<String,String> product);
+	
+	List<SellerRequest> selectRequestStateList(int cPage, int numPerPage, String state);
+	int selectRequestStateListCount(String state);
+	SellerRequest selectSellerRequest(String sellerReqNo);
 }

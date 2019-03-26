@@ -262,8 +262,7 @@
 		SELLER_REQ_TYPE = #{reqRef}
 	</select>
 
-	<select id="selectRequestList" parameterType="string"
-		resultMap="sellerRequestMap">
+	<select id="selectRequestList" parameterType="string"	resultMap="sellerRequestMap">
 		select SELLER_REQUEST.SELLER_REQ_NO as "seller_req_no",
 		SELLER_REQUEST.MEMBER_NO as "member_no", SELLER_REQUEST.SELLER_REQ_REF
 		as "seller_req_ref", SELLER_REQUEST.SELLER_REQ_TYPE as
@@ -413,4 +412,45 @@
 		where product_no=#{productNo}
 	</update>
 	
+	<select id="selectRequestStateList" parameterType="string" resultMap="sellerRequestMap">
+		select SELLER_REQUEST.SELLER_REQ_NO as "seller_req_no",
+		SELLER_REQUEST.MEMBER_NO as "member_no", SELLER_REQUEST.SELLER_REQ_REF
+		as "seller_req_ref", SELLER_REQUEST.SELLER_REQ_TYPE as
+		"seller_req_type", SELLER_REQUEST.SELLER_REQ_STATE as
+		"seller_req_state", SELLER_REQUEST.SELLER_REQ_TITLE as
+		"seller_req_title", SELLER_REQUEST.SELLER_REQ_CONTENT as
+		"seller_req_content", SELLER_REQUEST.SELLER_REQ_DATE as
+		"seller_req_date", SELLER_REQUEST.SELLER_REQ_PROCESS as
+		"seller_req_process", MEMBER.MEMBER_ID as "member_id" from
+		SELLER_REQUEST join member on (member.member_no =
+		SELLER_REQUEST.member_no)
+		where SELLER_REQ_TYPE = #{state}
+		order by
+		SELLER_REQ_DATE
+	</select>
+	
+	<select id="selectRequestStateListCount" parameterType="string" resultType="_int">	
+		select count(*) from
+		SELLER_REQUEST join member on (member.member_no =
+		SELLER_REQUEST.member_no)
+		where SELLER_REQ_TYPE = #{state}
+		order by
+		SELLER_REQ_DATE
+	</select>
+	
+	<select id="selectSellerRequest" parameterType="string" resultMap="sellerRequestMap">	
+		select SELLER_REQUEST.SELLER_REQ_NO as "seller_req_no",
+		SELLER_REQUEST.MEMBER_NO as "member_no", SELLER_REQUEST.SELLER_REQ_REF
+		as "seller_req_ref", SELLER_REQUEST.SELLER_REQ_TYPE as
+		"seller_req_type", SELLER_REQUEST.SELLER_REQ_STATE as
+		"seller_req_state", SELLER_REQUEST.SELLER_REQ_TITLE as
+		"seller_req_title", SELLER_REQUEST.SELLER_REQ_CONTENT as
+		"seller_req_content", SELLER_REQUEST.SELLER_REQ_DATE as
+		"seller_req_date", SELLER_REQUEST.SELLER_REQ_PROCESS as
+		"seller_req_process", MEMBER.MEMBER_ID as "member_id" from
+		SELLER_REQUEST join member on (member.member_no =
+		SELLER_REQUEST.member_no)
+		where SELLER_REQ_NO = #{sellerReqNo}
+		order by SELLER_REQ_DATE
+	</select>
 </mapper>

@@ -241,6 +241,24 @@ public class AdminDaoImpl implements AdminDao {
 	public int updateProduct(Map<String, String> product) {
 		// TODO Auto-generated method stub
 		return session.update("admin.updateProduct", product);
+	}
+
+	@Override
+	public List<SellerRequest> selectRequestStateList(int cPage, int numPerPage, String state) {
+		RowBounds rb = new RowBounds((cPage - 1) * numPerPage, numPerPage);
+		return session.selectList("admin.selectRequestStateList", state, rb);
+	}
+
+	@Override
+	public int selectRequestStateListCount(String state) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectRequestStateListCount",state);
+	}
+
+	@Override
+	public SellerRequest selectSellerRequest(String sellerReqNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectSellerRequest",sellerReqNo);
 	}	
 	
 	
