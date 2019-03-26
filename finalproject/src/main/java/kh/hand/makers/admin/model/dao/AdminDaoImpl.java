@@ -259,7 +259,8 @@ public class AdminDaoImpl implements AdminDao {
 	public SellerRequest selectSellerRequest(String sellerReqNo) {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectSellerRequest",sellerReqNo);
-	}	
-	
+	}
+
+
 	
 }

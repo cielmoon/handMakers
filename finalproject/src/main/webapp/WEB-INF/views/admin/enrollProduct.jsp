@@ -67,7 +67,7 @@
 	                sendFile(files[i], this);
 	              }
 	            }
-	      	}
+	      }
 	    });
 	     
 		$("#select-bigCategory").change(function(){

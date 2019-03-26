@@ -6,6 +6,18 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
+<script>
+	function fileUpload() {
+		$("#newAdminProfile").click();
+	}
+	
+	$(document).ready(function() {
+		$("#newAdminProfile").on("change", function() {
+			$("#fileUpload").submit();
+		});
+	});
+</script>
+
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
@@ -52,7 +64,7 @@
 								<div class="well">
 									<%-- <a href="<%=request.getContextPath()%>/memberProfileChange"> --%>
 									<a href="#" onclick="return false;"> 
-										<img src="${path }/resources/image/${member.memberProfile }" width="100" height="100" style="border-radius: 50%;"onclick="fileUpload()" />
+										<img src="${path }/resources/image/${member.memberProfile }" width="100" height="100" style="border-radius: 50%" />
 									
 									</a>
 
@@ -60,14 +72,10 @@
 								</div>
 							</div>
 							<div>
-								<input type="button" class="btn btn-primary" value="변경" onclick="fileUpload()">
-<%-- 
-								<form action="<%=request.getContextPath()%>/FileUpload"
-									method="post" enctype="multipart/form-data" id="fileUploadForm">
-									<input type="file" class="btn btn-primary" id="file"
-										name="file" style="display: none;">
-
-								</form> --%>
+								<form name="productEnrollEndFrm" action="${path}/member/changeProfile.do" method="post" enctype="multipart/form-data">
+									<!-- <input type="file" class="btn btn-primary" value="사진 선택" onclick="fileUpload()">
+									<input type="submit" class="btn btn-primary" id="newAdminProfile" name="newAdminProfile" value="변경"> -->
+								</form>
 							</div>
 						</div>
 					</div>
