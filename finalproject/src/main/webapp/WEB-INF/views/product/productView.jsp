@@ -456,11 +456,18 @@ function fn_deleteQuestionComment(inputComment){
                 <input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기" onclick="fn_noLogin();"/>
                 <!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
                 </c:if>
-                
-                <c:if test="${member!=null }">
-                <input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기"/>
-                <!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
-                </c:if>
+                <c:choose>
+                <c:when test="${member!=null }"> 
+                	<c:choose>
+                	<c:when test="${member.memberAuthority eq 'A' }">
+                		<input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기" disabled/>
+                	</c:when>
+                	<c:when test="${member.memberAuthority ne 'A' }">
+                		<input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기"/>
+                	</c:when>
+                	</c:choose>
+                </c:when>
+                </c:choose>
               </div>
             </div>
           </div>
