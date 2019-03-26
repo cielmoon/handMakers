@@ -17,7 +17,7 @@
 <script>
 $(function(){
 	$('#myAddr').change(function(){
-		alert('들어오니?');
+		
 		var myAddr = $('#myAddr').find(":selected").val();
 		console.log(myAddr);
 		$.ajax({
@@ -59,6 +59,21 @@ function searchAddr(){
 }
 
 function requestPay() {
+	
+	var addr = $('input[name=addr]').val();
+	var detailAddr = $('input[name=detailAddr]').val();
+	var postCode = $('input[name=postCode]').val();
+	var cursell = ${product.PRODUCT_CURSELL};
+	var max = ${product.PRODUCT_MAX};
+	
+	if(addr.trim().length<1||detailAddr.trim().length<1||postCode.trim().length<1){
+		alert('주소를 입력해주세요');
+		return false;
+	}
+	if(max<cursell){
+		alert('판매가 마감 되었습니다.');
+		return false;
+	}
 	
 	var productNo = $('input[name=product_no]').val();
 	var name = $('input[name=productName]').val();
@@ -105,8 +120,7 @@ function requestPay() {
     			if(rsp.status=='paid'){
     				$('#order_payStatus').val('0');//주문상태
     			}
-    			
-    			
+
     			$('form[name=orderEnrollFrm]').submit();
     			
 	    	}		
@@ -114,7 +128,7 @@ function requestPay() {
 	        var msg = '결제에 실패하였습니다.';
 	        msg += '에러내용 : ' + rsp.error_msg;
 	        
-	        alert(msg);
+	        location.href="${path}/order/updateResetOrder.do?productNo="+productNo+"&productOptionQty="+productOptionQty;
 	        
 	        return;
 	    }
@@ -162,6 +176,7 @@ function requestPay() {
         </div>
        </div>
        </div>
+       
  		<div class="col-sm-9" id="content">
 					<div class="panel panel-default">
 						<div class="panel-heading">
@@ -176,7 +191,7 @@ function requestPay() {
 										<h2>상품 정보</h2>
 										<div class="form-group">
 											<label class="control-label">상품명</label>
-											<input type="text" class="form-control" id="input-productName" name="productName"value="${orderList.productTitle }" readonly>
+											<input type="text" class="form-control" id="input-productName" name="productName"value="${orderList.productTitle }" readonly/>
 										</div>
 										<div class="form-group">
 											<label class="control-label">가격</label>
@@ -184,12 +199,12 @@ function requestPay() {
 										</div>
 										<div class="form-group">
 											<label class="control-label">옵션</label>
-											<input type="text" class="form-control" id="input-productOptionSubject" name="productOption" value="${productOption.PRODUCT_OPTION }" readonly>
+											<input type="text" class="form-control" id="input-productOptionSubject" name="productOption" value="${productOption.PRODUCT_OPTION }" readonly/>
 											<input type="hidden" value="${productOption.PRODUCT_OPTION_NO }"/>
 										</div>
 										<div class="form-group">
 											<label class="control-label">수량</label>
-											<input type="number" class="form-control" id="input-productOptionQty" name="productOptionQty" min="1" value="${orderList.productQty }" required>
+											<input type="number" class="form-control" id="input-productOptionQty" name="productOptionQty" min="1" value="${orderList.productQty }" readonly/>
 										</div>
 										
 										<!-- 배송지 주소 -->
@@ -256,7 +271,7 @@ function requestPay() {
 								</div>
 								<!-- <input type="button" class="btn btn-primary float-right" data-loading-text="Loading..." id="button-submit" value="결제하기"> -->
 						</form>
-						<button id="payBtn" class="btn btn-primary float-right" onclick="requestPay();">결제하기</button>
+						<button id="payBtn" class="btn btn-primary float-right" onclick="return requestPay();">결제하기</button>
 					</div>
 				</div>
 			</div>

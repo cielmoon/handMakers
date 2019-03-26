@@ -19,4 +19,6 @@ public interface OrderDao {
 	Map<String,String> selectProductCheck(Order order);
 	int insertProductSalesRecord(String productNo);
 	int updateProductState(String productNo);
+	int updateOrder(Map<String,Object> map);
+	int updateResetOrder(Map<String,String> map);
 }

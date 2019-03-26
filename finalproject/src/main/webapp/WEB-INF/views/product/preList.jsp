@@ -116,7 +116,7 @@
 
 									<div class="caption product-detail">
               <h4 class="product-name ellips">
-              <a href="${path }/product/productView.do?productNo=${product.productNo}" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
+              <a href="${path }/product/productView.do?productNo=${product.productNo}&tab=p" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
               <div style="width : 200px; height : 24px;" class="rating ellips">
                                     ${product.productComment }
                                     </div>

@@ -53,18 +53,19 @@ $(function() {
 	$('#orderBtn').on('click',function(){
 		var stock = Number(${product.REMAININVENTORY});
 		var qty = Number($('input[name=productQty]').val());
-		var cursell = Number(${product.PRODUCT_CURSELL});
+		/* var cursell = Number(${product.PRODUCT_CURSELL}); */
 		console.log("재고"+stock);
 		console.log("수량"+qty);
-		console.log("현재판매"+cursell);
-		console.log(typeof (qty));
-		if(stock < qty + cursell){
+		console.log(typeof qty);
+		console.log(typeof stock);
+		
+		if(stock < qty){
 			alert('남은 수량보다 더 주문해서 주문이 안됩니다.');
 			return false;
 		}else{
 			return true;
 		}
-		
+      	
 	});
 });
 
@@ -180,12 +181,26 @@ function fn_insertReviewCommentLevel1() {
 	var orderNo = $('#orderList').val();
 	$('#input-reviewCommentProductNo').val(productNo);
 	$('#input-reviewOrderNo').val(orderNo);
+	var content = $('#input-review').val();
+	var radio = $('input[type=radio]').val();
+	console.log(radio);
+	if(radio==null){
+		alert('평점 점수를 넣어주세요');
+	}
+	if(content.length<0){
+		alert('내용을 넣어주세요');
+	}
+	
 	$('#commentReview').submit();
 }
 
 function fn_insertQuestionComment() {
 	var productNo = $('#input-productNo').val();
-	alert(productNo);
+	var questionContent = $('#input-question').val();
+	if(questionContent.trim().length<1){
+		alert('입력해주세요');
+		return false;
+	}
 	$('#input-questionCommentProductNo').val(productNo);
 	$('#commentQuestion').submit();
 }
@@ -419,7 +434,7 @@ function fn_deleteQuestionComment(inputComment){
             
             <div class="form-group">
               <label class="control-label qty-label" for="input-qty">수량</label>
-              <input type="number" name="productQty" value="1" min="1" size="10" id="input-quantity" class="form-control productpage-qty"/>
+              <input type="number" name="productQty" value="1" min="1" size="10" id="input-quantity" class="form-control productpage-qty" style="width:100px"/>
               
               <input type="hidden" name="productNo" id="input-productNo" value="${product.PRODUCT_NO }"/>
               <input type="hidden" name="brandNo" value="${product.BRAND_NO }"/>
@@ -636,7 +651,7 @@ function fn_deleteQuestionComment(inputComment){
             
             </script>
             
-            <c:if test="${member!=null && orderList[0].ORDER_PAYSTATE eq '3' }">
+            <c:if test="${member!=null && orderList[0].ORDER_PAYSTATE eq '0' }">
             <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
               <div  id="div-review">
                  <c:if test="${orderList.size()>0 }">
@@ -683,6 +698,8 @@ function fn_deleteQuestionComment(inputComment){
                   <input type="radio" name="rating" value="5" />
                   &nbsp;Good</div>
               </div>
+              
+              
               
               <div class="buttons clearfix">
                 <div class="pull-right">
