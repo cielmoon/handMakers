@@ -287,7 +287,7 @@ $(function(){
     $('#fileAdd').on("click",function(e){
 		console.log(filecount);
 		
-    	if(filecount < 4){
+    	if(filecount < 10){
     		
     		var addTr=$("<tr></tr>");
     		var addTh=$("<th>상품사진</th>");
@@ -327,7 +327,7 @@ var optioncount = 1;
 
 $(function(){
     $('#optionAdd').on("click",function(e){
-    	if(optioncount < 4){
+    	if(optioncount < 10){
     		
     		var addTr=$("<tr></tr>");
     		var addTh=$("<th>상세옵션</th>");
