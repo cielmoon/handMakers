@@ -171,8 +171,10 @@ function fn_noLoginComment() {
 }
 
 function fn_tabChanged(type) {
+	var tab = $('#tab').val();
+	alert(tab);
 	location.href = "${path}/product/productView.do?commentType=" + type
-			+ "&productNo=" + '${product.PRODUCT_NO}';
+			+ "&productNo=" + '${product.PRODUCT_NO}'+"&tab="+tab;
 
 }
 
@@ -192,18 +194,21 @@ function fn_insertReviewCommentLevel1() {
 	}
 	
 	$('#commentReview').submit();
-}
+};
 
 function fn_insertQuestionComment() {
 	var productNo = $('#input-productNo').val();
 	var questionContent = $('#input-question').val();
+	var tab = $('#tab').val();
+	alert(tab);
 	if(questionContent.trim().length<1){
 		alert('입력해주세요');
 		return false;
 	}
+	$('#input-questionTab').val(tab);
 	$('#input-questionCommentProductNo').val(productNo);
 	$('#commentQuestion').submit();
-}
+};
 
 function fn_reviewComment(commentNo){
 	console.log(commentNo);
@@ -238,13 +243,17 @@ function fn_updateReviewComment(inputCommentNo, inputCommentContent){
 	});
 };
 
-function fn_deleteComment(inputComment){
+function fn_deleteComment(inputComment, tab){
 	var commentNo = $('#'+inputComment).val();
 	var commentType = $('input[name=commentType]').val();
 	var productNo = $('#input-productNo').val();
+	alert(tab);
 	console.log(commentNo);
 	console.log(commentType);
-	location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo;
+	if(tab!=null){
+		location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo+"&tab="+tab;
+	}
+	/* location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo; */
 };
 
 function fn_deleteQuestionComment(inputComment){
@@ -253,8 +262,17 @@ function fn_deleteQuestionComment(inputComment){
 	var productNo = $('#input-productNo').val();
 	console.log(commentNo);
 	console.log(commentType);
-	location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo;
-}
+	var tab = $('#tab').val();
+	alert(tab);
+	alert(typeof tab);
+	if(tab!=null){
+		alert('여기 오니?');
+		var a = "${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo+"&tab="+tab;
+		alert(a);
+		location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo+"&tab="+tab;
+	}
+	/* location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo; */	
+};
 
 </script>
 
@@ -286,12 +304,43 @@ function fn_deleteQuestionComment(inputComment){
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="/makers"><i class="fa fa-home"></i></a></li>
-   <li><a href="${path }/product/category.do?category=${product.BC_NO }">${bcTitle }</a></li>
+    <c:choose>
+    	<c:when test="${tab eq 'p'}">
+    		<li><a href="${path }/product/preList.do">입점문의</a></li>
+    	</c:when>
+    	<c:when test="${tab eq 'n' }">
+    		<li><a href="${path }/product/newList.do">신규</a></li>
+    	</c:when>
+    	<c:when test="${tab eq 'b' }">
+    		<li><a href="${path }/product/bestList.do">베스트</a></li>
+    	</c:when>
+    	<c:otherwise>
+    		<li><a href="${path }/product/category.do?category=${product.BC_NO }">${bcTitle }</a></li>
+    	</c:otherwise>
+    </c:choose>
     <li><a href="javascript:void(0)">${product.PRODUCT_TITLE }</a></li>
   </ul>
+  ${tab }
   <!-- nav -->
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
+    <c:choose>
+    	<c:when test="${tab eq 'n' or tab eq 'p' }"></c:when>
+    	<c:when test="${tab eq 'b'}">
+    		<div class="column-block">
+	        <div class="column-block">
+	          <div class="columnblock-title">${bcTitle }</div>
+	          <div class="category_block">
+	            <ul class="box-category treeview-list treeview">
+	            <c:forEach items="${scList }" var="sc"> 
+	                 <li><a href="${path }/product/bestList.do?category=${sc.bcNo}&sc=${sc.scNo}&best=best&tab=b">${sc.scTitle}</a></li>
+	              </c:forEach>
+	           </ul>
+	          </div>
+	        </div>
+	       </div>
+    	</c:when>
+    	<c:otherwise>
       <div class="column-block">
         <div class="column-block">
           <div class="columnblock-title">${bcTitle }</div>
@@ -304,6 +353,8 @@ function fn_deleteQuestionComment(inputComment){
           </div>
         </div>
        </div>
+       </c:otherwise>
+       </c:choose>
        </div>
 
     <div id="content" class="col-sm-9">
@@ -329,7 +380,7 @@ function fn_deleteQuestionComment(inputComment){
         
         <!-- 상품 설명 -->
         <div class="col-sm-6">
-        <form id="productViewFrm" action="${path }/order/orderEnroll.do" method="post">
+        <form id="productViewFrm" action="${path }/order/orderEnroll.do?tab=${tab}" method="post">
           <h1 class="productpage-title">${product.PRODUCT_TITLE }</h1>
           <ul class="list-unstyled productinfo-details-top">
             <li>
@@ -435,7 +486,7 @@ function fn_deleteQuestionComment(inputComment){
             <div class="form-group">
               <label class="control-label qty-label" for="input-qty">수량</label>
               <input type="number" name="productQty" value="1" min="1" size="10" id="input-quantity" class="form-control productpage-qty" style="width:100px"/>
-              
+              <input type="hidden" name="tab" id="tab" value="${tab }"/>
               <input type="hidden" name="productNo" id="input-productNo" value="${product.PRODUCT_NO }"/>
               <input type="hidden" name="brandNo" value="${product.BRAND_NO }"/>
               <input type="hidden" name="wishCount" value="${wishCount }"/>
@@ -543,7 +594,7 @@ function fn_deleteQuestionComment(inputComment){
                                        	  <c:if test="${member.memberAuthority eq 'M' }">
                                        	  	<a href="javascript:void(0);" onclick="fn_reviewComment('${reviewComment['COMMENT_NO'] }Level1');"><i class="fas fa-pen" style="font-size:15px;"></i></a> &nbsp;
                                           </c:if>
-                                            <a href="javascript:void(0);" onclick="fn_deleteComment('inputNo-${reviewComment['COMMENT_NO'] }Level1');"><i class="fas fa-times" style="font-size: 18px;"></i></a>
+                                            <a href="javascript:void(0);" onclick="fn_deleteComment('inputNo-${reviewComment['COMMENT_NO'] }Level1', '${tab }');"><i class="fas fa-times" style="font-size: 18px;"></i></a>
                                         </li>
                                        </ul>
                                      </c:if>
@@ -606,7 +657,7 @@ function fn_deleteQuestionComment(inputComment){
 							  <c:if test="${member!=null}">
                               <!-- 대댓글 작성부분 -->
                               <li class="media media-replied">
-                              <form id="fm-${reviewComment['COMMENT_NO'] }" action="${path}/product/insertCommentLevel2.do?productNo=${product.PRODUCT_NO}" method="post">
+                              <form id="fm-${reviewComment['COMMENT_NO'] }" action="${path}/product/insertCommentLevel2.do?productNo=${product.PRODUCT_NO}&tab=${tab}" method="post">
                               <a class="pull-left" href="javascript:void(0);"> 
                               	<img class="media-object img-circle" width="80px;" src="${path }/resources/image/profile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
                           	  </a>
@@ -652,7 +703,7 @@ function fn_deleteQuestionComment(inputComment){
             </script>
             
             <c:if test="${member!=null && orderList[0].ORDER_PAYSTATE eq '0' }">
-            <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
+            <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do?tab=${tab}">
               <div  id="div-review">
                  <c:if test="${orderList.size()>0 }">
                  <select class="form-control" id="orderList">
@@ -698,9 +749,7 @@ function fn_deleteQuestionComment(inputComment){
                   <input type="radio" name="rating" value="5" />
                   &nbsp;Good</div>
               </div>
-              
-              
-              
+ 
               <div class="buttons clearfix">
                 <div class="pull-right">
                   <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
@@ -747,6 +796,7 @@ function fn_deleteQuestionComment(inputComment){
                                     <input type="button" id="btn-${questionComment['COMMENT_NO'] }Level1" value="등록" style="display:none" onclick="fn_updateReviewComment('inputNo-${questionComment['COMMENT_NO'] }Level1','${questionComment['COMMENT_NO'] }Level1')"/>
                                     <input type="hidden" id="inputNo-${questionComment['COMMENT_NO'] }Level1" name="commentNo" value="${questionComment['COMMENT_NO'] }"/>
                                     <input type="hidden" name="questionCommentType" value="Q"/>
+                                    <!-- <input type="hidden" name="tab" id="tab"/> -->
                                  </div>
                               </div>
                         </c:if>
@@ -780,7 +830,7 @@ function fn_deleteQuestionComment(inputComment){
                </div>
             </div>
             
-            <form id="commentQuestion" class="form-horizontal" action="${path }/product/insertCommentQuestion.do">
+            <form id="commentQuestion" class="form-horizontal" action="${path }/product/insertCommentQuestion.do?tab=${tab}">
               <div  id="div-review"></div>
               <div class="form-group required">
                 <div class="col-sm-12">
@@ -788,6 +838,7 @@ function fn_deleteQuestionComment(inputComment){
                   <c:if test="${member != null}">
                      <input type="text" name="name" id="input-name" class="form-control" value="${member.memberName }" readonly/>
                      <input type="hidden" name="questionCommentProductNo" id="input-questionCommentProductNo"/>
+                     <input type="hidden" name="tab" id="input-questionTab"/>
                      <input type="hidden" name="memberNo" id="input-memberNo" value="${member.memberNo }"/>
                      <input type="hidden" name="commentType" value="Q"/>
                   </c:if>
