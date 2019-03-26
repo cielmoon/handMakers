@@ -128,6 +128,12 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.checkEmail(memberEmail);
 	}
+
+	@Override
+	public int updateOrderState(String orderNo) {
+		// TODO Auto-generated method stub
+		return dao.updateOrderState(orderNo);
+	}
 	
 	
 }

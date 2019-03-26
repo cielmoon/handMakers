@@ -793,6 +793,28 @@ public class AdminController {
 		return mv;
 	}
 	
+	@RequestMapping("/admin/updatePState.do")
+	public ModelAndView updatePState(String productNo) {	
+
+		int result=  service.updatePState(productNo);		
+
+		ModelAndView mv = new ModelAndView();
+		String msg = "";
+		String loc = "";
+		if (result > 0) {
+			msg = "판매중지 완료";
+			loc = "/admin/manageProduct.do";
+		} else {
+			msg = "판매중지 실패";
+			loc = "/admin/manageProduct.do";
+		}
+
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
 	public String getsReqState() {
 		return sReqState;
 	}

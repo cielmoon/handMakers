@@ -66,4 +66,7 @@ public interface AdminService {
 	List<SellerRequest> selectRequestStateList(int cPage, int numPerPage, String state);
 	int selectRequestStateListCount(String state);
 	SellerRequest selectSellerRequest(String sellerReqNo);
+	
+	int updatePState(String productNo);
+	
 }
