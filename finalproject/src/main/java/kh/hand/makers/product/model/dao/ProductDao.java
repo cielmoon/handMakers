@@ -22,7 +22,7 @@ public interface ProductDao {
 	List<ProductImg> selectProductImg(String productNo);
 	Map<String,String> selectProductDetail(String productNo);
 	int deleteWish(Wish wish);
-	int selectCommentCount(String commentType);
+	int selectCommentCount(Map<String,String> mapComment);
 	List<Map<String,String>> selectComment(Map<String,String> map, int cPage, int numPerPage);
 	List<Map<String,String>> selectProductOption(String productNo);
 	List<Map<String, String>> getMenuList();

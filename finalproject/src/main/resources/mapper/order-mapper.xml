@@ -40,6 +40,6 @@
   	</select>
   	
   	<update id="updateOrderState" parameterType="map">
-  		UPDATE PRODUCT_ORDER SET ORDER_PAYSTATE='2' WHERE MEMBER_NO=#{memberNo} AND ORDER_NO=#{orderNo}
+  		UPDATE PRODUCT_ORDER SET ORDER_PAYSTATE='2', ORDER_STATE='2' WHERE MEMBER_NO=#{memberNo} AND ORDER_NO=#{orderNo}
   	</update>
 </mapper>

@@ -105,10 +105,10 @@ public class ProductController {
 		Map<String,String> brandMap = service.selectBrand(productNo);
 		//후기 정보 select
 		List<Map<String,String>> reviewCommentList = service.selectComment(reviewMap, rcPage, numPerPage);
-		int reviewCommentCount = service.selectCommentCount(reviewMap.get("commentType"));
+		int reviewCommentCount = service.selectCommentCount(reviewMap);
 		//문의 정보 select
 		List<Map<String,String>> questionCommentList = service.selectComment(questionMap, qcPage, numPerPage);
-		int questionCommentCount = service.selectCommentCount(questionMap.get("commentType"));
+		int questionCommentCount = service.selectCommentCount(questionMap);
 		
 		//후기 대댓글 리스트
 		List<Map<String, String>> reviewSecondCommentList = service.selectReviewCommentSeconds();
@@ -356,7 +356,7 @@ public class ProductController {
 		map.put("commentType", commentType);
 		map.put("productNo", productNo);
 
-		int commentCount = service.selectCommentCount(commentType);
+		int commentCount = service.selectCommentCount(map);
 		
 		List<Map<String,String>> commentList = service.selectComment(map,cPage, numPerPage);
 		
