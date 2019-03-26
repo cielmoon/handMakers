@@ -85,41 +85,8 @@
               
               <div class="product-desc">${wish.PRODUCT_COMMENT }</div>
               
-              <%-- <p class="price product-price"><span class="price-old"></span> ${product.productPrice } <span class="price-tax"></span> </p> --%><!-- 원본 -->
-              <p class="price product-price"><span class="price-old">${wish.PRODUCT_PRICE }</span> <fmt:formatNumber value="${wish.SALEPRICE }" type="currency" currencySymbol="￦"/> <span class="price-tax"></span> </p>
               
-            <%-- <div class="rating"> 평점 : ${score.SCORE }
-            <c:if test="${score.SCORE ge 0 and score.SCORE lt 1}">
-            	<i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-            </c:if>
-            <c:if test="${score.SCORE ge 1 and score.SCORE lt 1.5}">
-            	<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-            </c:if>
-            <c:if test="${score.SCORE ge 1.5 and score.SCORE lt 2}">
-            	<i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-            </c:if>
-            <c:if test="${score.SCORE ge 2 and score.SCORE lt 2.5}">
-            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-            </c:if>
-            <c:if test="${score.SCORE ge 2.5 and score.SCORE lt 3}">
-            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-            </c:if>
-            <c:if test="${score.SCORE ge 3 and score.SCORE lt 3.5}">
-            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-            </c:if>
-            <c:if test="${score.SCORE ge 3.5 and score.SCORE lt 4}">
-            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
-            </c:if>
-            <c:if test="${score.SCORE ge 4 and score.SCORE lt 4.5}">
-            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-            </c:if>
-            <c:if test="${score.SCORE ge 4.5 and score.SCORE lt 5}">
-            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-            </c:if>
-            <c:if test="${score.SCORE eq 5}">
-            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </c:if> 
-            </div> --%>
+              <p class="price product-price"><span class="price-old">${wish.PRODUCT_PRICE }</span> <fmt:formatNumber value="${wish.SALEPRICE }" type="currency" currencySymbol="￦"/> <span class="price-tax"></span> </p>
               
             </div>
  
