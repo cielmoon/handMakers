@@ -135,5 +135,11 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.update("member.changeProfile", m);
 	}
 	
+	@Override
+	public int updateOrderState(String orderNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.updateOrderState", orderNo);
+	}
+	
 	
 }

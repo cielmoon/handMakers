@@ -67,4 +67,7 @@ public interface AdminService {
 	int selectRequestStateListCount(String state);
 	SellerRequest selectSellerRequest(String sellerReqNo);
 	
+
+	int updatePState(String productNo);
+	
 }

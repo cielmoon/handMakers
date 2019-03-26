@@ -807,7 +807,7 @@ function fn_deleteQuestionComment(inputComment){
               <br>
               <strong>주소:</strong>
               <div class="address"> ${brand.BRAND_ADDR } ${brand.BRAND_DETAILADDR }</div>
-              <input type="hidden" id="addr" value="${brand.BRAND_ADDR }${brand.BRAND_DETAILADDR}"/>
+              <input type="hidden" id="addr" value="${brand.BRAND_ADDR }"/>
               <input type="hidden" id="brandTitle" value="${brand.BRAND_TITLE }"/>
               <br>
               </address>

@@ -99,10 +99,17 @@
 													<li><a href="#" onclick="location.href='${path}/member/memberEnroll.do'">회원가입</a></li>
 												</ul>
 									</c:otherwise>
-									</c:choose></li>
+									</c:choose>
+									</li>
 									
 									<c:if test="${member!=null }">
-										<li><a href="#"	onclick="location.href='${path}/member/wishList.do'" id="wishlist-total" title="Wish List"><i class="fa fa-heart"></i><span>Wish List</span></a></li>
+										<c:choose>
+										<c:when test="${member.memberAuthority == 'A' }">
+										</c:when>
+										<c:otherwise>
+											<li><a href="#"	onclick="location.href='${path}/member/wishList.do'" id="wishlist-total" title="Wish List"><i class="fa fa-heart"></i><span>Wish List</span></a></li>
+										</c:otherwise>
+										</c:choose>
 									</c:if>
 									<c:if test="${member ==null }">
 										<li><a href="#"	onclick="location.href='${path}/member/wishList.do'" id="wishlist-total" title="Wish List"><i class="fa fa-heart"></i><span>Wish List</span></a></li>

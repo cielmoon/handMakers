@@ -259,4 +259,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 
+	@Override
+	public int updatePState(String productNo) {
+		// TODO Auto-generated method stub
+		return dao.updatePState(productNo);
+	}
+	
+	
 }

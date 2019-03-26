@@ -761,4 +761,29 @@ public class MemberController {
 
 		return mv;
 	}
+
+	@RequestMapping("/member/updateOrderState.do")
+	public ModelAndView updateOrderState(String orderNo) {		
+		ModelAndView mv = new ModelAndView();
+			
+		
+	    int result = service.updateOrderState(orderNo);
+		
+		String msg = "";
+		String loc = "";
+		
+		if (result > 0) {
+			msg = "구매확정에 성공했습니다.";
+			loc = "/member/manageOrder.do";
+		} else {
+			msg = "구매확정에 실패했습니다.";
+			loc = "/member/manageOrder.do";
+		}
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		
+		return mv;
+	}
 }

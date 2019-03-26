@@ -135,5 +135,11 @@ public class MemberServiceImpl implements MemberService {
 		return dao.changeProfile(m);
 	}
 	
+	@Override
+	public int updateOrderState(String orderNo) {
+		// TODO Auto-generated method stub
+		return dao.updateOrderState(orderNo);
+	}
+	
 	
 }
