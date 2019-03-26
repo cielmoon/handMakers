@@ -121,12 +121,12 @@
 			<div style="width : 200px; height : 24px;" class="rating ellips">${product.productComment }</div>
             <!-- product_comment -->
                 <div style="width : 200px; height : 24px;">
-                <p class="price product-price"><span class="price-old"></span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 <span class="price-tax"></span> </p>
+                <p class="price product-price" style="margin-bottom: 0px;"><span class="price-old"></span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 <span class="price-tax"></span> </p>
                 </div><br>
               <!-- product_price -->
               
               <!-- <div class="rating"> -->
-              <div style="width : 200px; height : 24px; text-align:right;">
+              <div style="float: right;">
               <%-- ${ product.score }평점 : --%>
 			<c:if test="${product.score ge 0 and product.score lt 0.5 }">
                <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
