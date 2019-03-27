@@ -186,10 +186,11 @@ function fn_insertReviewCommentLevel1() {
 	var content = $('#input-review').val();
 	var radio = $('input[type=radio]').val();
 	console.log(radio);
+	console.log(content);
 	if(radio==null){
 		alert('평점 점수를 넣어주세요');
 	}
-	if(content.length<0){
+	if(content.trim().length<0){
 		alert('내용을 넣어주세요');
 	}
 	
@@ -606,7 +607,7 @@ function fn_imageViewChange(subImg){
                         <li class="media">                  
                            <c:if test="${reviewComment.COMMENT_LEVEL eq 1 }">
                            <a class="pull-left" href="javascript:void(0);"> 
-                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/profile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
+                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/memberProfile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
                            </a>
                               <div class="media-body">
                                  <div class="well well-sm">
@@ -651,7 +652,7 @@ function fn_imageViewChange(subImg){
 	                              <li class="media media-replied">
 	                              <a class="pull-left" href="javascript:void(0);"> 
 	                                 <img class="media-object img-circle" style="width: 80px;" 
-	                                    src="${path }/resources/image/profile/${second['MEMBER_PROFILE']}" alt="profile">
+	                                    src="${path }/resources/image/memberProfile/${second['MEMBER_PROFILE']}" alt="profile">
 	                              </a>
 	                                 <div class="media-body">
 	                                    <div class="well well-sm">
@@ -685,7 +686,7 @@ function fn_imageViewChange(subImg){
                               <li class="media media-replied">
                               <form id="fm-${reviewComment['COMMENT_NO'] }" action="${path}/product/insertCommentLevel2.do?productNo=${product.PRODUCT_NO}&tab=${tab}" method="post">
                               <a class="pull-left" href="javascript:void(0);"> 
-                              	<img class="media-object img-circle" width="80px;" src="${path }/resources/image/profile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
+                              	<img class="media-object img-circle" width="80px;" src="${path }/resources/image/memberProfile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
                           	  </a>
                                  <div class="media-body">
                                     <div class="well well-sm">
@@ -728,7 +729,7 @@ function fn_imageViewChange(subImg){
             
             </script>
             
-            <c:if test="${member!=null && orderList[0].ORDER_PAYSTATE eq '0' }">
+            <c:if test="${member!=null && orderList[0].ORDER_PAYSTATE eq '3' }">
             <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do?tab=${tab}">
               <div  id="div-review">
                  <c:if test="${orderList.size()>0 }">
@@ -798,7 +799,7 @@ function fn_imageViewChange(subImg){
                         <li class="media">                  
                            <c:if test="${questionComment.COMMENT_LEVEL eq 1 }">
                            <a class="pull-left" href="javascript:void(0);"> 
-                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/profile/${second['MEMBER_PROFILE']}" alt="profile">
+                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/memberProfile/${second['MEMBER_PROFILE']}" alt="profile">
                            </a>
                               <div class="media-body">
                                  <div class="well well-sm">
@@ -832,7 +833,7 @@ function fn_imageViewChange(subImg){
                               <li class="media media-replied">
                               <a class="pull-left" href="javascript:void(0);"> 
                                  <img class="media-object img-circle" style="width: 80px;" 
-                                    src="${path }/resources/image/seller_img.png" alt="profile">
+                                    src="${path }/resources/image/memberProfile/seller_img.png" alt="profile">
                               </a>
                                  <div class="media-body">
                                     <div class="well well-sm">
