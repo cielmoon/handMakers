@@ -48,10 +48,10 @@
 				var memberEmail = $("#memberEmail").val();
 				if(memberEmail!=""){	
 					$.ajax({
-						url:"${path}/member/mailSending.do",
+						url:"${path}/member/mailCheck.do",
 						data:{"memberEmail" : memberEmail},
 						success:function(data) {	
-							if(checkEmailCount == 0){
+							if(data.emailState == "T"){
 								alert("인증번호가 발송되었습니다. 이메일을 확인해주세요.");
 								var input = $('<input type="text" class="form-control" id="checkCerCode" placeholder="인증 코드 입력" name="checkCerCode">');
 								var enter = $('<a id="'+data.randomNumber+'" value="'+memberEmail+'"onclick="compareCode(this);"><input type="button" value="인증 코드 확인" id="enterCertification" class="btn btn-primary"/></a>');
@@ -63,6 +63,10 @@
 								
 								checkEmailCount = 1;													
 								console.log("보내준 인증코드: "+data.randomNumber);
+							} else {
+								alert("등록된 이메일이 존재하지 않습니다. 다시 입력해 주세요.");
+								$("#memberEmail").val('');
+								$("#memberEmail").focus();
 							} 
 						}
 					});

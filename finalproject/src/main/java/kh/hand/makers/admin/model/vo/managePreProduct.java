@@ -16,6 +16,7 @@ public class managePreProduct implements Serializable{
 	private char preProductState;
 	private Date preProductDate;
 	private String preProductNo;
+	private String prePDate;
 	
 	public managePreProduct() {
 		super();
@@ -33,6 +34,31 @@ public class managePreProduct implements Serializable{
 		this.preProductNo = preProductNo;
 	}
 
+
+	public managePreProduct(String preProductBcTitle, String preProductScTitle, String preProductBrandTitle,
+			String preProductTitle, char preProductState, Date preProductDate, String preProductNo, String prePDate) {
+		super();
+		this.preProductBcTitle = preProductBcTitle;
+		this.preProductScTitle = preProductScTitle;
+		this.preProductBrandTitle = preProductBrandTitle;
+		this.preProductTitle = preProductTitle;
+		this.preProductState = preProductState;
+		this.preProductDate = preProductDate;
+		this.preProductNo = preProductNo;
+		this.prePDate = prePDate;
+	}
+
+	public String getPrePDate() {
+		return prePDate;
+	}
+
+	public void setPrePDate(String prePDate) {
+		this.prePDate = prePDate;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	public String getPreProductBcTitle() {
 		return preProductBcTitle;
@@ -103,15 +129,15 @@ public class managePreProduct implements Serializable{
 		this.preProductNo = preProductNo;
 	}
 
-
 	@Override
 	public String toString() {
 		return "managePreProduct [preProductBcTitle=" + preProductBcTitle + ", preProductScTitle=" + preProductScTitle
 				+ ", preProductBrandTitle=" + preProductBrandTitle + ", preProductTitle=" + preProductTitle
 				+ ", preProductState=" + preProductState + ", preProductDate=" + preProductDate + ", preProductNo="
-				+ preProductNo + "]";
+				+ preProductNo + ", prePDate=" + prePDate + "]";
 	}
-	
+
+
 
 	
 }

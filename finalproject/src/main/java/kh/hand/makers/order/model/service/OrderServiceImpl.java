@@ -80,6 +80,18 @@ public class OrderServiceImpl implements OrderService {
 		
 		return dao.updateOrderState(map);
 	}
+
+	@Override
+	public int updateOrder(Map<String, Object> map) {
+		
+		return dao.updateOrder(map);
+	}
+
+	@Override
+	public int updateResetOrder(Map<String, String> map) {
+		
+		return dao.updateResetOrder(map);
+	}
 	
 	
 

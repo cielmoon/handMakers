@@ -23,14 +23,14 @@
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
       <div class="column-block">
-        <div class="columnblock-title"><a href="${path }/product/bestList.do?category=${category}">${bcTitle }</a></div>
+        <div class="columnblock-title"><a href="${path }/product/bestList.do?category=${category}&tab=b">${bcTitle }</a></div>
         <div class="category_block">
           <%-- <h1>${sCategoryList}</h1> --%>
           <ul class="box-category treeview-list treeview">
             <div id = bestMenuList>
             
             <c:forEach items="${sCategoryList}" var="scList" varStatus="vs">
-            <li><a href="${path }/product/bestList.do?category=${category}&sc=${scList.SC_NO}">${scList.SC_TITLE }</a></li>
+            <li><a href="${path }/product/bestList.do?category=${category}&sc=${scList.SC_NO}&tab=b">${scList.SC_TITLE }</a></li>
             </c:forEach>
             
             </div>
@@ -87,16 +87,9 @@
 		<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
           <div
-										onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}'"
+										onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}&best=best&tab=b'"
 										class="image product-imageblock"
 										style="height : 220px; background-size : cover; background-image : url(${path}/resources/image/product/${product.productProfile }); cursor : pointer;">
-										
-										
-<%--          <div class="image product-imageblock" style="height:220px;">
-         <h1>${product.productNo}</h1> 확인용
-         <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
-         <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
-        <!-- 상품 프로필 사진 product_profile, alt=? product_title, title=product_title --> --%>
                        
                <div class="button-group">
                <c:if test="${member==null }">
@@ -120,13 +113,49 @@
             
             <div class="caption product-detail">
               <h4 class="product-name ellips">
-              <a href="${path }/product/productView.do?productNo=${product.productNo}" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
+              <a href="${path }/product/productView.do?productNo=${product.productNo}&best=best&tab=b" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
 			<div style="width : 200px; height : 24px;" class="rating ellips">${product.productComment }</div>
-              <!-- 상품상세페이지 링크 , title=product_title , value = product_title -->
                 <!-- product_comment -->
-                <p class="price product-price"><span class="price-old"></span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 <span class="price-tax"></span> </p>
+                <div style="width : 200px; height : 24px;">
+                <p class="price product-price" style="margin-bottom: 0px;"><span class="price-old"></span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 <span class="price-tax"></span> </p>
+                </div><br>
               <!-- product_price -->
-              <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
+              <div style="float: right;">
+              <%-- ${ product.score }평점 : --%>
+			<c:if test="${product.score ge 0 and product.score lt 0.5 }">
+               <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 0.5 and product.score lt 1}">
+            	<i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 1 and product.score lt 1.5}">
+            	<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 1.5 and product.score lt 2}">
+            	<i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 2 and product.score lt 2.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 2.5 and product.score lt 3}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 3 and product.score lt 3.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 3.5 and product.score lt 4}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 4 and product.score lt 4.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 4.5 and product.score lt 5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+            </c:if>
+            <c:if test="${product.score eq 5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </c:if>
+               </div>
               <!-- totalProductPoint 별-->
             </div>
           </div>
@@ -168,13 +197,18 @@ function fn_wishChk(productNo){
 		url:"${path}/product/selectWishYewon.do",
 		data: {"productNo":productNo},
 		success:function(data){
-        if(data > 0){	
+        if(data == 1){	
         	$('#' + productNo).html('<i class="fa fa-heart"></i>');
         	$('#' + productNo).attr( "title" , "Remove to Wish List");
+        	alert('위시리스트에 추가 되었습니다.');
+        	return true;
         }
         else
-        	$('#' + productNo).html('<i class="fa fa-heart-o"></i>');
+        $('#' + productNo).html('<i class="fa fa-heart-o"></i>');
         $('#' + productNo).attr( "title" , "Add to Wish List");
+        alert('위시리스트에서 제거 되었습니다.');
+        return false;
+
         }
 	});
 }

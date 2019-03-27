@@ -67,15 +67,22 @@ public class MemberController {
 	private String emailCode;
 
 	@RequestMapping(value = "/member/changeProfile.do", method = RequestMethod.POST)
-	public ModelAndView changeProfile(Member m, MultipartFile newAdminProfile, HttpServletRequest request) {
+	public ModelAndView changeProfile(Member m, MultipartFile newProfileImg, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
-		String savDir = request.getSession().getServletContext().getRealPath("/resources/image");
+		String saveDir = "";
+		
+		if (m.getMemberAuthority().equals("A")) {
+			saveDir = request.getSession().getServletContext().getRealPath("/resources/image/adminProfile");
+		} else {
+			saveDir = request.getSession().getServletContext().getRealPath("/resources/image/memberProfile");
+		}
+		
 		String msg = "";
 		String loc = "";
 
-		if (!newAdminProfile.isEmpty()) {
+		if (!newProfileImg.isEmpty()) {
 			// 파일명을 생성(rename)
-			String orifileName = newAdminProfile.getOriginalFilename();
+			String orifileName = newProfileImg.getOriginalFilename();
 			System.out.println("현재파일:" + orifileName);
 			String ext = orifileName.substring(orifileName.lastIndexOf("."));
 			// rename 규칙설정
@@ -84,7 +91,7 @@ public class MemberController {
 			String reName = sdf.format(System.currentTimeMillis()) + "_" + rdv + ext;
 			// 파일을 저장해보자
 			try {
-				newAdminProfile.transferTo(new File(savDir + "/" + reName));
+				newProfileImg.transferTo(new File(saveDir + "/" + reName));
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
 			}
@@ -98,7 +105,7 @@ public class MemberController {
 			msg = "프로필사진 변경 완료";
 			loc = "/";
 		} else {
-			msg = "관리자 프로필사진 변경 실패";
+			msg = "프로필사진 변경 실패";
 			loc = "/";
 		}
 
@@ -138,7 +145,50 @@ public class MemberController {
 
 		return mv;
 	}
+	
+	@RequestMapping("/member/mailCheck.do")
+	public ModelAndView mailCheck(String memberEmail, ModelAndView mv) throws UnsupportedEncodingException {
+		int ran = new Random().nextInt(100000) + 10000; // 인증 코드용 난수 발생 10000 ~ 99999
+		Member m = service.memberEmailFind(memberEmail);
+		String emailState = "F";
+		
+		System.out.println("왔다");
+		System.out.println("이메일 : " + memberEmail);
+		
+		if (m != null) {
+			String setfrom = "admin";
+			String title = "handmakers 인증 코드"; // 제목
+			String content = "인증 코드는 " + Integer.toString(ran) + " 입니다. 인증 코드란에 입력해주세요."; // 인증 코드
+			emailCode = Integer.toString(ran);
+			
+			try {
+				MimeMessage message = mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 
+				messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
+				messageHelper.setTo(memberEmail); // 받는사람 이메일
+				messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+				messageHelper.setText(content); // 메일 내용
+
+				mailSender.send(message);
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+			
+			emailState = "T";
+			mv.addObject("randomNumber", emailCode);
+			mv.addObject("emailState", emailState);
+			mv.setViewName("jsonView");
+
+			return mv;
+		} else {
+			mv.addObject("emailState", emailState);
+			mv.setViewName("jsonView");
+			
+			return mv;
+		}
+	}
+	
 	@RequestMapping("/member/memberIdFind.do")
 	public ModelAndView memberIdFind(String memberEmail, ModelAndView mv) throws UnsupportedEncodingException {
 
@@ -464,11 +514,26 @@ public class MemberController {
 	public ModelAndView memberWithdrawalEnds(String memberNo, SessionStatus status) {
 		logger.debug("회원탈퇴 대상 : " + memberNo);
 		ModelAndView mv = new ModelAndView();
+							
 		int result = service.memberWithdrawal(memberNo);
 		String msg = "";
 		String loc = "/";
 
 		if (result > 0) {
+			//찾은 브랜드들 상품들 전부 판매종료
+			List<Brand> brandList = service.selectBrand(memberNo);		
+			if(brandList.size() > 0) {
+				for (Brand brand : brandList) {
+					int updateProduct = service.updateProductWithdrawl(brand.getBrandNo());
+				}
+			}	
+			//찾은 브랜드 폐점신고
+			if(brandList.size() > 0) {
+				for (Brand brand : brandList) {
+					int updateBrand = service.updateBrandWithdrawl(brand.getBrandNo());
+				}
+			}	
+			
 			msg = "회원탈퇴가 완료되었습니다.";
 			if (!status.isComplete()) {
 				status.setComplete();

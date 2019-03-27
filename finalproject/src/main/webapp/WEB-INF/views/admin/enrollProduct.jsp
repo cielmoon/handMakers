@@ -92,6 +92,11 @@
 		});
 	});
 	
+	 function fn_setDatePickerMax(){
+	      var datePicker = $('#newProductSaleEnd');
+	      datePicker.max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+	}
+	
     function sendFile(file, el) {
         var form_data = new FormData();
         var path = '${path}' + "/resources/image/product/";
@@ -262,7 +267,7 @@
 		
 		filesArr.forEach(function(f) {
 			if (!f.type.match("image.*")) {
-				alert("이미지 확장자만 등록해주세요.")
+				alert("이미지 확장자만 등록해주세요.");
 				
 				return;
 			}
