@@ -21,15 +21,37 @@
 </style>
 
 <script>
-	$("#newProfileImg").on("change", enrollAdminImg);
+	$(function(){
+		
+		$("#newProfileImg").on("change", enrollAdminImg);
+	})
 	
 	function enrollAdminImg(e) {
 		var files = e.target.files;
-		var filesArr = Array.prototype.slice.call(files);
+		/* var filesArr = Array.prototype.slice.call(files); */
 		
-		filesArr.forEach(function(f) {
+		/* filesArr.forEach(function(f) {
 			if (!f.type.match("image.*")) {
 				alert("이미지 확장자만 등록해주세요.");
+				
+				return;
+			}
+			
+			sel_file = f;
+			
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#memberProfile").attr("src", e.target.result).css('width', '100px').css('height', '100px');
+			}
+			
+			reader.readAsDataURL(f);
+		}); */
+		
+		$.each(files,function(index,f) {
+			if (!f.type.match("image/*")) {
+				alert("이미지 확장자만 등록해주세요.");
+				$("#newProfileImg").val('');
+				$("#adminProfile").attr("src", "${path }/resources/image/adminProfile/${member.memberProfile }").css('width', '100px').css('height', '100px');
 				
 				return;
 			}

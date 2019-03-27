@@ -55,7 +55,7 @@
 <script>
 	$(document).ready(function() {
 		  $("#newProductProfile").on("change", enrollMainImg);
-		
+		  
 	      $('#summernote').summernote({
 	          height: 300,
 	          minHeight: null,
@@ -196,7 +196,7 @@
 			return false;
 		}
 		
-		for (var i = 1; i < 4; i++) {
+		for (var i = 1; i < 10; i++) {
 			if ($("#newProductDetailImg" + i).val() == "") {
 				
 				alert("추가할 상품 사진을 등록해주세요.");
@@ -213,7 +213,7 @@
 			return false;
 		}
  		
-		for (var i = 1; i < 4; i++) {
+		for (var i = 1; i < 10; i++) {
 			if ($("#newProductOption" + i).val() == "") {
 				
 				alert("추가할 상품 옵션을 등록해주세요.");
@@ -266,8 +266,11 @@
 		var filesArr = Array.prototype.slice.call(files);
 		
 		filesArr.forEach(function(f) {
-			if (!f.type.match("image.*")) {
+			if (!f.type.match("image/*")) {
 				alert("이미지 확장자만 등록해주세요.");
+				$("#newProductProfile").val('');
+				// <img id="adminProductProfileMainImg" src="${path }/resources/image/noImg.png">
+				$("#adminProductProfileMainImg").attr("src", "${path }/resources/image/noImg.png").css('width', '350px').css('height', '350px');
 				
 				return;
 			}
@@ -285,6 +288,10 @@
 </script>
 
 <script>
+$(document).ready(function() {
+	  $("#newProductDetailImg").on("change", enrollDetailImg);
+}
+
 // 상품 상세 사진 추가
 var filecount = 1;
 
