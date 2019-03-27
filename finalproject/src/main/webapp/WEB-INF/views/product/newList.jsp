@@ -5,6 +5,15 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<style>
+<!--
+.ellips{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+-->
+</style>
 <section>
 <div class="container">
   <ul class="breadcrumb">

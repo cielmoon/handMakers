@@ -5,6 +5,15 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<style>
+<!--
+.ellips{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+-->
+</style>
 <section>
 <div class="container">
   <ul class="breadcrumb">
@@ -95,7 +104,7 @@
             <div class="caption product-detail">
               <h4 class="product-name ellips">
               <a href="${path }/product/productView.do?productNo=${product.productNo}" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
-			<div style="width : 200px; height : 24px;" class="rating ellips">${product.productComment }</div>
+		<div style="width : 200px; height : 24px;" class="rating ellips">${product.productComment }</div>
 			  <!-- product_comment -->
                 <div style="width : 200px; height : 24px;">
                 <p class="price product-price" style="margin-bottom: 0px;"><span class="price-old"><fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 </span><fmt:formatNumber value="${product.productPrice * (product.productDiscount * 0.1) }" type="currency" currencySymbol="￦"/>원<span class="price-tax"></span></p>
