@@ -172,7 +172,7 @@ function fn_noLoginComment() {
 
 function fn_tabChanged(type) {
 	var tab = $('#tab').val();
-	alert(tab);
+	
 	location.href = "${path}/product/productView.do?commentType=" + type
 			+ "&productNo=" + '${product.PRODUCT_NO}'+"&tab="+tab;
 
@@ -200,9 +200,9 @@ function fn_insertQuestionComment() {
 	var productNo = $('#input-productNo').val();
 	var questionContent = $('#input-question').val();
 	var tab = $('#tab').val();
-	alert(tab);
+	
 	if(questionContent.trim().length<1){
-		alert('입력해주세요');
+		alert('문의 내용을 입력해주세요');
 		return false;
 	}
 	$('#input-questionTab').val(tab);
@@ -247,7 +247,7 @@ function fn_deleteComment(inputComment, tab){
 	var commentNo = $('#'+inputComment).val();
 	var commentType = $('input[name=commentType]').val();
 	var productNo = $('#input-productNo').val();
-	alert(tab);
+	
 	console.log(commentNo);
 	console.log(commentType);
 	if(tab!=null){
@@ -263,12 +263,10 @@ function fn_deleteQuestionComment(inputComment){
 	console.log(commentNo);
 	console.log(commentType);
 	var tab = $('#tab').val();
-	alert(tab);
-	alert(typeof tab);
+	
+	
 	if(tab!=null){
-		alert('여기 오니?');
-		var a = "${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo+"&tab="+tab;
-		alert(a);
+		
 		location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo+"&tab="+tab;
 	}
 	/* location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo; */	
@@ -320,7 +318,7 @@ function fn_deleteQuestionComment(inputComment){
     </c:choose>
     <li><a href="javascript:void(0)">${product.PRODUCT_TITLE }</a></li>
   </ul>
-  ${tab }
+  
   <!-- nav -->
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
@@ -454,7 +452,7 @@ function fn_deleteQuestionComment(inputComment){
               <label>현재 판매량 : </label>
               <span> ${product.PRODUCT_CURSELL }</span></li>
               <c:choose>
-              <c:when test="${product.PRODUCT_STEP eq 2 and  product.PRODUCT_STEP eq 3 and product.PRODUCT_STEP eq 4}">
+              <c:when test="${product.PRODUCT_STEP eq 1 and  product.PRODUCT_STEP eq 3 and product.PRODUCT_STEP eq 4}">
               	<li>
               	<label>남은 수량 : </label>
               	<span style="color:red"> 0개</span></li>
@@ -477,7 +475,7 @@ function fn_deleteQuestionComment(inputComment){
               <label>판매종료일:</label>
               <span><fmt:formatDate value="${product.PRODUCT_ENDDATE }" pattern="yyyy-MM-dd"/></span></li>
             <c:choose>
-            	<c:when test="${product.PRODUCT_STEP eq 2 and  product.PRODUCT_STEP eq 3 and product.PRODUCT_STEP eq 4}">
+            	<c:when test="${product.PRODUCT_STEP eq 1 and  product.PRODUCT_STEP eq 3 and product.PRODUCT_STEP eq 4}">
             	<li>
 	              <label>판매 남은일:</label>
 	              <span id="remainperiod" style="color:red">마감된 상품입니다.</span></li>
@@ -550,7 +548,7 @@ function fn_deleteQuestionComment(inputComment){
 	                	<c:choose>
 	                	<c:when test="${member.memberAuthority eq 'A' }">
 	                		<input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기" disabled/>
-	                	</c:when>
+	                	</c:when>	                              	
 	                	<c:when test="${member.memberAuthority ne 'A' }">
 	                		<input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기"/>
 	                	</c:when>
