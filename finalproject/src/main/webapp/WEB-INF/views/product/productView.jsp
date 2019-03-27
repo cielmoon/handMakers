@@ -53,18 +53,19 @@ $(function() {
 	$('#orderBtn').on('click',function(){
 		var stock = Number(${product.REMAININVENTORY});
 		var qty = Number($('input[name=productQty]').val());
-		var cursell = Number(${product.PRODUCT_CURSELL});
+		/* var cursell = Number(${product.PRODUCT_CURSELL}); */
 		console.log("재고"+stock);
 		console.log("수량"+qty);
-		console.log("현재판매"+cursell);
-		console.log(typeof (qty));
-		if(stock < qty + cursell){
+		console.log(typeof qty);
+		console.log(typeof stock);
+		
+		if(stock < qty){
 			alert('남은 수량보다 더 주문해서 주문이 안됩니다.');
 			return false;
 		}else{
 			return true;
 		}
-		
+      	
 	});
 });
 
@@ -170,8 +171,10 @@ function fn_noLoginComment() {
 }
 
 function fn_tabChanged(type) {
+	var tab = $('#tab').val();
+	
 	location.href = "${path}/product/productView.do?commentType=" + type
-			+ "&productNo=" + '${product.PRODUCT_NO}';
+			+ "&productNo=" + '${product.PRODUCT_NO}'+"&tab="+tab;
 
 }
 
@@ -180,15 +183,32 @@ function fn_insertReviewCommentLevel1() {
 	var orderNo = $('#orderList').val();
 	$('#input-reviewCommentProductNo').val(productNo);
 	$('#input-reviewOrderNo').val(orderNo);
+	var content = $('#input-review').val();
+	var radio = $('input[type=radio]').val();
+	console.log(radio);
+	if(radio==null){
+		alert('평점 점수를 넣어주세요');
+	}
+	if(content.length<0){
+		alert('내용을 넣어주세요');
+	}
+	
 	$('#commentReview').submit();
-}
+};
 
 function fn_insertQuestionComment() {
 	var productNo = $('#input-productNo').val();
-	alert(productNo);
+	var questionContent = $('#input-question').val();
+	var tab = $('#tab').val();
+	
+	if(questionContent.trim().length<1){
+		alert('문의 내용을 입력해주세요');
+		return false;
+	}
+	$('#input-questionTab').val(tab);
 	$('#input-questionCommentProductNo').val(productNo);
 	$('#commentQuestion').submit();
-}
+};
 
 function fn_reviewComment(commentNo){
 	console.log(commentNo);
@@ -223,13 +243,17 @@ function fn_updateReviewComment(inputCommentNo, inputCommentContent){
 	});
 };
 
-function fn_deleteComment(inputComment){
+function fn_deleteComment(inputComment, tab){
 	var commentNo = $('#'+inputComment).val();
 	var commentType = $('input[name=commentType]').val();
 	var productNo = $('#input-productNo').val();
+	
 	console.log(commentNo);
 	console.log(commentType);
-	location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo;
+	if(tab!=null){
+		location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo+"&tab="+tab;
+	}
+	/* location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo; */
 };
 
 function fn_deleteQuestionComment(inputComment){
@@ -238,8 +262,15 @@ function fn_deleteQuestionComment(inputComment){
 	var productNo = $('#input-productNo').val();
 	console.log(commentNo);
 	console.log(commentType);
-	location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo;
-}
+	var tab = $('#tab').val();
+	
+	
+	if(tab!=null){
+		
+		location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo+"&tab="+tab;
+	}
+	/* location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo; */	
+};
 
 </script>
 
@@ -271,12 +302,43 @@ function fn_deleteQuestionComment(inputComment){
 <div class="container">
   <ul class="breadcrumb">
     <li><a href="/makers"><i class="fa fa-home"></i></a></li>
-   <li><a href="${path }/product/category.do?category=${product.BC_NO }">${bcTitle }</a></li>
+    <c:choose>
+    	<c:when test="${tab eq 'p'}">
+    		<li><a href="${path }/product/preList.do">입점문의</a></li>
+    	</c:when>
+    	<c:when test="${tab eq 'n' }">
+    		<li><a href="${path }/product/newList.do">신규</a></li>
+    	</c:when>
+    	<c:when test="${tab eq 'b' }">
+    		<li><a href="${path }/product/bestList.do">베스트</a></li>
+    	</c:when>
+    	<c:otherwise>
+    		<li><a href="${path }/product/category.do?category=${product.BC_NO }">${bcTitle }</a></li>
+    	</c:otherwise>
+    </c:choose>
     <li><a href="javascript:void(0)">${product.PRODUCT_TITLE }</a></li>
   </ul>
+  
   <!-- nav -->
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
+    <c:choose>
+    	<c:when test="${tab eq 'n' or tab eq 'p' }"></c:when>
+    	<c:when test="${tab eq 'b'}">
+    		<div class="column-block">
+	        <div class="column-block">
+	          <div class="columnblock-title">${bcTitle }</div>
+	          <div class="category_block">
+	            <ul class="box-category treeview-list treeview">
+	            <c:forEach items="${scList }" var="sc"> 
+	                 <li><a href="${path }/product/bestList.do?category=${sc.bcNo}&sc=${sc.scNo}&best=best&tab=b">${sc.scTitle}</a></li>
+	              </c:forEach>
+	           </ul>
+	          </div>
+	        </div>
+	       </div>
+    	</c:when>
+    	<c:otherwise>
       <div class="column-block">
         <div class="column-block">
           <div class="columnblock-title">${bcTitle }</div>
@@ -289,6 +351,8 @@ function fn_deleteQuestionComment(inputComment){
           </div>
         </div>
        </div>
+       </c:otherwise>
+       </c:choose>
        </div>
 
     <div id="content" class="col-sm-9">
@@ -314,7 +378,7 @@ function fn_deleteQuestionComment(inputComment){
         
         <!-- 상품 설명 -->
         <div class="col-sm-6">
-        <form id="productViewFrm" action="${path }/order/orderEnroll.do" method="post">
+        <form id="productViewFrm" action="${path }/order/orderEnroll.do?tab=${tab}" method="post">
           <h1 class="productpage-title">${product.PRODUCT_TITLE }</h1>
           <ul class="list-unstyled productinfo-details-top">
             <li>
@@ -387,9 +451,18 @@ function fn_deleteQuestionComment(inputComment){
             <li>
               <label>현재 판매량 : </label>
               <span> ${product.PRODUCT_CURSELL }</span></li>
-            <li>
-              <label>남은 수량 : </label>
-              <span style="color:red"> ${product.REMAININVENTORY }개</span></li>    
+              <c:choose>
+              <c:when test="${product.PRODUCT_STEP eq 1 and  product.PRODUCT_STEP eq 3 and product.PRODUCT_STEP eq 4}">
+              	<li>
+              	<label>남은 수량 : </label>
+              	<span style="color:red"> 0개</span></li>
+              </c:when>
+              <c:when test="${product.PRODUCT_STEP eq 1 }">
+              	<li>
+              	<label>남은 수량 : </label>
+              	<span style="color:red"> ${product.REMAININVENTORY }개</span></li>
+              </c:when>
+              </c:choose>    
           </ul>
           
           <hr/>
@@ -401,9 +474,18 @@ function fn_deleteQuestionComment(inputComment){
             <li>
               <label>판매종료일:</label>
               <span><fmt:formatDate value="${product.PRODUCT_ENDDATE }" pattern="yyyy-MM-dd"/></span></li>
-            <li>
-              <label>판매 남은일:</label>
-              <span id="remainperiod" style="color:red">${product.REMAINPERIOD }일</span></li>
+            <c:choose>
+            	<c:when test="${product.PRODUCT_STEP eq 1 and  product.PRODUCT_STEP eq 3 and product.PRODUCT_STEP eq 4}">
+            	<li>
+	              <label>판매 남은일:</label>
+	              <span id="remainperiod" style="color:red">마감된 상품입니다.</span></li>
+	           </c:when>
+	           <c:when test="${product.PRODUCT_STEP eq 1 }">
+	            <li>
+	            <label>판매 남은일:</label>
+	            <span id="remainperiod" style="color:red">${product.REMAINPERIOD }일</span></li>
+	           </c:when>
+            </c:choose>
           </ul>
           <hr/>
              
@@ -419,8 +501,8 @@ function fn_deleteQuestionComment(inputComment){
             
             <div class="form-group">
               <label class="control-label qty-label" for="input-qty">수량</label>
-              <input type="number" name="productQty" value="1" min="1" size="10" id="input-quantity" class="form-control productpage-qty"/>
-              
+              <input type="number" name="productQty" value="1" min="1" size="10" id="input-quantity" class="form-control productpage-qty" style="width:100px"/>
+              <input type="hidden" name="tab" id="tab" value="${tab }"/>
               <input type="hidden" name="productNo" id="input-productNo" value="${product.PRODUCT_NO }"/>
               <input type="hidden" name="brandNo" value="${product.BRAND_NO }"/>
               <input type="hidden" name="wishCount" value="${wishCount }"/>
@@ -452,21 +534,28 @@ function fn_deleteQuestionComment(inputComment){
                </c:if>
                
                 <!-- 결제 버튼 -->
+                <c:choose>
+                <c:when test="${product.PRODUCT_STEP ne 0 }">
+                	<input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기" disabled/>
+                </c:when>
+                <c:otherwise>
                 <c:if test="${member==null }">
                 <input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기" onclick="fn_noLogin();"/>
                 <!-- <button type="button" data-toggle="tooltip" class="btn btn-default compare" title="Compare this Product" ><i class="fa fa-exchange"></i></button> -->
                 </c:if>
-                <c:choose>
-                <c:when test="${member!=null }"> 
-                	<c:choose>
-                	<c:when test="${member.memberAuthority eq 'A' }">
-                		<input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기" disabled/>
-                	</c:when>
-                	<c:when test="${member.memberAuthority ne 'A' }">
-                		<input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기"/>
-                	</c:when>
-                	</c:choose>
-                </c:when>
+	                <c:choose>
+	                <c:when test="${member!=null }"> 
+	                	<c:choose>
+	                	<c:when test="${member.memberAuthority eq 'A' }">
+	                		<input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기" disabled/>
+	                	</c:when>	                              	
+	                	<c:when test="${member.memberAuthority ne 'A' }">
+	                		<input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기"/>
+	                	</c:when>
+	                	</c:choose>
+	                </c:when>
+	                </c:choose>
+	                </c:otherwise>
                 </c:choose>
               </div>
             </div>
@@ -528,7 +617,7 @@ function fn_deleteQuestionComment(inputComment){
                                        	  <c:if test="${member.memberAuthority eq 'M' }">
                                        	  	<a href="javascript:void(0);" onclick="fn_reviewComment('${reviewComment['COMMENT_NO'] }Level1');"><i class="fas fa-pen" style="font-size:15px;"></i></a> &nbsp;
                                           </c:if>
-                                            <a href="javascript:void(0);" onclick="fn_deleteComment('inputNo-${reviewComment['COMMENT_NO'] }Level1');"><i class="fas fa-times" style="font-size: 18px;"></i></a>
+                                            <a href="javascript:void(0);" onclick="fn_deleteComment('inputNo-${reviewComment['COMMENT_NO'] }Level1', '${tab }');"><i class="fas fa-times" style="font-size: 18px;"></i></a>
                                         </li>
                                        </ul>
                                      </c:if>
@@ -591,7 +680,7 @@ function fn_deleteQuestionComment(inputComment){
 							  <c:if test="${member!=null}">
                               <!-- 대댓글 작성부분 -->
                               <li class="media media-replied">
-                              <form id="fm-${reviewComment['COMMENT_NO'] }" action="${path}/product/insertCommentLevel2.do?productNo=${product.PRODUCT_NO}" method="post">
+                              <form id="fm-${reviewComment['COMMENT_NO'] }" action="${path}/product/insertCommentLevel2.do?productNo=${product.PRODUCT_NO}&tab=${tab}" method="post">
                               <a class="pull-left" href="javascript:void(0);"> 
                               	<img class="media-object img-circle" width="80px;" src="${path }/resources/image/profile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
                           	  </a>
@@ -636,8 +725,8 @@ function fn_deleteQuestionComment(inputComment){
             
             </script>
             
-            <c:if test="${member!=null && orderList[0].ORDER_PAYSTATE eq '3' }">
-            <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do">
+            <c:if test="${member!=null && orderList[0].ORDER_PAYSTATE eq '0' }">
+            <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do?tab=${tab}">
               <div  id="div-review">
                  <c:if test="${orderList.size()>0 }">
                  <select class="form-control" id="orderList">
@@ -683,7 +772,7 @@ function fn_deleteQuestionComment(inputComment){
                   <input type="radio" name="rating" value="5" />
                   &nbsp;Good</div>
               </div>
-              
+ 
               <div class="buttons clearfix">
                 <div class="pull-right">
                   <!-- 구매 완료된 사람들만 글 쓰기 권한!! -->
@@ -730,6 +819,7 @@ function fn_deleteQuestionComment(inputComment){
                                     <input type="button" id="btn-${questionComment['COMMENT_NO'] }Level1" value="등록" style="display:none" onclick="fn_updateReviewComment('inputNo-${questionComment['COMMENT_NO'] }Level1','${questionComment['COMMENT_NO'] }Level1')"/>
                                     <input type="hidden" id="inputNo-${questionComment['COMMENT_NO'] }Level1" name="commentNo" value="${questionComment['COMMENT_NO'] }"/>
                                     <input type="hidden" name="questionCommentType" value="Q"/>
+                                    <!-- <input type="hidden" name="tab" id="tab"/> -->
                                  </div>
                               </div>
                         </c:if>
@@ -763,7 +853,7 @@ function fn_deleteQuestionComment(inputComment){
                </div>
             </div>
             
-            <form id="commentQuestion" class="form-horizontal" action="${path }/product/insertCommentQuestion.do">
+            <form id="commentQuestion" class="form-horizontal" action="${path }/product/insertCommentQuestion.do?tab=${tab}">
               <div  id="div-review"></div>
               <div class="form-group required">
                 <div class="col-sm-12">
@@ -771,6 +861,7 @@ function fn_deleteQuestionComment(inputComment){
                   <c:if test="${member != null}">
                      <input type="text" name="name" id="input-name" class="form-control" value="${member.memberName }" readonly/>
                      <input type="hidden" name="questionCommentProductNo" id="input-questionCommentProductNo"/>
+                     <input type="hidden" name="tab" id="input-questionTab"/>
                      <input type="hidden" name="memberNo" id="input-memberNo" value="${member.memberNo }"/>
                      <input type="hidden" name="commentType" value="Q"/>
                   </c:if>

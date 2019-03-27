@@ -44,11 +44,18 @@ public class OrderController {
 		
 		logger.debug(map+"");
 		
-		String productOptionNo = (String)map.get("productOption"); 
+		//장바구니 비슷한 구매전에 업데이트 우선 함!!! 나중에 결제 안되면 롤백!!!
+		int updateOrder = service.updateOrder(map);
 		
+		logger.debug(updateOrder+"");
+		
+		String productOptionNo = (String)map.get("productOption"); 
+				
 		Map<String,String> productOption = service.selectProductOption(productOptionNo);
 		
 		String productNo = (String)map.get("productNo");
+		
+		Map<String,String> product = productService.selectProduct(productNo);
 		
 		Map<String,String> categoryMap = service.selectCategoryMap(productNo); 
 		
@@ -60,6 +67,7 @@ public class OrderController {
 		
 		List<Map<String,String>> deliveryList = service.selectDeliveryList(memberNo);
 		
+		mv.addObject("product",product);
 		mv.addObject("bcTitle",bcTitle);
 		mv.addObject("scList",scList);
 		mv.addObject("deliveryList", deliveryList);
@@ -169,6 +177,25 @@ public class OrderController {
 		
 		mv.addObject("delivery", delivery);
 		mv.setViewName("jsonView");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/order/updateResetOrder.do")
+	public ModelAndView updateResetOrder(@RequestParam Map<String,String> map) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		logger.debug(map+"");
+		
+		int result = service.updateResetOrder(map);
+		
+		String msg = "결제 실패 하셨습니다.";
+		String loc = "/product/productView.do?productNo="+map.get("productNo");
+		
+		mv.addObject("loc",loc);
+		mv.addObject("msg",msg);
+		mv.setViewName("/common/msg");
 		
 		return mv;
 	}

@@ -78,7 +78,7 @@
 	<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
           <div
-										onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}'"
+										onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}&tab=p'"
 										class="image product-imageblock"
 										style="height : 220px; background-size : cover; background-image : url(${path}/resources/image/product/${product.productProfile }); cursor : pointer;">
               <div class="button-group">

@@ -23,14 +23,14 @@
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
       <div class="column-block">
-        <div class="columnblock-title"><a href="${path }/product/bestList.do?category=${category}">${bcTitle }</a></div>
+        <div class="columnblock-title"><a href="${path }/product/bestList.do?category=${category}&tab=b">${bcTitle }</a></div>
         <div class="category_block">
           <%-- <h1>${sCategoryList}</h1> --%>
           <ul class="box-category treeview-list treeview">
             <div id = bestMenuList>
             
             <c:forEach items="${sCategoryList}" var="scList" varStatus="vs">
-            <li><a href="${path }/product/bestList.do?category=${category}&sc=${scList.SC_NO}">${scList.SC_TITLE }</a></li>
+            <li><a href="${path }/product/bestList.do?category=${category}&sc=${scList.SC_NO}&tab=b">${scList.SC_TITLE }</a></li>
             </c:forEach>
             
             </div>
@@ -87,7 +87,7 @@
 		<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
           <div
-										onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}'"
+										onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}&best=best&tab=b'"
 										class="image product-imageblock"
 										style="height : 220px; background-size : cover; background-image : url(${path}/resources/image/product/${product.productProfile }); cursor : pointer;">
                        
@@ -113,7 +113,7 @@
             
             <div class="caption product-detail">
               <h4 class="product-name ellips">
-              <a href="${path }/product/productView.do?productNo=${product.productNo}" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
+              <a href="${path }/product/productView.do?productNo=${product.productNo}&best=best&tab=b" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
 			<div style="width : 200px; height : 24px;" class="rating ellips">${product.productComment }</div>
                 <!-- product_comment -->
                 <div style="width : 200px; height : 24px;">

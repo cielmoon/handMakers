@@ -140,6 +140,12 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("member.updateOrderState", orderNo);
 	}
+
+	@Override
+	public Member memberEmailFind(String memberEmail) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.memberEmailFind", memberEmail);
+	}
 	
 	
 }

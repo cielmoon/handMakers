@@ -6,6 +6,20 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
+<style>
+	#memberProfileTitle, #memberProfileArea {
+		text-align: center;
+	}
+	
+	#newProfileImg {
+		width: 200px;
+	}
+	
+	#submitBtn {
+		margin-top: 10px !important;
+	}
+</style>
+
 <script>
 function selectBrand(brandNo, brandState)
 {
@@ -17,6 +31,41 @@ function selectBrand(brandNo, brandState)
 	{
 		location.href="${path}/shop/brandHome.do?brandNo="+brandNo;
 	}
+}
+
+$("#newProfileImg").on("change", enrollMemberImg);
+
+function enrollMemberImg(e) {
+	var files = e.target.files;
+	var filesArr = Array.prototype.slice.call(files);
+	
+	filesArr.forEach(function(f) {
+		if (!f.type.match("image.*")) {
+			alert("이미지 확장자만 등록해주세요.");
+			
+			return;
+		}
+		
+		sel_file = f;
+		
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			$("#memberProfile").attr("src", e.target.result).css('width', '100px').css('height', '100px');
+		}
+		
+		reader.readAsDataURL(f);
+	});
+}
+
+function validate() {
+	if ($("#newProfileImg").val() == "") {
+		alert("변경할 사진을 등록해주세요.");
+		$("#newProfileImg").focus();
+		
+		return false;
+	}
+	
+	return true;
 }
 </script>
 
@@ -83,31 +132,21 @@ function selectBrand(brandNo, brandState)
 
 					</div>
 					<div class="col-sm-4">
+						<form name="memberProfileFrm" action="${path}/member/changeProfile.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
 						<div class="well">
 							<div>
-								<h2>프로필</h2>
+								<h2 id="memberProfileTitle">프로필</h2>
 								<!-- 라운드로 꾸며야함 style로 -->
-								<div class="well">
-									<%-- <a href="<%=request.getContextPath()%>/memberProfileChange"> --%>
-									<a href="#" onclick="return false;"> 
-										<img src="${path }/resources/image/${member.memberProfile}" width="100" height="100" style="border-radius: 50%;"onclick="fileUpload()" />
-									
-									</a>
-
-
+								<div class="well" id="memberProfileArea">
+										<img src="${path }/resources/image/memberProfile/${member.memberProfile }" id="memberProfile" width="100" height="100" style="border-radius: 50%" />
 								</div>
 							</div>
 							<div>
-								<input type="button" class="btn btn-primary" value="변경" onclick="fileUpload()">
-<%-- 
-								<form action="<%=request.getContextPath()%>/FileUpload"
-									method="post" enctype="multipart/form-data" id="fileUploadForm">
-									<input type="file" class="btn btn-primary" id="file"
-										name="file" style="display: none;">
-
-								</form> --%>
+								<input type="file" name="newProfileImg" id="newProfileImg">
+								<input type="submit" class="btn btn-primary" id="submitBtn" value="사진 변경하기">
 							</div>
 						</div>
+						</form>
 					</div>
 				</div>
 			</div>

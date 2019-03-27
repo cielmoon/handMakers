@@ -78,7 +78,7 @@
 	<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
           <div
-										onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}'"
+										onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}&tab=n'"
 										class="image product-imageblock"
 										style="height : 220px; background-size : cover; background-image : url(${path}/resources/image/product/${product.productProfile }); cursor : pointer;">
 										
@@ -108,7 +108,7 @@
 
             <div class="caption product-detail">
               <h4 class="product-name ellips">
-              <a href="${path }/product/productView.do?productNo=${product.productNo}" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
+              <a href="${path }/product/productView.do?productNo=${product.productNo}&tab=n" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
 			<div style="width : 200px; height : 24px;" class="rating ellips">${product.productComment }</div>
 				<!-- product_comment -->
                 <div style="width : 200px; height : 24px;">

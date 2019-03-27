@@ -6,16 +6,55 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
-<script>
-	function fileUpload() {
-		$("#newAdminProfile").click();
+<style>
+	#adminProfileTitle, #adminProfileArea {
+		text-align: center;
 	}
 	
-	$(document).ready(function() {
-		$("#newAdminProfile").on("change", function() {
-			$("#fileUpload").submit();
+	#newProfileImg {
+		width: 200px;
+	}
+	
+	#submitBtn {
+		margin-top: 10px !important;
+	}
+</style>
+
+<script>
+	$("#newProfileImg").on("change", enrollAdminImg);
+	
+	function enrollAdminImg(e) {
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+		
+		filesArr.forEach(function(f) {
+			if (!f.type.match("image.*")) {
+				alert("이미지 확장자만 등록해주세요.");
+				
+				return;
+			}
+			
+			sel_file = f;
+			
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#adminProfile").attr("src", e.target.result).css('width', '100px').css('height', '100px');
+			}
+			
+			reader.readAsDataURL(f);
 		});
-	});
+	}
+	
+	function validate() {
+		if ($("#newProfileImg").val() == "") {
+			alert("변경할 사진을 등록해주세요.");
+			$("#newProfileImg").focus();
+			
+			return false;
+		}
+		
+		return true;
+	}
 </script>
 
 <section>
@@ -57,27 +96,23 @@
 
 					</div>
 					<div class="col-sm-4">
+						<form name="adminProfileFrm" action="${path}/member/changeProfile.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
 						<div class="well">
 							<div>
-								<h2>관리자 프로필</h2>
+								<h2 id="adminProfileTitle">관리자 프로필</h2>
 								<!-- 라운드로 꾸며야함 style로 -->
-								<div class="well">
-									<%-- <a href="<%=request.getContextPath()%>/memberProfileChange"> --%>
-									<a href="#" onclick="return false;"> 
-										<img src="${path }/resources/image/${member.memberProfile }" width="100" height="100" style="border-radius: 50%" />
-									
-									</a>
-
-
+								<div class="well" id="adminProfileArea">
+									<img src="${path }/resources/image/adminProfile/${member.memberProfile }" id="adminProfile" width="100" height="100" style="border-radius: 50%" />
 								</div>
 							</div>
 							<div>
-								<form name="productEnrollEndFrm" action="${path}/member/changeProfile.do" method="post" enctype="multipart/form-data">
-									<!-- <input type="file" class="btn btn-primary" value="사진 선택" onclick="fileUpload()">
-									<input type="submit" class="btn btn-primary" id="newAdminProfile" name="newAdminProfile" value="변경"> -->
-								</form>
+								
+									<input type="file" name="newProfileImg" id="newProfileImg">
+									<input type="submit" class="btn btn-primary" id="submitBtn" value="사진 변경하기">
+								
 							</div>
 						</div>
+						</form>
 					</div>
 				</div>
 			</div>
