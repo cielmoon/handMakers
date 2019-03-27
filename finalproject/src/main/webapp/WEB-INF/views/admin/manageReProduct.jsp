@@ -5,7 +5,15 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<style>
+#select-brand, #select-bigCategory, #select-smallCategory {
+	margin-bottom: 10px;
+}
+#tbl-board{
+	font-size: 12px;
 
+}
+</style>
 <script>
 $(function() {
 	$("#select-brand").change(function(){

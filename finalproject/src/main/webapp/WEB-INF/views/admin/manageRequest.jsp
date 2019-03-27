@@ -5,6 +5,17 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <style>
+#select-brand{
+	font-size: 11px;
+	margin-bottom: 10px;
+}
+#select-product{
+	font-size: 11px;
+	margin-bottom: 10px;
+}
+#tbl-board{
+	font-size: 11px;
+}
 #srBtn{
 	margin-bottom: 13px;
 	background-color: black;

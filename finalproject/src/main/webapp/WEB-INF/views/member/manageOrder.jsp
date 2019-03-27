@@ -148,7 +148,11 @@ $(function() {
 											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,2,${o.imp_uid},${o.productNo},${o.productOptionQty}">환불요청</button></a></td>					
 										</c:when>	
 										<c:when test="${o.orderState == '1' and o.orderPayState == '0' }">
-											<td><a href="${path}/member/updateOrderState.do?orderNo=${o.orderNo}"><button class="tBtn">구매확정</button></a>
+											<td><a href="${path}/member/updateOrderState.do?orderNo=${o.orderNo}"><button class="tBtn">구매확정</button><br/></a>
+											<a>${o.orderTrackingNo}</a></td>					
+										</c:when>
+										<c:when test="${o.orderState == '1' and o.orderPayState == '3' }">
+											<td><a href="${path}/product/productView.do?productNo=${o.productNo}&tab=p"><button class="tBtn">구매후기작성</button><br/></a>
 											<a>${o.orderTrackingNo}</a></td>					
 										</c:when>
 										<c:otherwise>

@@ -8,17 +8,24 @@ public class AdminProduct implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -2621441858268751377L;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	private String productBcTitle;
 	private String productScTitle;
 	private String productBrandTitle;
-	private String productTitle;
-	private Date productEnrollDate;	
+	private String productTitle;	
+	private Date productEnrollDate;
 	private Date updateDate;
 	private Date productEndDate;
 	private String productNo;
 	private String productState;
 	
-	
+	private String pEnrollDate;
+	private String pUpdateDate;	
+	private String pEndDate;
+
+
 	public AdminProduct() {
 		
 	}
@@ -37,6 +44,7 @@ public class AdminProduct implements Serializable{
 		this.productNo = productNo;
 		this.productState = productState;
 	}
+
 
 
 	public String getProductBcTitle() {
@@ -129,8 +137,33 @@ public class AdminProduct implements Serializable{
 	}
 
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getpEnrollDate() {
+		return pEnrollDate;
+	}
+
+
+	public void setpEnrollDate(String pEnrollDate) {
+		this.pEnrollDate = pEnrollDate;
+	}
+
+
+	public String getpUpdateDate() {
+		return pUpdateDate;
+	}
+
+
+	public void setpUpdateDate(String pUpdateDate) {
+		this.pUpdateDate = pUpdateDate;
+	}
+
+
+	public String getpEndDate() {
+		return pEndDate;
+	}
+
+
+	public void setpEndDate(String pEndDate) {
+		this.pEndDate = pEndDate;
 	}
 
 
@@ -139,7 +172,10 @@ public class AdminProduct implements Serializable{
 		return "AdminProduct [productBcTitle=" + productBcTitle + ", productScTitle=" + productScTitle
 				+ ", productBrandTitle=" + productBrandTitle + ", productTitle=" + productTitle + ", productEnrollDate="
 				+ productEnrollDate + ", updateDate=" + updateDate + ", productEndDate=" + productEndDate
-				+ ", productNo=" + productNo + ", productState=" + productState + "]";
+				+ ", productNo=" + productNo + ", productState=" + productState + ", pEnrollDate=" + pEnrollDate
+				+ ", pupdateDate=" + pUpdateDate + ", pEndDate=" + pEndDate + "]";
 	}
+
+
 	
 }

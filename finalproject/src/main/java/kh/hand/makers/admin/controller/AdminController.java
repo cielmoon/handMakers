@@ -294,9 +294,13 @@ public class AdminController {
 		List<AdminProduct> adProductList = service.selectProductList(cPage, numPerPage, sortingProductList);
 		for (AdminProduct adminProduct : adProductList) {
 			System.out.println("ProductNo:" + adminProduct.getProductNo());
-			System.out.println("등록날짜:" + adminProduct.getProductEnrollDate());
+			System.out.println("업데이트날짜:" + adminProduct.getUpdateDate());
 			System.out.println("마감날짜:" + adminProduct.getProductEndDate());
+			adminProduct.setpUpdateDate(adminProduct.getUpdateDate().toString());
+			adminProduct.setpEndDate(adminProduct.getProductEndDate().toString());
+			adminProduct.setpEnrollDate(adminProduct.getProductEnrollDate().toString());
 		}
+		
 		int contentCount = service.selectProductCount(sortingProductList);
 		logger.debug("현재 brandNo :" + brandNo);
 		logger.debug("현재 Productsize :" + contentCount);
@@ -370,7 +374,9 @@ public class AdminController {
 		mv.addObject("scList", scList);
 		mv.addObject("brandList", brandList);
 		for (AdminProduct adminProduct : adminProductList) {
-			System.out.println("Admin: " + adminProductList);
+			adminProduct.setpUpdateDate(adminProduct.getUpdateDate().toString());
+			adminProduct.setpEndDate(adminProduct.getProductEndDate().toString());
+			adminProduct.setpEnrollDate(adminProduct.getProductEnrollDate().toString());
 		}
 
 		mv.addObject("pageBar",
@@ -404,8 +410,7 @@ public class AdminController {
 
 		Map map = new HashMap();
 		map.put("proc", adProductList);
-		map.put("page", PageFactory.getManageProductPageBar(contentCount, cPage, numPerPage, brandNo, bcNo, scNo,
-				"/makers/admin/selectRList.do"));
+		map.put("page", PageFactory.getManageProductPageBar(contentCount, cPage, numPerPage, brandNo, bcNo, scNo, "/makers/admin/selectRList.do"));
 		/*
 		 * map.put("page",PageFactory.getManageProductPageBar(contentCount, cPage,
 		 * numPerPage, brandNo, bcNo, scNo, "/makers/admin/selectBList.do"));
