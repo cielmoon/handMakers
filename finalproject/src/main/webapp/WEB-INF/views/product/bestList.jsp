@@ -6,13 +6,11 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <style>
-<!--
 .ellips{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
--->
 </style>
 <section class="product col-2 left-col">
 <div class="container">
@@ -79,17 +77,12 @@
       <br />
       
       <div class="grid-list-wrapper">
-      
-      
-       <!-- 리스트는 input-limit 갯수 만큼. -->
+
        <c:forEach items="${productList }" var="product" varStatus="vs">
        
 		<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-          <div
-										onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}&best=best&tab=b'"
-										class="image product-imageblock"
-										style="height : 220px; background-size : cover; background-image : url(${path}/resources/image/product/${product.productProfile }); cursor : pointer;">
+          <div onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}&best=best&tab=b'"	class="image product-imageblock" style="height : 220px; background-size : cover; background-image : url(${path}/resources/image/product/${product.productProfile }); cursor : pointer;">
                        
                <div class="button-group">
                <c:if test="${member==null }">
@@ -107,7 +100,6 @@
                 	<i class="fa fa-heart-o"></i>
                	</button>
                </c:if>
-               
               </div>
             </div>
             
@@ -186,26 +178,22 @@
 
 <script>
 $('#input-limit').on('change', function(){
-/* console.log($('#input-limit').val()); */
 $('#numPerPagesFrm').submit();
 });
 
 function fn_wishChk(productNo){
 	event.stopPropagation();
-	/* console.log(event); */
 	$.ajax({
 		url:"${path}/product/selectWishYewon.do",
 		data: {"productNo":productNo},
 		success:function(data){
         if(data == 1){	
         	$('#' + productNo).html('<i class="fa fa-heart"></i>');
-        	$('#' + productNo).attr( "title" , "Remove to Wish List");
         	alert('위시리스트에 추가 되었습니다.');
         	return true;
         }
         else
         $('#' + productNo).html('<i class="fa fa-heart-o"></i>');
-        $('#' + productNo).attr( "title" , "Add to Wish List");
         alert('위시리스트에서 제거 되었습니다.');
         return false;
 
@@ -221,7 +209,6 @@ alert('위시리스트 추가는 로그인이 필요합니다.');
 <script type="text/javascript">
 	$(function(){
 		var a = '${sCategoryList}';
-		console.log(a);
 		if(a == ""){
 		$.ajax({
 			url:"${path}/common/menuList.do",
@@ -233,7 +220,7 @@ alert('위시리스트 추가는 로그인이 필요합니다.');
 		});
 		}
 	});
-	</script>
+</script>
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

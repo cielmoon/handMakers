@@ -6,13 +6,11 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <style>
-<!--
 .ellips{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
--->
 </style>
 <section class="product col-2 left-col">
 <div class="container">
@@ -25,7 +23,6 @@
       <div class="column-block">
         <div class="columnblock-title"><a href="${path }/product/category.do?category=${category}&tab=c">${bcTitle }</a></div>
         <div class="category_block">
-          <%-- <h1>${sCategoryList}</h1> --%>
           <ul class="box-category treeview-list treeview">
             <c:forEach items="${sCategoryList}" var="scList" varStatus="vs">
             <li><a href="${path }/product/category.do?category=${category}&sc=${scList.SC_NO}&tab=c">${scList.SC_TITLE }</a></li>
@@ -40,7 +37,7 @@
         <div class="col-md-6 list-grid-wrapper">
           <div class="btn-group btn-list-grid">
             <div class="result-inner">(총 ${contentCount }건의 상품)</div>
-            <div id="grid-view" class="btn btn-default grid"></div><!-- <i class="fa fa-th"></i> -->
+            <div id="grid-view" class="btn btn-default grid"></div>
           </div>
           </div>
         <div class="col-md-1 text-right page-wrapper">
@@ -75,24 +72,12 @@
       <br />
       
       <div class="grid-list-wrapper">
-      
-      
-       <!-- 리스트는 input-limit 갯수 만큼. -->
-       
        <c:forEach items="${productList }" var="product" varStatus="vs">
        
 		<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-          <div
-										onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}&tab=c'"
-										class="image product-imageblock"
-										style="height : 220px; background-size : cover; background-image : url(${path}/resources/image/product/${product.productProfile }); cursor : pointer;">
+          <div onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}&tab=c'" class="image product-imageblock" style="height : 220px; background-size : cover; background-image : url(${path}/resources/image/product/${product.productProfile }); cursor : pointer;">
 										
-										
-         <%-- <div class="image product-imageblock" style="height:220px;">
-         <h1>${product.productNo}</h1> 확인용
-         <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
-         <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a> --%>
                <div class="button-group">
                <c:if test="${member==null }">
                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishLoginChk();">
@@ -110,8 +95,6 @@
                	</button>
                </c:if>
                
-               
-                <!-- <button type="button" class="addtocart-btn">Add to Cart</button> -->
               </div>
             </div>
             
@@ -125,9 +108,7 @@
                 </div><br>
               <!-- product_price -->
               
-              <!-- <div class="rating"> -->
               <div style="float: right;">
-              <%-- ${ product.score }평점 : --%>
 			<c:if test="${product.score ge 0 and product.score lt 0.5 }">
                <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
             </c:if>
@@ -164,10 +145,6 @@
                </div>
               <!-- totalProductPoint 별-->
             </div>
-            <%-- <div class="button-group"><!-- 리스트형식으로 볼때의 추가 버튼들 -->
-              <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List" value="${product.productNo}"><i class="fa fa-heart-o"></i></button>
-              <button type="button" class="addtocart-btn">Add to Cart</button>
-            </div> --%>
           </div>
         </div>
        
@@ -175,7 +152,6 @@
        
       </div>
       <div class="category-page-wrapper">
-        <%-- <div class="result-inner">Showing 1 to 8 of 10 (${cPage } Pages)</div> --%>
         
         <div class="pagination-inner">
           <ul class="pagination">
@@ -197,26 +173,22 @@
 
 <script>
 $('#input-limit').on('change', function(){
-/* console.log($('#input-limit').val()); */
 $('#numPerPagesFrm').submit();
 });
 
 function fn_wishChk(productNo){
 	event.stopPropagation();
-	/* console.log(event); */
 	$.ajax({
 		url:"${path}/product/selectWishYewon.do",
 		data: {"productNo":productNo},
 		success:function(data){
         if(data == 1){	
         	$('#' + productNo).html('<i class="fa fa-heart"></i>');
-        	$('#' + productNo).attr( "title" , "Remove to Wish List");
         	alert('위시리스트에 추가 되었습니다.');
         	return true;
         }
         else
         $('#' + productNo).html('<i class="fa fa-heart-o"></i>');
-        $('#' + productNo).attr( "title" , "Add to Wish List");
         alert('위시리스트에서 제거 되었습니다.');
         return false;
 
