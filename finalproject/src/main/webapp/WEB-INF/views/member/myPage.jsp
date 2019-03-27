@@ -21,52 +21,53 @@
 </style>
 
 <script>
-function selectBrand(brandNo, brandState)
-{
-	if(brandState == 'a' || brandState == 'c')
-	{
-		alert("승인되지 않은 브랜드입니다.");
-	}
-	else
-	{
-		location.href="${path}/shop/brandHome.do?brandNo="+brandNo;
-	}
-}
-
-$("#newProfileImg").on("change", enrollMemberImg);
-
-function enrollMemberImg(e) {
-	var files = e.target.files;
-	var filesArr = Array.prototype.slice.call(files);
+	$(function() {
+		$("#newProfileImg").on("change", enrollMemberImg);
+	})
 	
-	filesArr.forEach(function(f) {
-		if (!f.type.match("image.*")) {
-			alert("이미지 확장자만 등록해주세요.");
-			
-			return;
+	function selectBrand(brandNo, brandState) {
+		if (brandState == 'a' || brandState == 'c') {
+			alert("승인되지 않은 브랜드입니다.");
+		} else {
+			location.href = "${path}/shop/brandHome.do?brandNo=" + brandNo;
 		}
-		
-		sel_file = f;
-		
-		var reader = new FileReader();
-		reader.onload = function(e) {
-			$("#memberProfile").attr("src", e.target.result).css('width', '100px').css('height', '100px');
-		}
-		
-		reader.readAsDataURL(f);
-	});
-}
-
-function validate() {
-	if ($("#newProfileImg").val() == "") {
-		alert("변경할 사진을 등록해주세요.");
-		$("#newProfileImg").focus();
-		
-		return false;
 	}
-	
-	return true;
-}
+
+	function enrollMemberImg(e) {
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+
+		filesArr.forEach(function(f) {
+			if (!f.type.match("image/*")) {
+				alert("이미지 확장자만 등록해주세요.");
+				$("#newProfileImg").val('');
+				$("#memberProfile").attr("src", "${path }/resources/image/memberProfile/${member.memberProfile }").css('width', '100px').css('height', '100px');
+				
+				return;
+			}
+
+			sel_file = f;
+
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#memberProfile").attr("src", e.target.result).css('width',
+						'100px').css('height', '100px');
+			}
+
+			reader.readAsDataURL(f);
+		});
+	}
+
+	function validate() {
+		if ($("#newProfileImg").val() == "") {
+			alert("변경할 사진을 등록해주세요.");
+			$("#newProfileImg").focus();
+
+			return false;
+		}
+
+		return true;
+	}
 </script>
 
 <section>
