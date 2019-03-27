@@ -43,7 +43,9 @@ public class ProductController {
 	public ModelAndView productView(@RequestParam(value="rcPage", required=false, defaultValue="1") int rcPage,
 			@RequestParam(value="qcPage", required=false, defaultValue="1") int qcPage,
 			@RequestParam(value="commentType", required=false, defaultValue="none") String commentType,
-			String productNo, HttpServletRequest request) {
+			String productNo, HttpServletRequest request, String tab) {
+		
+		logger.debug(tab);
 		
 		int numPerPage = 4;
 		
@@ -84,7 +86,6 @@ public class ProductController {
 			}else {
 				mv.addObject("wishCount",1);
 			}
-		
 		}
 		logger.debug(productNo);
 		logger.debug(orderList+"");
@@ -116,6 +117,7 @@ public class ProductController {
 		//누적점수 select
 		Map<String,String> avgScore = service.selectTotalScore(productNo);
 		
+		mv.addObject("tab", tab);
 		mv.addObject("brand",brandMap);
 		mv.addObject("rcPage", rcPage);
 		mv.addObject("qcPage", qcPage);
@@ -135,10 +137,10 @@ public class ProductController {
 		
 		if(commentType.equals("R"))
 		{
-			mv.addObject("pageBar",PageFactory.getConditionProductPageBar(reviewCommentCount, rcPage, numPerPage, "/makers/product/productView.do?commentType=R&productNo="+productNo, "R"));
+			mv.addObject("pageBar",PageFactory.getConditionProductPageBar(reviewCommentCount, rcPage, numPerPage, "/makers/product/productView.do?commentType=R&productNo="+productNo+"&tab="+tab, "R"));
 			mv.addObject("type", "R");
 		}else if(commentType.equals("Q")){
-			mv.addObject("pageBar",PageFactory.getConditionProductPageBar(questionCommentCount, qcPage, numPerPage, "/makers/product/productView.do?commentType=Q&productNo="+productNo, "Q"));
+			mv.addObject("pageBar",PageFactory.getConditionProductPageBar(questionCommentCount, qcPage, numPerPage, "/makers/product/productView.do?commentType=Q&productNo="+productNo+"&tab="+tab, "Q"));
 			mv.addObject("type", "Q");
 		}
 		mv.setViewName("/product/productView");
@@ -381,7 +383,7 @@ public class ProductController {
 		int result = service.insertCommentReview(map);
 		
 		String msg = "";
-		String loc = "/product/productView.do?productNo="+map.get("reviewCommentProductNo");
+		String loc = "/product/productView.do?productNo="+map.get("reviewCommentProductNo")+"&tab="+map.get("tab");
 		
 		if(result>0) {
 			System.out.println("이건 되니????");
@@ -441,7 +443,7 @@ public class ProductController {
 		int result = service.insertCommentQuestion(map);
 		
 		String msg = "";
-		String loc = "/product/productView.do?productNo="+map.get("questionCommentProductNo");
+		String loc = "/product/productView.do?productNo="+map.get("questionCommentProductNo")+"&tab="+map.get("tab");
 		
 		if(result>0) {
 			System.out.println("이건 되니????");
@@ -489,7 +491,7 @@ public class ProductController {
 		int result = service.insertCommentLevel2(map);
 		String type = "R";
 		String msg = "";
-		String loc = "/product/productView.do?productNo="+map.get("productNo")+"&commentType="+type;
+		String loc = "/product/productView.do?productNo="+map.get("productNo")+"&commentType="+type+"&tab="+map.get("tab");
 		
 		if(result>0) {
 			msg = "답글 등록이 되었습니다.";
@@ -506,12 +508,13 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/product/deleteComment")
-	public ModelAndView deleteComment(String commentNo, String commentType, String productNo) {
+	public ModelAndView deleteComment(String commentNo, String commentType, String productNo, String tab) {
 		
 		ModelAndView mv = new ModelAndView();
 		
 		logger.debug(commentNo);
 		logger.debug(commentType);
+		logger.debug("탭 들어 와라라라라라라라"+tab);
 		
 		Map<String,String> map = new HashMap();
 		
@@ -523,7 +526,9 @@ public class ProductController {
 		
 		String type = map.get("commentType");
 		String msg = "";
-		String loc = "/product/productView.do?productNo="+map.get("productNo")+"&commentType="+type;
+		String loc = "/product/productView.do?productNo="+map.get("productNo")+"&commentType="+type+"&tab="+tab;
+		
+		logger.debug(loc);
 		
 		if(result>0) {
 			msg = "답글 삭제가 되었습니다.";
