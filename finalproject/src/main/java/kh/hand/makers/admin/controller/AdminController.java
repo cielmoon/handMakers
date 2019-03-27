@@ -149,7 +149,9 @@ public class AdminController {
 		 */
 		List<managePreProduct> preProductList = service.selectPreProductList(cPage, numPerPage, sortingProductList);
 		int contentCount = service.selectPreProductCount(sortingProductList);
-
+		for (managePreProduct managePreProduct : preProductList) {
+			managePreProduct.setPrePDate(managePreProduct.getPreProductDate().toString());
+		}
 		mv.addObject("bcList", bcList);
 		mv.addObject("scList", scList);
 		mv.addObject("brandList", brandList);
@@ -176,7 +178,9 @@ public class AdminController {
 		sortingProductList.put("scNo", scNo);
 
 		List<managePreProduct> preProductList = service.selectPreProductList(cPage, numPerPage, sortingProductList);
-
+		for (managePreProduct managePreProduct : preProductList) {
+			managePreProduct.setPrePDate(managePreProduct.getPreProductDate().toString());
+		}
 		int contentCount = service.selectPreProductCount(sortingProductList);
 		logger.debug("현재 brandNo :" + brandNo);
 		logger.debug("현재 Productsize :" + contentCount);
@@ -643,6 +647,7 @@ public class AdminController {
 		int contentCount = service.selectRequestStateListCount(state);
 		for (SellerRequest sellerRequest : selectRequestList) {
 			String reqBrandName = service.selectBrandName(sellerRequest.getSellerReqRef());
+			sellerRequest.setsReqDate(sellerRequest.getSellerReqDate().toString());
 			sellerRequest.setRefName(reqBrandName);
 
 		}

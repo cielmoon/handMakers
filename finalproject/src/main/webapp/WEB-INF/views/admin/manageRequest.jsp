@@ -71,7 +71,7 @@ function manageRequestAjaxBrand(cPage) {
 					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" + 
 							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
 							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
-							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>"
+							+ "</td><td>" + data.proc[i].sReqDate + "</td><td>"
 							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+ data.proc[i].sellerReqNo +",1,e,"+ data.proc[i].sellerReqType +","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>수락</button></a>" 
 							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+data.proc[i].sellerReqNo+",2,f,"+data.proc[i].sellerReqType+","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>반려</button></a></td>"+"</td></tr>");
 					
@@ -80,13 +80,13 @@ function manageRequestAjaxBrand(cPage) {
 					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" + 
 							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
 							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
-							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>" + "</td></tr>");
+							+ "</td><td>" + data.proc[i].sReqDate + "</td><td>" + "</td></tr>");
 				}else if(data.proc[i].sellerReqProcess == '2'){
 					sellerReqProcess = '반려';
 					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" + 
 							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
 							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
-							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>" + "</td></tr>");
+							+ "</td><td>" + data.proc[i].sReqDate + "</td><td>" + "</td></tr>");
 				}
 						
 			
