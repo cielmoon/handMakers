@@ -74,6 +74,7 @@
 </style>
 
 <script>
+
 	$(document).ready(function() {
 		  $("#newProductProfile").on("change", enrollMainImg);
 		  
@@ -104,7 +105,7 @@
 	            }
 	      }
 	    });
-	     
+
 		$("#select-bigCategory").change(function(){
 			var bcNo = $("#select-bigCategory").find(":selected").val();
 			/* 소카테고리 리스트 초기화  */
@@ -126,7 +127,7 @@
 			});
 		});
 	});
-	
+
     function sendFile(file, el) {
         var form_data = new FormData();
         var path = '${path}' + "/resources/image/product/";
@@ -156,6 +157,9 @@
 			
 			return false;
 		} */
+		var html = $('#summernote').summernote('code');
+
+
 		
 		if ($("#newProductName").val() == "") {
 			alert("상품명을 입력해주세요.");
@@ -245,6 +249,12 @@
 				
 				return false;
 			}
+		}
+		
+		if (html.trim() == "") {
+			alert("상세설명을 입력해주세요.");		
+
+			return false;
 		}
 		
 		return true;
