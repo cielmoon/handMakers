@@ -117,19 +117,12 @@
 		var emailRegex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 		var phoneRegex = /^[0-9]+$/;
 		var passwordRegex = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/; // 영문, 숫자 혼합하여 6~20자리 이내
-		var idRegex = /^[A-Z|a-z|0-9]+$/;
 		var nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|\*]+$/;
 		
 		if (memberId.length < 4) {
 			alert("아이디는  영문, 숫자를 사용하여 4~16자리 이내로 입력해주세요.");
-			$("#memberId").focus();
-			
-			return false;
-		}
-		
-		if ($("#memberName").val() == "") {
-			alert("이름을 입력해주세요.");
-			$("#memberName").focus();
+			$("#memberId").val('');
+			$(".guide").hide();
 			
 			return false;
 		}
@@ -148,6 +141,14 @@
 			return false;
 		}
 		
+		if ($("#memberName").val() == "") {
+			alert("이름을 입력해주세요.");
+			$("#memberName").focus();
+			
+			return false;
+		}
+		
+		
 		if ($("#memberEmail").val() == "") {
 			alert("이메일을 입력해주세요.");
 			$("#memberEmail").focus();
@@ -158,13 +159,6 @@
 		if ($("#memberPhone").val() == "") {
 			alert("핸드폰번호를 입력해주세요.");
 			$("#memberPhone").focus();
-			
-			return false;
-		}
-		
-		if (!idRegex.test(memberId)) {
-			alert("아이디는  영문, 숫자를 사용하여 4~16자리 이내로 입력해주세요.");
-			$("#memberId").focus();
 			
 			return false;
 		}
@@ -205,45 +199,39 @@
 		}
 		return true;
 	};
-	
+
 	$(function(){
 		var idRegex = /^[A-Za-z0-9]+$/;
 		
 		$("#memberId").keyup(function(){
 		var memberId=$("#memberId").val();
-		/* var memberId=$("#memberId").val().trim(); */
-		
-		/* if(memberId.length<4)
-		{
-			$(".guide").hide();
-			return;
-		} */
-		
-		if (!idRegex.test(memberId)) {
-			console.log("얘는 정규식 걸림");
-			$(".guide").hide();
-			alert("아이디는  영문, 숫자를 사용하여 4~16자리 이내로 입력해주세요.");
-			$("#memberId").val('');
-			/* $("#memberId").focus(); */
-		} else {
-		$.ajax({
-			url:"${path}/member/checkId.do",
-			data:{"memberId":memberId},
-			success:function(data){
-				if(data.isId==true) {
-					$(".guide.ok").hide();
-					$(".guide.error").show();
-					$("#submit").attr("disabled", true).attr("readonly", false);
-				} else {
-					$(".guide.ok").show();
-					$(".guide.error").hide();
-					$("#submit").attr("disabled", false).attr("readonly", true);
-				}	
+
+		if(memberId.length > 0){
+			if (!idRegex.test(memberId)) {
+				$(".guide").hide();
+	
+				alert("아이디는  영문, 숫자를 사용하여 4~16자리 이내로 입력해주세요.");
+				$("#memberId").val('');	
+
+				return;
+			} else {
+			$.ajax({
+				url:"${path}/member/checkId.do",
+				data:{"memberId":memberId},
+				success:function(data){
+					if(data.isId==true) {
+						$(".guide.ok").hide();
+						$(".guide.error").show();
+						$("#submit").attr("disabled", true).attr("readonly", false);
+					} else {
+						$(".guide.ok").show();
+						$(".guide.error").hide();
+						$("#submit").attr("disabled", false).attr("readonly", true);
+					}	
+				}
+			});
 			}
-		});
-			
 		}
-		
 		});
 	});
 	
