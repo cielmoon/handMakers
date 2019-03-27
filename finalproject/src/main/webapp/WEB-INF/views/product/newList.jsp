@@ -6,13 +6,11 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <style>
-<!--
 .ellips{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
--->
 </style>
 <section>
 <div class="container">
@@ -77,15 +75,9 @@
       
 	<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-          <div
-										onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}&tab=n'"
-										class="image product-imageblock"
-										style="height : 220px; background-size : cover; background-image : url(${path}/resources/image/product/${product.productProfile }); cursor : pointer;">
+          <div onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}&tab=n'" class="image product-imageblock" style="height : 220px; background-size : cover; background-image : url(${path}/resources/image/product/${product.productProfile }); cursor : pointer;">
 										
-										
-         <%-- <div class="image product-imageblock" style="height:220px; object-fit: cover;">
-         <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
-         <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a> --%>
+
               <div class="button-group">
                <c:if test="${member==null }">
                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishLoginChk();">
@@ -116,7 +108,6 @@
                 </div><br>
               <!-- product_price -->
               <div style="float: right;">
-              <%-- ${ product.score }평점 : --%>
 			<c:if test="${product.score ge 0 and product.score lt 0.5 }">
                <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
             </c:if>
@@ -151,7 +142,7 @@
             	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
             </c:if>
                </div>
-              <!-- totalProductPoint 별이 다섯개  이부분은 좀더 고민-->
+              <!-- totalProductPoint -->
             </div>
  
           </div>
@@ -179,13 +170,11 @@
 </section>
 <script>
 $('#input-limit').on('change', function(){
-/* console.log($('#input-limit').val()); */
 $('#numPerPagesFrm').submit();
 });
 
 function fn_wishChk(productNo){
 	event.stopPropagation();
-	/* console.log(event); */
 	$.ajax({
 		url:"${path}/product/selectWishYewon.do",
 		data: {"productNo":productNo},
