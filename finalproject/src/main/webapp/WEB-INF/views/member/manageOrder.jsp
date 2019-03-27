@@ -110,7 +110,14 @@ $(function() {
  							<c:forEach var="o" items="${oList }">
 								<tr>
 									<td>${o.orderNo }</td>
-									<td>${o.productName }</td>
+									<c:choose>
+									<c:when test="${o.orderState == '1' and o.orderPayState == '3' }">
+										<td><a href="${path}/product/productView.do?productNo=${o.productNo}&tab=p">${o.productName }</a></td>
+									</c:when>
+									<c:otherwise>
+										<td>${o.productName }</td>
+									</c:otherwise>
+									</c:choose>							
 									<td>${o.productOption }</td>
 									<td>${o.productOptionQty }</td>
 									<td>${o.orderTotalPrice }</td>
@@ -152,8 +159,7 @@ $(function() {
 											<a>${o.orderTrackingNo}</a></td>					
 										</c:when>
 										<c:when test="${o.orderState == '1' and o.orderPayState == '3' }">
-											<td><a href="${path}/product/productView.do?productNo=${o.productNo}&tab=p"><button class="tBtn">구매후기작성</button><br/></a>
-											<a>${o.orderTrackingNo}</a></td>					
+											<td><a>${o.orderTrackingNo}</a></td>					
 										</c:when>
 										<c:otherwise>
 											<td></td>
