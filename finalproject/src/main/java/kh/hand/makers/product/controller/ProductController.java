@@ -20,6 +20,7 @@ import kh.hand.makers.common.PageFactory;
 import kh.hand.makers.common.PageFactoryComment;
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.product.model.service.ProductService;
+import kh.hand.makers.product.model.vo.DefaultProduct;
 import kh.hand.makers.product.model.vo.ProductImg;
 import kh.hand.makers.product.model.vo.Wish;
 import kh.hand.makers.shop.model.service.ShopService;
@@ -92,6 +93,7 @@ public class ProductController {
 		
 		//상품 정보 
 		Map<String,String> product = service.selectProduct(productNo);
+		logger.debug(product.get("BC_NO"));
 		//소분류 리스트
 		List<SmallCategory> scList = shopService.selectScList(product.get("BC_NO"));
 		//대분류 제목
@@ -541,6 +543,38 @@ public class ProductController {
 		mv.addObject("loc", loc);
 		mv.addObject("msg",msg);
 		mv.setViewName("/common/msg");
+		return mv;
+	}
+	
+	@RequestMapping("/product/selectProductCheck.do")
+	public ModelAndView selectProductCheck(String productNo, String qty) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		Map<String,String> map = new HashMap();
+		
+		map.put("productNo", productNo);
+		map.put("qty", qty);
+		
+		DefaultProduct dp = service.selectDefaltProduct(productNo);
+		
+		String state = "";
+		
+		System.out.println(dp.getProductMax());
+		System.out.println(dp.getProductCurSell());
+		System.out.println(Integer.parseInt(qty));
+		
+		if(dp.getProductMax() < (dp.getProductCurSell() + Integer.parseInt(qty))) {
+			state = "F";
+		}else {
+			state = "T";
+		}
+		
+		//맥스 < 현재판매량 +내가사는수량
+		//--실패
+		mv.addObject("state",state);
+		mv.setViewName("jsonView");
+		
 		return mv;
 	}
 	

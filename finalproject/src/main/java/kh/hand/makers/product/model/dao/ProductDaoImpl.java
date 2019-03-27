@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import kh.hand.makers.product.model.vo.DefaultProduct;
 import kh.hand.makers.product.model.vo.Product2;
 import kh.hand.makers.product.model.vo.ProductImg;
 import kh.hand.makers.product.model.vo.Wish;
@@ -253,6 +254,18 @@ public class ProductDaoImpl implements ProductDao {
 	public int updateProductMinus(Map<String, Object> productMap) {
 		
 		return session.update("product.updateProductMinus",productMap);
+	}
+
+	@Override
+	public Map<String,String> selectProductCheck(Map<String,String> map) {
+		
+		return session.selectOne("product.selectProductCheck",map);
+	}
+
+	@Override
+	public DefaultProduct selectDefaltProduct(String productNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("product.selectDefaltProduct",productNo);
 	}
 
 	

@@ -1,5 +1,6 @@
 package kh.hand.makers.order.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,12 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.request.CancelData;
+import com.siot.IamportRestClient.response.AccessToken;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
+
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.service.OrderService;
 import kh.hand.makers.order.model.service.OrderServiceImpl;
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.order.model.vo.Order;
 import kh.hand.makers.product.model.service.ProductService;
+import kh.hand.makers.product.model.vo.DefaultProduct;
 import kh.hand.makers.shop.model.service.ShopService;
 import kh.hand.makers.shop.model.vo.SmallCategory;
 
@@ -45,9 +54,7 @@ public class OrderController {
 		logger.debug(map+"");
 		
 		//장바구니 비슷한 구매전에 업데이트 우선 함!!! 나중에 결제 안되면 롤백!!!
-		int updateOrder = service.updateOrder(map);
-		
-		logger.debug(updateOrder+"");
+		/*int updateOrder = service.updateOrder(map);*/
 		
 		String productOptionNo = (String)map.get("productOption"); 
 				
@@ -83,6 +90,8 @@ public class OrderController {
 		
 		ModelAndView mv = new ModelAndView();
 		
+		String msg="";
+		String loc ="";
 		String memberNo = (String)map.get("member_no"); // 회원 번호
 		String productNo = (String)map.get("product_no"); // 상품 번호
 		String imp_uid = (String)map.get("imp_uid"); // 아임포트 고유 번호
@@ -125,29 +134,139 @@ public class OrderController {
 		order.setDeliveryAddr(deliveryAddr);
 		order.setDeliveryDetailAddr(deliveryDetailAddr);
 		
-		int result = service.insertOrderEnroll(order);
+		//다시 한번 체크 확인 
+		DefaultProduct dp = productService.selectDefaltProduct(productNo);
 		
-		Map<String,Object> insertMap = new HashMap();
+		String state = "";
+		int result = 0;
 		
-		insertMap.put("productNo", productNo);
-		insertMap.put("productOptionQty", productOptionQty);
+		System.out.println("최대수량: "+dp.getProductMax());
+		System.out.println("현재판매량: "+dp.getProductCurSell());
+		System.out.println("구매가능한량: "+(dp.getProductMax()-dp.getProductCurSell()));
+		System.out.println("사려는수량: "+order.getProductOptionQty());
 		
-		String msg="";
-		String loc ="";
-		
-		if(result>0) {
-			result = service.updateProductSell(insertMap);
-			if(result>0) {
-				msg = "결재 완료되었습니다 이용해주셔서 감사합니다.";
-				loc = "/";
-			}else {
-				msg = "결재 실패하였습니다.";
-				loc = "/order/orderEnroll.do";
+		if(dp.getProductMax() < (dp.getProductCurSell() +order.getProductOptionQty())) {
+			state = "F";
+			
+			//결제 환불
+			IamportClient client;
+			
+			String accessToken = null;
+
+			String test_api_key = "0709424890638444";
+			String test_api_secret = "AblFnSFrDGn4XNWRNAdC4E4dgOosLqbmCx1ZpHr3oP8mC5dqFq3K57YmWmOIN04px6pXOR1cH9zkfMKV";
+			client = new IamportClient(test_api_key, test_api_secret);
+
+			try {
+				IamportResponse<AccessToken> auth_response = client.getAuth();
+				accessToken = auth_response.getResponse().getToken();
+
+			} catch (IamportResponseException e) {
+				System.out.println(e.getMessage());
+
+				switch (e.getHttpStatusCode()) {
+				case 401:
+					// TODO
+					break;
+				case 500:
+					// TODO
+					break;
+				}
+			} catch (IOException e) {
+				// 서버 연결 실패
+				e.printStackTrace();
+			}
+
+			/*String oNo = order.getOrderNo(); // 배송번호
+				String oState = order.getOrderPayState(); // 상태값
+				String uid = order.getImp_uid(); // 배송취소에 필요한 고유 번호
+				String productNo = order.getProductNo();// 상품 번호
+				String productOptionQty = order.getProductOptionQty();// 상품 수량
+*/
+			/*logger.debug(uid);
+			logger.debug(oNo);*/
+
+			Map<String, String> orderMap = new HashMap();
+			Map<String, Object> productMap = new HashMap();
+
+			/*String memberNo = order.getMemberNo();*/
+			
+			/*String uid = order.getImp_uid();*/
+
+			orderMap.put("orderState", order.getOrderPayState());
+			orderMap.put("imp_uid", imp_uid);
+			orderMap.put("memberNo", memberNo);
+			orderMap.put("productNo", order.getProductNo());
+			productMap.put("productOptionQty", order.getProductOptionQty());
+			productMap.put("productNo", order.getProductNo());
+
+			int cancelResult = 0;
+
+			try {
+				// 주문 상태 바꾸는 로직
+				cancelResult = service.updateOrderState(orderMap);
+
+				/*if (result > 0) {
+					// 상품 현재 판매량 수량에 맞춰서 마이너스
+					cancelResult = productService.updateProductMinus(productMap);
+				}*/
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			/*String imp_uid = uid;*/
+			CancelData cancel_data = new CancelData(imp_uid, true); // imp_uid를 통한 전액취소
+
+			try {
+				IamportResponse<Payment> payment_response = client.cancelPaymentByImpUid(cancel_data);
+				logger.debug(payment_response.getMessage());
+
+			} catch (IamportResponseException e) {
+				/*System.out.println(e.getMessage());*/
+
+				switch (e.getHttpStatusCode()) {
+				case 401:
+					// TODO
+					break;
+				case 500:
+					// TODO
+					break;
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
-		}else {
-			msg = "결재 실패하였습니다.";
+			msg = "재고량이 없어 환불 되었습니다.";
 			loc = "/order/orderEnroll.do";
+		}else {
+			state = "T";
+			result = service.insertOrderEnroll(order);
+			Map<String,Object> insertMap = new HashMap();
+			
+			insertMap.put("productNo", productNo);
+			insertMap.put("productOptionQty", productOptionQty);
+		
+			
+			int updateResult = 0;
+			
+			if(result>0) {
+				updateResult = service.updateProductSell(insertMap);
+				if(updateResult>0) {
+					msg = "결제 완료되었습니다 이용해주셔서 감사합니다.";
+					loc = "/";
+				}else {
+					result = 0;
+					int deleteResult = service.deleteOrder(order.getOrderNo());
+					msg = "결제 실패하였습니다.";
+					loc = "/order/orderEnroll.do";
+				}
+				
+			}else {
+				
+				msg = "결제 실패하였습니다.";
+				loc = "/order/orderEnroll.do";
+			}
 		}
 		
 		mv.addObject("loc",loc);
@@ -163,8 +282,6 @@ public class OrderController {
 		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
 		
 		ModelAndView mv = new ModelAndView();
-		
-		System.out.println(deliveryNo);
 		
 		Delivery delivery = new Delivery();
 		
@@ -199,5 +316,7 @@ public class OrderController {
 		
 		return mv;
 	}
+	
+	
 
 }

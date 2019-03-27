@@ -62,12 +62,12 @@ public class OrderDaoImpl implements OrderDao {
 
 	@Override
 	public int updateOrderState(Map<String, String> map) {
-		System.out.println("업데이트 하기 전 확인 하자~"+map);
+		
 		return session.update("order.updateOrderState",map);
 	}
 
 	@Override
-	public Map<String, String> selectProductCheck(Order order) {
+	public int selectProductCheck(Order order) {
 		
 		return session.selectOne("product.selectProductCheck",order);
 	}
@@ -94,6 +94,18 @@ public class OrderDaoImpl implements OrderDao {
 	public int updateResetOrder(Map<String, String> map) {
 		
 		return session.update("product.updateResetOrder",map);
+	}
+
+	@Override
+	public int updateResetProduct(Map<String, Object> map) {
+		
+		return session.update("product.updateResetProduct",map);
+	}
+
+	@Override
+	public int deleteOrder(String orderNo) {
+		
+		return session.delete("order.deleteOrder",orderNo);
 	}
 	
 	
