@@ -10,14 +10,14 @@
 <!-- 다음 주소검색 API -->
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <!-- jQuery -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
 <script>
 $(function(){
 	$('#myAddr').change(function(){
-		alert('들어오니?');
+		
 		var myAddr = $('#myAddr').find(":selected").val();
 		console.log(myAddr);
 		$.ajax({
@@ -59,6 +59,21 @@ function searchAddr(){
 }
 
 function requestPay() {
+	
+	var addr = $('input[name=addr]').val();
+	var detailAddr = $('input[name=detailAddr]').val();
+	var postCode = $('input[name=postCode]').val();
+	var cursell = ${product.PRODUCT_CURSELL};
+	var max = ${product.PRODUCT_MAX};
+	
+	if(addr.trim().length<1||detailAddr.trim().length<1||postCode.trim().length<1){
+		alert('주소를 입력해주세요');
+		return false;
+	}
+	if(max<cursell){
+		alert('판매가 마감 되었습니다.');
+		return false;
+	}
 	
 	var productNo = $('input[name=product_no]').val();
 	var name = $('input[name=productName]').val();
@@ -105,8 +120,7 @@ function requestPay() {
     			if(rsp.status=='paid'){
     				$('#order_payStatus').val('0');//주문상태
     			}
-    			
-    			
+
     			$('form[name=orderEnrollFrm]').submit();
     			
 	    	}		
@@ -114,7 +128,7 @@ function requestPay() {
 	        var msg = '결제에 실패하였습니다.';
 	        msg += '에러내용 : ' + rsp.error_msg;
 	        
-	        alert(msg);
+	        location.href="${path}/order/updateResetOrder.do?productNo="+productNo+"&productOptionQty="+productOptionQty;
 	        
 	        return;
 	    }
@@ -142,26 +156,27 @@ function requestPay() {
 <section>
 <div class="container">
   <ul class="breadcrumb">
-    <li><a href="index.html"><i class="fa fa-home"></i></a></li>
-    <li><a href="cart.html">상세or찜목록</a></li>
-    <li><a href="checkout.html">결제</a></li>
+    <li><a href="/makers"><i class="fa fa-home"></i></a></li>
+    <!-- <li><a href="cart.html">상세or찜목록</a></li> -->
+    <li><a href="javascript:void(0)">결제</a></li>
   </ul>
   <!-- nav -->
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
       <div class="column-block">
         <div class="column-block">
-          <div class="columnblock-title">대분류카테고리(BC_TITLE)</div>
+          <div class="columnblock-title">${bcTitle }</div>
           <div class="category_block">
             <ul class="box-category treeview-list treeview">
-              <li><a href="#">소분류카테고리1(SC_TITLE)</a></li>
-              <li><a href="#">소분류카테고리2(SC_TITLE)</a></li>
-              <li><a href="#">소분류카테고리3(SC_TITLE)</a></li>
+              <c:forEach items="${scList }" var="sc"> 
+              	<li><a href="${path }/product/category.do?category=${sc.bcNo}&sc=${sc.scNo}">${sc.scTitle}</a></li>
+              </c:forEach>
             </ul>
           </div>
         </div>
        </div>
        </div>
+       
  		<div class="col-sm-9" id="content">
 					<div class="panel panel-default">
 						<div class="panel-heading">
@@ -176,25 +191,33 @@ function requestPay() {
 										<h2>상품 정보</h2>
 										<div class="form-group">
 											<label class="control-label">상품명</label>
-											<input type="text" class="form-control" id="input-productName" name="productName"value="${orderList.productTitle }" readonly>
+											<input type="text" class="form-control" id="input-productName" name="productName"value="${orderList.productTitle }" readonly/>
 										</div>
 										<div class="form-group">
 											<label class="control-label">가격</label>
-											<input type="number" class="form-control" id="input-productPrice" name="productPrice" value="${orderList.productPrice }" readonly/>
+											<input type="number" class="form-control" id="input-productTotalPrice" name="productTotalPrice" value="${orderList.productPrice*orderList.productQty }" readonly/>원
+											<input type="hidden" class="form-control" id="input-productPrice" name="productPrice" value="${orderList.productPrice }" readonly/>
 										</div>
 										<div class="form-group">
 											<label class="control-label">옵션</label>
-											<input type="text" class="form-control" id="input-productOptionSubject" name="productOption" value="${productOption.PRODUCT_OPTION }" readonly>
+											<input type="text" class="form-control" id="input-productOptionSubject" name="productOption" value="${productOption.PRODUCT_OPTION }" readonly/>
 											<input type="hidden" value="${productOption.PRODUCT_OPTION_NO }"/>
 										</div>
 										<div class="form-group">
 											<label class="control-label">수량</label>
-											<input type="number" class="form-control" id="input-productOptionQty" name="productOptionQty" value="${orderList.productQty }" required>
+											<input type="number" class="form-control" id="input-productOptionQty" name="productOptionQty" min="1" value="${orderList.productQty }" readonly/>
 										</div>
 										
 										<!-- 배송지 주소 -->
 										<label class="control-label mt-1">배송지</label>
-										<c:if test="${deliveryList!=null }">
+										<c:if test="${deliveryList=='[]' }">
+										<div class="form-group">
+											<select class="form-control" id="myAddr" name="myAddr">
+												<option value="주소를 등록해서 편하게 쓰세요~" selected>주소를 등록해서 편하게 쓰세요~</option>
+											</select>
+										</div>
+										</c:if>
+										<c:if test="${deliveryList!='[]' }">
 										<div class="form-group">
 											<select class="form-control" id="myAddr" name="myAddr">
 											<c:forEach items="${deliveryList }" var="delivery">
@@ -249,7 +272,7 @@ function requestPay() {
 								</div>
 								<!-- <input type="button" class="btn btn-primary float-right" data-loading-text="Loading..." id="button-submit" value="결제하기"> -->
 						</form>
-						<button id="payBtn" class="btn btn-primary float-right" onclick="requestPay();">결제하기</button>
+						<button id="payBtn" class="btn btn-primary float-right" onclick="return requestPay();">결제하기</button>
 					</div>
 				</div>
 			</div>

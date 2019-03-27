@@ -22,6 +22,8 @@
 		<result column="product_totalsell" property="productTotalSell" />
 		<result column="product_cursell" property="productCurSell" />
 		<result column="product_discount" property="productDiscount" />
+		<result column="wishChk" property="wishChk"/>
+		<result column="score" property="score"/>
 		</resultMap>
 		
 	<resultMap type="ProductImg" id="productImgMap">
@@ -30,45 +32,50 @@
 		<result column="product_no" property="productNo"/>
 	</resultMap>	
 
-	<!-- JOIN PRODUCT_DETAIL USING(PRODUCT_NO) -->
+	<!-- JOIN PRODUCT_DETAIL USING(PRODUCT_NO) memberNo SELECT * FROM PRODUCT -->
+	<!-- SELECT P.*, W.MEMBER_NO as wishChk FROM PRODUCT P LEFT JOIN WISH W ON (P.PRODUCT_NO = W.PRODUCT_NO AND W.MEMBER_NO = #{memberNo}) -->
 	<select id="selectProductList" resultMap="productMap">
-		SELECT * FROM PRODUCT
+	SELECT P.*, W.MEMBER_NO as wishChk, NVL( (SELECT ROUND(AVG(PRODUCT_SCORE),1) FROM TOTALSCORE WHERE PRODUCT_NO = P.PRODUCT_NO GROUP BY(PRODUCT_NO)), 0) score FROM PRODUCT P LEFT JOIN WISH W ON (P.PRODUCT_NO = W.PRODUCT_NO AND W.MEMBER_NO = #{memberNo})
 		<where>
-		<if test="category != null and sc != null">
-		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3) 
+		<if test="productStep != null and category == null and sc == null and best == null"> <!-- 입점예정 + 신규 -->
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3,4) ORDER BY PRODUCT_UPDATE DESC
 		</if>
-		<if test="category != null and sc == null">
-		 BC_NO = #{category} AND not PRODUCT_STATE in (2,3)
+		<if test="productStep != null and category != null and sc == null and best == null"> <!-- 카테고리 Lv1 -->
+		PRODUCT_STEP = #{productStep} AND BC_NO = #{category} AND not PRODUCT_STATE in (2,3,4) ORDER BY PRODUCT_UPDATE DESC
 		</if>
-		<if test="sCategory != null">
-		SC_NO = #{sCategory} AND not PRODUCT_STATE in (2,3)
+		<if test="productStep != null and category != null and sc != null and best == null"> <!-- 카테고리 Lv2 -->
+		PRODUCT_STEP = #{productStep} AND (BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3,4) ORDER BY PRODUCT_UPDATE DESC
 		</if>
-		<if test="productStep != null">
-		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3)
+		<if test="productStep != null and category == null and sc == null and best != null"> <!-- 베스트 Lv0 -->
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3,4) ORDER BY PRODUCT_CURSELL DESC
 		</if>
-		</where>
-	</select>
-
-	<!-- <select id="selectProductCount" resultType="_int">
-		SELECT COUNT(*) FROM PRODUCT where BC_NO = #{category}
-	</select> -->
-	<select id="selectProductCount" resultType="_int">
-		SELECT COUNT(*) FROM PRODUCT
-		<where>
-		<if test="category != null and sc != null">
-		(BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3)
+		<if test="productStep != null and category != null and sc == null and best != null"> <!-- 베스트 Lv1 -->
+		PRODUCT_STEP = #{productStep} AND BC_NO = #{category} AND not PRODUCT_STATE in (2,3,4) ORDER BY PRODUCT_CURSELL DESC
 		</if>
-		<if test="category != null and sc == null">
-		BC_NO = #{category} AND not PRODUCT_STATE in (2,3)
-		</if>
-		<if test="productStep != null">
-		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3)
+		<if test="productStep != null and category != null and sc != null and best != null"> <!-- 베스트 Lv2 -->
+		PRODUCT_STEP = #{productStep} AND (BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3,4) ORDER BY PRODUCT_CURSELL DESC
 		</if>
 		</where>
 	</select>
 	
+
+	<select id="selectProductCount" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT
+		<where>
+		<if test="productStep != null and category == null and sc == null">
+		PRODUCT_STEP = #{productStep} AND not PRODUCT_STATE in (2,3,4)
+		</if><!-- 입점 신규 기본 카운트 -->
+		<if test="productStep != null and category != null and sc == null">
+		PRODUCT_STEP = #{productStep} AND BC_NO = #{category} AND not PRODUCT_STATE in (2,3,4)
+		</if><!-- 큰카테고리 카운트 카테 + 베스트 -->
+		<if test="productStep != null and category != null and sc != null">
+		PRODUCT_STEP = #{productStep} AND (BC_NO = #{category}) AND (SC_NO = #{sc}) AND not PRODUCT_STATE in (2,3,4)
+		</if><!-- 큰카테고리 + 작은카테 카운트 카테 + 베스트 -->
+		</where>
+	</select>
+	
 	<select id="selectProduct" parameterType="string" resultType="map">
-		SELECT *
+		SELECT P.*, (TRUNC(P.PRODUCT_ENDDATE)-TRUNC(P.PRODUCT_UPDATE)+1) AS REMAINPERIOD, TO_NUMBER(P.PRODUCT_MAX-P.PRODUCT_CURSELL) AS REMAININVENTORY, P.PRODUCT_PRICE-(P.PRODUCT_PRICE*P.PRODUCT_DISCOUNT/100) AS SALES
 		FROM PRODUCT P
 		JOIN BRAND B ON(B.BRAND_NO=P.BRAND_NO)
 		WHERE P.PRODUCT_NO = #{productNo}
@@ -112,13 +119,18 @@
 	</delete>
 	
 	<select id="selectCommentCount" parameterType="string" resultType="_int">
-		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType}
+		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} AND COMMENT_LEVEL='1' AND PRODUCT_NO=#{productNo} 
+		<!-- <if test="COMMENT_TYPE = 'R'"></if> -->
 	</select>
 	
-	<select id="selectComment" parameterType="map" resultType="map">
-		SELECT MEMBER_NO, MEMBER_NAME, PRODUCT_NO, MEMBER_STATE, COMMENT_CONTENT, COMMENT_LEVEL, COMMENT_REF, COMMENT_NO
-		FROM PRODUCT_COMMENT JOIN MEMBER USING(MEMBER_NO) WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} 
-		ORDER BY COMMENT_DATE DESC
+	<select id="selectCommentR" parameterType="map" resultType="map">
+		SELECT P.*, M.*, NVL(C.CNT,0)CN FROM PRODUCT_COMMENT P JOIN MEMBER M ON(P.MEMBER_NO=M.MEMBER_NO)
+		LEFT JOIN(SELECT COMMENT_REF, COUNT(COMMENT_REF) CNT FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} group by COMMENT_REF)C ON(P.COMMENT_NO=C.COMMENT_REF)
+		WHERE COMMENT_LEVEL='1' AND COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} ORDER BY COMMENT_DATE DESC
+	</select>
+	
+	<select id="selectCommentQ" parameterType="map" resultType="map">
+		SELECT * FROM PRODUCT_COMMENT JOIN MEMBER M USING(MEMBER_NO) WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} ORDER BY COMMENT_DATE DESC
 	</select>
 	
 	<select id="selectProductOption" parameterType="string" resultType="map">
@@ -136,12 +148,87 @@
 	<select id="selectOrderList" parameterType="map" resultType="map">
 		SELECT PO.ORDER_NO, PO.PRODUCT_NO, P.PRODUCT_TITLE, PO.ORDER_PAYSTATE
 		FROM PRODUCT_ORDER PO
-		JOIN PRODUCT P ON(P.PRODUCT_NO=PO.PRODUCT_NO) 
-		WHERE PO.PRODUCT_NO=#{productNo} AND PO.MEMBER_NO=#{memberNo}
+		JOIN PRODUCT P ON(P.PRODUCT_NO=PO.PRODUCT_NO)
+		WHERE PO.PRODUCT_NO=#{productNo} AND PO.MEMBER_NO=#{memberNo} AND PO.ORDER_PAYSTATE='3' AND NOT ORDER_NO IN(SELECT ORDER_NO FROM TOTALSCORE)
 	</select>
 	
 	<select id="selectBrand" parameterType="map" resultType="map">
 		SELECT * FROM PRODUCT JOIN BRAND USING(BRAND_NO) WHERE PRODUCT_NO = #{productNo}
 	</select>
-		
+	
+	<insert id="insertCommentReview" parameterType="map">
+		INSERT INTO PRODUCT_COMMENT (COMMENT_NO, COMMENT_CONTENT, COMMENT_DATE, COMMENT_TYPE, COMMENT_LEVEL, COMMENT_REF, MEMBER_NO, PRODUCT_NO) 
+		VALUES ('P_C_NO_'||SEQ_COMMENT_NO.NEXTVAL, #{reviewContent}, SYSDATE, #{reviewType}, DEFAULT, NULL, #{memberNo}, #{reviewCommentProductNo})
+	</insert>
+	
+	<insert id="insertTotalScoreReview" parameterType="map">
+		INSERT INTO TOTALSCORE VALUES(#{orderNo}, #{reviewCommentProductNo}, #{rating})
+	</insert>
+			
+	<select id="selectReviewCommentSeconds" resultType="map" parameterType="string">
+		SELECT * FROM PRODUCT_COMMENT JOIN MEMBER USING(MEMBER_NO) WHERE COMMENT_LEVEL = '2' AND COMMENT_TYPE = 'R' ORDER BY COMMENT_DATE DESC
+	</select>
+	
+	<select id="selectWishYewon" parameterType="map" resultType="map">
+	SELECT * FROM WISH WHERE PRODUCT_NO=#{productNo} AND MEMBER_NO=#{memberNo}
+	</select>
+	
+	<delete id="deleteWishYewon" parameterType="map">
+		DELETE WISH WHERE PRODUCT_NO=#{productNo} AND MEMBER_NO=#{memberNo}
+	</delete>
+	
+	<insert id="insertWishYewon" parameterType="map">
+		INSERT INTO WISH VALUES('W_NO_'||SEQ_WISH_NO.NEXTVAL,#{productNo}, #{memberNo})
+	</insert>
+	
+	<insert id="insertCommentQuestion" parameterType="map">
+		INSERT INTO PRODUCT_COMMENT (COMMENT_NO, COMMENT_CONTENT, COMMENT_DATE, COMMENT_TYPE, COMMENT_LEVEL, COMMENT_REF, MEMBER_NO, PRODUCT_NO) 
+		VALUES ('P_C_NO_'||SEQ_COMMENT_NO.NEXTVAL, #{questionContent}, SYSDATE, #{commentType}, DEFAULT, NULL, #{memberNo}, #{questionCommentProductNo})
+	</insert>
+	
+	<update id="updateComment" parameterType="map">
+		UPDATE PRODUCT_COMMENT SET COMMENT_CONTENT=#{commentContent} WHERE COMMENT_NO=#{commentNo}	
+	</update>
+
+	<insert id="insertCommentLevel2" parameterType="map">
+		INSERT INTO PRODUCT_COMMENT(COMMENT_NO, COMMENT_CONTENT, COMMENT_DATE, COMMENT_TYPE, COMMENT_LEVEL, COMMENT_REF, MEMBER_NO, PRODUCT_NO)
+		VALUES('P_C_NO_'||SEQ_COMMENT_NO.NEXTVAL, #{reviewContent}, SYSDATE, 'R', '2', #{commentNo}, #{memberNo}, #{productNo})
+	</insert>
+	
+	<delete id="deleteComment" parameterType="map">
+		DELETE FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} AND COMMENT_NO=#{commentNo}
+	</delete>
+	
+	<select id="selectTotalScore" parameterType="map" resultType="map">
+		select nvl(round(avg(product_score),1),0) as score
+		from totalscore
+		where product_no=#{productNo}
+	</select>
+	
+	<update id="updateProductMinus" parameterType="map">
+		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL-#{productOptionQty}, PRODUCT_TOTALSELL=PRODUCT_TOTALSELL-#{productOptionQty} WHERE PRODUCT_NO = #{productNo} 
+	</update>
+	
+	<select id="selectProductCheck" parameterType="map" resultType="map">
+		SELECT * FROM PRODUCT WHERE PRODUCT_NO=#{productNo} AND PRODUCT_MAX=PRODUCT_CURSELL
+	</select>
+	
+	<insert id="insertProductSalesRecord" parameterType="string">
+		INSERT INTO SALES_RECORDS
+        SELECT SEQ_SALESRECORDS_NO.NEXTVAL, PRODUCT_ENROLLDATE, PRODUCT_ENDDATE, PRODUCT_CURSELL, PRODUCT_PRICE, (PRODUCT_CURSELL * PRODUCT_PRICE), 5, (PRODUCT_CURSELL * PRODUCT_PRICE) - ((PRODUCT_CURSELL * PRODUCT_PRICE) * 0.05), PRODUCT_NO
+        FROM PRODUCT 
+        WHERE PRODUCT_NO=#{productNo} 
+	</insert>
+	
+	<update id="updateProductState" parameterType="string">
+		UPDATE PRODUCT SET PRODUCT_STATE='3' WHERE product_no=#{productNo}
+	</update>
+	
+	<update id="updateOrder" parameterType="string">
+		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL+TO_NUMBER(#{productQty}), PRODUCT_TOTALSELL=PRODUCT_TOTALSELL+TO_NUMBER(#{productQty}) WHERE PRODUCT_NO=#{productNo}
+	</update>
+	
+	<update id="updateResetOrder" parameterType="map">
+		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL-TO_NUMBER(#{productOptionQty}), PRODUCT_TOTALSELL=PRODUCT_TOTALSELL-TO_NUMBER(#{productOptionQty}) WHERE PRODUCT_NO=#{productNo} 
+	</update>
 </mapper>

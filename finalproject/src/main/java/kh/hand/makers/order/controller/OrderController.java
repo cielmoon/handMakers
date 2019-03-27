@@ -19,6 +19,9 @@ import kh.hand.makers.order.model.service.OrderService;
 import kh.hand.makers.order.model.service.OrderServiceImpl;
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.order.model.vo.Order;
+import kh.hand.makers.product.model.service.ProductService;
+import kh.hand.makers.shop.model.service.ShopService;
+import kh.hand.makers.shop.model.vo.SmallCategory;
 
 @Controller
 public class OrderController {
@@ -27,6 +30,10 @@ public class OrderController {
 	
 	@Autowired
 	OrderService service = new OrderServiceImpl();
+	@Autowired
+	ProductService productService;
+	@Autowired
+	ShopService shopService;
 	
 	@RequestMapping("/order/orderEnroll.do")
 	public ModelAndView orderEnroll(@RequestParam Map<String,Object> map, HttpSession session) {
@@ -37,16 +44,32 @@ public class OrderController {
 		
 		logger.debug(map+"");
 		
+		//장바구니 비슷한 구매전에 업데이트 우선 함!!! 나중에 결제 안되면 롤백!!!
+		int updateOrder = service.updateOrder(map);
+		
+		logger.debug(updateOrder+"");
+		
 		String productOptionNo = (String)map.get("productOption"); 
-		
-		System.out.println(productOptionNo);
-		
+				
 		Map<String,String> productOption = service.selectProductOption(productOptionNo);
+		
+		String productNo = (String)map.get("productNo");
+		
+		Map<String,String> product = productService.selectProduct(productNo);
+		
+		Map<String,String> categoryMap = service.selectCategoryMap(productNo); 
+		
+		String bcTitle = productService.selectBcTitle(categoryMap.get("BC_NO"));
+		
+		List<SmallCategory> scList = shopService.selectScList(categoryMap.get("BC_NO"));
 		
 		logger.debug(productOption+"");
 		
 		List<Map<String,String>> deliveryList = service.selectDeliveryList(memberNo);
 		
+		mv.addObject("product",product);
+		mv.addObject("bcTitle",bcTitle);
+		mv.addObject("scList",scList);
 		mv.addObject("deliveryList", deliveryList);
 		mv.addObject("orderList", map);
 		mv.addObject("productOption",productOption);
@@ -154,6 +177,25 @@ public class OrderController {
 		
 		mv.addObject("delivery", delivery);
 		mv.setViewName("jsonView");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/order/updateResetOrder.do")
+	public ModelAndView updateResetOrder(@RequestParam Map<String,String> map) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		logger.debug(map+"");
+		
+		int result = service.updateResetOrder(map);
+		
+		String msg = "결제 실패 하셨습니다.";
+		String loc = "/product/productView.do?productNo="+map.get("productNo");
+		
+		mv.addObject("loc",loc);
+		mv.addObject("msg",msg);
+		mv.setViewName("/common/msg");
 		
 		return mv;
 	}

@@ -6,14 +6,37 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<%-- <jsp:param value="" name="pageTitle"/> --%>
+<%-- <jsp:para value="" name="pageTitle"/> --%>
 
-<script src="http://jonthornton.github.io/Datepair.js/dist/datepair.js"></script>
-<script src="http://jonthornton.github.io/Datepair.js/dist/jquery.datepair.js"></script>
+<!-- include libraries(jQuery, bootstrap) -->
+
+
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
+
+
+<!-- 
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.css" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.js"></script>
+ -->
+
+
 <style>
-#newProductProfileImg {
+#select-brand, #select-bigcategory, #select-smallcategory {
+	margin-bottom: 10px;
+}
+
+#newProductDetailImg, #newProductOption, .newProductDetailImg, .newProductOption {
+	width: 500px;
+}
+
+#adminProductProfileMainImg {
 	padding-top: 7px;
 	border: none;
+	max-height: 350px;
+	max-width: 350px;
 }
 
 #newProductOptionList {
@@ -24,41 +47,82 @@
 	width:800px;
 	height:600px;
 }
+.modal-backdrop, .modal-backdrop.in{
+     z-index: -1;
+}/* add yewon summer note modal blank fix */
 </style>
 
 <script>
 	$(document).ready(function() {
-		$("#newProductProfileImg").on("change", enrollMainImg);
-	
-		// 상품 등록날짜, 마감날짜 
-		// 날짜에서 추가할 내용 : 마감날짜는 등록날짜 이후만 클릭되도록 설정해줘야 함
-		$("#newProductSaleStart").datepicker({
-			language : 'ko',
-			format : 'yyyy/mm/dd',
-			autoclose : true,
-			calendarWeeks : false,
-			todayHighlight : true
-		});
-		
-		$("#newProductSaleEnd").datepicker({
-			language : 'ko',
-			format : 'yyyy/mm/dd',
-			autoclose : true,
-			calendarWeeks : false,
-			todayHighlight : true
-
+		  $("#newProductProfile").on("change", enrollMainImg);
+		  
+	      $('#summernote').summernote({
+	          height: 300,
+	          minHeight: null,
+	          maxHeight: null,
+	          focus: true,
+	          callbacks: {
+	            onImageUpload: function(files, editor, welEditable) {
+	              for (var i = files.length - 1; i >= 0; i--) {
+	                sendFile(files[i], this);
+	              }
+	            }
+	      }
+	    });
+	     
+		$("#select-bigCategory").change(function(){
+			var bcNo = $("#select-bigCategory").find(":selected").val();
+			/* 소카테고리 리스트 초기화  */
+			$("#select-smallCategory")[0].options.length = 0;
+			$.ajax({
+				//${path}/admin/productEnrollB randSet.do
+				url:"${path}/admin/productEnrollScSet.do",
+				data:{"bcNo" : bcNo},
+				success:function(data){
+					for(var i=0; i<data.scList.length; i++)
+					{
+						$('#select-smallCategory').append($('<option>',
+						{
+					        value: data.scList[i]['scNo'],
+					        text : data.scList[i]['scTitle']
+					    }));
+					}
+				}
+			});
 		});
 	});
 	
-	function checkDate() {
-		var startDate = $("#newProductSaleStart").val();
-		var endDate = $("#newProductSaleEnd").val();
-		
-		console.log("startDate : " + startDate);
-		console.log("endDate : " + endDate);
+	 function fn_setDatePickerMax(){
+	      var datePicker = $('#newProductSaleEnd');
+	      datePicker.max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
 	}
 	
+    function sendFile(file, el) {
+        var form_data = new FormData();
+        var path = '${path}' + "/resources/image/product/";
+        form_data.append('file', file);
+        $.ajax({
+          data: form_data,
+          type: "POST",
+          url: '${path}/admin/handleFileUpload.do',
+          cache: false,
+          contentType: false,
+          enctype: 'multipart/form-data',
+          processData: false,
+          success: function(url) {        
+            $(el).summernote('editor.insertImage', path + url);
+            $('#imageBoard > ul').append('<li><img src="'+ path + url +'" width="480" height="auto"/></li>');
+          }
+        });
+      }
+	
 	function validate() {
+		var date = new Date();
+		var selectedEndDate = $("#newProductSaleEnd").val();
+		var selectedEndDateArr = selectedEndDate.split('-');
+		var endDate = new Date(selectedEndDateArr[0], parseInt(selectedEndDateArr[1]) -1, selectedEndDateArr[2]);
+		var priceRegex = /^[0-9]+$/;
+		
 		if ($("#newProductName").val() == "") {
 			alert("상품명을 입력해주세요.");
 			$("#newProductName").focus();
@@ -81,46 +145,117 @@
 		}
 
 		if ($("#newProductPrice").val() == "") {
-			alert("상품가격을 입력해주세요.");
+			alert("상품 가격을 입력해주세요.");
 			$("#newProductPrice").focus();
 
 			return false;
 		}
-
-		if ($("#adminProductSale").val() == "") {
+	
+		// 추가할 제약조건 : 할인율은 0부터 100까지로 설정해줘야 함
+		if ($("#newProductSale").val() == "") {
 			alert("할인율을 입력해주세요.");
-			$("#adminProductSale").focus();
+			$("#newProductSale").focus();
 
-			return false;
-		}
-
-		if ($("#newProductSaleStart").val() == "") {
-			alert("상품 등록날짜를 입력해주세요.");
-			$("#newProductSaleStart").focus();
-			
 			return false;
 		}
 		
+		// 추가할 제약조건 : 상품 마감날짜는 무조건 등록날짜 이후여야 함
 		if ($("#newProductSaleEnd").val() == "") {
-			alert("상품 마감날짜를 입력해주세요.");
+			alert("상품 마감 날짜를 입력해주세요.");
 			$("#newProductSaleEnd").focus();
 			
 			return false;
 		}
 
 		if ($("#newProductMin").val() == "") {
-			alert("최소주문량을 입력해주세요.");
+			alert("최소 주문량을 입력해주세요.");
 			$("#newProductMin").focus();
 
 			return false;
 		}
-
+	
+		// 추가할 제약조건 : 최대주문량은 최소주문량보다 커야 함
 		if ($("#newProductMax").val() == "") {
-			alert("최대주문량을 입력해주세요.");
+			alert("최대 주문량을 입력해주세요.");
 			$("#newProductMax").focus();
 
 			return false;
 		}
+		
+		if ($("#newProductProfile").val() == "") {
+			alert("메인 사진을 등록해주세요.");
+			$("#newProductProfile").focus();
+			
+			return false;
+		}
+		
+		if ($("#newProductDetailImg").val() == "") {
+			alert("상품 사진을 등록해주세요.");
+			$("#newProductDetailImg").focus();
+			
+			return false;
+		}
+		
+		/* for (var i = 1; i < 10; i++) {
+			if ($("#newProductDetailImg" + i).val() == "") {
+				
+				alert("추가할 상품 사진을 등록해주세요.");
+				$("#newProductDetailImg" + i).focus();
+				
+				return false;
+			}
+		} */
+		
+		if ($("#newProductOption").val() == "") {
+			alert("상품 옵션을 입력해주세요.");
+			$("#newProductOption").focus();
+			
+			return false;
+		}
+ 		
+		/* for (var i = 1; i < 10; i++) {
+			if ($("#newProductOption" + i).val() == "") {
+				
+				alert("추가할 상품 옵션을 등록해주세요.");
+				$("#newProductOption" + i).focus();
+				
+				return false;
+			}
+		} */
+		
+		if(!priceRegex.test($("#newProductPrice").val())) {
+			alert("상품 가격은 숫자만 입력해주세요.");
+			$("#newProductPrice").val('');
+			$("#newProductPrice").focus();
+
+			return false;
+		}
+		
+		if (parseInt($("#newProductSale").val()) < 0 || parseInt($("#newProductSale").val()) > 100) {
+			alert("할인율은 0 ~ 100 사이의 숫자만 입력해주세요.");
+			$("#newProductSale").val('');
+			$("#newProductSale").focus();
+			
+			return false;
+		}
+		
+		if (date >= endDate) {
+			alert("상품 마감 날짜는 오늘 날짜 이후로 선택해주세요.");
+			$("#newProductSaleEnd").val('');
+			$("#newProductSaleEnd").focus();
+			
+			return false;
+		}
+		
+		if (parseInt($("#newProductMin").val()) >= parseInt($("#newProductMax").val())) {
+			alert("최대 주문량은 최소 주문량보다 크게 입력해주세요.")
+			$("#newProductMin").val('');
+			$("#newProductMax").val('');
+			$("#newProductMin").focus();
+			
+			return false;
+		}
+		
 		
 		return true;
 	};
@@ -131,8 +266,11 @@
 		var filesArr = Array.prototype.slice.call(files);
 		
 		filesArr.forEach(function(f) {
-			if (!f.type.match("image.*")) {
-				alert("이미지 확장자만 등록해주세요.")
+			if (!f.type.match("image/*")) {
+				alert("이미지 확장자만 등록해주세요.");
+				$("#newProductProfile").val('');
+				// <img id="adminProductProfileMainImg" src="${path }/resources/image/noImg.png">
+				$("#adminProductProfileMainImg").attr("src", "${path }/resources/image/noImg.png").css('width', '350px').css('height', '350px');
 				
 				return;
 			}
@@ -141,8 +279,7 @@
 			
 			var reader = new FileReader();
 			reader.onload = function(e) {
-				$("#adminProductProfileMainImg").attr("src", e.target.result).css('width', '100%').css('height', '100%');
-				console.log("메인사진" + $("#newProductProfileImg").val());
+				$("#adminProductProfileMainImg").attr("src", e.target.result).css('width', '350px').css('height', '350px');
 			}
 			
 			reader.readAsDataURL(f);
@@ -158,13 +295,12 @@ $(function(){
     $('#fileAdd').on("click",function(e){
 		console.log(filecount);
 		
-    	if(filecount < 4){
+    	if(filecount < 10){
     		
     		var addTr=$("<tr></tr>");
-    		var addTh=$("<th>첨부파일</th>");
+    		var addTh=$("<th>상품사진</th>");
    	 		var addTd=$("<td></td>");
-   	 		var addInput =$("<input type='file' name='newProductDetailImgList"+filecount+"' title='파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능' multiple='multiple'>");
-    
+   	 		var addInput =$("<input type='file' id='newProductDetailImg' name='newProductDetailImg' class='newProductDetailImg' title='파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능'>");
     		var addTd2=$("<td></td>");
     		var deleteBtn = $('<th><button type="button" class="btn btn-primary1 pull-left" id="deleteA" name="deleteA">삭제</button></th>');
     		
@@ -189,42 +325,22 @@ $(function(){
 
     	}else{
     		console.log(filecount);
-    		alert('파일은 최대 4개까지 가능합니다.');
-        	
-    	}
-    		
+    		alert('파일은 최대 4개까지 가능합니다.');	
+    	}   		
     });
 })
-
-    /* function test(){
-       window.onload();
-    } */
-    
-    /* function validate(){
-       var content=$('[name=content]').val();
-       if(content.trim().length==0)
-       {
-          alert("내용을 입력하세요.");
-       }
-       return true;
-    } */
-    
-    <%-- function fn_boardList(){
-       location.href = "<%=request.getContextPath()%>/board/boardList";
-	} --%>
-	
 	
 // 상품 옵션 추가
 var optioncount = 1;
 
 $(function(){
     $('#optionAdd').on("click",function(e){
-    	if(optioncount < 4){
+    	if(optioncount < 10){
     		
     		var addTr=$("<tr></tr>");
-    		var addTh=$("<th>첨부파일</th>");
+    		var addTh=$("<th>상세옵션</th>");
    	 		var addTd=$("<td></td>");
-   	 		var addInput =$("<input type='text' name='newProductOptionList" + optioncount + "' id='newProductOptionList' placeholder='상품 옵션을 추가해주세요.''>");
+   	 		var addInput =$("<input type='text' id='newProductOption' name='newProductOption' class='newProductOption' placeholder='상품 옵션을 추가해주세요.'>");
     		
    	 		
     		var addTd2=$("<td></td>");
@@ -252,7 +368,6 @@ $(function(){
     		alert('파일은 최대 4개까지 가능합니다.');
         	
     	}
-    		
     });
 })
 </script>
@@ -278,9 +393,9 @@ $(function(){
 							<a class="list-group-item" href="${path}/admin/memberList.do">회원목록</a>
 							<a class="list-group-item"	href="${path}/admin/manageBrand.do">브랜드 등록관리</a>							
 							<a class="list-group-item" href="${path}/admin/managePreProduct.do">입점 제안관리</a>
-							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 관리</a>												 
-							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 재등록 관리</a>
-							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고 및 상품 판매중지 요청</a>					 
+							<a class="list-group-item" href="${path}/admin/manageProduct.do">상품 등록/수정 관리</a>												 
+							<a class="list-group-item" href="${path}/admin/manageReProduct.do">상품 종료/중지 목록</a>
+							<a class="list-group-item"	href="${path}/admin/manageRequest.do">폐점신고/상품 판매중지 요청</a>					 
 						</div>
 					</div>
 				</div>
@@ -289,12 +404,33 @@ $(function(){
 			<div class="col-sm-9" id="content">
 				<div class="row">
 					<div class="col-sm-12">
-						<form name="productEnrollEndFrm" action="${path}/admin/enrollProductEnd.do" method="post" onsubmit="return validate();">
+						<form name="productEnrollEndFrm" action="${path}/admin/enrollProductEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
 						
-							<fieldset id="productField0">
+ 						<fieldset id="productField0">
+						<div class="col-sm-3">
+						<select class="form-control" id="select-brand" name="brandNo" required>
+							<c:forEach items="${brandList }" var="b" varStatus="vs">
+								<option ${vs.count==1? "selected" : ""} value="${b.brandNo }">${b.brandTitle}</option>
+							</c:forEach>
+						</select>
+						</div>			
+						<div class="col-sm-3">
+						<select class="form-control" id="select-bigCategory" name="bcNo" required>
+							<c:forEach items="${bcList }" var="b" varStatus="vs">
+								<option ${vs.count==1? "selected" : ""} value="${b.bcNo }">${b.bcTitle}</option>
+							</c:forEach>	
+						</select>
+						</div>
+						<div class="col-sm-3">
+						<select class="form-control" id="select-smallCategory" name="scNo" required>
+							<c:forEach items="${scList }" var="s" varStatus="vs">
+								<option ${vs.count==1? "selected" : ""} value="${s.scNo }">${s.scTitle}</option>
+							</c:forEach>
+						</select>
+						</div>
+							
 							</fieldset>
-							
-							
+																					
 							<fieldset id="productField1">	
 								<!-- 상품명 -->							
 								<div class="form-group required">
@@ -333,29 +469,29 @@ $(function(){
 									</div>
 									<label for="adminProductSale" class="col-sm-2 control-label">할인율</label>
 									<div class="col-sm-4">									
-										<input type="number" class="form-control" id="newProductSale" name="newProductSale"  min='1' max='100' step='4'>
+										<input type="number" class="form-control" id="newProductSale" name="newProductSale" >
 									</div>
 								</div>
 								<!-- 등록날짜 ~ 마감날짜 -->
 								<div class="form-group required">
-									<label for="adminProductSaleStart" class="col-sm-2 control-label">등록날짜</label>
+									<label for="adminProductSaleStart" class="col-sm-2 control-label">판매 시작일</label>
 									<div class="col-sm-4">
-										<input type="text" class="form-control" id="newProductSaleStart" name="newProductSaleStart" placeholder="등록날짜" onclick="checkDate();">
+										<input type="datetime" class="form-control" id="newProductSaleStart" name="newProductSaleStart" placeholder="오늘부터 판매가 시작됩니다." readonly="readonly">
 									</div>								
-									<label for="adminProductSaleEnd" class="col-sm-2 control-label">마감날짜</label>
+									<label for="adminProductSaleEnd" class="col-sm-2 control-label">판매 종료일</label>
 									<div class="col-sm-4">
-										<input type="text" class="form-control" id="newProductSaleEnd" name="newProductSaleEnd" placeholder="마감날짜" onclick="checkDate();">
+										<input type="date" class="form-control" id="newProductSaleEnd" name="newProductSaleEnd" placeholder="마감날짜">
 									</div>
 								</div>
 								<!-- 최소주문량 ~ 최대주문량 -->
 								<div class="form-group required">
 									<label for="adminProductMin" class="col-sm-2 control-label">최소주문량</label>
 									<div class="col-sm-4">
-										<input type="number" class="form-control" id="newProductMin" name="newProductMin"  min='1' max='10000' step='5'>						
+										<input type="number" class="form-control" id="newProductMin" name="newProductMin"  min='1' max='10000'>						
 									</div>							
 									<label for="adminProductMax" class="col-sm-2 control-label">최대주문량</label>
 									<div class="col-sm-4">
-										<input type="number" class="form-control" id="newProductMax" name="newProductMax"  min='1' max='10000' step='5'>
+										<input type="number" class="form-control" id="newProductMax" name="newProductMax"  min='1' max='10000'>
 									</div>
 								</div>						
 							</fieldset>
@@ -363,26 +499,32 @@ $(function(){
 							<fieldset id="productField2">
 								<div class="form-group required">
 									<label for="adminProductProfile" class="col-sm-2 control-label">메인사진</label>
-									<div class="col-sm-2">
-									<input type="file" name="newProductProfileImg" id="newProductProfileImg" >
-									</div>	
+									<div class="col-sm-3">
+										<input type="file" name="newProductProfile" id="newProductProfile" >
+									</div>
+									<div class="col-sm-9">
+										
+									</div>
 								</div>
-								<div class="col-sm-3">
+								<div class="form-group required">
+									<div class="col-sm-3">
+									</div>
+									<div class="col-sm-6">
+											<img id="adminProductProfileMainImg" src="${path }/resources/image/noImg.png">										
+									</div>
+									<div class="col-sm-3">
+									</div>								
 								</div>
-								<div class="col-sm-6">
-										<img id="adminProductProfileMainImg" src="${path }/resources/image/noImg.png">										
-								</div>
-								<div class="col-sm-3">
-								</div>
+
 							</fieldset>
 
- 
-<!-- 							<fieldset>
+  
+							<fieldset>
 								<table class="table table-bordered board" id="product_detailimage_table" name="product_detailimage_table">
 									<tbody class="tbody_">
 										<tr>
 											<th>상품사진</th>
-											<td><input type="file" name="newProductDetailImgList"
+											<td><input type="file" name="newProductDetailImg" id="newProductDetailImg"
 												title="파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능"
 												multiple="multiple"></td>
 											<th></th>
@@ -390,14 +532,7 @@ $(function(){
 
 										<tr>
 											<td colspan="2">
-												<div class="btn_confirm">
-													<button type="submit"
-														class="btn btn-primary1 pull-right boardsignup"
-														id="boardSignUp" name="boardSignUp"
-														onclick="return validate();">글등록</button>
-													<button type="button" class="btn btn-primary1 pull-right"
-														id="boardCancel" name="boardCancel"
-														onclick="fn_boardList()">취소</button>
+												<div class="btn_confirm">													
 													<button type="button" class="btn btn-primary1 pull-left"
 														id="fileAdd" name="fileAdd">사진추가</button>
 												</div>
@@ -407,31 +542,23 @@ $(function(){
 										</tr>
 									</tbody>
 								</table>
-							</fieldset> -->
+							</fieldset>
 
 
 
-<!--  							<fieldset>
+  							<fieldset>
 								<table class="table table-bordered board"
 									id="product_option_table" name="product_option_table">
 									<tbody class="tbody_">
 										<tr>
 											<th>상세옵션</th>
-											<td><input type="text" name="newProductOptionList" id="newProductOptionList"
-												id="option_upload" placeholder="상품 옵션을 추가해주세요."></td>
+											<td><input type="text" name="newProductOption" id="newProductOption" placeholder="상품 옵션을 추가해주세요."></td>
 											<th></th>
 										</tr>
 
 										<tr>
 											<td colspan="2">
-												<div class="btn_confirm">
-													<button type="submit"
-														class="btn btn-primary1 pull-right boardsignup"
-														id="boardSignUp" name="boardSignUp"
-														onclick="return validate();">글등록</button>
-													<button type="button" class="btn btn-primary1 pull-right"
-														id="boardCancel" name="boardCancel"
-														onclick="fn_boardList()">취소</button>
+												<div class="btn_confirm">							
 													<button type="button" class="btn btn-primary1 pull-left"
 														id="optionAdd" name="optionAdd">옵션추가</button>
 												</div>
@@ -441,7 +568,7 @@ $(function(){
 										</tr>
 									</tbody>
 								</table>
-							</fieldset>  -->
+							</fieldset>
 
 
 
@@ -451,7 +578,13 @@ $(function(){
 									<tbody class="tbody_">										
 										<tr><td>상품 상세내용 작성</td></tr>
 										<tr>
-											<td><textarea id="newProductDetailComments" name="newProductDetailComments"></textarea></td>
+											<td>
+											<textarea class="form-control" id="summernote" name="newProductDetail" maxlength="140" rows="7">
+											
+											</textarea>
+											
+											</td>
+											
 										</tr>
 									</tbody>
 								</table>

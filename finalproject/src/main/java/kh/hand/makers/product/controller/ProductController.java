@@ -34,16 +34,20 @@ public class ProductController {
 	ShopService shopService;
 	
 	public static String categoryNo;
-	/*public static String numPerPage;*/
+	public static String bestCategoryNo;
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
 	//상품 상세화면 보여주는 서블릿
 	// 3월 14일 상세상품 보여주기 위함
 	@RequestMapping("/product/productView.do")
-	public ModelAndView productView(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
-			String productNo, HttpServletRequest request) {
+	public ModelAndView productView(@RequestParam(value="rcPage", required=false, defaultValue="1") int rcPage,
+			@RequestParam(value="qcPage", required=false, defaultValue="1") int qcPage,
+			@RequestParam(value="commentType", required=false, defaultValue="none") String commentType,
+			String productNo, HttpServletRequest request, String tab) {
 		
-		int numPerPage = 3;
+		logger.debug(tab);
+		
+		int numPerPage = 4;
 		
 		ModelAndView mv = new ModelAndView();
 		
@@ -53,16 +57,18 @@ public class ProductController {
 		
 		Map<String,String> reviewMap = new HashMap();
 		
+		reviewMap.put("commentType", "R");
+		reviewMap.put("productNo", productNo);
+		questionMap.put("commentType", "Q");
+		questionMap.put("productNo", productNo);
+		
+		logger.debug(reviewMap.get("productNo"));
+		
 		if(request.getSession().getAttribute("member")!=null) {
 			
 		String memberNo = ((Member)request.getSession().getAttribute("member")).getMemberNo();
 		
-		reviewMap.put("reviewCommentType", "R");
-		reviewMap.put("productNo", productNo);
 		reviewMap.put("memberNo", memberNo);
-		questionMap.put("questionCommentType", "Q");
-		questionMap.put("productNo", productNo);
-		questionMap.put("memberNo", memberNo);
 		
 		//주문번호 가지고 오기 위함(댓글 점수 때문에)
 		orderList = service.selectOrderList(reviewMap);
@@ -80,7 +86,6 @@ public class ProductController {
 			}else {
 				mv.addObject("wishCount",1);
 			}
-		
 		}
 		logger.debug(productNo);
 		logger.debug(orderList+"");
@@ -100,14 +105,22 @@ public class ProductController {
 		//업체 정보 select
 		Map<String,String> brandMap = service.selectBrand(productNo);
 		//후기 정보 select
-		List<Map<String,String>> reviewCommentList = service.selectComment(reviewMap, cPage, numPerPage);
-		int reviewCommentCount = service.selectCommentCount(reviewMap.get("reviewCommentType"));
+		List<Map<String,String>> reviewCommentList = service.selectComment(reviewMap, rcPage, numPerPage);
+		int reviewCommentCount = service.selectCommentCount(reviewMap);
 		//문의 정보 select
-		List<Map<String,String>> questionCommentList = service.selectComment(questionMap, cPage, numPerPage);
-		int questionCommentCount = service.selectCommentCount(questionMap.get("questionCommentType"));
+		List<Map<String,String>> questionCommentList = service.selectComment(questionMap, qcPage, numPerPage);
+		int questionCommentCount = service.selectCommentCount(questionMap);
 		
+		//후기 대댓글 리스트
+		List<Map<String, String>> reviewSecondCommentList = service.selectReviewCommentSeconds();
+		
+		//누적점수 select
+		Map<String,String> avgScore = service.selectTotalScore(productNo);
+		
+		mv.addObject("tab", tab);
 		mv.addObject("brand",brandMap);
-		mv.addObject("cPage", cPage);
+		mv.addObject("rcPage", rcPage);
+		mv.addObject("qcPage", qcPage);
 		mv.addObject("productOption",productOption);
 		mv.addObject("productDetail",productDetail);
 		mv.addObject("productImg", productImg);
@@ -119,17 +132,72 @@ public class ProductController {
 		mv.addObject("questionCommentList",questionCommentList);
 		mv.addObject("reviewCommentCount",reviewCommentCount);
 		mv.addObject("questionCommentCount",questionCommentCount);
-		mv.addObject("reviewPageBar",PageFactory.getConditionPageBar(reviewCommentCount, cPage, numPerPage, "/product/productView.do?productNo="+productNo+"&commentType="+reviewMap.get("reviewCommentType")));
-		mv.addObject("questionPageBar",PageFactory.getConditionPageBar(questionCommentCount, cPage, numPerPage, "/product/productView.do?productNo="+productNo+"&commentType="+questionMap.get("questionCommentType")));
+		mv.addObject("reviewSecondCommentList", reviewSecondCommentList);
+		mv.addObject("score",avgScore);
+		
+		if(commentType.equals("R"))
+		{
+			mv.addObject("pageBar",PageFactory.getConditionProductPageBar(reviewCommentCount, rcPage, numPerPage, "/makers/product/productView.do?commentType=R&productNo="+productNo+"&tab="+tab, "R"));
+			mv.addObject("type", "R");
+		}else if(commentType.equals("Q")){
+			mv.addObject("pageBar",PageFactory.getConditionProductPageBar(questionCommentCount, qcPage, numPerPage, "/makers/product/productView.do?commentType=Q&productNo="+productNo+"&tab="+tab, "Q"));
+			mv.addObject("type", "Q");
+		}
 		mv.setViewName("/product/productView");
-
+		
 		return mv;
 	}
 	
 	@RequestMapping("/product/bestList.do")
-	public String productBestList()
+	public ModelAndView productBestList(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="numPerPage", required=false, defaultValue="9") int numPerPage, String category, String sc, HttpSession session)
 	{
-		return "product/bestList";
+		ModelAndView mv = new ModelAndView();
+		Map<String, String> map = new HashMap();
+		map.put("productStep", "1");
+		map.put("best", "best");// 베스트
+		logger.debug("BestList in category : "+category);
+		if(category != null ) {
+			bestCategoryNo = category;	
+			map.put("category", bestCategoryNo);
+		String bcTitle = service.selectBcTitle(bestCategoryNo);
+		mv.addObject("bcTitle", bcTitle);
+		mv.addObject("category", bestCategoryNo);
+		List<Map<String, String>> sCategoryList = service.sCategoryList(bestCategoryNo);
+		mv.addObject("sCategoryList", sCategoryList);
+		logger.debug("bestCategory if in -- "+map);
+		
+		}
+		
+		if( sc != null)	{ map.put("sc", sc); }
+		
+
+		if(session.getAttribute("member") != null) {
+			String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
+			map.put("memberNo", memberNo); 
+			//logger.debug(memberNo+" : PC_category_mem");
+			}
+		
+		
+		int contentCount = service.selectProductCount(map);
+		List<Map<String, String>> productList = service.productList(map, cPage, numPerPage);
+		
+		logger.debug("리스트는 ? : "+productList+"  ----- count ?? : "+contentCount);				
+		if(category != null ) {
+		mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/bestList.do?category="+bestCategoryNo+"&numPerPage="+numPerPage));
+		}else
+		{
+			mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/bestList.do?numPerPage="+numPerPage));
+		}
+		mv.addObject("productList", productList);
+		
+		mv.addObject("cPage", cPage);
+		mv.addObject("numPerPage", numPerPage);
+		mv.addObject("contentCount", contentCount);
+		
+		logger.debug("****bestList Map : "+map);
+		
+		return mv;
+
 	}
 	
 	@RequestMapping("/product/newList.do")
@@ -176,32 +244,43 @@ public class ProductController {
 		}
 	
 	@RequestMapping("/product/category.do")
-	public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="numPerPage", required=false, defaultValue="9") int numPerPage, String category, String sc)
+	public ModelAndView productCategory(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="numPerPage", required=false, defaultValue="9") int numPerPage, String category, String sc, HttpSession session)
 	{
-		
 		if(category != null ) { categoryNo = category;	}
 		
-		//logger.debug(numPerPages+"pages");
-		//logger.debug(numPerPage+"nomal");
-		//int contentCount = service.selectProductCount(categoryNo);
 		ModelAndView mv = new ModelAndView();
-		//logger.debug("ProductController In -");logger.debug("+_+_+_+query : "+category);
 		Map<String, String> map = new HashMap();
 		map.put("category", categoryNo);
+		map.put("productStep", "1");	//신규
 		if( sc != null)	{ map.put("sc", sc); }
-		logger.debug("가져온 sc 있니? : "+sc);
+
+		if(session.getAttribute("member") != null) {
+			String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
+			map.put("memberNo", memberNo); 
+			//logger.debug(memberNo+" : PC_category_mem");
+			}
 		String bcTitle = service.selectBcTitle(categoryNo);
 		List<Map<String, String>> sCategoryList = service.sCategoryList(categoryNo);
 		int contentCount = service.selectProductCount(map);
 		List<Map<String, String>> productList = service.productList(map, cPage, numPerPage);
-		logger.debug("P.C- sCategoryList : "+sCategoryList);
 		
+		logger.debug("리스트는 ? : "+productList);
+		logger.debug("리스트갯수는 ? : "+productList.size());
+		logger.debug("  ----- count ?? : "+contentCount);
 		
 		mv.addObject("productList", productList);
 		mv.addObject("sCategoryList", sCategoryList);
-		//mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do"));
-		//페이징 다른 버전 url+=cpage
-		mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do?category="+categoryNo+"&numPerPage="+numPerPage));
+		
+		if(sc != null ) {
+			mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do?category="+categoryNo+"&sc="+sc+"&numPerPage="+numPerPage));
+			}else
+			{
+				mv.addObject("pageBar", PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/product/category.do?category="+categoryNo+"&numPerPage="+numPerPage));
+			}
+		
+		
+		
+		
 		mv.addObject("cPage", cPage);
 		mv.addObject("numPerPage", numPerPage);
 		mv.addObject("contentCount", contentCount);
@@ -279,7 +358,7 @@ public class ProductController {
 		map.put("commentType", commentType);
 		map.put("productNo", productNo);
 
-		int commentCount = service.selectCommentCount(commentType);
+		int commentCount = service.selectCommentCount(map);
 		
 		List<Map<String,String>> commentList = service.selectComment(map,cPage, numPerPage);
 		
@@ -294,5 +373,175 @@ public class ProductController {
 		return mv;
 	}
 	
+	@RequestMapping("/product/insertCommentReview.do")
+	public ModelAndView insertCommentReview(@RequestParam Map<String,String> map, HttpServletRequest request) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		logger.debug(map+"");
+		
+		int result = service.insertCommentReview(map);
+		
+		String msg = "";
+		String loc = "/product/productView.do?productNo="+map.get("reviewCommentProductNo")+"&tab="+map.get("tab");
+		
+		if(result>0) {
+			System.out.println("이건 되니????");
+			logger.debug(map+"");
+			result = service.insertTotalScoreReview(map);
+			if(result>0) {				
+				msg = "후기 댓글 등록 성공~!";
+			}
+		}else {
+			msg = "후기 댓글 등록 실패하였습니다..";
+		}
+		
+		mv.addObject("loc",loc);
+		mv.addObject("msg",msg);
+		mv.setViewName("/common/msg");
+		
+		return mv;
+	}
+	
+	/*@RequestMapping("/product/selectReviewCommentSeconds.do")
+	public ModelAndView selectReviewCommentSeconds(String commentNo)
+	{
+		ModelAndView mv = new ModelAndView();
+		List<Map<String, String>> list = service.selectReviewCommentSeconds(commentNo);
+		mv.addObject("list",list);
+		mv.setViewName("jsonView");
+		
+		return mv;
+	}*/
+	
+	@RequestMapping("/product/selectWishYewon.do")
+	@ResponseBody
+	public int selectWishYewon(HttpSession session, String productNo) {
+		String memberNo=null;
+		 
+		
+		if(session.getAttribute("member") != null) {
+			memberNo = ((Member)session.getAttribute("member")).getMemberNo();
+		}
+		Map<String, String> map = new HashMap();
+		map.put("productNo", productNo);
+		map.put("memberNo", memberNo);
+		
+		int result = service.selectWishYewon(map);
+		logger.debug("나쁜놈아 "+result);
+		
+		return result;
+	}
+	
+	@RequestMapping("/product/insertCommentQuestion.do")
+	public ModelAndView insertCommentQuestion(@RequestParam Map<String,String> map, HttpServletRequest request) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		logger.debug(map+"");
+		
+		int result = service.insertCommentQuestion(map);
+		
+		String msg = "";
+		String loc = "/product/productView.do?productNo="+map.get("questionCommentProductNo")+"&tab="+map.get("tab");
+		
+		if(result>0) {
+			System.out.println("이건 되니????");
+			logger.debug(map+"");
+		
+			msg = "문의 댓글 등록 성공~!";
+			
+		}else {
+			msg = "문의 댓글 등록 실패하였습니다..";
+		}
+		
+		mv.addObject("loc",loc);
+		mv.addObject("msg",msg);
+		mv.setViewName("/common/msg");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/product/updateReviewComment.do")
+	public ModelAndView updateReviewComment(@RequestParam Map<String,String> map) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		logger.debug(map+"");
+		
+		int result = service.updateComment(map);
+		
+		logger.debug(result+"");
+		
+		mv.setViewName("jsonView");
+		return mv;
+	}
+	
+	@RequestMapping("/product/insertCommentLevel2.do")
+	public ModelAndView insertCommentLevel2(@RequestParam Map<String,String> map, HttpServletRequest request) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		logger.debug("제대로 오나?"+map+"");
+		
+		String memberNo = ((Member)request.getSession().getAttribute("member")).getMemberNo();
+		
+		map.put("memberNo", memberNo);
+		
+		int result = service.insertCommentLevel2(map);
+		String type = "R";
+		String msg = "";
+		String loc = "/product/productView.do?productNo="+map.get("productNo")+"&commentType="+type+"&tab="+map.get("tab");
+		
+		if(result>0) {
+			msg = "답글 등록이 되었습니다.";
+		}else {
+			msg = "답글 등록 실패하였습니다.";
+		}
+		
+		logger.debug(map+"");
+		
+		mv.addObject("loc", loc);
+		mv.addObject("msg",msg);
+		mv.setViewName("/common/msg");
+		return mv;
+	}
+	
+	@RequestMapping("/product/deleteComment")
+	public ModelAndView deleteComment(String commentNo, String commentType, String productNo, String tab) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		logger.debug(commentNo);
+		logger.debug(commentType);
+		logger.debug("탭 들어 와라라라라라라라"+tab);
+		
+		Map<String,String> map = new HashMap();
+		
+		map.put("commentNo", commentNo);
+		map.put("commentType", commentType);
+		map.put("productNo", productNo);
+		
+		int result = service.deleteComment(map);
+		
+		String type = map.get("commentType");
+		String msg = "";
+		String loc = "/product/productView.do?productNo="+map.get("productNo")+"&commentType="+type+"&tab="+tab;
+		
+		logger.debug(loc);
+		
+		if(result>0) {
+			msg = "답글 삭제가 되었습니다.";
+		}else {
+			msg = "답글 삭제 실패하였습니다.";
+		}
+		
+		logger.debug(map+"");
+		
+		mv.addObject("loc", loc);
+		mv.addObject("msg",msg);
+		mv.setViewName("/common/msg");
+		return mv;
+	}
 	
 }

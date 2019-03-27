@@ -25,7 +25,7 @@
 
 	</resultMap>
 
- 	<resultMap type="order" id="orderType">
+	<resultMap type="order" id="orderType">
 		<result column="order_no" property="orderNo" />
 		<result column="order_paystate" property="orderPayState" />
 		<result column="order_state" property="orderState" />
@@ -50,9 +50,22 @@
 		<result column="order_date" property="orderDate" />
 		<result column="order_state" property="orderState" />
 		<result column="order_paystate" property="orderPayState" />
-
-
+		<result column="imp_uid" property="imp_uid"/>
+		<result column="product_no" property="productNo"/>
+		<result column="order_trackingno" property="orderTrackingNo"/>
 	</resultMap>
+	<resultMap type="brand" id="brandMap">
+		<result column="brand_no" property="brandNo" />
+		<result column="brand_title" property="brandTitle" />
+		<result column="brand_license" property="brandLicense" />
+		<result column="brand_type" property="brandType" />
+		<result column="brand_addr" property="brandAddr" />
+		<result column="brand_detailAddr" property="brandDetailAddr" />
+		<result column="brand_enrollDate" property="brandEnrollDate" />
+		<result column="brand_state" property="brandState" />
+		<result column="member_no" property="memberNo" />
+	</resultMap>
+	
 	<select id="checkId" parameterType="string" resultType="_int">
 		select
 		count(*) from member where MEMBER_ID=#{memberId}
@@ -69,7 +82,8 @@
 		#{memberPwd},
 		#{memberName}, #{memberEmail}, #{memberPhone},
 		default,
-		default, default, default)
+		default,
+		default, 'default.png')
 	</insert>
 
 	<select id="selectBrandCloseCount" resultType="_int">
@@ -114,23 +128,99 @@
 		where member_no=#{memberNo}
 	</update>
 
-	<select id="selectOrderList" parameterType="member" resultMap="managerOrderType">
-		select product_order.order_no as "order_no", product.product_title as "product_name", product_order.product_option as "product_option", product_order.product_option_qty as "product_option_qty", product_order.ORDER_TOTAL_PRICE as "ORDER_TOTAL_PRICE", product_order.ORDER_DATE as "ORDER_DATE", product_order.ORDER_STATE as "ORDER_STATE",product_order.ORDER_PAYSTATE as "ORDER_PAYSTATE" from product_order join product on (product_order.product_no = product.product_no) where product_order.member_no = #{memberNo} order by ORDER_DATE desc
+	<select id="selectOrderList" parameterType="member"
+		resultMap="managerOrderType">
+		select product_order.order_no as "order_no",
+		product.product_title as "product_name", product_order.product_option
+		as "product_option", product_order.product_option_qty as
+		"product_option_qty", product_order.ORDER_TOTAL_PRICE as
+		"ORDER_TOTAL_PRICE", product_order.ORDER_DATE as "ORDER_DATE",
+		product_order.ORDER_STATE as
+		"ORDER_STATE",product_order.ORDER_PAYSTATE as "ORDER_PAYSTATE" 
+		,product_order.imp_uid as "imp_uid" 
+		,product_order.product_no as "product_no" 
+		,product_order.order_trackingno as "order_trackingno"
+		from product_order join product on (product_order.product_no =
+		product.product_no) where product_order.member_no = #{memberNo} order
+		by ORDER_DATE desc
 	</select>
 
 	<select id="selectOrderCount" resultType="_int">
-		select count(*) from product_order
+		select count(*) from
+		product_order
 	</select>
-	
-	<select id="selectWishList" parameterType="string" resultType="map">
-		SELECT * FROM WISH W JOIN PRODUCT P USING(PRODUCT_NO) WHERE W.MEMBER_NO=#{memberNo} AND NOT P.PRODUCT_STATE IN(2,3)
+
+	<select id="selectWishList" parameterType="string"
+		resultType="map">
+		<!-- SELECT * FROM WISH W JOIN PRODUCT P USING(PRODUCT_NO) WHERE
+		W.MEMBER_NO=#{memberNo} AND NOT P.PRODUCT_STATE IN(2,3) -->
+		SELECT W.*, P.*,P.PRODUCT_PRICE-(P.PRODUCT_PRICE*(P.PRODUCT_DISCOUNT/100)) as SALEPRICE 
+		FROM WISH W 
+		JOIN PRODUCT P ON(P.PRODUCT_NO=W.PRODUCT_NO) 
+		WHERE W.MEMBER_NO=#{memberNo} AND P.PRODUCT_STATE IN (0,1)
+
 	</select>
-	
-	<select id="selectWishCount" parameterType="string" resultType="_int">
-		SELECT COUNT(*) FROM WISH W JOIN PRODUCT P USING(PRODUCT_NO) WHERE W.MEMBER_NO=#{memberNo} AND NOT P.PRODUCT_STATE IN(2,3)
+
+	<select id="selectWishCount" parameterType="string"
+		resultType="_int">
+		SELECT COUNT(*) FROM WISH W JOIN PRODUCT P
+		USING(PRODUCT_NO) WHERE W.MEMBER_NO=#{memberNo} AND P.PRODUCT_STATE IN (0,1)
+
 	</select>
-	
+
 	<delete id="deleteLocation" parameterType="string">
-		DELETE FROM DELIVERY WHERE DELIVERY_NO = #{deliveryNo}
+		DELETE FROM DELIVERY
+		WHERE DELIVERY_NO = #{deliveryNo}
 	</delete>
+
+	<select id="memberIdFind" parameterType="string"
+		resultType="string">
+		select member_id from member where member_email =
+		#{memberEmail}
+	</select>
+
+	<select id="memberFind" parameterType="map" resultMap="memberType">
+		select * from member where member_email = #{memberEmail} and member_id = #{memberId}
+	</select>
+	
+	<update id="memberNewPwdUpdate" parameterType="map">
+		UPDATE MEMBER SET
+		member_pwd=#{newChangedPwd}
+		where member_id=#{memberId}
+	</update>
+	
+	<select id="checkEmail" parameterType="string" resultType="_int">
+		select
+		count(*) from member where MEMBER_EMAIL=#{memberEmail}
+	</select>
+	
+
+	<update id="changeProfile" parameterType="member">
+		UPDATE MEMBER SET
+		member_profile=#{memberProfile}
+		where member_no=#{memberNo}
+	</update>
+	
+	<update id="updateOrderState" parameterType="string">
+		UPDATE product_order SET order_paystate= '3'
+		where order_no = #{orderNo}
+	</update>
+	
+	<select id="memberEmailFind" parameterType="string" resultMap="memberType">
+		select * from member where member_email = #{memberEmail}
+	</select>
+	
+	<select id="selectBrand" parameterType="string" resultMap="brandMap">
+		select * from brand where member_no = #{memberNo}
+	</select>
+	
+	<update id="updateProductWithdrawl" parameterType="string">
+		UPDATE PRODUCT SET	PRODUCT_STATE = 3
+		where BRAND_NO=#{brandNo}
+	</update>
+	
+	<update id="updateBrandWithdrawl" parameterType="string">
+		UPDATE BRAND SET BRAND_STATE= 'e'
+		where BRAND_NO=#{brandNo}
+	</update>
 </mapper>

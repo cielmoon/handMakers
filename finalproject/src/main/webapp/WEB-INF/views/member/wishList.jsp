@@ -6,6 +6,14 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
+<style>
+.ellips{
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis
+}
+</style>
+
 <section>
 <div class="container">
   <ul class="breadcrumb">
@@ -59,41 +67,49 @@
           </div>
         </div>
 	</div>
-      
-      <div class="grid-list-wrapper">
+     
+     <div class="grid-list-wrapper">
       <c:forEach items="${wishList }" var="wish" varStatus="vs">
       
 	<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-         <div class="image product-imageblock" style="height:220px;">
+         <div class="image product-imageblock" style="height:220px;max-width:220px;">
          <a href="${path }/product/productView.do?productNo=${wish.PRODUCT_NO}">
          <img src="${path}/resources/image/product/${wish.PRODUCT_PROFILE }" alt="${wish.PRODUCT_TITLE }" title="${wish.PRODUCT_TITLE }" class="img-responsive" /></a>
               <div class="button-group">
-                <button type="button" id="wishBtn" class="wishlist" title="Add to Wish List">
+              
+              <!-- 이거 좀 봐야됨 해당 품목 클릭이 안됨! -->
+              <input id="wishProductNo${vs.index }" type="hidden" value="${wish.PRODUCT_NO}"/>
+                <button type="button" id="wishBtn" class="wishlist" title="Add to Wish List" onclick="deleteWish('wishProductNo${vs.index }');">
                 	<i class="fa fa-heart"></i>
                 </button>
-                <input id="wishProductNo" type="hidden" value="${wish.PRODUCT_NO}"/>        
               </div>
             </div>
 
             <div class="caption product-detail">
               <h4 class="product-name">
               <a href="${path }/product/productView.do?productNo=${wish.PRODUCT_NO}" title="${wish.PRODUCT_TITLE }"> ${wish.PRODUCT_TITLE } </a> </h4>
-                                    <p class="rating">${wish.PRODUCT_COMMENT }</p>
               
-              <div class="product-desc">${wish.PRODUCT_COMMENT }</div>
-              
-              <%-- <p class="price product-price"><span class="price-old"></span> ${product.productPrice } <span class="price-tax"></span> </p> --%><!-- 원본 -->
-              <p class="price product-price"><span class="price-old">${wish.PRODUCT_PRICE }</span> ${wish.PRODUCT_PRICE + wish.PRODUCT_DISCOUNT } <span class="price-tax"></span> </p>
-              
-              <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
-              <!-- totalProductPoint 별이 다섯개  이부분은 좀더 고민-->
+              <p class="price product-price">
+              <c:choose>
+	              <c:when test="${wish.PRODUCT_STEP eq 0}">
+	             	 <span class="price-old">${wish.PRODUCT_PRICE }</span>
+	              </c:when>
+	              <c:when test="${wish.PRODUCT_STEP ne 0}">
+	             	 <span class="price-old"></span>
+	              </c:when> 
+              </c:choose>
+              <fmt:formatNumber value="${wish.SALEPRICE }" type="currency" currencySymbol="￦"/> 
+              <span class="price-tax"></span> </p>
             </div>
  
           </div>
         </div>
 	</c:forEach>  
       </div>
+      
+      
+    
       <div class="category-page-wrapper">
  
         <div class="pagination-inner">
@@ -109,12 +125,11 @@
   </div>
 </div>
 <script>
-$(function(){
-	$('#wishBtn').click(function(){
-		var wishProductNo = $('#wishProductNo').val();
+function deleteWish(productNo){
+		var wishProductNo = $('#'+productNo).val();
 		location.href="${path}/member/deleteWish.do?productNo="+wishProductNo;
-	});
-});
+};
+
 </script>
 
 </section>

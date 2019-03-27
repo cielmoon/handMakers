@@ -65,6 +65,8 @@ public class ShopController {
 			Brand brand = service.selectBrand(brandNo);
 			mv.addObject("brand", brand);
 		}	
+		List<BigCategory> bcList = service.selectBcList();
+		mv.addObject("bcList", bcList);
 		mv.setViewName("shop/brandEnroll");
 		return mv;
 	}

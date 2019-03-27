@@ -13,6 +13,7 @@ import kh.hand.makers.admin.model.vo.Products;
 import kh.hand.makers.admin.model.vo.SellerRequest;
 import kh.hand.makers.admin.model.vo.managePreProduct;
 import kh.hand.makers.member.model.vo.Member;
+import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
 import kh.hand.makers.shop.model.vo.PreProduct;
@@ -24,8 +25,14 @@ public class AdminDaoImpl implements AdminDao {
 	SqlSessionTemplate session;
 
 	@Override
-	public int selectProductCount() {
-		return session.selectOne("admin.selectProductCount");
+	public List<Brand> selectBrandList() {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectAllBrandList");
+	}
+
+	@Override
+	public int selectProductCount(Map<String, String> sortingProductList) {
+		return session.selectOne("admin.selectProductCount", sortingProductList);
 	}
 
 	@Override
@@ -47,15 +54,21 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public int selectPreProductCount() {
+	public int updatePState(String productNo) {
 		// TODO Auto-generated method stub
-		return session.selectOne("admin.selectPreProductCount");
+		return session.update("admin.updatePState", productNo);
 	}
 
 	@Override
-	public List<managePreProduct> selectPreProductList(int cPage, int numPerPage) {
+	public int selectPreProductCount(Map<String, String> sortingProductList) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectPreProductCount",sortingProductList);
+	}
+
+	@Override
+	public List<managePreProduct> selectPreProductList(int cPage, int numPerPage,Map<String, String> sortingProductList) {
 		RowBounds rb = new RowBounds((cPage - 1) * numPerPage, numPerPage);
-		return session.selectList("admin.selectPreProductList", null, rb);
+		return session.selectList("admin.selectPreProductList", sortingProductList, rb);
 	}
 
 	@Override
@@ -71,16 +84,25 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public List<AdminProduct> selectProductList(int cPage, int numPerPage) {
+	public List<AdminProduct> selectProductList(int cPage, int numPerPage, Map<String, String> sortingProductList) {
 		RowBounds rb = new RowBounds((cPage - 1) * numPerPage, numPerPage);
-		return session.selectList("admin.selectProductList", null, rb);
+		return session.selectList("admin.selectProductList", sortingProductList, rb);
 	}
+	
+	/*@Override
+	public List<AdminProduct> selectProductList(Map<String, String> sortingProductList) {
+		// TODO Auto-generated method stub
+		
+		return session.selectList("admin.selectProductList", sortingProductList);
+	}*/
+	
 
 	@Override
-	public int selectMemberCount() {
+	public int selectMemberCount(List<Member> memberList) {
 		// TODO Auto-generated method stub
-		return session.selectOne("admin.selectMemberCount");
+		return session.selectOne("admin.selectMemberCount", memberList);
 	}
+
 
 	@Override
 	public List<Member> selectMemberList(int cPage, int numPerPage) {
@@ -132,15 +154,15 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public int selectReProductCount() {
+	public int selectReProductCount(Map<String, String> sortingProductList) {
 		// TODO Auto-generated method stub
-		return session.selectOne("admin.selectReProductCount");
+		return session.selectOne("admin.selectReProductCount", sortingProductList);
 	}
 
 	@Override
-	public List<AdminProduct> selectReProductList(int cPage, int numPerPage) {
+	public List<AdminProduct> selectReProductList(int cPage, int numPerPage, Map<String, String> sortingProductList) {
 		RowBounds rb = new RowBounds((cPage - 1) * numPerPage, numPerPage);
-		return session.selectList("admin.selectReProductList", null, rb);
+		return session.selectList("admin.selectReProductList", sortingProductList, rb);
 	}
 
 	@Override
@@ -178,6 +200,73 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.insert("admin.enrollProductDetail", detail);
 	}
-	
+
+	@Override
+	public String selectSellerNo(String brandNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectSellerNo",brandNo);
+	}
+
+	@Override
+	public int memberStateUpdate(String memberNo) {
+		// TODO Auto-generated method stub
+		return session.update("admin.memberStateUpdate", memberNo);
+	}
+
+	@Override
+	public int memberAuthorityChange(String memberNo) {
+		// TODO Auto-generated method stub
+		return session.update("admin.memberAuthorityChange", memberNo);
+	}
+
+	@Override
+	public int selectBrandStateCount(String memberNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectBrandStateCount",memberNo);
+	}
+
+	@Override
+	public int updateProductState(String brandNo) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateProductState", brandNo);
+	}
+
+	@Override
+	public int sellerProfileUpdate(String memberNo) {
+		// TODO Auto-generated method stub
+		return session.update("admin.sellerProfileUpdate", memberNo);
+	}
+
+	@Override
+	public Map<String,String> selectProduct(String productNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectProduct",productNo);
+	}
+
+	@Override
+	public int updateProduct(Map<String, String> product) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateProduct", product);
+	}
+
+	@Override
+	public List<SellerRequest> selectRequestStateList(int cPage, int numPerPage, String state) {
+		RowBounds rb = new RowBounds((cPage - 1) * numPerPage, numPerPage);
+		return session.selectList("admin.selectRequestStateList", state, rb);
+	}
+
+	@Override
+	public int selectRequestStateListCount(String state) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectRequestStateListCount",state);
+	}
+
+	@Override
+	public SellerRequest selectSellerRequest(String sellerReqNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectSellerRequest",sellerReqNo);
+	}
+
+
 	
 }

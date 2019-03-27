@@ -30,16 +30,20 @@ public class Product implements Serializable {
 	private int productCurSell; // 현재 누적 판매량
 	private int productTotalSell;
 	private double productDiscount; // 상품 할인율
+	private String wishChk;
+	private double score;
 
 	
 	public Product() {
 
 	}
 
+
 	public Product(String productNo, String productTitle, String productProfile, Date productEnrollDate,
 			Date productUpdate, Date productEndDate, String productDetail, String productComment, int productState,
 			int productStep, int productPrice, int productMax, int productMin, String scNo, String bcNo, String brandNo,
-			String adminNo, String memberNo, int productCurSell, int productTotalSell, double productDiscount) {
+			String adminNo, String memberNo, int productCurSell, int productTotalSell, double productDiscount,
+			String wishChk, double score) {
 		super();
 		this.productNo = productNo;
 		this.productTitle = productTitle;
@@ -62,179 +66,245 @@ public class Product implements Serializable {
 		this.productCurSell = productCurSell;
 		this.productTotalSell = productTotalSell;
 		this.productDiscount = productDiscount;
+		this.wishChk = wishChk;
+		this.score = score;
 	}
+
 
 	public String getProductNo() {
 		return productNo;
 	}
 
+
 	public void setProductNo(String productNo) {
 		this.productNo = productNo;
 	}
+
 
 	public String getProductTitle() {
 		return productTitle;
 	}
 
+
 	public void setProductTitle(String productTitle) {
 		this.productTitle = productTitle;
 	}
+
 
 	public String getProductProfile() {
 		return productProfile;
 	}
 
+
 	public void setProductProfile(String productProfile) {
 		this.productProfile = productProfile;
 	}
+
 
 	public Date getProductEnrollDate() {
 		return productEnrollDate;
 	}
 
+
 	public void setProductEnrollDate(Date productEnrollDate) {
 		this.productEnrollDate = productEnrollDate;
 	}
+
 
 	public Date getProductUpdate() {
 		return productUpdate;
 	}
 
+
 	public void setProductUpdate(Date productUpdate) {
 		this.productUpdate = productUpdate;
 	}
+
 
 	public Date getProductEndDate() {
 		return productEndDate;
 	}
 
+
 	public void setProductEndDate(Date productEndDate) {
 		this.productEndDate = productEndDate;
 	}
+
 
 	public String getProductDetail() {
 		return productDetail;
 	}
 
+
 	public void setProductDetail(String productDetail) {
 		this.productDetail = productDetail;
 	}
+
 
 	public String getProductComment() {
 		return productComment;
 	}
 
+
 	public void setProductComment(String productComment) {
 		this.productComment = productComment;
 	}
+
 
 	public int getProductState() {
 		return productState;
 	}
 
+
 	public void setProductState(int productState) {
 		this.productState = productState;
 	}
+
 
 	public int getProductStep() {
 		return productStep;
 	}
 
+
 	public void setProductStep(int productStep) {
 		this.productStep = productStep;
 	}
+
 
 	public int getProductPrice() {
 		return productPrice;
 	}
 
+
 	public void setProductPrice(int productPrice) {
 		this.productPrice = productPrice;
 	}
+
 
 	public int getProductMax() {
 		return productMax;
 	}
 
+
 	public void setProductMax(int productMax) {
 		this.productMax = productMax;
 	}
+
 
 	public int getProductMin() {
 		return productMin;
 	}
 
+
 	public void setProductMin(int productMin) {
 		this.productMin = productMin;
 	}
+
 
 	public String getScNo() {
 		return scNo;
 	}
 
+
 	public void setScNo(String scNo) {
 		this.scNo = scNo;
 	}
+
 
 	public String getBcNo() {
 		return bcNo;
 	}
 
+
 	public void setBcNo(String bcNo) {
 		this.bcNo = bcNo;
 	}
+
 
 	public String getBrandNo() {
 		return brandNo;
 	}
 
+
 	public void setBrandNo(String brandNo) {
 		this.brandNo = brandNo;
 	}
+
 
 	public String getAdminNo() {
 		return adminNo;
 	}
 
+
 	public void setAdminNo(String adminNo) {
 		this.adminNo = adminNo;
 	}
+
 
 	public String getMemberNo() {
 		return memberNo;
 	}
 
+
 	public void setMemberNo(String memberNo) {
 		this.memberNo = memberNo;
 	}
+
 
 	public int getProductCurSell() {
 		return productCurSell;
 	}
 
+
 	public void setProductCurSell(int productCurSell) {
 		this.productCurSell = productCurSell;
 	}
+
 
 	public int getProductTotalSell() {
 		return productTotalSell;
 	}
 
+
 	public void setProductTotalSell(int productTotalSell) {
 		this.productTotalSell = productTotalSell;
 	}
+
 
 	public double getProductDiscount() {
 		return productDiscount;
 	}
 
+
 	public void setProductDiscount(double productDiscount) {
 		this.productDiscount = productDiscount;
 	}
 
+
+	public String getWishChk() {
+		return wishChk;
+	}
+
+
+	public void setWishChk(String wishChk) {
+		this.wishChk = wishChk;
+	}
+
+
+	public double getScore() {
+		return score;
+	}
+
+
+	public void setScore(double score) {
+		this.score = score;
+	}
+
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
 
 	@Override
 	public String toString() {
@@ -245,9 +315,9 @@ public class Product implements Serializable {
 				+ productPrice + ", productMax=" + productMax + ", productMin=" + productMin + ", scNo=" + scNo
 				+ ", bcNo=" + bcNo + ", brandNo=" + brandNo + ", adminNo=" + adminNo + ", memberNo=" + memberNo
 				+ ", productCurSell=" + productCurSell + ", productTotalSell=" + productTotalSell + ", productDiscount="
-				+ productDiscount + "]";
+				+ productDiscount + ", wishChk=" + wishChk + ", score=" + score + "]";
 	}
-	
-	
 
+	
+	
 }

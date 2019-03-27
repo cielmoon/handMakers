@@ -17,6 +17,9 @@
 
 <script>
 	function validate() {
+		var passwordRegex = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/; // 영문, 숫자 혼합하여 6~20자리 이내
+		var memberPwd = $("#memberPwd").val();
+		
 		if ($("#memberPwd").val() == "") {
 			alert("비밀번호를 입력해주세요.");
 			$("#memberPwd").focus();
@@ -28,6 +31,17 @@
 			$("#memberPwd").focus();
 			return false;
 		}
+		
+		if (!passwordRegex.test(memberPwd)) {
+			alert("비밀번호는 영문, 숫자, 특수문자를 사용하여 6~20자리 이내로 입력해주세요.");
+			$("#memberPwd").val("");
+			$("#memberPwdCheck").val("");
+			$("#memberPwd").focus();
+			
+			return false;
+		}
+		
+		return true;
 	}
 	
 	$(function() {
@@ -45,8 +59,9 @@
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
-			<li><a href="<%=request.getContextPath()%>/index.jsp"><i class="fa fa-home"></i></a></li>
-			<li><a href="<%=request.getContextPath()%>/memberMyPage">마이페이지</a></li>
+			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
+			<li><a href="${path}/member/myPage.do">마이페이지</a></li>
+			<li><a href="#">비밀번호 변경</a></li>
 		</ul>
 		<br />
 		<div class="row">

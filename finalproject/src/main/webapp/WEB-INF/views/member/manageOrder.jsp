@@ -19,13 +19,28 @@
 	color:black;
 }
 </style>
+<script>
+$(function() {
+	
+	$(function() {
+		$("#orderTrackingNo").click(function() {			
+			var trackingNo = $('#orderTrackingNo').val();
+			console.log("현재 No: "+trackingNo);
+			
+			
+		}		
 
+	});	
+
+
+});
+</script>
 <section>
 	<div class="container">
 		<ul class="breadcrumb">
 			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
 			<li><a href="${path }/member/myPage.do">마이페이지</a></li>
-			<li><a href="${path }/member/manageOrder.do">주문/배송내역 조회</a></li>
+			<li><a href="#">주문/배송내역 조회</a></li>
 			
 		</ul>
 		<br />
@@ -49,30 +64,28 @@
 					</div>
 				</div>
 
-				<div class="column-block">
-					<c:if test="${brandList.size() != 0}">
+<%-- 				<div class="column-block">
+					<c:if test="${member.memberAuthority == 'S'}">		
 						<div class="columnblock-title">판매자페이지</div>
 					</c:if>
 					<div class="account-block">
-
+					
 						<div class="list-group">
 							<c:forEach items="${brandList }" var="b">
-								<c:if test="${b.brandState.toString()!='4'}">
-									<a class="list-group-item brand-list"
-										href="javascript:selectBrand('${b.brandNo }', '${b.brandState }');">${b.brandTitle }
-										<c:if test="${b.brandState.toString()=='0'}">
-											<i class="fa fa-clock-o"
-												style="font-size: 20px; float: right;"></i>
-										</c:if> <c:if test="${b.brandState.toString()=='2'}">
-											<i class="fa fa-exclamation-circle"
-												style="font-size: 20px; color: firebrick; float: right;"></i>
-										</c:if>
-									</a>
+								<c:if test="${b.brandState.toString()!='e'}"> <!-- 폐점완료 상태 -->
+								<a class="list-group-item brand-list" href="javascript:selectBrand('${b.brandNo }', '${b.brandState }');">${b.brandTitle }				
+									<c:if test="${b.brandState.toString()=='a'}"> <!-- 승인요청 상태 -->
+										<i class="fa fa-clock-o" style="font-size:20px; float: right;"></i>
+									</c:if>
+									<c:if test="${b.brandState.toString()=='c'}"> <!-- 브랜드 등록 반려상태 -->
+										<i class="fa fa-exclamation-circle" style="font-size:20px; color: firebrick; float: right;"></i>
+									</c:if>
+								</a>
 								</c:if>
 							</c:forEach>
-						</div>
-					</div>
-				</div>
+						</div>	
+					</div>					
+				</div> --%>
 
 
 			</div>
@@ -97,7 +110,14 @@
  							<c:forEach var="o" items="${oList }">
 								<tr>
 									<td>${o.orderNo }</td>
-									<td>${o.productName }</td>
+									<c:choose>
+									<c:when test="${o.orderState == '1' and o.orderPayState == '3' }">
+										<td><a href="${path}/product/productView.do?productNo=${o.productNo}&tab=p">${o.productName }</a></td>
+									</c:when>
+									<c:otherwise>
+										<td>${o.productName }</td>
+									</c:otherwise>
+									</c:choose>							
 									<td>${o.productOption }</td>
 									<td>${o.productOptionQty }</td>
 									<td>${o.orderTotalPrice }</td>
@@ -110,47 +130,40 @@
 											<td>배송중</td>					
 										</c:when>	
 										<c:when test="${o.orderState == '2' }">
-											<td>배송완료</td>					
+											<td>배송불가능</td>					
 										</c:when>						
 									</c:choose>									
 									<c:choose>
 										<c:when test="${o.orderPayState == '0' }">
 											<td>결제완료</td>					
-										</c:when>
-										<c:when test="${o.orderPayState == '1' }">
-											<td>결제취소요청</td>					
-										</c:when>	
+										</c:when>									
 										<c:when test="${o.orderPayState == '2' }">
 											<td>결제취소완료</td>					
 										</c:when>
 										<c:when test="${o.orderPayState == '3' }">
 											<td>구매확정</td>					
 										</c:when>
-										<c:when test="${o.orderPayState == '4' }">
-											<td>반품요청</td>					
-										</c:when>	
-										<c:when test="${o.orderPayState == '5' }">
-											<td>반품완료</td>					
-										</c:when>
-										<c:when test="${o.orderPayState == '6' }">
-											<td>교환요청</td>					
-										</c:when>	
-										<c:when test="${o.orderPayState == '7' }">
-											<td>교환완료</td>					
-										</c:when>							
+										<c:otherwise>
+											<td></td>
+										</c:otherwise>	
 									</c:choose>								
 									<c:choose>
-										<c:when test="${o.orderState == '0' }">
-											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,1"><button class="tBtn">주문취소</button></a></td>					
+										<c:when test="${o.orderState == '0' and o.orderPayState == '0'}">
+											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,2,${o.imp_uid},${o.productNo},${o.productOptionQty}"><button class="tBtn">주문취소</button></a></td>					
 										</c:when>
-										<c:when test="${o.orderState == '1' }">
-											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,3"><button class="tBtn">구매확정</button></a></td>					
+										<c:when test="${o.orderState == '2' and o.orderPayState == '0'}">
+											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,2,${o.imp_uid},${o.productNo},${o.productOptionQty}">환불요청</button></a></td>					
 										</c:when>	
-										<c:when test="${o.orderState == '2' }">
-											<td><a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,3"><button class="tBtn">구매확정</button></a>
-											<a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,4"><button class="tBtn">반품요청</button></a>
-											<a href="${path}/member/changeOrderState.do?orderNo=${o.orderNo}+,6"><button class="tBtn">교환요청</button></a></td>					
-										</c:when>						
+										<c:when test="${o.orderState == '1' and o.orderPayState == '0' }">
+											<td><a href="${path}/member/updateOrderState.do?orderNo=${o.orderNo}"><button class="tBtn">구매확정</button><br/></a>
+											<a>${o.orderTrackingNo}</a></td>					
+										</c:when>
+										<c:when test="${o.orderState == '1' and o.orderPayState == '3' }">
+											<td><a>${o.orderTrackingNo}</a></td>					
+										</c:when>
+										<c:otherwise>
+											<td></td>
+										</c:otherwise>						
 									</c:choose>
 														
 								</tr>
@@ -164,5 +177,30 @@
 			</div>
 		</div>
 	</div>
+	
+	   <div class="modal fade" tabindex="-1" role="dialog" id="#findNumberModal">
+           <div class="modal-dialog">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                 </button>
+                 <h4 class="modal-title" id="modalTitle" style="display: inline;">운송장 번호</h4>
+               </div>
+               <div class="modal-body">
+                  <div class="row">
+                    <div class="form-group">
+                   		<div class="col-sm-3"></div>	
+						<div class="col-sm-6">
+							<h2>${o.orderTrackingNo}</h2>
+						</div>
+						<div class="col-sm-3">							
+						</div>						
+					</div>	
+                 </div>
+              </div>     
+             </div>
+           </div>
+         </div>
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

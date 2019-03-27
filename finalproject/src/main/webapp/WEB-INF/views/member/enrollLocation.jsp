@@ -82,8 +82,9 @@ function validate() {
 	<div class="container">
 		<ul class="breadcrumb">
 			<li><a href="${path }"><i class="fa fa-home"></i></a></li>
-			<li><a href="${path }/member/memberMyPage">마이페이지</a></li>
-			<li><a href="<%=request.getContextPath()%>/memberMyPage">마이페이지</a></li>
+			<li><a href="${path}/member/myPage.do">마이페이지</a></li>
+			<li><a href="${path }/member/checkPassword.do?checkNo=3">배송지 설정</a></li>
+			<li><a href="#">배송지 등록</a></li>
 		</ul>
 		<br />
 		<div class="row">
@@ -106,30 +107,28 @@ function validate() {
 					</div>
 				</div>
 
-				<div class="column-block">
-					<c:if test="${brandList.size() != 0}">
+<%-- 				<div class="column-block">
+					<c:if test="${member.memberAuthority == 'S'}">		
 						<div class="columnblock-title">판매자페이지</div>
 					</c:if>
 					<div class="account-block">
-
+					
 						<div class="list-group">
 							<c:forEach items="${brandList }" var="b">
-								<c:if test="${b.brandState.toString()!='4'}">
-									<a class="list-group-item brand-list"
-										href="javascript:selectBrand('${b.brandNo }', '${b.brandState }');">${b.brandTitle }
-										<c:if test="${b.brandState.toString()=='0'}">
-											<i class="fa fa-clock-o"
-												style="font-size: 20px; float: right;"></i>
-										</c:if> <c:if test="${b.brandState.toString()=='2'}">
-											<i class="fa fa-exclamation-circle"
-												style="font-size: 20px; color: firebrick; float: right;"></i>
-										</c:if>
-									</a>
+								<c:if test="${b.brandState.toString()!='e'}"> <!-- 폐점완료 상태 -->
+								<a class="list-group-item brand-list" href="javascript:selectBrand('${b.brandNo }', '${b.brandState }');">${b.brandTitle }				
+									<c:if test="${b.brandState.toString()=='a'}"> <!-- 승인요청 상태 -->
+										<i class="fa fa-clock-o" style="font-size:20px; float: right;"></i>
+									</c:if>
+									<c:if test="${b.brandState.toString()=='c'}"> <!-- 브랜드 등록 반려상태 -->
+										<i class="fa fa-exclamation-circle" style="font-size:20px; color: firebrick; float: right;"></i>
+									</c:if>
+								</a>
 								</c:if>
 							</c:forEach>
-						</div>
-					</div>
-				</div>
+						</div>	
+					</div>					
+				</div> --%>
 
 
 			</div>

@@ -11,6 +11,7 @@ import kh.hand.makers.member.model.vo.ManageOrder;
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.product.model.vo.Wish;
+import kh.hand.makers.shop.model.vo.Brand;
 
 
 
@@ -20,6 +21,24 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	MemberDao dao;
 	
+	@Override
+	public int memberNewPwdUpdate(Map<String, String> cP) {
+		// TODO Auto-generated method stub
+		return dao.memberNewPwdUpdate(cP);
+	}
+
+	@Override
+	public Member memberFind(Map<String, String> findMember) {
+		// TODO Auto-generated method stub
+		return dao.memberFind(findMember);
+	}
+
+	@Override
+	public String memberIdFind(String memberEmail) {
+		// TODO Auto-generated method stub
+		return dao.memberIdFind(memberEmail);
+	}
+
 	@Override
 	public Member memberLogin(String memberId) {
 		return dao.memberLogin(memberId);
@@ -104,5 +123,48 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.deleteLocation(deliveryNo);
 	}
+
+	@Override
+	public int checkEmail(String memberEmail) {
+		// TODO Auto-generated method stub
+		return dao.checkEmail(memberEmail);
+	}
+
+	@Override
+	public int changeProfile(Member m) {
+		// TODO Auto-generated method stub
+		return dao.changeProfile(m);
+	}
+	
+	@Override
+	public int updateOrderState(String orderNo) {
+		// TODO Auto-generated method stub
+		return dao.updateOrderState(orderNo);
+	}
+
+	@Override
+	public Member memberEmailFind(String memberEmail) {
+		// TODO Auto-generated method stub
+		return dao.memberEmailFind(memberEmail);
+	}
+
+	@Override
+	public List<Brand> selectBrand(String memberNo) {
+		// TODO Auto-generated method stub
+		return dao.selectBrand(memberNo);
+	}
+
+	@Override
+	public int updateProductWithdrawl(String brandNo) {
+		// TODO Auto-generated method stub
+		return dao.updateProductWithdrawl(brandNo);
+	}
+
+	@Override
+	public int updateBrandWithdrawl(String brandNo) {
+		// TODO Auto-generated method stub
+		return dao.updateBrandWithdrawl(brandNo);
+	}
+	
 	
 }

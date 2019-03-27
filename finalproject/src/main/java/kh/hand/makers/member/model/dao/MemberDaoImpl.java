@@ -12,12 +12,31 @@ import kh.hand.makers.member.model.vo.ManageOrder;
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.product.model.vo.Wish;
+import kh.hand.makers.shop.model.vo.Brand;
 
 @Repository
 public class MemberDaoImpl implements MemberDao {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 	
+	@Override
+	public int memberNewPwdUpdate(Map<String, String> cP) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.memberNewPwdUpdate", cP);
+	}
+
+	@Override
+	public String memberIdFind(String memberEmail) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.memberIdFind",memberEmail);
+	}
+
+	@Override
+	public Member memberFind(Map<String, String> findMember) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.memberFind",findMember);
+	}
+
 	@Override
 	public Member memberLogin(String memberId) {
 		return sqlSession.selectOne("member.login",memberId);
@@ -103,6 +122,48 @@ public class MemberDaoImpl implements MemberDao {
 	public int deleteLocation(String deliveryNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("member.deleteLocation", deliveryNo);
+	}
+
+	@Override
+	public int checkEmail(String memberEmail) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.checkEmail", memberEmail);
+	}
+
+	@Override
+	public int changeProfile(Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.changeProfile", m);
+	}
+	
+	@Override
+	public int updateOrderState(String orderNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.updateOrderState", orderNo);
+	}
+
+	@Override
+	public Member memberEmailFind(String memberEmail) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.memberEmailFind", memberEmail);
+	}
+
+	@Override
+	public List<Brand> selectBrand(String memberNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("member.selectBrand", memberNo);
+	}
+
+	@Override
+	public int updateProductWithdrawl(String brandNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.updateProductWithdrawl", brandNo);
+	}
+
+	@Override
+	public int updateBrandWithdrawl(String brandNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.updateBrandWithdrawl", brandNo);
 	}
 	
 	

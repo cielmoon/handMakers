@@ -194,6 +194,7 @@ function updateTracking()
 							<a class="list-group-item" href="${path }/shop/brandProductHome.do?productNo=${product.PRODUCT_NO }&brandNo=${brand.brandNo}">주문목록</a>						
 							<a class="list-group-item" href="${path }/shop/brandProductQna.do?productNo=${product.PRODUCT_NO }&brandNo=${brand.brandNo}">문의관리</a>
 							<a class="list-group-item" href="${path }/shop/brandProductSalesRecords.do?productNo=${product.PRODUCT_NO }&brandNo=${brand.brandNo}">판매이력</a>
+							<a class="list-group-item" href="${path }/product/productView.do?productNo=${product.PRODUCT_NO }">상품페이지로 이동</a>
 						</div>
 						<div id="list-group">
 							<span id="d-day-title">판매종료&nbsp;<i class="fa fa-bell" style="font-size: 18px; color: gold;" aria-hidden="true"></i></span>
@@ -273,6 +274,7 @@ function updateTracking()
 											<c:otherwise>
 												<c:if test="${o.ORDER_STATE == '0'}">배송준비중</c:if>
 												<c:if test="${o.ORDER_STATE == '1'}">출고완료</c:if>
+												<c:if test="${o.ORDER_STATE == '2'}">주문취소</c:if>
 											</c:otherwise>
 										</c:choose>
 									</td>

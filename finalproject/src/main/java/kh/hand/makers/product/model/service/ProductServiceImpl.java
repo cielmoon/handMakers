@@ -20,6 +20,12 @@ public class ProductServiceImpl implements ProductService {
 	
 	
 	@Override
+	public int selectWishYewon(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.selectWishYewon(map);
+	}
+
+	@Override
 	public int selectProductCount(String category) {
 		// TODO Auto-generated method stub
 		return dao.selectProductCount(category);
@@ -87,9 +93,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int selectCommentCount(String commentType) {
+	public int selectCommentCount(Map<String,String> mapComment) {
 		
-		return dao.selectCommentCount(commentType);
+		return dao.selectCommentCount(mapComment);
 	}
 
 	@Override
@@ -113,6 +119,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Map<String, String>> productList(Map<String, String> map, int cPage, int numPerPage) {
 		// TODO Auto-generated method stub
+		
 		return dao.productList(map, cPage, numPerPage);
 	}
 
@@ -138,8 +145,64 @@ public class ProductServiceImpl implements ProductService {
 		
 		return dao.selectBrand(productNo);
 	}
+
+	@Override
+	public int insertCommentReview(Map<String, String> map) {
+		
+		return dao.insertCommentReview(map);
+	}
+
+	@Override
+	public int insertTotalScoreReview(Map<String, String> map) {
+		
+		return dao.insertTotalScoreReview(map);
+	}
+
+	@Override
+	public List<Map<String, String>> selectReviewCommentSeconds() {
+		return dao.selectReviewCommentSeconds();
+	}
+
+	@Override
+	public int insertCommentQuestion(Map<String, String> map) {
+		
+		return dao.insertCommentQuestion(map);
+	}
+
+	@Override
+	public int updateComment(Map<String, String> map) {
+		
+		return dao.updateComment(map);
+	}
+
+	@Override
+	public int insertCommentLevel2(Map<String, String> map) {
+		
+		return dao.insertCommentLevel2(map);
+	}
+
+	@Override
+	public int deleteComment(Map<String, String> map) {
+		
+		return dao.deleteComment(map);
+	}
+
+	@Override
+	public Map<String, String> selectTotalScore(String productNo) {
+		
+		return dao.selectTotalScore(productNo);
+	}
+
+	@Override
+	public int updateProductMinus(Map<String, Object> productMap) {
+		
+		return dao.updateProductMinus(productMap);
+	}
+
 	
 	
 	
+
+
 	
 }

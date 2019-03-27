@@ -22,11 +22,21 @@ public interface ProductService {
 	int selectWishCount(Wish wish);
 	int insertWish(Wish wish);
 	int deleteWish(Wish wish);
-	int selectCommentCount(String commentType);
+	int selectCommentCount(Map<String,String> mapComment);
 	List<Map<String,String>> selectComment(Map<String,String> map, int cPage, int numPerPage);
 	List<Map<String,String>> selectProductOption(String productNo);
 	List<Map<String, String>> getMenuList();
 	List<Map<String, String>> sCategoryList(String bCategory);
 	List<Map<String,String>> selectOrderList(Map<String,String> map);
 	Map<String,String> selectBrand(String productNo);
+	int insertCommentReview(Map<String,String> map);
+	int insertTotalScoreReview(Map<String,String> map);
+	List<Map<String, String>> selectReviewCommentSeconds();
+	int selectWishYewon(Map<String, String> map);
+	int insertCommentQuestion(Map<String,String> map);
+	int updateComment(Map<String,String> map);
+	int insertCommentLevel2(Map<String,String> map);
+	int deleteComment(Map<String,String> map);
+	Map<String,String> selectTotalScore(String productNo);
+	int updateProductMinus(Map<String,Object> productMap);
 }

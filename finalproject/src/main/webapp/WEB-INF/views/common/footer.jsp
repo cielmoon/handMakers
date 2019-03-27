@@ -8,7 +8,9 @@
   <div class="container">
     <div class="row">
       <div class="footer-top-cms">
-        <div class="col-sm-7">
+      <p>handmakers(주)는 통신판매중개자로서 입점마켓의 거래당사자가 아니며, 
+      입점판매자가 등록한 상품정보 및 거래에 대해 handmakers(주)는 일체 책임을 지지 않습니다.</p>
+        <!-- <div class="col-sm-7">
           <div class="newslatter">
             <form>
               <h5>Sign up for our Newsletter</h5>
@@ -18,8 +20,8 @@
               </div>
             </form>
           </div>
-        </div>
-        <div class="col-sm-5">
+        </div> -->
+        <!-- <div class="col-sm-5">
           <div class="footer-social">
             <h5>Social</h5>
             <ul>
@@ -30,7 +32,7 @@
               <li class="youtube"><a href="#"><i class="fa fa-youtube-play"></i></a></li>
             </ul>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>    
   </div>

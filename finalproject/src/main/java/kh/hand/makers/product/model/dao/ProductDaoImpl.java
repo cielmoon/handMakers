@@ -8,20 +8,58 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import kh.hand.makers.product.model.vo.Product;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import kh.hand.makers.product.model.vo.Product2;
 import kh.hand.makers.product.model.vo.ProductImg;
 import kh.hand.makers.product.model.vo.Wish;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
-	
+		
 	@Autowired
 	SqlSession session;
 	
+	private static final Logger logger = LoggerFactory.getLogger(ProductDaoImpl.class);
+	
+	@Override
+	public int selectWishYewon(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		logger.debug("들어옴 : selectWishYewon");
+		int result;
+		if(session.selectOne("product.selectWishYewon", map) != null)
+		{
+			result = session.delete("product.deleteWishYewon", map);
+			logger.debug("있을때 : "+ result);
+			return 0;
+		}
+		else
+		{
+			result = session.delete("product.insertWishYewon", map);
+			logger.debug("없을때 : "+ result);
+			return 1;
+		}
+		/*int result = session.selectOne("product.selectWishYewon", map);
+		logger.debug("1차 : "+ result);
+		if(result > 0)//있음
+		{
+			result = session.delete("product.deleteWishYewon", map);
+			logger.debug("있을때 : "+ result);
+			return 0;
+		}
+		else
+		{
+			result = session.delete("product.insertWishYewon", map);
+			logger.debug("없을때 : "+ result);
+			return 1;
+		}*/
+	}
+
 	@Override
 	public int selectProductCount(String category) {
 		// TODO Auto-generated method stub
@@ -99,9 +137,9 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public int selectCommentCount(String commentType) {
+	public int selectCommentCount(Map<String,String> mapComment) {
 		
-		return session.selectOne("product.selectCommentCount",commentType);
+		return session.selectOne("product.selectCommentCount",mapComment);
 	}
 
 	@Override
@@ -109,19 +147,15 @@ public class ProductDaoImpl implements ProductDao {
 		
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		
-		System.out.println(map);
-		System.out.println("=============================================");
-		
-		if(map.get("reviewCommentType")!=null) {
-			map.put("commentType", "R");
-		}else{
-			map.put("commentType", "Q");
+		if(map.get("commentType").equals("R"))
+		{
+			return session.selectList("product.selectCommentR", map, rb);
+		}else 
+		{
+			return session.selectList("product.selectCommentQ", map, rb);
 		}
-		
-		System.out.println("이거 보자~~");
-		System.out.println(map);
-		
-		return session.selectList("product.selectComment", map, rb);
+
+	
 	}
 
 	@Override
@@ -167,9 +201,62 @@ public class ProductDaoImpl implements ProductDao {
 		
 		return session.selectOne("product.selectBrand",productNo);
 	}
+
+	@Override
+	public int insertCommentReview(Map<String, String> map) {
+		
+		return session.insert("product.insertCommentReview",map);
+	}
+
+	@Override
+	public int insertTotalScoreReview(Map<String, String> map) {
+		System.out.println(map);
+		return session.insert("product.insertTotalScoreReview",map);
+	}
+
+	@Override
+	public List<Map<String, String>> selectReviewCommentSeconds() {
+		return session.selectList("product.selectReviewCommentSeconds");
+	}
+
+	@Override
+	public int insertCommentQuestion(Map<String, String> map) {
+		logger.debug("문의 등록 전 확인"+map+"");
+		return session.insert("product.insertCommentQuestion",map);
+	}
+
+	@Override
+	public int updateComment(Map<String, String> map) {
+		
+		return session.update("product.updateComment",map);
+	}
+
+	@Override
+	public int insertCommentLevel2(Map<String, String> map) {
+		
+		return session.insert("product.insertCommentLevel2",map);
+	}
+
+	@Override
+	public int deleteComment(Map<String, String> map) {
+		
+		return session.delete("product.deleteComment",map);
+	}
+
+	@Override
+	public Map<String, String> selectTotalScore(String productNo) {
+		
+		return session.selectOne("product.selectTotalScore",productNo);
+	}
+
+	@Override
+	public int updateProductMinus(Map<String, Object> productMap) {
+		
+		return session.update("product.updateProductMinus",productMap);
+	}
+
 	
-	
-	
+
 	
 
 }

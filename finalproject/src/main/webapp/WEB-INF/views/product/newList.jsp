@@ -5,7 +5,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<%-- <jsp:param value="handMakers - 신규" name="pageTitle"/> --%>
+<style>
+.ellips{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+</style>
 <section>
 <div class="container">
   <ul class="breadcrumb">
@@ -13,6 +19,7 @@
     <li><a href="${path }/product/newList.do">신규</a></li>
   </ul>
   <div class="row">
+  <c:if test="${productList.size() != 0 }">
     <div id="content" class="col-sm-12">    
 
 <div class="category-page-wrapper">
@@ -56,11 +63,6 @@
               <option value="32">32</option>
     		</c:otherwise>
 			</c:choose>
-            
-            
-              <!-- <option value="9">9</option>selected="selected"
-              <option value="18">18</option>
-              <option value="27">27</option> -->
             </select>
           </form>
           </div>
@@ -68,53 +70,79 @@
 					
 					
 				</div>
-      <!-- <div class="category-page-wrapper">
-        <div class="col-md-6 list-grid-wrapper">
-          <div class="btn-group btn-list-grid">          
-          	스타일줘야함 이버튼 흰색으로 바궈놔야함
-            <button type="button" id="grid-view" class="btn btn-default grid" data-toggle="tooltip" title="Grid"><i class="fa fa-th"></i></button>
-          </div>         
-        <div class="col-md-1 text-right page-wrapper">
-          
-          <div class="limit">
-            <select id="input-limit" class="form-control">
-              <option value="8" selected="selected">8</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="75">75</option>
-              <option value="100">100</option>
-            </select>
-          </div>
-        </div>
-
-      </div>
-      <br /> -->
       <div class="grid-list-wrapper">
       <c:forEach items="${productList }" var="product" varStatus="vs">
       
 	<div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-         <div class="image product-imageblock" style="height:220px;">
-         <a href="${path }/product/productView.do?productNo=${product.productNo}"><!-- 상품상세페이지 ? product_no  -->
-         <img src="${path}/resources/image/product/${product.productProfile }" alt="${product.productTitle }" title="${product.productTitle }" class="img-responsive" /></a>
+          <div onclick="location.href='${path }/product/productView.do?productNo=${product.productNo}&tab=n'" class="image product-imageblock" style="height : 220px; background-size : cover; background-image : url(${path}/resources/image/product/${product.productProfile }); cursor : pointer;">
+										
+
               <div class="button-group">
-                <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fa fa-heart-o"></i></button>        
+               <c:if test="${member==null }">
+               <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishLoginChk();">
+                	<i class="fa fa-heart-o"></i>
+               </button>
+               </c:if>
+                <c:if test="${member.memberNo != null and product.wishChk eq member.memberNo }">
+                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishChk(this.value);">
+                	<i class="fa fa-heart"></i>
+               	</button>
+               </c:if>
+               <c:if test="${member.memberNo != null and product.wishChk eq null }">
+                <button type="button" id="${product.productNo}" data-toggle="tooltip" class="btn btn-default wishlist" title="Wish List" value="${product.productNo}" onclick="fn_wishChk(this.value);">
+                	<i class="fa fa-heart-o"></i>
+               	</button>
+               </c:if>
+
               </div>
             </div>
 
             <div class="caption product-detail">
-              <h4 class="product-name">
-              <a href="${path }/product/productView.do?productNo=${product.productNo}" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
-                                    <p class="rating">${product.productComment }</p><!-- div? -->
-              <!-- 상품상세페이지 링크 , title=product_title , value = product_title -->
-              <div class="product-desc">${product.productComment }</div>
-                <!-- product_comment -->
-                <p class="price product-price"><span class="price-old"></span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 <span class="price-tax"></span> </p>
-              <%-- <p class="price product-price"><span class="price-old"></span> ${product.productPrice } <span class="price-tax"></span> </p><!-- 원본 --> --%>
-              <%-- <p class="price product-price"><span class="price-old">${product.productPrice }</span> ${product.productPrice + product.productDiscount } <span class="price-tax"></span> </p> --%>
+              <h4 class="product-name ellips">
+              <a href="${path }/product/productView.do?productNo=${product.productNo}&tab=n" title="${product.productTitle }"> ${product.productTitle } </a> </h4>
+			<div style="width : 200px; height : 24px;" class="rating ellips">${product.productComment }</div>
+				<!-- product_comment -->
+                <div style="width : 200px; height : 24px;">
+                <p class="price product-price" style="margin-bottom: 0px;"><span class="price-old"></span> <fmt:formatNumber value="${product.productPrice }" type="currency" currencySymbol="￦"/>원 <span class="price-tax"></span> </p>
+                </div><br>
               <!-- product_price -->
-              <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
-              <!-- totalProductPoint 별이 다섯개  이부분은 좀더 고민-->
+              <div style="float: right;">
+			<c:if test="${product.score ge 0 and product.score lt 0.5 }">
+               <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 0.5 and product.score lt 1}">
+            	<i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 1 and product.score lt 1.5}">
+            	<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 1.5 and product.score lt 2}">
+            	<i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 2 and product.score lt 2.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 2.5 and product.score lt 3}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 3 and product.score lt 3.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 3.5 and product.score lt 4}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 4 and product.score lt 4.5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+            </c:if>
+            <c:if test="${product.score ge 4.5 and product.score lt 5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+            </c:if>
+            <c:if test="${product.score eq 5}">
+            	<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </c:if>
+               </div>
+              <!-- totalProductPoint -->
             </div>
  
           </div>
@@ -133,13 +161,43 @@
         </div>
       </div>
     </div>
+       </c:if>
+    <c:if test="${productList.size() == 0 }">
+       <h1>해당하는 조건의 상품이 없습니다.</h1>
+       </c:if>
   </div>
 </div>
 </section>
 <script>
 $('#input-limit').on('change', function(){
-/* console.log($('#input-limit').val()); */
 $('#numPerPagesFrm').submit();
 });
+
+function fn_wishChk(productNo){
+	event.stopPropagation();
+	$.ajax({
+		url:"${path}/product/selectWishYewon.do",
+		data: {"productNo":productNo},
+		success:function(data){
+        if(data == 1){	
+        	$('#' + productNo).html('<i class="fa fa-heart"></i>');
+        	$('#' + productNo).attr( "title" , "Remove to Wish List");
+        	alert('위시리스트에 추가 되었습니다.');
+        	return true;
+        }
+        else
+        $('#' + productNo).html('<i class="fa fa-heart-o"></i>');
+        $('#' + productNo).attr( "title" , "Add to Wish List");
+        alert('위시리스트에서 제거 되었습니다.');
+        return false;
+
+        }
+	});
+}
+
+function fn_wishLoginChk(){
+event.stopPropagation();
+alert('위시리스트 추가는 로그인이 필요합니다.');
+}
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
