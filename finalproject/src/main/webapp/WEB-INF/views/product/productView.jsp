@@ -272,6 +272,9 @@ function fn_deleteQuestionComment(inputComment){
 	/* location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo; */	
 };
 
+function fn_imageViewChange(subImg){
+	$("#product-main-img").attr("src", "${path }/resources/image/product/" + subImg);
+}
 </script>
 
 <style>
@@ -360,15 +363,15 @@ function fn_deleteQuestionComment(inputComment){
         <!-- 상세 상품 사진 넣는 곳 시작 -->
         <div class="col-sm-6">       
           <div class="thumbnails">        
-            <div><a class="thumbnail" href="javascript:void(0)" title="상품 프로필 사진"><img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="상품 프로필 사진" alt="상품 프로필 사진" style="width:460px;height:484.531px;"/></a></div>       
+            <div><a class="thumbnail" href="javascript:void(0)" title="상품 프로필 사진"><img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="상품 프로필 사진" alt="상품 프로필 사진" style="width:460px;height:484.531px;" id="product-main-img"/></a></div>       
             <div id="product-thumbnail" class="owl-carousel">          
-              <div class="item">
-                <div class="image-additional"><a class="thumbnail  " href="javascript:void(0)" title="상품 프로필사진"> <img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="상품 프로필 사진" alt="상품 프로필 사진" style="width:76px;height:80.141px;"/></a></div>
-              </div>
+	              <div class="item">
+               		 <div class="image-additional"><a class="thumbnail  " href="javascript:void(0)" title="상품 프로필사진"> <img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="상품 프로필 사진" alt="상품 프로필 사진" style="width:76px;height:80.141px;" onclick="fn_imageViewChange('${product.PRODUCT_PROFILE}');"/></a></div>
+                 </div>
               
               <c:forEach items="${productImg }" var="pi">
                  <div class="item">
-                   <div class="image-additional"><a class="thumbnail  " href="javascript:void(0)" title="상품 서브사진"> <img src="${path }/resources/image/product/${pi.productSubImg}" title="상품 서브 사진" alt="상품 서브 사진" style="width:76px;height:80.141px;"/></a></div>
+                   <div class="image-additional"><a class="thumbnail  " href="javascript:void(0)" title="상품 서브사진" > <img src="${path }/resources/image/product/${pi.productSubImg}" title="상품 서브 사진" alt="상품 서브 사진" style="width:76px;height:80.141px;" onclick="fn_imageViewChange('${pi.productSubImg}');" id="product-sub-img"/></a></div>
                  </div>
               </c:forEach>
             </div>
