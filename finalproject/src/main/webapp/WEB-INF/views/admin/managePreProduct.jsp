@@ -6,6 +6,15 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<style>
+#select-brand, #select-bigCategory, #select-smallCategory {
+	margin-bottom: 10px;
+}
+#tbl-board{
+	font-size: 12px;
+
+}
+</style>
 <script>
 $(function() {
 	$("#select-brand").change(function(){
@@ -81,15 +90,15 @@ function manageProductAjax(cPage) {
 				if(data.proc[i].preProductState.toString() == '1'){
 					preProductState = "수락";
 					var tr2 = $("<tr><td>" + data.proc[i].preProductBcTitle  + "</td><td>" + data.proc[i].preProductScTitle  +  "</td><td>" 
-							+"<a href='${path}/admin/preProductView.do?preProductNo="+data.proc[i].preProductNo+"'>"+data.proc[i].preProductTitle+"</a>" +"</td><td>" +data.proc[i].preProductBrandTitle +"</td><td>" + preProductState + "</td><td>"+ data.proc[i].preProductDate +"</td><td></td></tr>");
+							+"<a href='${path}/admin/preProductView.do?preProductNo="+data.proc[i].preProductNo+"'>"+data.proc[i].preProductTitle+"</a>" +"</td><td>" +data.proc[i].preProductBrandTitle +"</td><td>" + preProductState + "</td><td>"+ data.proc[i].prePDate +"</td><td></td></tr>");
 				}else if(data.proc[i].preProductState.toString() == '2'){
 					preProductState ="거절";
 					var tr2 = $("<tr><td>" + data.proc[i].preProductBcTitle  + "</td><td>" + data.proc[i].preProductScTitle  +  "</td><td>" 
-							+"<a href='${path}/admin/preProductView.do?preProductNo="+data.proc[i].preProductNo+"'>"+data.proc[i].preProductTitle+"</a>" +"</td><td>" +data.proc[i].preProductBrandTitle +"</td><td>" + preProductState + "</td><td>"+ data.proc[i].preProductDate +"</td><td></td></tr>");
+							+"<a href='${path}/admin/preProductView.do?preProductNo="+data.proc[i].preProductNo+"'>"+data.proc[i].preProductTitle+"</a>" +"</td><td>" +data.proc[i].preProductBrandTitle +"</td><td>" + preProductState + "</td><td>"+ data.proc[i].prePDate +"</td><td></td></tr>");
 				}else if(data.proc[i].preProductState.toString() == '0'){
 					preProductState="검토";
 					var tr2 = $("<tr><td>" + data.proc[i].preProductBcTitle  + "</td><td>" + data.proc[i].preProductScTitle  +  "</td><td>" 
-							+"<a href='${path}/admin/preProductView.do?preProductNo="+data.proc[i].preProductNo+"'>"+data.proc[i].preProductTitle+"</a>" +"</td><td>" +data.proc[i].preProductBrandTitle +"</td><td>" + preProductState + "</td><td>"+ data.proc[i].preProductDate +"</td><td>"
+							+"<a href='${path}/admin/preProductView.do?preProductNo="+data.proc[i].preProductNo+"'>"+data.proc[i].preProductTitle+"</a>" +"</td><td>" +data.proc[i].preProductBrandTitle +"</td><td>" + preProductState + "</td><td>"+ data.proc[i].prePDate +"</td><td>"
 							+"<a href='${path}/admin/changePreProductState.do?preProductNo="+data.proc[i].preProductNo+",1'><button class='AgreeBtn'>수락</button></a>"
 									+"<a href='${path}/admin/changePreProductState.do?preProductNo="+data.proc[i].preProductNo+"+,2'><button class='AgreeBtn'>거절</button></a>"+"</td></tr>");
 				}

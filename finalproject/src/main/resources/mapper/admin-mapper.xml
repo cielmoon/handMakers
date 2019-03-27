@@ -43,8 +43,7 @@
 		<result column="product_bc_title" property="productBcTitle" />
 		<result column="product_sc_title" property="productScTitle" />
 		<result column="product_product_title" property="productTitle" />
-		<result column="product_brand_title"
-			property="productBrandTitle" />
+		<result column="product_brand_title" property="productBrandTitle" />
 		<result column="product_enrolldate"	property="productEnrollDate" />
 		<result column="product_enddate" property="productEndDate" />
 		<result column="product_no" property="productNo" />
@@ -225,8 +224,7 @@
 		order by product.product_update desc
 	</select>
 
-	<select id="selectProductCount" parameterType="map"
-		resultType="_int">
+	<select id="selectProductCount" parameterType="map"	resultType="_int">
 		select count(*) from
 		product where (product.product_state = 0 or product.product_state = 4)
 		and product.brand_no = #{brandNo}

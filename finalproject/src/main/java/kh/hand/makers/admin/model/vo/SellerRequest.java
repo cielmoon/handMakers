@@ -19,10 +19,20 @@ public class SellerRequest implements Serializable{
 	private String sellerReqProcess;
 	private String refName;
 	private String memberId;
-
+	private String sReqDate;
 	
 	public SellerRequest() {
 		
+	}
+
+
+	public String getsReqDate() {
+		return sReqDate;
+	}
+
+
+	public void setsReqDate(String sReqDate) {
+		this.sReqDate = sReqDate;
 	}
 
 
@@ -159,13 +169,35 @@ public class SellerRequest implements Serializable{
 	}
 
 
+	public SellerRequest(String sellerReqNo, String memberNo, String sellerReqRef, String sellerReqType,
+			String sellerReqState, String sellerReqTitle, String sellerReqContent, Date sellerReqDate,
+			String sellerReqProcess, String refName, String memberId, String sReqDate) {
+		super();
+		this.sellerReqNo = sellerReqNo;
+		this.memberNo = memberNo;
+		this.sellerReqRef = sellerReqRef;
+		this.sellerReqType = sellerReqType;
+		this.sellerReqState = sellerReqState;
+		this.sellerReqTitle = sellerReqTitle;
+		this.sellerReqContent = sellerReqContent;
+		this.sellerReqDate = sellerReqDate;
+		this.sellerReqProcess = sellerReqProcess;
+		this.refName = refName;
+		this.memberId = memberId;
+		this.sReqDate = sReqDate;
+	}
+
+
 	@Override
 	public String toString() {
 		return "SellerRequest [sellerReqNo=" + sellerReqNo + ", memberNo=" + memberNo + ", sellerReqRef=" + sellerReqRef
 				+ ", sellerReqType=" + sellerReqType + ", sellerReqState=" + sellerReqState + ", sellerReqTitle="
 				+ sellerReqTitle + ", sellerReqContent=" + sellerReqContent + ", sellerReqDate=" + sellerReqDate
-				+ ", sellerReqProcess=" + sellerReqProcess + ", refName=" + refName + ", memberId=" + memberId + "]";
+				+ ", sellerReqProcess=" + sellerReqProcess + ", refName=" + refName + ", memberId=" + memberId
+				+ ", sReqDate=" + sReqDate + "]";
 	}
+
+
 
 
 }

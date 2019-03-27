@@ -5,6 +5,17 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <style>
+#select-brand{
+	font-size: 11px;
+	margin-bottom: 10px;
+}
+#select-product{
+	font-size: 11px;
+	margin-bottom: 10px;
+}
+#tbl-board{
+	font-size: 11px;
+}
 #srBtn{
 	margin-bottom: 13px;
 	background-color: black;
@@ -60,7 +71,7 @@ function manageRequestAjaxBrand(cPage) {
 					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" + 
 							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
 							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
-							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>"
+							+ "</td><td>" + data.proc[i].sReqDate + "</td><td>"
 							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+ data.proc[i].sellerReqNo +",1,e,"+ data.proc[i].sellerReqType +","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>수락</button></a>" 
 							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+data.proc[i].sellerReqNo+",2,f,"+data.proc[i].sellerReqType+","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>반려</button></a></td>"+"</td></tr>");
 					
@@ -69,13 +80,13 @@ function manageRequestAjaxBrand(cPage) {
 					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" + 
 							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
 							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
-							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>" + "</td></tr>");
+							+ "</td><td>" + data.proc[i].sReqDate + "</td><td>" + "</td></tr>");
 				}else if(data.proc[i].sellerReqProcess == '2'){
 					sellerReqProcess = '반려';
 					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" + 
 							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
 							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
-							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>" + "</td></tr>");
+							+ "</td><td>" + data.proc[i].sReqDate + "</td><td>" + "</td></tr>");
 				}
 						
 			
@@ -129,7 +140,7 @@ function manageRequestAjaxProduct(cPage) {
 				if(data.proc[i].sellerReqProcess == '0' && data.proc[i].sellerReqState == '4'){
 					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" 					
 							+ "<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>" +"</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
-							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>"
+							+ "</td><td>" + data.proc[i].sReqDate + "</td><td>"
 							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+ data.proc[i].sellerReqNo +",1,0,"+ data.proc[i].sellerReqType +","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>수락</button></a>" 
 							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+data.proc[i].sellerReqNo+",2,2,"+data.proc[i].sellerReqType+","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>반려</button></a></td>"+"</td></tr>");
 				
@@ -137,7 +148,7 @@ function manageRequestAjaxProduct(cPage) {
 					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" + 
 							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
 							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
-							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>" 
+							+ "</td><td>" + data.proc[i].sReqDate + "</td><td>" 
 							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+ data.proc[i].sellerReqNo +",1,3,"+ data.proc[i].sellerReqType +","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>수락</button></a>" 
 							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+data.proc[i].sellerReqNo+",2,0,"+data.proc[i].sellerReqType+","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>반려</button></a></td>"+"</td></tr>");
 				
@@ -145,7 +156,7 @@ function manageRequestAjaxProduct(cPage) {
 					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" + 
 							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
 							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
-							+ "</td><td>" + data.proc[i].sellerReqDate + "</td><td>" + "</td></tr>");
+							+ "</td><td>" + data.proc[i].sReqDate + "</td><td>" + "</td></tr>");
 				}
 	
 							

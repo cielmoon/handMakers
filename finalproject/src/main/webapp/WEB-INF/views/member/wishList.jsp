@@ -7,11 +7,11 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 <style>
-	.ellips{
-		overflow:hidden;
-		white-space:nowrap;
-		text-overflow:ellipsis
-	}
+.ellips{
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis
+}
 </style>
 
 <section>
@@ -89,12 +89,18 @@
             <div class="caption product-detail">
               <h4 class="product-name">
               <a href="${path }/product/productView.do?productNo=${wish.PRODUCT_NO}" title="${wish.PRODUCT_TITLE }"> ${wish.PRODUCT_TITLE } </a> </h4>
-                                    
-              <p class="product-desc ellips">${wish.PRODUCT_COMMENT }</p>
               
-              
-              <p class="price product-price"><span class="price-old">${wish.PRODUCT_PRICE }</span> <fmt:formatNumber value="${wish.SALEPRICE }" type="currency" currencySymbol="￦"/> <span class="price-tax"></span> </p>
-              
+              <p class="price product-price">
+              <c:choose>
+	              <c:when test="${wish.PRODUCT_STEP eq 0}">
+	             	 <span class="price-old">${wish.PRODUCT_PRICE }</span>
+	              </c:when>
+	              <c:when test="${wish.PRODUCT_STEP ne 0}">
+	             	 <span class="price-old"></span>
+	              </c:when> 
+              </c:choose>
+              <fmt:formatNumber value="${wish.SALEPRICE }" type="currency" currencySymbol="￦"/> 
+              <span class="price-tax"></span> </p>
             </div>
  
           </div>

@@ -5,7 +5,15 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<style>
+#select-brand, #select-bigCategory, #select-smallCategory {
+	margin-bottom: 10px;
+}
+#tbl-board{
+	font-size: 12px;
 
+}
+</style>
 <script>
 $(function() {
 	$("#select-brand").change(function(){
@@ -86,7 +94,7 @@ function manageProductAjax(cPage) {
 				}
 				
 				/* console.log(data.adminProductList[i]); */
-				var tr2 = $("<tr><td>" + data.proc[i].productBcTitle + "</td><td>" + data.proc[i].productScTitle + "</td><td>" + data.proc[i].productTitle + "</td><td>" + data.proc[i].productBrandTitle + "</td><td>" + productState + "</td><td>" + data.proc[i].updateDate + "</td><td>" + data.proc[i].productEndDate + "</td><td></td></tr>");
+				var tr2 = $("<tr><td>" + data.proc[i].productBcTitle + "</td><td>" + data.proc[i].productScTitle + "</td><td>" + data.proc[i].productTitle + "</td><td>" + data.proc[i].productBrandTitle + "</td><td>" + productState + "</td><td>" + data.proc[i].pUpdateDate + "</td><td>" + data.proc[i].pEndDate + "</td><td></td></tr>");
 				
 				
 				

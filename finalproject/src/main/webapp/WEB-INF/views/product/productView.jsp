@@ -186,10 +186,11 @@ function fn_insertReviewCommentLevel1() {
 	var content = $('#input-review').val();
 	var radio = $('input[type=radio]').val();
 	console.log(radio);
+	console.log(content);
 	if(radio==null){
 		alert('평점 점수를 넣어주세요');
 	}
-	if(content.length<0){
+	if(content.trim().length<0){
 		alert('내용을 넣어주세요');
 	}
 	
@@ -272,6 +273,9 @@ function fn_deleteQuestionComment(inputComment){
 	/* location.href="${path}/product/deleteComment?commentNo="+commentNo+"&commentType="+commentType+"&productNo="+productNo; */	
 };
 
+function fn_imageViewChange(subImg){
+	$("#product-main-img").attr("src", "${path }/resources/image/product/" + subImg);
+}
 </script>
 
 <style>
@@ -360,15 +364,15 @@ function fn_deleteQuestionComment(inputComment){
         <!-- 상세 상품 사진 넣는 곳 시작 -->
         <div class="col-sm-6">       
           <div class="thumbnails">        
-            <div><a class="thumbnail" href="javascript:void(0)" title="상품 프로필 사진"><img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="상품 프로필 사진" alt="상품 프로필 사진" style="width:460px;height:484.531px;"/></a></div>       
+            <div><a class="thumbnail" href="javascript:void(0)" title="상품 프로필 사진"><img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="상품 프로필 사진" alt="상품 프로필 사진" style="width:460px;height:484.531px;" id="product-main-img"/></a></div>       
             <div id="product-thumbnail" class="owl-carousel">          
-              <div class="item">
-                <div class="image-additional"><a class="thumbnail  " href="javascript:void(0)" title="상품 프로필사진"> <img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="상품 프로필 사진" alt="상품 프로필 사진" style="width:76px;height:80.141px;"/></a></div>
-              </div>
+	              <div class="item">
+               		 <div class="image-additional"><a class="thumbnail  " href="javascript:void(0)" title="상품 프로필사진"> <img src="${path }/resources/image/product/${product.PRODUCT_PROFILE}" title="상품 프로필 사진" alt="상품 프로필 사진" style="width:76px;height:80.141px;" onclick="fn_imageViewChange('${product.PRODUCT_PROFILE}');"/></a></div>
+                 </div>
               
               <c:forEach items="${productImg }" var="pi">
                  <div class="item">
-                   <div class="image-additional"><a class="thumbnail  " href="javascript:void(0)" title="상품 서브사진"> <img src="${path }/resources/image/product/${pi.productSubImg}" title="상품 서브 사진" alt="상품 서브 사진" style="width:76px;height:80.141px;"/></a></div>
+                   <div class="image-additional"><a class="thumbnail  " href="javascript:void(0)" title="상품 서브사진" > <img src="${path }/resources/image/product/${pi.productSubImg}" title="상품 서브 사진" alt="상품 서브 사진" style="width:76px;height:80.141px;" onclick="fn_imageViewChange('${pi.productSubImg}');" id="product-sub-img"/></a></div>
                  </div>
               </c:forEach>
             </div>
@@ -452,12 +456,12 @@ function fn_deleteQuestionComment(inputComment){
               <label>현재 판매량 : </label>
               <span> ${product.PRODUCT_CURSELL }</span></li>
               <c:choose>
-              <c:when test="${product.PRODUCT_STEP eq 1 and  product.PRODUCT_STEP eq 3 and product.PRODUCT_STEP eq 4}">
+              <c:when test="${product.PRODUCT_STATE ne 0}">
               	<li>
               	<label>남은 수량 : </label>
               	<span style="color:red"> 0개</span></li>
               </c:when>
-              <c:when test="${product.PRODUCT_STEP eq 1 }">
+              <c:when test="${product.PRODUCT_STATE eq 0 }">
               	<li>
               	<label>남은 수량 : </label>
               	<span style="color:red"> ${product.REMAININVENTORY }개</span></li>
@@ -475,12 +479,12 @@ function fn_deleteQuestionComment(inputComment){
               <label>판매종료일:</label>
               <span><fmt:formatDate value="${product.PRODUCT_ENDDATE }" pattern="yyyy-MM-dd"/></span></li>
             <c:choose>
-            	<c:when test="${product.PRODUCT_STEP eq 1 and  product.PRODUCT_STEP eq 3 and product.PRODUCT_STEP eq 4}">
+            	<c:when test="${product.PRODUCT_STATE ne 0}">
             	<li>
 	              <label>판매 남은일:</label>
-	              <span id="remainperiod" style="color:red">마감된 상품입니다.</span></li>
+	              <span id="remainperiod" style="color:red">주문 마감된 상품입니다.</span></li>
 	           </c:when>
-	           <c:when test="${product.PRODUCT_STEP eq 1 }">
+	           <c:when test="${product.PRODUCT_STATE eq 0 }">
 	            <li>
 	            <label>판매 남은일:</label>
 	            <span id="remainperiod" style="color:red">${product.REMAINPERIOD }일</span></li>
@@ -535,7 +539,7 @@ function fn_deleteQuestionComment(inputComment){
                
                 <!-- 결제 버튼 -->
                 <c:choose>
-                <c:when test="${product.PRODUCT_STEP ne 0 }">
+                <c:when test="${product.PRODUCT_STATE ne 0 }">
                 	<input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기" disabled/>
                 </c:when>
                 <c:otherwise>
@@ -603,7 +607,7 @@ function fn_deleteQuestionComment(inputComment){
                         <li class="media">                  
                            <c:if test="${reviewComment.COMMENT_LEVEL eq 1 }">
                            <a class="pull-left" href="javascript:void(0);"> 
-                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/profile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
+                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/memberProfile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
                            </a>
                               <div class="media-body">
                                  <div class="well well-sm">
@@ -648,7 +652,7 @@ function fn_deleteQuestionComment(inputComment){
 	                              <li class="media media-replied">
 	                              <a class="pull-left" href="javascript:void(0);"> 
 	                                 <img class="media-object img-circle" style="width: 80px;" 
-	                                    src="${path }/resources/image/profile/${second['MEMBER_PROFILE']}" alt="profile">
+	                                    src="${path }/resources/image/memberProfile/${second['MEMBER_PROFILE']}" alt="profile">
 	                              </a>
 	                                 <div class="media-body">
 	                                    <div class="well well-sm">
@@ -682,7 +686,7 @@ function fn_deleteQuestionComment(inputComment){
                               <li class="media media-replied">
                               <form id="fm-${reviewComment['COMMENT_NO'] }" action="${path}/product/insertCommentLevel2.do?productNo=${product.PRODUCT_NO}&tab=${tab}" method="post">
                               <a class="pull-left" href="javascript:void(0);"> 
-                              	<img class="media-object img-circle" width="80px;" src="${path }/resources/image/profile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
+                              	<img class="media-object img-circle" width="80px;" src="${path }/resources/image/memberProfile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
                           	  </a>
                                  <div class="media-body">
                                     <div class="well well-sm">
@@ -725,7 +729,7 @@ function fn_deleteQuestionComment(inputComment){
             
             </script>
             
-            <c:if test="${member!=null && orderList[0].ORDER_PAYSTATE eq '0' }">
+            <c:if test="${member!=null && orderList[0].ORDER_PAYSTATE eq '3' }">
             <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do?tab=${tab}">
               <div  id="div-review">
                  <c:if test="${orderList.size()>0 }">
@@ -795,7 +799,7 @@ function fn_deleteQuestionComment(inputComment){
                         <li class="media">                  
                            <c:if test="${questionComment.COMMENT_LEVEL eq 1 }">
                            <a class="pull-left" href="javascript:void(0);"> 
-                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/profile/${second['MEMBER_PROFILE']}" alt="profile">
+                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/memberProfile/${second['MEMBER_PROFILE']}" alt="profile">
                            </a>
                               <div class="media-body">
                                  <div class="well well-sm">
@@ -829,7 +833,7 @@ function fn_deleteQuestionComment(inputComment){
                               <li class="media media-replied">
                               <a class="pull-left" href="javascript:void(0);"> 
                                  <img class="media-object img-circle" style="width: 80px;" 
-                                    src="${path }/resources/image/seller_img.png" alt="profile">
+                                    src="${path }/resources/image/memberProfile/seller_img.png" alt="profile">
                               </a>
                                  <div class="media-body">
                                     <div class="well well-sm">
