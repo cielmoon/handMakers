@@ -137,10 +137,10 @@ public class ProductController {
 		
 		if(commentType.equals("R"))
 		{
-			mv.addObject("pageBar",PageFactory.getConditionProductPageBar(reviewCommentCount, rcPage, numPerPage, "/makers/product/productView.do?commentType=R&productNo="+productNo, "R"));
+			mv.addObject("pageBar",PageFactory.getConditionProductPageBar(reviewCommentCount, rcPage, numPerPage, "/makers/product/productView.do?commentType=R&productNo="+productNo+"&tab="+tab, "R"));
 			mv.addObject("type", "R");
 		}else if(commentType.equals("Q")){
-			mv.addObject("pageBar",PageFactory.getConditionProductPageBar(questionCommentCount, qcPage, numPerPage, "/makers/product/productView.do?commentType=Q&productNo="+productNo, "Q"));
+			mv.addObject("pageBar",PageFactory.getConditionProductPageBar(questionCommentCount, qcPage, numPerPage, "/makers/product/productView.do?commentType=Q&productNo="+productNo+"&tab="+tab, "Q"));
 			mv.addObject("type", "Q");
 		}
 		mv.setViewName("/product/productView");
