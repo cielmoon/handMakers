@@ -409,7 +409,11 @@ public class AdminController {
 		 * service.selectProductList(sortingProductList);
 		 */
 		List<AdminProduct> adProductList = service.selectReProductList(cPage, numPerPage, sortingProductList);
-
+		for (AdminProduct adminProduct : adProductList) {
+			adminProduct.setpEndDate(adminProduct.getProductEndDate().toString());
+			adminProduct.setpEnrollDate(adminProduct.getProductEnrollDate().toString());
+			adminProduct.setpUpdateDate(adminProduct.getUpdateDate().toString());
+		}
 		int contentCount = service.selectReProductCount(sortingProductList);
 
 		Map map = new HashMap();
@@ -669,6 +673,7 @@ public class AdminController {
 		int contentCount = service.selectRequestStateListCount(state);
 		for (SellerRequest sellerRequest : selectRequestList) {
 			String reqProductName = service.selectProductName(sellerRequest.getSellerReqRef());
+			sellerRequest.setsReqDate(sellerRequest.getSellerReqDate().toString());
 			sellerRequest.setRefName(reqProductName);
 
 		}
