@@ -11,6 +11,7 @@ import kh.hand.makers.member.model.vo.ManageOrder;
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.product.model.vo.Wish;
+import kh.hand.makers.shop.model.vo.Brand;
 
 
 
@@ -145,6 +146,24 @@ public class MemberServiceImpl implements MemberService {
 	public Member memberEmailFind(String memberEmail) {
 		// TODO Auto-generated method stub
 		return dao.memberEmailFind(memberEmail);
+	}
+
+	@Override
+	public List<Brand> selectBrand(String memberNo) {
+		// TODO Auto-generated method stub
+		return dao.selectBrand(memberNo);
+	}
+
+	@Override
+	public int updateProductWithdrawl(String brandNo) {
+		// TODO Auto-generated method stub
+		return dao.updateProductWithdrawl(brandNo);
+	}
+
+	@Override
+	public int updateBrandWithdrawl(String brandNo) {
+		// TODO Auto-generated method stub
+		return dao.updateBrandWithdrawl(brandNo);
 	}
 	
 	

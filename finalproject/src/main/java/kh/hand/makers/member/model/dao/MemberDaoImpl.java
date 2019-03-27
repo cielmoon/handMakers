@@ -12,6 +12,7 @@ import kh.hand.makers.member.model.vo.ManageOrder;
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.product.model.vo.Wish;
+import kh.hand.makers.shop.model.vo.Brand;
 
 @Repository
 public class MemberDaoImpl implements MemberDao {
@@ -145,6 +146,24 @@ public class MemberDaoImpl implements MemberDao {
 	public Member memberEmailFind(String memberEmail) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("member.memberEmailFind", memberEmail);
+	}
+
+	@Override
+	public List<Brand> selectBrand(String memberNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("member.selectBrand", memberNo);
+	}
+
+	@Override
+	public int updateProductWithdrawl(String brandNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.updateProductWithdrawl", brandNo);
+	}
+
+	@Override
+	public int updateBrandWithdrawl(String brandNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.updateBrandWithdrawl", brandNo);
 	}
 	
 	

@@ -7,6 +7,7 @@ import kh.hand.makers.member.model.vo.ManageOrder;
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.product.model.vo.Wish;
+import kh.hand.makers.shop.model.vo.Brand;
 
 public interface MemberDao {
 	Member memberLogin(String memberId);
@@ -34,4 +35,7 @@ public interface MemberDao {
 	int updateOrderState(String orderNo);
 	
 	Member memberEmailFind(String memberEmail);
+	List<Brand> selectBrand(String memberNo);
+	int updateProductWithdrawl(String brandNo);
+	int updateBrandWithdrawl(String brandNo);
 }

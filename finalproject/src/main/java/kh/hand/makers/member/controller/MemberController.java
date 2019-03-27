@@ -514,11 +514,26 @@ public class MemberController {
 	public ModelAndView memberWithdrawalEnds(String memberNo, SessionStatus status) {
 		logger.debug("회원탈퇴 대상 : " + memberNo);
 		ModelAndView mv = new ModelAndView();
+							
 		int result = service.memberWithdrawal(memberNo);
 		String msg = "";
 		String loc = "/";
 
 		if (result > 0) {
+			//찾은 브랜드들 상품들 전부 판매종료
+			List<Brand> brandList = service.selectBrand(memberNo);		
+			if(brandList.size() > 0) {
+				for (Brand brand : brandList) {
+					int updateProduct = service.updateProductWithdrawl(brand.getBrandNo());
+				}
+			}	
+			//찾은 브랜드 폐점신고
+			if(brandList.size() > 0) {
+				for (Brand brand : brandList) {
+					int updateBrand = service.updateBrandWithdrawl(brand.getBrandNo());
+				}
+			}	
+			
 			msg = "회원탈퇴가 완료되었습니다.";
 			if (!status.isComplete()) {
 				status.setComplete();
