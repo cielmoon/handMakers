@@ -94,7 +94,7 @@ function manageProductAjax(cPage) {
 				}
 				
 				/* console.log(data.adminProductList[i]); */
-				var tr2 = $("<tr><td>" + data.proc[i].productBcTitle + "</td><td>" + data.proc[i].productScTitle + "</td><td>" + data.proc[i].productTitle + "</td><td>" + data.proc[i].productBrandTitle + "</td><td>" + productState + "</td><td>" + data.proc[i].updateDate + "</td><td>" + data.proc[i].productEndDate + "</td><td></td></tr>");
+				var tr2 = $("<tr><td>" + data.proc[i].productBcTitle + "</td><td>" + data.proc[i].productScTitle + "</td><td>" + data.proc[i].productTitle + "</td><td>" + data.proc[i].productBrandTitle + "</td><td>" + productState + "</td><td>" + data.proc[i].pUpdateDate + "</td><td>" + data.proc[i].pEndDate + "</td><td></td></tr>");
 				
 				
 				
