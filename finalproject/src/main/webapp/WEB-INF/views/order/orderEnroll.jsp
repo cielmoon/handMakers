@@ -195,7 +195,8 @@ function requestPay() {
 										</div>
 										<div class="form-group">
 											<label class="control-label">가격</label>
-											<input type="number" class="form-control" id="input-productPrice" name="productPrice" value="${orderList.productPrice }" readonly/>
+											<input type="number" class="form-control" id="input-productTotalPrice" name="productTotalPrice" value="${orderList.productPrice*orderList.productQty }" readonly/>원
+											<input type="hidden" class="form-control" id="input-productPrice" name="productPrice" value="${orderList.productPrice }" readonly/>
 										</div>
 										<div class="form-group">
 											<label class="control-label">옵션</label>

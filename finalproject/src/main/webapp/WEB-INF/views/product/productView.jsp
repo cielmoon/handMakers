@@ -452,12 +452,12 @@ function fn_deleteQuestionComment(inputComment){
               <label>현재 판매량 : </label>
               <span> ${product.PRODUCT_CURSELL }</span></li>
               <c:choose>
-              <c:when test="${product.PRODUCT_STEP eq 1 and  product.PRODUCT_STEP eq 3 and product.PRODUCT_STEP eq 4}">
+              <c:when test="${product.PRODUCT_STATE ne 0}">
               	<li>
               	<label>남은 수량 : </label>
               	<span style="color:red"> 0개</span></li>
               </c:when>
-              <c:when test="${product.PRODUCT_STEP eq 1 }">
+              <c:when test="${product.PRODUCT_STATE eq 0 }">
               	<li>
               	<label>남은 수량 : </label>
               	<span style="color:red"> ${product.REMAININVENTORY }개</span></li>
@@ -475,12 +475,12 @@ function fn_deleteQuestionComment(inputComment){
               <label>판매종료일:</label>
               <span><fmt:formatDate value="${product.PRODUCT_ENDDATE }" pattern="yyyy-MM-dd"/></span></li>
             <c:choose>
-            	<c:when test="${product.PRODUCT_STEP eq 1 and  product.PRODUCT_STEP eq 3 and product.PRODUCT_STEP eq 4}">
+            	<c:when test="${product.PRODUCT_STATE ne 0}">
             	<li>
 	              <label>판매 남은일:</label>
-	              <span id="remainperiod" style="color:red">마감된 상품입니다.</span></li>
+	              <span id="remainperiod" style="color:red">주문 마감된 상품입니다.</span></li>
 	           </c:when>
-	           <c:when test="${product.PRODUCT_STEP eq 1 }">
+	           <c:when test="${product.PRODUCT_STATE eq 0 }">
 	            <li>
 	            <label>판매 남은일:</label>
 	            <span id="remainperiod" style="color:red">${product.REMAINPERIOD }일</span></li>
@@ -535,7 +535,7 @@ function fn_deleteQuestionComment(inputComment){
                
                 <!-- 결제 버튼 -->
                 <c:choose>
-                <c:when test="${product.PRODUCT_STEP ne 0 }">
+                <c:when test="${product.PRODUCT_STATE ne 0 }">
                 	<input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기" disabled/>
                 </c:when>
                 <c:otherwise>
