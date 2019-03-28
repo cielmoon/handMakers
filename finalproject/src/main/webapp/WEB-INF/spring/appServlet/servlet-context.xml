@@ -50,6 +50,7 @@
 			<exclude-mapping path="/member/memberWithdrawalEnds.do" />
 			<exclude-mapping path="/member/mailSending.do"/>
 			<exclude-mapping path="/member/memberIdFind.do"/>
+			<exclude-mapping path="/member/mailCheck.do"/>
 			<exclude-mapping path="/member/mailSendingForPwd.do"/>
 			<exclude-mapping path="/member/newPwdChange.do"/>
 			<beans:bean id="loggerInterceptor"
