@@ -793,13 +793,13 @@ function fn_imageViewChange(subImg){
             
             </script>
             
-            <c:if test="${member!=null && orderList[0].ORDER_PAYSTATE eq '3' }">
+            <c:if test="${member!=null && orderList[0].ORDER_PAYSTATE ne '2' }">
             <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do?tab=${tab}">
               <div  id="div-review">
                  <c:if test="${orderList.size()>0 }">
                  <select class="form-control" id="orderList">
                  <c:forEach items="${orderList }" var="order">
-                 <c:if test="${order.ORDER_PAYSTATE eq '3'}">
+                 <c:if test="${order.ORDER_PAYSTATE ne '2'}">
                     <option value="${order.ORDER_NO }">${order.PRODUCT_TITLE }</option>
                  </c:if>
                  </c:forEach>
