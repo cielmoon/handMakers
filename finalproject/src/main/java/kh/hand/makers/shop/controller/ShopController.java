@@ -489,7 +489,7 @@ public class ShopController {
 					// 판매이력 insert 성공
 					logger.debug("판매이력 Insert 성공 ");
 					// product 초기화 cursell + 누적 cursell = 0 state = 3
-					int updateProductCSResult = orderService.updateProductCS(productNo);
+					int updateProductCSResult = orderService.updateProductCSS(productNo);
 
 					if (updateProductCSResult > 0) {
 						logger.debug("초기화 성공 ");

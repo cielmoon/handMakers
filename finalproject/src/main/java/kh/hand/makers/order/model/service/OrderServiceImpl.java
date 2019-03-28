@@ -180,6 +180,12 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return dao.orderInsertSecond(order);
 	}
+
+	@Override
+	public int updateProductCSS(String productNo) {
+		// TODO Auto-generated method stub
+		return dao.updateProductCSS(productNo);
+	}
 	
 	
 	

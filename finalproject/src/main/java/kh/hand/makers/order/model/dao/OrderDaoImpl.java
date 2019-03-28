@@ -157,6 +157,12 @@ public class OrderDaoImpl implements OrderDao {
 		// TODO Auto-generated method stub
 		return session.insert("order.orderInsertSecond",order);
 	}
+
+	@Override
+	public int updateProductCSS(String productNo) {
+		// TODO Auto-generated method stub
+		return session.update("order.updateProductCSS",productNo);
+	}
 	
 	
 

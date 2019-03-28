@@ -27,7 +27,7 @@ public interface OrderDao {
 	
 	
 	int updateOrderStateSecond(Map<String,Object> psMap);
-	
+	int updateProductCSS(String productNo);
 	int orderInsert(Order order);
 	int orderInsertSecond(Order order);
 	int updateProductQty(Map<String,Object> updateProduct);

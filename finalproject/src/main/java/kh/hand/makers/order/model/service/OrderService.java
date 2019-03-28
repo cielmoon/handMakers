@@ -31,6 +31,7 @@ public interface OrderService {
 	int updateProductQty(Map<String,Object> updateProduct);
 	int salesInsert(DefaultProduct ds);
 	int updateProductCS(String productNo);
+	int updateProductCSS(String productNo);
 	int salesInsertFirst(DefaultProduct ds);
 	int updatePStateEnd(String productNo);
 
