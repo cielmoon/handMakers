@@ -42,4 +42,7 @@ public interface MemberService {
 	
 	int selectProductState(String productNo);
 	int updateProductState(String productNo);
+	int deleteSaleProduct(String salesNo);
+	
+	String selectSalseNo(String productNo);
 }

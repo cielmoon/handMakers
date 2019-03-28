@@ -254,7 +254,7 @@
 	<select id="selectRequestCount" resultType="_int"
 		parameterType="string">
 		select count(*) from SELLER_REQUEST where
-		SELLER_REQ_TYPE = #{reqRef}
+		SELLER_REQ_TYPE = #{reqRef} 
 	</select>
 
 	<select id="selectRequestList" parameterType="string"	resultMap="sellerRequestMap">
@@ -269,9 +269,8 @@
 		"seller_req_process", MEMBER.MEMBER_ID as "member_id" from
 		SELLER_REQUEST join member on (member.member_no =
 		SELLER_REQUEST.member_no)
-		where SELLER_REQ_TYPE = #{reqRefType}
-		order by
-		SELLER_REQ_DATE
+		where SELLER_REQ_TYPE = #{reqRefType} 
+		order by SELLER_REQ_DATE
 	</select>
 
 	<select id="selectBrandName" parameterType="string"
@@ -419,7 +418,7 @@
 		"seller_req_process", MEMBER.MEMBER_ID as "member_id" from
 		SELLER_REQUEST join member on (member.member_no =
 		SELLER_REQUEST.member_no)
-		where SELLER_REQ_TYPE = #{state}
+		where SELLER_REQ_TYPE = #{state} and (SELLER_REQUEST.SELLER_REQ_STATE in ('1','3','d','e','f'))
 		order by
 		SELLER_REQ_DATE
 	</select>
@@ -428,7 +427,7 @@
 		select count(*) from
 		SELLER_REQUEST join member on (member.member_no =
 		SELLER_REQUEST.member_no)
-		where SELLER_REQ_TYPE = #{state}
+		where SELLER_REQ_TYPE = #{state} and (SELLER_REQUEST.SELLER_REQ_STATE in ('1','3','d','e','f'))
 		order by
 		SELLER_REQ_DATE
 	</select>
@@ -445,7 +444,7 @@
 		"seller_req_process", MEMBER.MEMBER_ID as "member_id" from
 		SELLER_REQUEST join member on (member.member_no =
 		SELLER_REQUEST.member_no)
-		where SELLER_REQ_NO = #{sellerReqNo}
+		where SELLER_REQ_NO = #{sellerReqNo} 
 		order by SELLER_REQ_DATE
 	</select>
 	

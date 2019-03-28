@@ -228,4 +228,15 @@
 	<update id="updateProductState" parameterType="string">
 		UPDATE PRODUCT SET PRODUCT_STATE= 0 where PRODUCT_NO=#{productNo}
 	</update>
+	
+	<delete id="deleteSaleProduct" parameterType="string">
+		DELETE FROM sales_records WHERE salesrecords_no = #{salesNo}
+	</delete>
+	
+	<select id="selectSalseNo" parameterType="string" resultType="string">
+		SELECT salesrecords_no FROM (SELECT * FROM sales_records where product_no = #{productNo} ORDER BY salesrecords_no DESC) WHERE ROWNUM = 1
+
+	</select>
+	
+	
 </mapper>

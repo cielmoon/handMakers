@@ -107,6 +107,14 @@
 			return false;
 		}
 		
+		if(parseInt($("#productNewPrice").val()) < 1000){
+			alert("상품가격은 1천원 이상이어야 합니다.");
+			$("#productNewPrice").val('');
+			$("#productNewPrice").focus();
+			
+			return false;
+		}
+		
 		return true;
 	};
 	
@@ -124,6 +132,7 @@
 					return;
 				}
 			}
+			
 			if(productNewPrice.length > 7 ){
 				alert("상품은 1천원 ~ 1천만원 사이의 금액만 입력 가능합니다.");
 				$("#productNewPrice").val('');
@@ -185,7 +194,7 @@
 			});
 		
 		$("#productNewMax").blur(function() {			
-			if (parseInt($("#productNewMin").val()) >= parseInt($("#productNewMax").val())) {
+			if (parseInt($("#productNewMin").val()) > parseInt($("#productNewMax").val())) {
 				alert("최대 주문량은 최소 주문량보다 크게 입력해주세요.")
 				$("#productNewMin").val('');
 				$("#productNewMax").val('');

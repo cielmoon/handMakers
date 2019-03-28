@@ -784,7 +784,7 @@ public class MemberController {
 		productMap.put("productNo", productNo);
 
 		int result = 0;
-
+		
 		try {
 			// 주문 상태 바꾸는 로직
 			result = orderService.updateOrderState(map);
@@ -795,7 +795,12 @@ public class MemberController {
 				int productState = service.selectProductState(productNo.trim());
 				if(productState == 3) {
 					int updateR = service.updateProductState(productNo.trim());
+					String salesNo = service.selectSalseNo(productNo.trim());
+			
 					result = productService.updateProductMinus(productMap);
+					
+					//productNo의 판매이력중 제일 최근꺼 삭제
+					int deleteResult = service.deleteSaleProduct(salesNo);
 				}else {
 					result = productService.updateProductMinus(productMap);
 				}
