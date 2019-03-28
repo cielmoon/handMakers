@@ -80,6 +80,6 @@ public interface ShopService {
 	int orderAllListCount(Map<String,Object> map);
 	List<Map<String, Object>> selectOrderAll(Map<String,Object> map, int cPage, int numPerPage);
 	
-	int selectNextOrder(int saleCount);
+	int selectNextOrder(int saleCount, String productNo);
 	
 }

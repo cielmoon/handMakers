@@ -313,8 +313,17 @@ public class ShopController {
 		List<Map<String, String>> orderList = service.selectOrderList(productNo, cPage, numPerPage);
 		// 입점예정인지 아닌지 확인이 필요함 - 입점예정시 CurrSell은 product값, 신규일시 CurrSell은 로직으로 가져와야함
 		int saleCount = service.selectSaleEmpty(productNo);
-	
-		if(saleCount <= 1) {
+
+		int nextOrderCount = service.selectNextOrder(saleCount, productNo);
+		
+		if(p.getProductState() == 4)
+		{
+			nextOrderCount = 0;
+		}
+		
+		if(nextOrderCount > 0) {
+			//다음주문이 들어온것
+
 			Map<String, Object> map = new HashMap<>();
 			map.put("productNo", productNo);
 			map.put("saleCount", 0);

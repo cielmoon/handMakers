@@ -1,5 +1,6 @@
 package kh.hand.makers.shop.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +23,13 @@ public class ShopDaoImpl implements ShopDao {
 	SqlSessionTemplate sqlSession;
 	
 	@Override
-	public int selectNextOrder(int saleCount) {
+	public int selectNextOrder(int saleCount, String productNo) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("shop.selectNextOrder", saleCount);
+		Map<String, Object> map = new HashMap<>();
+		map.put("saleCount", saleCount);
+		map.put("productNo", productNo);
+		
+		return sqlSession.selectOne("shop.selectNextOrder", map);
 	}
 
 	@Override
