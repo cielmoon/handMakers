@@ -309,14 +309,14 @@
 
 	<update id="updateProductMinus" parameterType="map">
 		UPDATE PRODUCT SET
-		PRODUCT_CURSELL=(PRODUCT_CURSELL-#{productOptionQty}),	
+		PRODUCT_CURSELL=(PRODUCT_CURSELL-#{productOptionQty})
 		WHERE PRODUCT_NO
 		= #{productNo}
 	</update>
 
 	<update id="updatePMinus" parameterType="map">
 		UPDATE PRODUCT SET
-		PRODUCT_CURSELL=(PRODUCT_CURSELL-#{productOptionQty}),
+		PRODUCT_CURSELL= (PRODUCT_CURSELL - #{productOptionQty}),
 		PRODUCT_STATE = 0
 		WHERE PRODUCT_NO
 		= #{productNo}

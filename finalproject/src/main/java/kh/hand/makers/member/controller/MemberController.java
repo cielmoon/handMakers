@@ -790,7 +790,7 @@ public class MemberController {
 		psMap.put("productNo", productNo.trim());
 
 		int result = 0;
-
+		int results = 0;
 		try {
 			// 주문 상태 바꾸는 로직
 			DefaultProduct ds = productService.selectDefaltProduct(productNo);
@@ -799,11 +799,16 @@ public class MemberController {
 			if (saleCount > 0) {
 				// 신규 자기 회차 넣어서
 				psMap.put("saleCount", saleCount);
+				
 				result = orderService.updateOrderStateSecond(psMap);
 				if(ds.getProductState() == 3) {
-					int results = productService.updatePMinus(productMap);	
+					logger.debug("판매종료");
+					results = productService.updatePMinus(productMap);	
+					System.out.println("result: "+results);
 				}else {
-					int results = productService.updateProductMinus(productMap);	
+					logger.debug("판매종료X");
+					results = productService.updateProductMinus(productMap);	
+					System.out.println("result: "+results);
 				}
 						
 
@@ -811,9 +816,13 @@ public class MemberController {
 				// 입점예정
 				result = orderService.updateOrderState(map);
 				if(ds.getProductState() == 3) {
-					int results = productService.updatePMinus(productMap);	
+					logger.debug("입점판매종료");
+					results = productService.updatePMinus(productMap);	
+					System.out.println("result: "+results);
 				}else {
-					int results = productService.updateProductMinus(productMap);	
+					logger.debug("입점판매종료X");
+					results = productService.updateProductMinus(productMap);	
+					System.out.println("result: "+results);
 				}
 				
 			}
@@ -845,13 +854,13 @@ public class MemberController {
 			e.printStackTrace();
 		}
 
-		logger.debug("result" + result);
+		logger.debug("results" + results);
 		// response.getWriter().print(result);
 
 		String msg = "";
 		String loc = "/member/manageOrder.do";
 
-		if (result > 0) {
+		if (results > 0) {
 			msg = "결제 취소에 성공했습니다.";
 		} else {
 			msg = "결제 취소에 실패했습니다.";
