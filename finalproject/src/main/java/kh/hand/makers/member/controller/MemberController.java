@@ -796,7 +796,7 @@ public class MemberController {
 				if(productState == 3) {
 					int updateR = service.updateProductState(productNo.trim());
 					String salesNo = service.selectSalseNo(productNo.trim());
-			
+					
 					result = productService.updateProductMinus(productMap);
 					
 					//productNo의 판매이력중 제일 최근꺼 삭제

@@ -241,9 +241,9 @@
 		SELECT count(*) FROM PRODUCT WHERE PRODUCT_NO=#{productNo} AND PRODUCT_MAX=PRODUCT_CURSELL+#{productOptionQty}
 	</select>
 	
-	<insert id="insertProductSalesRecord" parameterType="string">
+	<insert id="insertProductSalesRecord" parameterType="order">
 		INSERT INTO SALES_RECORDS
-        SELECT SEQ_SALESRECORDS_NO.NEXTVAL, PRODUCT_ENROLLDATE, PRODUCT_ENDDATE, PRODUCT_CURSELL, PRODUCT_PRICE, (PRODUCT_CURSELL * PRODUCT_PRICE), 5, (PRODUCT_CURSELL * PRODUCT_PRICE) - ((PRODUCT_CURSELL * PRODUCT_PRICE) * 0.05), PRODUCT_NO
+        SELECT SEQ_SALESRECORDS_NO.NEXTVAL, PRODUCT_ENROLLDATE, PRODUCT_ENDDATE, PRODUCT_CURSELL+#{productOptionQty}, PRODUCT_PRICE, ((PRODUCT_CURSELL+#{productOptionQty}) * PRODUCT_PRICE), 5, ((PRODUCT_CURSELL+#{productOptionQty}) * PRODUCT_PRICE) - (((PRODUCT_CURSELL+#{productOptionQty}) * PRODUCT_PRICE) * 0.05), PRODUCT_NO
         FROM PRODUCT 
         WHERE PRODUCT_NO=#{productNo} 
 	</insert>
@@ -267,8 +267,8 @@
 		SELECT * FROM PRODUCT WHERE PRODUCT_NO=#{productNo}
 	</select>
 	
-	<update id="updateProductStateYewon" parameterType="string">
-		UPDATE PRODUCT SET PRODUCT_TOTALSELL = 0, PRODUCT_CURSELL = 999, PRODUCT_STATE = '3' WHERE PRODUCT_NO = #{productNo}
+	<update id="updateProductStateYewon" parameterType="order">
+		UPDATE PRODUCT SET PRODUCT_TOTALSELL = (PRODUCT_TOTALSELL + PRODUCT_CURSELL + #{productOptionQty}), PRODUCT_CURSELL = 0, PRODUCT_STATE = '3' WHERE PRODUCT_NO = #{productNo}
 	</update>
-	<!-- (PRODUCT_TOTALSELL + PRODUCT_CURSELL) -->
+	
 </mapper>

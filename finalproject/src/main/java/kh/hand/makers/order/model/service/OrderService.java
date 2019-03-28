@@ -19,4 +19,7 @@ public interface OrderService {
 	int updateResetOrder(Map<String,String> map);
 	int updateResetProduct(Map<String,Object> map);
 	int deleteOrder(String orderNo);
+	int selectProductCheck(Order order);
+	int insertProductSalesRecord(Order order);
+	int updateProductStateYewon(Order order);
 }
