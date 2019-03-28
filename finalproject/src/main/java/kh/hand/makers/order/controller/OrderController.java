@@ -241,19 +241,23 @@ public class OrderController {
 			loc = "/order/orderEnroll.do?productNo="+productNo;
 		}else {
 			state = "T";
-			result = service.insertOrderEnroll(order);
+			int yechk = service.insertOrderEnroll(order);
 			Map<String,Object> insertMap = new HashMap();
 			
 			
 			insertMap.put("productNo", productNo);
 			insertMap.put("productOptionQty", productOptionQty);
 		
-			
+			logger.debug("asgdasghdasdjgasgdagshdgahsdgahgsdahsd"+yechk);
 			int updateResult = 0;
 			
 			if(result>0) {
 				updateResult = service.updateProductSell(insertMap);
-				
+				if(yechk == 0)
+				{
+					service.insertProductSalesRecord(order.getProductNo());
+					service.updateProductStateYewon(order.getProductNo());
+				}
 				if(updateResult>0) {
 					msg = "결제 완료되었습니다 이용해주셔서 감사합니다.";
 					loc = "/member/manageOrder.do";

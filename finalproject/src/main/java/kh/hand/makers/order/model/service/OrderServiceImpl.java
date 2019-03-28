@@ -48,15 +48,15 @@ public class OrderServiceImpl implements OrderService {
 			int r = dao.selectProductCheck(order); //갯수 다샀나 체크
 			if(r > 0) {
 				
-				map.put("productNo", order.getProductNo());
-				map.put("productOptionQty", order.getProductOptionQty());
-				dao.updateProductSell(map);//yewon add.//기록하기전에 프로덕트에 지금 주문업데이트 해야지 이사람아!ㅡ ㅡ
+				//map.put("productNo", order.getProductNo());
+				//map.put("productOptionQty", order.getProductOptionQty());
+				//dao.updateProductSell(map);//yewon add.//기록하기전에 프로덕트에 지금 주문업데이트 해야지 이사람아!ㅡ ㅡ
 				result = 0;					
-				result = dao.insertProductSalesRecord(order.getProductNo());// 아카이브기록 (판매이력)
+				//result = dao.insertProductSalesRecord(order.getProductNo());// 아카이브기록 (판매이력)
 				if(result>0) {
 					result = 0;
 					//result = dao.updateProductState(order.getProductNo());//판매종료로 업데이트
-					result = dao.updateProductStateYewon(order.getProductNo());
+					//result = dao.updateProductStateYewon(order.getProductNo());
 					//+그 후에 프로덕트에 초기화 + 누적++ 작업없음
 				}
 			}
@@ -123,6 +123,18 @@ public class OrderServiceImpl implements OrderService {
 	public int deleteOrder(String orderNo) {
 		
 		return dao.deleteOrder(orderNo);
+	}
+
+	@Override
+	public int updateProductStateYewon(String productNo) {
+		// TODO Auto-generated method stub
+		return updateProductStateYewon(productNo);
+	}
+
+	@Override
+	public int insertProductSalesRecord(String productNo) {
+		// TODO Auto-generated method stub
+		return dao.insertProductSalesRecord(productNo);
 	}
 	
 	
