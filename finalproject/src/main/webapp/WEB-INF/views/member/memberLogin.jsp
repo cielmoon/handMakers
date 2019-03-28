@@ -292,10 +292,10 @@
 						<div class="well">						
 							<form name="memberLoginFrm" action="${pageContext.request.contextPath}/member/memberLoginEnd.do" method="post" onsubmit="return validate();" >
 								<div class="form-group">							
-									<input type="text" class="form-control" id="memberId" placeholder="아이디" name="memberId">
+									<input type="text" class="form-control" id="memberId" placeholder="아이디" name="memberId" maxlength="18">
 								</div>
 								<div class="form-group">							
-									<input type="password" class="form-control" id="memberPwd" placeholder="패스워드" value="" name="memberPwd"> 
+									<input type="password" class="form-control" id="memberPwd" placeholder="패스워드" value="" name="memberPwd" maxlength="22"> 
 					 				
 					 				
 					 				<a href="#" data-toggle="modal" data-target="#findIdModal">아이디 찾기</a>
