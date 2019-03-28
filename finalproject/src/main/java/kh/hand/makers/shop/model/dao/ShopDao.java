@@ -80,4 +80,5 @@ public interface ShopDao {
 	int selectSaleEmpty(String productNo);
 	List<Map<String, Object>> selectOrderAll(Map<String,Object> map, int cPage, int numPerPage);
 	int orderAllListCount(Map<String,Object> map);
+	int selectNextOrder(int saleCount);
 }

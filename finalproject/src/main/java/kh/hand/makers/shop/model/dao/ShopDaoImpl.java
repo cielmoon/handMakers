@@ -22,6 +22,12 @@ public class ShopDaoImpl implements ShopDao {
 	SqlSessionTemplate sqlSession;
 	
 	@Override
+	public int selectNextOrder(int saleCount) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("shop.selectNextOrder", saleCount);
+	}
+
+	@Override
 	public int selectSaleEmpty(String productNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("shop.selectSaleEmpty", productNo);

@@ -79,4 +79,7 @@ public interface ShopService {
 	int selectSaleEmpty(String productNo);
 	int orderAllListCount(Map<String,Object> map);
 	List<Map<String, Object>> selectOrderAll(Map<String,Object> map, int cPage, int numPerPage);
+	
+	int selectNextOrder(int saleCount);
+	
 }

@@ -274,4 +274,8 @@
 		P.SALESCOUNT = #{saleCount}
 		ORDER BY ORDER_DATE DESC
 	</select>
+	
+	<select id="selectNextOrder" resultType="_int"	parameterType="_int">
+		SELECT COUNT(*) FROM PRODUCT_ORDER WHERE SALESCOUNT = #{saleCount}
+	</select>
 </mapper>

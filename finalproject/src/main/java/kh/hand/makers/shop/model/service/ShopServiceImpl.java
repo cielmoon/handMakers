@@ -21,6 +21,12 @@ public class ShopServiceImpl implements ShopService {
 	ShopDao dao;
 	
 	@Override
+	public int selectNextOrder(int saleCount) {
+		// TODO Auto-generated method stub
+		return dao.selectNextOrder(saleCount);
+	}
+
+	@Override
 	public List<Brand> selectBrandList(String memberNo) {
 		return dao.selectBrandList(memberNo);
 	}

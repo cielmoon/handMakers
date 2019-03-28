@@ -313,24 +313,48 @@ public class ShopController {
 		List<Map<String, String>> orderList = service.selectOrderList(productNo, cPage, numPerPage);
 		// 입점예정인지 아닌지 확인이 필요함 - 입점예정시 CurrSell은 product값, 신규일시 CurrSell은 로직으로 가져와야함
 		int saleCount = service.selectSaleEmpty(productNo);
+		int nextOrderCount = service.selectNextOrder(saleCount);
 		
-		Map<String, Object> map = new HashMap<>();
-		map.put("productNo", productNo);
-		map.put("saleCount", saleCount);
-		
-		List<Map<String, Object>> orderAllList = service.selectOrderAll(map, cPage, numPerPage);
-		int orderAllListCount = service.orderAllListCount(map);
-		
-		mv.addObject("brand", brand);
-		mv.addObject("orderAllList", orderAllList);
-		mv.addObject("orderAllListCount", orderAllListCount);
-		/* mv.addObject("currSell", currSell); */
-		mv.addObject("product", product);
-		mv.addObject("orderList", orderList);
-		mv.addObject("pageBar", PageFactory.getConditionPageBar(orderAllListCount, cPage, numPerPage,
-				"/makers/shop/brandProductHome.do?productNo=" + productNo + "&brandNo=" + brandNo));
-		mv.addObject("index", ((cPage - 1) * 10) + 1);
-		mv.setViewName("shop/brandProductHome");
+		if(nextOrderCount > 0) {
+			//다음주문이 들어온것
+			Map<String, Object> map = new HashMap<>();
+			map.put("productNo", productNo);
+			map.put("saleCount", saleCount);
+			
+			List<Map<String, Object>> orderAllList = service.selectOrderAll(map, cPage, numPerPage);
+			int orderAllListCount = service.orderAllListCount(map);
+			
+			mv.addObject("brand", brand);
+			mv.addObject("orderAllList", orderAllList);
+			mv.addObject("orderAllListCount", orderAllListCount);
+			/* mv.addObject("currSell", currSell); */
+			mv.addObject("product", product);
+			mv.addObject("orderList", orderList);
+			mv.addObject("pageBar", PageFactory.getConditionPageBar(orderAllListCount, cPage, numPerPage,
+					"/makers/shop/brandProductHome.do?productNo=" + productNo + "&brandNo=" + brandNo));
+			mv.addObject("index", ((cPage - 1) * 10) + 1);
+			mv.setViewName("shop/brandProductHome");
+		}else {
+			//아직 새로운 주문이 안들어온것
+			Map<String, Object> map = new HashMap<>();
+			map.put("productNo", productNo);
+			map.put("saleCount", saleCount-1);
+			
+			List<Map<String, Object>> orderAllList = service.selectOrderAll(map, cPage, numPerPage);
+			int orderAllListCount = service.orderAllListCount(map);
+			
+			mv.addObject("brand", brand);
+			mv.addObject("orderAllList", orderAllList);
+			mv.addObject("orderAllListCount", orderAllListCount);
+			/* mv.addObject("currSell", currSell); */
+			mv.addObject("product", product);
+			mv.addObject("orderList", orderList);
+			mv.addObject("pageBar", PageFactory.getConditionPageBar(orderAllListCount, cPage, numPerPage,
+					"/makers/shop/brandProductHome.do?productNo=" + productNo + "&brandNo=" + brandNo));
+			mv.addObject("index", ((cPage - 1) * 10) + 1);
+			mv.setViewName("shop/brandProductHome");
+		}
+
 	
 		return mv;
 
