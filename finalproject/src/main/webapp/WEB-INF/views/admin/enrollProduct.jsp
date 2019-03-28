@@ -70,7 +70,9 @@
 #product_option_table > tbody > tr:nth-child(2) > td > div > div.note-toolbar.panel-heading > div.note-btn-group.btn-group.note-view > button:nth-child(3) {
 	display: none;
 }
-
+#tbody_t{
+	max-width: 400px;
+}
 </style>
 
 <script>
@@ -92,10 +94,11 @@
       		datePicker.min = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
    		  }
 		  
-	      $('#summernote').summernote({
+	      $('#summernote').summernote({	   
+	    	  width: 860,
 	          height: 300,
-	          minHeight: null,
-	          maxHeight: null,
+	          maxWidth: 400, 
+	          maxHeight: 600,
 	          focus: true,
 	          callbacks: {
 	            onImageUpload: function(files, editor, welEditable) {
@@ -178,7 +181,15 @@
 		if ($("#newProductPrice").val() == "") {
 			alert("상품 가격을 입력해주세요.");
 			$("#newProductPrice").focus();
-
+			return false;
+			
+		}
+		
+		if(parseInt($("#newProductPrice").val()) < 1000){
+			alert("상품가격은 1천원 이상이어야 합니다.");
+			$("#newProductPrice").val('');
+			$("#newProductPrice").focus();
+			
 			return false;
 		}
 	
@@ -283,8 +294,8 @@
 				return;
 			}
 		})
-		
-		$("#newProductPrice").keyup(function() {
+	
+		$("#newProductPrice").on('change keyup paste', (function () {
 			var newProductPrice = $("#newProductPrice").val();
 			if (newProductPrice.length > 0) {
 				if(!numberRegex.test(newProductPrice)) {
@@ -295,7 +306,13 @@
 					return;
 				}
 			}
-		})
+			if(newProductPrice.length > 7 ){
+				alert("상품은 1천원 ~ 1천만원 사이의 금액만 입력 가능합니다.");
+				$("#newProductPrice").val('');
+				return;
+				
+			}
+		}))
 		
 		$("#newProductMin").keyup(function() {
 			var newProductMin = $("#newProductMin").val();
@@ -596,7 +613,7 @@ $(function(){
 								<div class="form-group required">
 									<label for="adminProductPrice" class="col-sm-2 control-label">상품가격</label>
 									<div class="col-sm-4">
-										<input type="text" class="form-control" id="newProductPrice" name="newProductPrice" placeholder="상품가격을 적어주세요(원)">								
+										<input type="text" class="form-control" id="newProductPrice" name="newProductPrice" min="1000" max="10000000" placeholder="상품가격을 적어주세요(원)">								
 									</div>
 									<label for="adminProductSale" class="col-sm-2 control-label">할인율</label>
 									<div class="col-sm-4">									
@@ -706,7 +723,7 @@ $(function(){
 							<fieldset>
 								<table class="table table-bordered board"
 									id="product_option_table" name="product_option_table">
-									<tbody class="tbody_">										
+									<tbody class="tbody_t" id="tbody_t" >										
 										<tr><td>상품 상세내용 작성</td></tr>
 										<tr>
 											<td>
