@@ -99,8 +99,7 @@
 
 	<update id="memberUpdate" parameterType="member">
 		UPDATE MEMBER SET
-		member_name=#{memberName},
-		member_email=#{memberEmail},
+		member_name=#{memberName},		
 		member_phone=#{memberPhone}
 		where member_no=#{memberNo}
 	</update>
@@ -145,9 +144,8 @@
 		by ORDER_DATE desc
 	</select>
 
-	<select id="selectOrderCount" resultType="_int">
-		select count(*) from
-		product_order
+	<select id="selectOrderCount" parameterType="string" resultType="_int">
+		select count(*) from product_order where member_no = #{memberNo}
 	</select>
 
 	<select id="selectWishList" parameterType="string"
@@ -202,8 +200,7 @@
 	</update>
 	
 	<update id="updateOrderState" parameterType="string">
-		UPDATE product_order SET order_paystate= '3'
-		where order_no = #{orderNo}
+		UPDATE product_order SET order_paystate= '3' where order_no = #{orderNo}
 	</update>
 	
 	<select id="memberEmailFind" parameterType="string" resultMap="memberType">
@@ -222,5 +219,13 @@
 	<update id="updateBrandWithdrawl" parameterType="string">
 		UPDATE BRAND SET BRAND_STATE= 'e'
 		where BRAND_NO=#{brandNo}
+	</update>
+	
+	<select id="selectProductState" parameterType="string" resultType="_int">
+		select product_state from product where product_no = #{productNo}
+	</select>
+	
+	<update id="updateProductState" parameterType="string">
+		UPDATE PRODUCT SET PRODUCT_STATE= 0 where PRODUCT_NO=#{productNo}
 	</update>
 </mapper>

@@ -101,9 +101,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int selectOrderCount() {
+	public int selectOrderCount(String memberNo) {
 		// TODO Auto-generated method stub
-		return dao.selectOrderCount();
+		return dao.selectOrderCount(memberNo);
 	}
 
 	@Override
@@ -164,6 +164,18 @@ public class MemberServiceImpl implements MemberService {
 	public int updateBrandWithdrawl(String brandNo) {
 		// TODO Auto-generated method stub
 		return dao.updateBrandWithdrawl(brandNo);
+	}
+
+	@Override
+	public int selectProductState(String productNo) {
+		// TODO Auto-generated method stub
+		return dao.selectProductState(productNo);
+	}
+
+	@Override
+	public int updateProductState(String productNo) {
+		// TODO Auto-generated method stub
+		return dao.updateProductState(productNo);
 	}
 	
 	

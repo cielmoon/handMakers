@@ -465,7 +465,7 @@ public class MemberController {
 		int numPerPage = 5;
 		logger.debug("주문/배송 조회");
 		ModelAndView mv = new ModelAndView();
-		int contentCount = service.selectOrderCount();
+		int contentCount = service.selectOrderCount(m.getMemberNo());
 		List<ManageOrder> oList = service.selectOrderList(m, cPage, numPerPage);
 		mv.addObject("pageBar",
 				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/member/manageOrder.do"));
@@ -733,6 +733,7 @@ public class MemberController {
 		String accessToken = null;
 
 		ModelAndView mv = new ModelAndView();
+		//max == 현재판매량 + 내 수량 -> 상품:판매종료
 
 		String test_api_key = "0709424890638444";
 		String test_api_secret = "AblFnSFrDGn4XNWRNAdC4E4dgOosLqbmCx1ZpHr3oP8mC5dqFq3K57YmWmOIN04px6pXOR1cH9zkfMKV";
@@ -790,7 +791,15 @@ public class MemberController {
 
 			if (result > 0) {
 				// 상품 현재 판매량 수량에 맞춰서 마이너스
-				result = productService.updateProductMinus(productMap);
+				
+				int productState = service.selectProductState(productNo.trim());
+				if(productState == 3) {
+					int updateR = service.updateProductState(productNo.trim());
+					result = productService.updateProductMinus(productMap);
+				}else {
+					result = productService.updateProductMinus(productMap);
+				}
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
