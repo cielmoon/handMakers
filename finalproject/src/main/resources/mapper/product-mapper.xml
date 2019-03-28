@@ -145,8 +145,10 @@
 	</delete>
 	
 	<select id="selectCommentCount" parameterType="string" resultType="_int">
-		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} AND COMMENT_LEVEL='1' AND PRODUCT_NO=#{productNo} 
-		<!-- <if test="COMMENT_TYPE = 'R'"></if> -->
+		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} 
+		<if test="COMMENT_TYPE = 'R'">
+			AND COMMENT_LEVEL='1' 
+		</if>
 	</select>
 	
 	<select id="selectCommentR" parameterType="map" resultType="map">
