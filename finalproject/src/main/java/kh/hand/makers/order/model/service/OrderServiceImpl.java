@@ -1,5 +1,6 @@
 package kh.hand.makers.order.model.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,11 +10,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.request.CancelData;
+import com.siot.IamportRestClient.response.AccessToken;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
 
 import kh.hand.makers.order.model.dao.OrderDao;
 import kh.hand.makers.order.model.dao.OrderDaoImpl;
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.order.model.vo.Order;
+import kh.hand.makers.product.model.dao.ProductDao;
+import kh.hand.makers.product.model.dao.ProductDaoImpl;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -22,6 +33,8 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	OrderDao dao = new OrderDaoImpl();
+	@Autowired
+	ProductDao productDao = new ProductDaoImpl();
 	
 	@Override
 	@Transactional
@@ -31,8 +44,8 @@ public class OrderServiceImpl implements OrderService {
 		Map<String,String> map = new HashMap();
 		
 		if(result>0) {
-			map = dao.selectProductCheck(order);
-			if(map != null) {
+			int r = dao.selectProductCheck(order);
+			if(r > 0) {
 				result = 0;
 				result = dao.insertProductSalesRecord(order.getProductNo());
 				if(result>0) {
@@ -92,6 +105,19 @@ public class OrderServiceImpl implements OrderService {
 		
 		return dao.updateResetOrder(map);
 	}
+
+	@Override
+	public int updateResetProduct(Map<String, Object> map) {
+		
+		return dao.updateResetProduct(map);
+	}
+
+	@Override
+	public int deleteOrder(String orderNo) {
+		
+		return dao.deleteOrder(orderNo);
+	}
+	
 	
 	
 

@@ -17,4 +17,6 @@ public interface OrderService {
 	int updateOrderState(Map<String,String> map); 
 	int updateOrder(Map<String,Object> map);
 	int updateResetOrder(Map<String,String> map);
+	int updateResetProduct(Map<String,Object> map);
+	int deleteOrder(String orderNo);
 }

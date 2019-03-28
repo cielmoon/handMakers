@@ -138,8 +138,8 @@ public class AdminController {
 		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
 
 		Map<String, String> sortingProductList = new HashMap<String, String>();// state
-
-		sortingProductList.put("brandNo", "B_NO_1");
+		List<Brand> brandLists = service.selectBrandList();
+		sortingProductList.put("brandNo", brandLists.get(0).getBrandNo());
 		sortingProductList.put("bcNo", "B_C_NO_1");
 		sortingProductList.put("scNo", "S_C_NO_1");
 
@@ -253,8 +253,8 @@ public class AdminController {
 		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
 
 		Map<String, String> sortingProductList = new HashMap<String, String>();// state
-
-		sortingProductList.put("brandNo", "B_NO_1");
+		List<Brand> brandLists = service.selectBrandList();
+		sortingProductList.put("brandNo", brandLists.get(0).getBrandNo());
 		sortingProductList.put("bcNo", "B_C_NO_1");
 		sortingProductList.put("scNo", "S_C_NO_1");
 
@@ -362,8 +362,8 @@ public class AdminController {
 		List<SmallCategory> scList = service.selectScList("B_C_NO_1");
 
 		Map<String, String> sortingProductList = new HashMap<String, String>();// state
-
-		sortingProductList.put("brandNo", "B_NO_1");
+		List<Brand> brandLists = service.selectBrandList();
+		sortingProductList.put("brandNo", brandLists.get(0).getBrandNo());
 		sortingProductList.put("bcNo", "B_C_NO_1");
 		sortingProductList.put("scNo", "S_C_NO_1");
 

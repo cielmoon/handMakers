@@ -50,11 +50,47 @@
 .modal-backdrop, .modal-backdrop.in{
      z-index: -1;
 }/* add yewon summer note modal blank fix */
+
+#product_option_table > tbody > tr:nth-child(2) > td > div > div.note-toolbar.panel-heading > div.note-btn-group.btn-group.note-insert > button:nth-child(3) {
+	display: none;
+}
+
+#product_option_table > tbody > tr:nth-child(2) > td > div > div.note-toolbar.panel-heading > div.note-btn-group.btn-group.note-insert > button:nth-child(1) {
+	display: none;
+}
+
+#product_option_table > tbody > tr:nth-child(2) > td > div > div.note-toolbar.panel-heading > div.note-btn-group.btn-group.note-view > button.note-btn.btn.btn-default.btn-sm.btn-fullscreen {
+	display: none;
+}
+
+#product_option_table > tbody > tr:nth-child(2) > td > div > div.note-toolbar.panel-heading > div.note-btn-group.btn-group.note-view > button.note-btn.btn.btn-default.btn-sm.btn-codeview {
+	display: none;
+}
+
+#product_option_table > tbody > tr:nth-child(2) > td > div > div.note-toolbar.panel-heading > div.note-btn-group.btn-group.note-view > button:nth-child(3) {
+	display: none;
+}
+
 </style>
 
 <script>
+
 	$(document).ready(function() {
 		  $("#newProductProfile").on("change", enrollMainImg);
+		  
+		  var today = new Date();
+		  var year = today.getFullYear();
+		  var month = ("0" + (today.getMonth() + 1)).slice(-2);
+		  var day = ("0" + (today.getDate() + 1)).slice(-2);
+			
+		  var minDate = (year + "-" + month + "-" + day);
+			
+		  $("#newProductSaleEnd").attr("min", minDate);
+		  
+		  function fn_setDatePickerMax(){
+      		var datePicker = $('#newProductSaleEnd');
+      		datePicker.min = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+   		  }
 		  
 	      $('#summernote').summernote({
 	          height: 300,
@@ -69,7 +105,7 @@
 	            }
 	      }
 	    });
-	     
+
 		$("#select-bigCategory").change(function(){
 			var bcNo = $("#select-bigCategory").find(":selected").val();
 			/* 소카테고리 리스트 초기화  */
@@ -91,12 +127,7 @@
 			});
 		});
 	});
-	
-	 function fn_setDatePickerMax(){
-	      var datePicker = $('#newProductSaleEnd');
-	      datePicker.max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
-	}
-	
+
     function sendFile(file, el) {
         var form_data = new FormData();
         var path = '${path}' + "/resources/image/product/";
@@ -117,11 +148,18 @@
       }
 	
 	function validate() {
-		var date = new Date();
-		var selectedEndDate = $("#newProductSaleEnd").val();
-		var selectedEndDateArr = selectedEndDate.split('-');
-		var endDate = new Date(selectedEndDateArr[0], parseInt(selectedEndDateArr[1]) -1, selectedEndDateArr[2]);
-		var priceRegex = /^[0-9]+$/;
+		/* var textArea = $("#note-codable").val();
+		console.log("textArea : " + textArea);
+		
+		if(textArea.trim().length < 0) {
+			alert("상품 상세내용을 입력해주세요.");
+			$("#note-codable").focus();
+			
+			return false;
+		} */
+		var html = $('#summernote').summernote('code');
+
+
 		
 		if ($("#newProductName").val() == "") {
 			alert("상품명을 입력해주세요.");
@@ -137,13 +175,6 @@
 			return false;
 		}
 
-		if ($("#newProductMemberId").val() == "") {
-			alert("판매자의 아이디를 입력해주세요.");
-			$("#newProductMemberId").focus();
-
-			return false;
-		}
-
 		if ($("#newProductPrice").val() == "") {
 			alert("상품 가격을 입력해주세요.");
 			$("#newProductPrice").focus();
@@ -151,7 +182,6 @@
 			return false;
 		}
 	
-		// 추가할 제약조건 : 할인율은 0부터 100까지로 설정해줘야 함
 		if ($("#newProductSale").val() == "") {
 			alert("할인율을 입력해주세요.");
 			$("#newProductSale").focus();
@@ -159,7 +189,6 @@
 			return false;
 		}
 		
-		// 추가할 제약조건 : 상품 마감날짜는 무조건 등록날짜 이후여야 함
 		if ($("#newProductSaleEnd").val() == "") {
 			alert("상품 마감 날짜를 입력해주세요.");
 			$("#newProductSaleEnd").focus();
@@ -173,8 +202,7 @@
 
 			return false;
 		}
-	
-		// 추가할 제약조건 : 최대주문량은 최소주문량보다 커야 함
+
 		if ($("#newProductMax").val() == "") {
 			alert("최대 주문량을 입력해주세요.");
 			$("#newProductMax").focus();
@@ -196,15 +224,15 @@
 			return false;
 		}
 		
-		/* for (var i = 1; i < 10; i++) {
-			if ($("#newProductDetailImg" + i).val() == "") {
+		for (var i = 1; i < 10; i++) {
+			if ($(".newProductDetailImg" + i).val() == "") {
 				
 				alert("추가할 상품 사진을 등록해주세요.");
 				$("#newProductDetailImg" + i).focus();
 				
 				return false;
 			}
-		} */
+		}
 		
 		if ($("#newProductOption").val() == "") {
 			alert("상품 옵션을 입력해주세요.");
@@ -213,54 +241,116 @@
 			return false;
 		}
  		
-		/* for (var i = 1; i < 10; i++) {
-			if ($("#newProductOption" + i).val() == "") {
+		for (var i = 1; i < 10; i++) {
+			if ($(".newProductOption" + i).val() == "") {
 				
 				alert("추가할 상품 옵션을 등록해주세요.");
 				$("#newProductOption" + i).focus();
 				
 				return false;
 			}
-		} */
+		}
 		
-		if(!priceRegex.test($("#newProductPrice").val())) {
-			alert("상품 가격은 숫자만 입력해주세요.");
-			$("#newProductPrice").val('');
-			$("#newProductPrice").focus();
+		if (html.trim() == "") {
+			alert("상세설명을 입력해주세요.");		
 
 			return false;
 		}
 		
-		if (parseInt($("#newProductSale").val()) < 0 || parseInt($("#newProductSale").val()) > 100) {
-			alert("할인율은 0 ~ 100 사이의 숫자만 입력해주세요.");
-			$("#newProductSale").val('');
-			$("#newProductSale").focus();
-			
-			return false;
-		}
-		
-		if (date >= endDate) {
-			alert("상품 마감 날짜는 오늘 날짜 이후로 선택해주세요.");
-			$("#newProductSaleEnd").val('');
-			$("#newProductSaleEnd").focus();
-			
-			return false;
-		}
-		
-		if (parseInt($("#newProductMin").val()) >= parseInt($("#newProductMax").val())) {
-			alert("최대 주문량은 최소 주문량보다 크게 입력해주세요.")
-			$("#newProductMin").val('');
-			$("#newProductMax").val('');
-			$("#newProductMin").focus();
-			
-			return false;
-		}
-		
-		
 		return true;
 	};
 	
-	// 메인사진 등록
+	$(function() {
+		var numberRegex = /^[0-9]+$/;
+		
+		$("#newProductSale").keyup(function() {
+			var newProductSale = $("#newProductSale").val();
+			if (newProductSale.length > 0) {
+				if(!numberRegex.test(newProductSale)) {
+					alert("할인율은 숫자만 입력해주세요.");
+					$("#newProductSale").val('');
+					/* $("#newProductPrice").focus(); */
+
+					return;
+				}
+			}
+			
+			if (parseInt($("#newProductSale").val()) < 0 || parseInt($("#newProductSale").val()) > 99) {
+				alert("할인율은 0 ~ 99 사이의 숫자만 입력해주세요.");
+				$("#newProductSale").val('');
+				/* $("#newProductSale").focus(); */
+				
+				return;
+			}
+		})
+		
+		$("#newProductPrice").keyup(function() {
+			var newProductPrice = $("#newProductPrice").val();
+			if (newProductPrice.length > 0) {
+				if(!numberRegex.test(newProductPrice)) {
+					alert("상품 가격은 숫자만 입력해주세요.");
+					$("#newProductPrice").val('');
+					/* $("#newProductPrice").focus(); */
+
+					return;
+				}
+			}
+		})
+		
+		$("#newProductMin").keyup(function() {
+			var newProductMin = $("#newProductMin").val();
+			if (newProductMin.length > 0) {
+				if(!numberRegex.test(newProductMin)) {
+					alert("최소 주문량은 숫자만 입력해주세요.");
+					$("#newProductMin").val('');
+					/* $("#newProductPrice").focus(); */
+
+					return;
+				}
+			}
+			
+			if (parseInt($("#newProductMin").val()) < 1 || parseInt($("#newProductMin").val()) > 10000) {
+				alert("최소 주문량은 1 ~ 10000 사이의 숫자만 입력해주세요.");
+				$("#newProductMin").val('');
+				/* $("#newProductSale").focus(); */
+				
+				return;
+			}
+		})
+		
+		$("#newProductMax").keyup(function() {
+			var newProductMax = $("#newProductMax").val();
+			
+			if (newProductMax.length > 0) {
+				if(!numberRegex.test(newProductMax)) {
+					alert("최대 주문량은 숫자만 입력해주세요.");
+					$("#newProductMax").val('');
+					/* $("#newProductPrice").focus(); */
+
+					return;
+				}
+			}
+			
+			if (parseInt($("#newProductMax").val()) < 1 || parseInt($("#newProductMax").val()) > 10000) {
+				alert("최대 주문량은 1 ~ 10000 사이의 숫자만 입력해주세요.");
+				$("#newProductMax").val('');
+				/* $("#newProductSale").focus(); */
+				
+				return;
+			}
+		})
+		
+		$("#newProductMax").blur(function() {			
+			if (parseInt($("#newProductMin").val()) >= parseInt($("#newProductMax").val())) {
+				alert("최대 주문량은 최소 주문량보다 크게 입력해주세요.")
+				$("#newProductMin").val('');
+				$("#newProductMax").val('');
+				$("#newProductMin").focus();
+			}
+		});
+	});
+	
+	// 메인사진 등록 체크
 	function enrollMainImg(e) {
 		var files = e.target.files;
 		var filesArr = Array.prototype.slice.call(files);
@@ -290,17 +380,16 @@
 <script>
 // 상품 상세 사진 추가
 var filecount = 1;
+var detailImgCount = 0;
 
 $(function(){
     $('#fileAdd').on("click",function(e){
-		console.log(filecount);
-		
     	if(filecount < 10){
     		
     		var addTr=$("<tr></tr>");
     		var addTh=$("<th>상품사진</th>");
    	 		var addTd=$("<td></td>");
-   	 		var addInput =$("<input type='file' id='newProductDetailImg' name='newProductDetailImg' class='newProductDetailImg' title='파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능'>");
+   	 		var addInput =$("<input type='file' id='newProductDetailImg' name='newProductDetailImg' class='newProductDetailImg" + filecount + "' title='파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능'> multiple='multiple'");
     		var addTd2=$("<td></td>");
     		var deleteBtn = $('<th><button type="button" class="btn btn-primary1 pull-left" id="deleteA" name="deleteA">삭제</button></th>');
     		
@@ -314,22 +403,64 @@ $(function(){
     		$(addTr).append(addTd2);
     		$(this).parents('tr').before(addTr);
     		++filecount;
+    		++detailImgCount;
+    		console.log("detailImgCount1 : " + detailImgCount);
+    		
+    		if (detailImgCount >= 1) {
+    	    	console.log("detailImgCount가 1보다 크거나 같다");
+    	 
+    	        console.log("뭘까? : " + $(".newProductDetailImg" + detailImgCount).val(''));
+    	        $(".newProductDetailImg" + detailImgCount).on("change", newEnrollDetailImg);
+    	        
+    	    }
     		
     		
     		$(deleteBtn).on("click",function(e){
     			--filecount;  
-    			console.log(filecount);
+    			--detailImgCount;
     			$(e.target).parents('tr').remove();
-
+				console.log("detailImgCount2 : " + detailImgCount);
     		});
 
     	}else{
     		console.log(filecount);
-    		alert('파일은 최대 4개까지 가능합니다.');	
+    		alert('파일은 최대 10개까지 가능합니다.');	
     	}   		
     });
+    
+    $("#newProductDetailImg").on("change", defaultEnrollDetailImg);
+    
+    function defaultEnrollDetailImg(e) {
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+		
+		filesArr.forEach(function(f) {
+			if (!f.type.match("image/*")) {
+				alert("이미지 확장자만 등록해주세요.");
+						
+				$(".newProductDetailImg" + detailImgCount).val('');
+
+				return;
+			}
+		});
+	}
+    
+    function newEnrollDetailImg(e) {
+    	console.log("새로생긴 버튼 막아보자");
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+		
+		filesArr.forEach(function(f) {
+			if (!f.type.match("image/*")) {
+				alert("이미지 확장자만 등록해주세요.");
+				$(".newProductDetailImg" + detailImgCount).val('');
+				
+				return;
+			}
+		});
+	}
 })
-	
+
 // 상품 옵션 추가
 var optioncount = 1;
 
@@ -340,7 +471,7 @@ $(function(){
     		var addTr=$("<tr></tr>");
     		var addTh=$("<th>상세옵션</th>");
    	 		var addTd=$("<td></td>");
-   	 		var addInput =$("<input type='text' id='newProductOption' name='newProductOption' class='newProductOption' placeholder='상품 옵션을 추가해주세요.'>");
+   	 		var addInput =$("<input type='text' id='newProductOption' name='newProductOption' class='newProductOption" + optioncount +"' placeholder='상품 옵션을 추가해주세요.'>");
     		
    	 		
     		var addTd2=$("<td></td>");
@@ -365,7 +496,7 @@ $(function(){
     		});
 
     	}else{
-    		alert('파일은 최대 4개까지 가능합니다.');
+    		alert('파일은 최대 10개까지 가능합니다.');
         	
     	}
     });
@@ -436,14 +567,14 @@ $(function(){
 								<div class="form-group required">
 									<label for="adminProductName" class="col-sm-2 control-label">상품명</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" id="newProductName" name="newProductName" placeholder="상품명을 입력하세요">
+										<input type="text" class="form-control" id="newProductName" name="newProductName" placeholder="상품명을 입력하세요" maxlength="100">
 									</div>
 								</div>
 								<!-- 상품 코멘트 -->
 								<div class="form-group required">
 									<label for="adminProductComment" class="col-sm-2 control-label">한줄설명</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" id="newProductComment" name="newProductComment" placeholder="상품의 간단한 설명을 입력하세요">
+										<input type="text" class="form-control" id="newProductComment" name="newProductComment" placeholder="상품의 간단한 설명을 입력하세요" maxlength="100">
 									</div>
 								</div>
 								<!-- 상품 관리자 + 판매자 아이디 -->
@@ -469,7 +600,7 @@ $(function(){
 									</div>
 									<label for="adminProductSale" class="col-sm-2 control-label">할인율</label>
 									<div class="col-sm-4">									
-										<input type="number" class="form-control" id="newProductSale" name="newProductSale" >
+										<input type="text" class="form-control" id="newProductSale" name="newProductSale" min="0" max="99" placeholder="0부터 99까지 입력해주세요.">
 									</div>
 								</div>
 								<!-- 등록날짜 ~ 마감날짜 -->
@@ -487,11 +618,11 @@ $(function(){
 								<div class="form-group required">
 									<label for="adminProductMin" class="col-sm-2 control-label">최소주문량</label>
 									<div class="col-sm-4">
-										<input type="number" class="form-control" id="newProductMin" name="newProductMin"  min='1' max='10000'>						
+										<input type="text" class="form-control" id="newProductMin" name="newProductMin"  min='1' max='10000' placeholder="1부터 10000까지 입력해주세요.">						
 									</div>							
 									<label for="adminProductMax" class="col-sm-2 control-label">최대주문량</label>
 									<div class="col-sm-4">
-										<input type="number" class="form-control" id="newProductMax" name="newProductMax"  min='1' max='10000'>
+										<input type="text" class="form-control" id="newProductMax" name="newProductMax"  min='1' max='10000' placeholder="1부터 10000까지 입력해주세요.">
 									</div>
 								</div>						
 							</fieldset>
@@ -524,7 +655,7 @@ $(function(){
 									<tbody class="tbody_">
 										<tr>
 											<th>상품사진</th>
-											<td><input type="file" name="newProductDetailImg" id="newProductDetailImg"
+											<td><input type="file" name="newProductDetailImg" id="newProductDetailImg" class="newProductDetailImg0"
 												title="파일첨부  : 용량 1,048,576 바이트 이하만 업로드 가능"
 												multiple="multiple"></td>
 											<th></th>
@@ -552,7 +683,7 @@ $(function(){
 									<tbody class="tbody_">
 										<tr>
 											<th>상세옵션</th>
-											<td><input type="text" name="newProductOption" id="newProductOption" placeholder="상품 옵션을 추가해주세요."></td>
+											<td><input type="text" name="newProductOption" id="newProductOption" class="newProductOption" placeholder="상품 옵션을 추가해주세요."></td>
 											<th></th>
 										</tr>
 
@@ -579,7 +710,7 @@ $(function(){
 										<tr><td>상품 상세내용 작성</td></tr>
 										<tr>
 											<td>
-											<textarea class="form-control" id="summernote" name="newProductDetail" maxlength="140" rows="7">
+											<textarea class="newProductDetail" id="summernote" name="newProductDetail" maxlength="140" rows="7">
 											
 											</textarea>
 											
