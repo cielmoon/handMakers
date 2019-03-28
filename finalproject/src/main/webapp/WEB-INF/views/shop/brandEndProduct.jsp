@@ -66,38 +66,31 @@ $(function(){
 	});
 });
 
-function reSale(productNo, productTitle)
+function reSale(productNo, productTitle, productState)
 {	
 	$.ajax({
 		url:"${path}/shop/orderDeliveryCheck.do",
 		data:{"productNo" : productNo},
 		success:function(data){
 			if(data.delivery == 0)
-			{
-				$.ajax({
-					url:"${path}/shop/selectReqState.do",
-					data:{"reqRef" : productNo, "reqState": '4'},
-					success:function(data){
-						var result = data.result;		
-						if(result > 0)
-						{
-							alert("이미 요청 처리중 입니다.");
-						}
-						else
-						{					
-							$("#saleModalTitle").text("재판매 요청");
-							$("#saleModalSubTitle").text("(" + productTitle + ")");
-							$("#input-sale-requestTitle").val("");
-							$("#input-sale-requestReason").val("");
-							$("#input-sale-requestType").val('P');
-							$("#input-sale-requestState").val('4');
-							$("#input-sale-requestRef").val(productNo);
-							$("#input-sale-requestLoc").val("/shop/brandEndProduct.do?brandNo=");
-							$("#frm-saleRequestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
-							$("#saleRequestModal").modal();
-						}
-					}
-				});
+			{		
+				if(productState == '4')
+				{
+					alert("이미 요청 처리중 입니다.");
+				}
+				else
+				{					
+					$("#saleModalTitle").text("재판매 요청");
+					$("#saleModalSubTitle").text("(" + productTitle + ")");
+					$("#input-sale-requestTitle").val("");
+					$("#input-sale-requestReason").val("");
+					$("#input-sale-requestType").val('P');
+					$("#input-sale-requestState").val('4');
+					$("#input-sale-requestRef").val(productNo);
+					$("#input-sale-requestLoc").val("/shop/brandEndProduct.do?brandNo=");
+					$("#frm-saleRequestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
+					$("#saleRequestModal").modal();
+				}
 			}
 			else{
 				alert("상품이 출고되지 않은 주문이 있습니다.");
@@ -204,7 +197,7 @@ function deleteBrand()
 												<img src="${path }/resources/image/product/${p.PRODUCT_PROFILE}" class="img-responsive img-shop-product"/>
 											</a>
 											<div class="button-group">
-												<button type="button" class="wishlist" data-toggle="tooltip" title="재판매 요청" onclick="reSale('${p.PRODUCT_NO}','${p.PRODUCT_TITLE }');">
+												<button type="button" class="wishlist" data-toggle="tooltip" title="재판매 요청" onclick="reSale('${p.PRODUCT_NO}','${p.PRODUCT_TITLE }', '${p.PRODUCT_STATE }');">
 													<i class="fas fa-ban"></i>
 												</button>
 											</div>

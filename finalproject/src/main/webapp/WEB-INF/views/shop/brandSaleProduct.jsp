@@ -62,32 +62,25 @@ $(function(){
 	});
 });
 
-function stopSale(productNo, productTitle)
-{
-	$.ajax({
-		url:"${path}/shop/selectReqState.do",
-		data:{"reqRef" : productNo, "reqState": '1'},
-		success:function(data){
-			var result = data.result;		
-			if(result > 0)
-			{
-				alert("이미 요청 처리중 입니다.");
-			}
-			else
-			{
-				$("#modalTitle").text("판매중단 요청");
-				$("#modalSubTitle").text("(" + productTitle + ")");
-				$("#input-requestTitle").val("");
-				$("#input-requestReason").val("");
-				$("#input-requestType").val('P');
-				$("#input-requestState").val('1');
-				$("#input-requestRef").val(productNo);
-				$("#input-requestLoc").val("/shop/brandSaleProduct.do?brandNo=");
-				$("#frm-requestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
-				$("#requestModal").modal();
-			}
-		}
-	});
+function stopSale(productNo, productTitle, productState)
+{	
+	if(productState == '1')
+	{
+		alert("이미 요청 처리중 입니다.");
+	}
+	else
+	{
+		$("#modalTitle").text("판매중단 요청");
+		$("#modalSubTitle").text("(" + productTitle + ")");
+		$("#input-requestTitle").val("");
+		$("#input-requestReason").val("");
+		$("#input-requestType").val('P');
+		$("#input-requestState").val('1');
+		$("#input-requestRef").val(productNo);
+		$("#input-requestLoc").val("/shop/brandSaleProduct.do?brandNo=");
+		$("#frm-requestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
+		$("#requestModal").modal();
+	}
 	
 	
 
@@ -191,7 +184,7 @@ function deleteBrand()
 												<img src="${path }/resources/image/product/${p.PRODUCT_PROFILE}" class="img-responsive img-shop-product"/>
 											</a>
 											<div class="button-group">
-												<button type="button" class="wishlist" data-toggle="tooltip" title="판매중단 요청" onclick="stopSale('${p.PRODUCT_NO}','${p.PRODUCT_TITLE }');">
+												<button type="button" class="wishlist" data-toggle="tooltip" title="판매중단 요청" onclick="stopSale('${p.PRODUCT_NO}','${p.PRODUCT_TITLE }', '${p.PRODUCT_STATE }');">
 													<i class="fas fa-ban"></i>
 												</button>
 											</div>
