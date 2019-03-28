@@ -244,6 +244,7 @@ public class OrderController {
 			result = service.insertOrderEnroll(order);
 			Map<String,Object> insertMap = new HashMap();
 			
+			
 			insertMap.put("productNo", productNo);
 			insertMap.put("productOptionQty", productOptionQty);
 		
@@ -252,6 +253,7 @@ public class OrderController {
 			
 			if(result>0) {
 				updateResult = service.updateProductSell(insertMap);
+				
 				if(updateResult>0) {
 					msg = "결제 완료되었습니다 이용해주셔서 감사합니다.";
 					loc = "/";

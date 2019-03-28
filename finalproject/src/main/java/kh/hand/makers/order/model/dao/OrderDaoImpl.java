@@ -107,6 +107,12 @@ public class OrderDaoImpl implements OrderDao {
 		
 		return session.delete("order.deleteOrder",orderNo);
 	}
+
+	@Override
+	public int updateProductStateYewon(String productNo) {
+		// TODO Auto-generated method stub
+		return session.update("product.updateProductStateYewon",productNo);
+	}
 	
 	
 
