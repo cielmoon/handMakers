@@ -76,5 +76,7 @@ public interface ShopService {
 
 	int orderDeliveryCheck(String qnaNo);
 	
-
+	int selectSaleEmpty(String productNo);
+	int orderAllListCount(Map<String,Object> map);
+	List<Map<String, Object>> selectOrderAll(Map<String,Object> map, int cPage, int numPerPage);
 }

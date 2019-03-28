@@ -11,7 +11,32 @@
 		#{orderPayStatus}, DEFAULT, #{orderTotalPrice}, #{orderPayType},
 		#{deliveryPostCode}, #{deliveryAddr}, #{deliveryDetailAddr}, DEFAULT,
 		#{imp_uid}, #{merchant_uid}, #{productOption}, #{productOptionQty},
-		#{productNo}, #{memberNo},null)
+		#{productNo}, #{memberNo},null,0)
+	</insert>
+	<insert id="orderInsert" parameterType="order">
+		INSERT INTO PRODUCT_ORDER
+		VALUES('P_ORDER_NO_'||SEQ_ORDER_NO.NEXTVAL,
+		#{orderPayStatus}, DEFAULT,
+		#{orderTotalPrice}, #{orderPayType},
+		#{deliveryPostCode},
+		#{deliveryAddr}, #{deliveryDetailAddr}, DEFAULT,
+		#{imp_uid},
+		#{merchant_uid}, #{productOption}, #{productOptionQty},
+		#{productNo},
+		#{memberNo},null,0)
+	</insert>
+
+	<insert id="orderInsertSecond" parameterType="order">
+		INSERT INTO PRODUCT_ORDER
+		VALUES('P_ORDER_NO_'||SEQ_ORDER_NO.NEXTVAL,
+		#{orderPayStatus}, DEFAULT,
+		#{orderTotalPrice}, #{orderPayType},
+		#{deliveryPostCode},
+		#{deliveryAddr}, #{deliveryDetailAddr}, DEFAULT,
+		#{imp_uid},
+		#{merchant_uid}, #{productOption}, #{productOptionQty},
+		#{productNo},
+		#{memberNo},null,#{salesCount})
 	</insert>
 
 	<select id="selectDeliveryList" parameterType="string"
@@ -58,24 +83,21 @@
 		MEMBER_NO=#{memberNo} AND
 		IMP_UID=#{imp_uid}
 	</update>
-
+	
+	<update id="updateOrderStateSecond" parameterType="map">
+		UPDATE PRODUCT_ORDER
+		SET ORDER_PAYSTATE='2', ORDER_STATE='2',
+		SALESCOUNT = #{saleCount} WHERE
+		MEMBER_NO=#{memberNo} AND
+		IMP_UID=#{imp_uid}
+	</update>
+	
 	<delete id="deleteOrder" parameterType="string">
 		DELETE FROM ORDER WHERE
 		ORDER_NO=#{orderNo}
 	</delete>
 
-	<insert id="orderInsert" parameterType="order">
-		INSERT INTO PRODUCT_ORDER
-		VALUES('P_ORDER_NO_'||SEQ_ORDER_NO.NEXTVAL,
-		#{orderPayStatus}, DEFAULT,
-		#{orderTotalPrice}, #{orderPayType},
-		#{deliveryPostCode},
-		#{deliveryAddr}, #{deliveryDetailAddr}, DEFAULT,
-		#{imp_uid},
-		#{merchant_uid}, #{productOption}, #{productOptionQty},
-		#{productNo},
-		#{memberNo},null)
-	</insert>
+
 
 
 	<update id="updateProductQty" parameterType="map">
@@ -85,18 +107,46 @@
 		PRODUCT_NO=#{productNo}
 	</update>
 
+	<!-- 1회이상 판매이력이 있을 경우 -->
 	<insert id="salesInsert" parameterType="defaultproduct">
 		INSERT INTO SALES_RECORDS
-        SELECT SEQ_SALESRECORDS_NO.NEXTVAL, PRODUCT_ENROLLDATE, PRODUCT_ENDDATE, PRODUCT_CURSELL, PRODUCT_PRICE, (PRODUCT_CURSELL * PRODUCT_PRICE), 5, (PRODUCT_CURSELL * PRODUCT_PRICE) - ((PRODUCT_CURSELL * PRODUCT_PRICE) * 0.05), PRODUCT_NO
-        FROM PRODUCT 
-        WHERE PRODUCT_NO=#{productNo} 
+		SELECT SEQ_SALESRECORDS_NO.NEXTVAL, PRODUCT_ENROLLDATE,
+		PRODUCT_ENDDATE, PRODUCT_CURSELL, PRODUCT_PRICE,
+		(PRODUCT_CURSELL *
+		PRODUCT_PRICE), 5, (PRODUCT_CURSELL * PRODUCT_PRICE) -
+		((PRODUCT_CURSELL * PRODUCT_PRICE) * 0.05), PRODUCT_NO
+		FROM PRODUCT
+		WHERE PRODUCT_NO=#{productNo}
 	</insert>
-	
+
+	<!-- 입점예정일 경우 -->
+	<insert id="salesInsertFirst" parameterType="defaultproduct">
+		INSERT INTO
+		SALES_RECORDS
+		SELECT SEQ_SALESRECORDS_NO.NEXTVAL, PRODUCT_ENROLLDATE,
+		PRODUCT_ENDDATE, PRODUCT_CURSELL, (PRODUCT_PRICE - (PRODUCT_PRICE *
+		(PRODUCT_DISCOUNT/100))),
+		(PRODUCT_CURSELL * (PRODUCT_PRICE -
+		(PRODUCT_PRICE * (PRODUCT_DISCOUNT/100)))), 5,
+		(PRODUCT_CURSELL *
+		PRODUCT_PRICE) - ((PRODUCT_CURSELL * PRODUCT_PRICE)
+		* 0.05), PRODUCT_NO
+		FROM PRODUCT
+		WHERE PRODUCT_NO=#{productNo}
+	</insert>
+
 	<update id="updateProductCS" parameterType="map">
 		UPDATE PRODUCT SET
-		PRODUCT_TOTALSELL = PRODUCT_CURSELL,		
+		PRODUCT_TOTALSELL = (PRODUCT_TOTALSELL + PRODUCT_CURSELL),
 		PRODUCT_STATE = 3,
-		PRODUCT_CURSELL = 0
+		PRODUCT_CURSELL	= 0
+		WHERE
+		PRODUCT_NO=#{productNo}
+	</update>
+
+	<update id="updatePStateEnd" parameterType="string">
+		UPDATE PRODUCT SET
+		PRODUCT_STATE = 3
 		WHERE
 		PRODUCT_NO=#{productNo}
 	</update>

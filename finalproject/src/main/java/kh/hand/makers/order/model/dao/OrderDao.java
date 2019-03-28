@@ -24,11 +24,16 @@ public interface OrderDao {
 	int updateResetOrder(Map<String,String> map);
 	int updateResetProduct(Map<String,Object> map);
 	int deleteOrder(String orderNo);
-
+	
+	
+	int updateOrderStateSecond(Map<String,Object> psMap);
 	
 	int orderInsert(Order order);
+	int orderInsertSecond(Order order);
 	int updateProductQty(Map<String,Object> updateProduct);
 	int salesInsert(DefaultProduct ds);
 	int updateProductCS(String productNo);
+	int salesInsertFirst(DefaultProduct ds);
+	int updatePStateEnd(String productNo);
 
 }

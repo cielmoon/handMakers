@@ -248,72 +248,101 @@ public class OrderController {
 			 */
 			state = "T";
 
-
 			// 1. 재고확인
 			DefaultProduct dps = productService.selectDefaltProduct(productNo);
 
 			if (dps.getProductMax() > (dps.getProductCurSell() + order.getProductOptionQty())) {
 				// 재고가 남을 경우 : order insert + product update : 누적x 현재: +수량만큼
-				int orderInsertResult = service.orderInsert(order);
-				if (orderInsertResult > 0) {
+				DefaultProduct ds = productService.selectDefaltProduct(productNo);
 
-					Map<String, Object> updateProduct = new HashMap();
-					updateProduct.put("productNo", productNo);
-					updateProduct.put("productOptionQty", order.getProductOptionQty());
-					// Product Update
-					int updateProductQtyResult = service.updateProductQty(updateProduct);
-					if (updateProductQtyResult > 0) {
-						msg = "결제 완료되었습니다 이용해주셔서 감사합니다.";
-						loc = "/member/manageOrder.do";
+				int saleCount = shopService.selectSaleEmpty(ds.getProductNo());
+				if (saleCount > 0) {
+					// 신규
+					order.setSalesCount(saleCount);
+					int orderInsertSecondResult = service.orderInsertSecond(order);
+					if (orderInsertSecondResult > 0) {
+
+						Map<String, Object> updateProduct = new HashMap();
+						updateProduct.put("productNo", productNo);
+						updateProduct.put("productOptionQty", order.getProductOptionQty());
+						// Product Update
+						int updateProductQtyResult = service.updateProductQty(updateProduct);
+						if (updateProductQtyResult > 0) {
+							msg = "결제 완료되었습니다 이용해주셔서 감사합니다.";
+							loc = "/member/manageOrder.do";
+
+						} else {
+							int deleteResult = service.deleteOrder(order.getOrderNo());
+							logger.debug("주문 실패 했기 때문에 Insert한 Order를 삭제 : Rollback");
+							msg = "결제 실패하였습니다.";
+							loc = "/order/orderEnroll.do";
+						}
 
 					} else {
 						int deleteResult = service.deleteOrder(order.getOrderNo());
 						logger.debug("주문 실패 했기 때문에 Insert한 Order를 삭제 : Rollback");
 						msg = "결제 실패하였습니다.";
 						loc = "/order/orderEnroll.do";
+
 					}
 
 				} else {
-					int deleteResult = service.deleteOrder(order.getOrderNo());
-					logger.debug("주문 실패 했기 때문에 Insert한 Order를 삭제 : Rollback");
-					msg = "결제 실패하였습니다.";
-					loc = "/order/orderEnroll.do";
-					
+					// 입점예정
+					int orderInsertResult = service.orderInsert(order);
+					if (orderInsertResult > 0) {
 
+						Map<String, Object> updateProduct = new HashMap();
+						updateProduct.put("productNo", productNo);
+						updateProduct.put("productOptionQty", order.getProductOptionQty());
+						// Product Update
+						int updateProductQtyResult = service.updateProductQty(updateProduct);
+						if (updateProductQtyResult > 0) {
+							msg = "결제 완료되었습니다 이용해주셔서 감사합니다.";
+							loc = "/member/manageOrder.do";
+
+						} else {
+							int deleteResult = service.deleteOrder(order.getOrderNo());
+							logger.debug("주문 실패 했기 때문에 Insert한 Order를 삭제 : Rollback");
+							msg = "결제 실패하였습니다.";
+							loc = "/order/orderEnroll.do";
+						}
+
+					} else {
+						int deleteResult = service.deleteOrder(order.getOrderNo());
+						logger.debug("주문 실패 했기 때문에 Insert한 Order를 삭제 : Rollback");
+						msg = "결제 실패하였습니다.";
+						loc = "/order/orderEnroll.do";
+
+					}
 				}
 
 			} else if (dps.getProductMax() == (dps.getProductCurSell() + order.getProductOptionQty())) {
 				// 재고가 같을경우 : 판매종료를 시켜야함
-				int orderInsertResult = service.orderInsert(order);
-				if (orderInsertResult > 0) {
-					// 판매이력으로 insert
+				DefaultProduct ds = productService.selectDefaltProduct(productNo);
+				int saleCount = shopService.selectSaleEmpty(ds.getProductNo());
+
+				if (saleCount > 0) {
+					// 신규
+					order.setSalesCount(saleCount);
+					int orderInsertSecondResult = service.orderInsertSecond(order);
+					if (orderInsertSecondResult > 0) {
+						Map<String, Object> updateProduct = new HashMap();
+						updateProduct.put("productNo", productNo);
+						updateProduct.put("productOptionQty", order.getProductOptionQty());
+						// 수량 업데이트
+						int updateProductQtyResult = service.updateProductQty(updateProduct);
+						if (updateProductQtyResult > 0) {
 					
-					Map<String, Object> updateProduct = new HashMap();
-					updateProduct.put("productNo", productNo);
-					updateProduct.put("productOptionQty", order.getProductOptionQty());
+							// 판매종료 이므로 상태 3 업데이트
+							int updatePStateEnd = service.updatePStateEnd(productNo);
 
-					int updateProductQtyResult = service.updateProductQty(updateProduct);
-					if (updateProductQtyResult > 0) {
-						DefaultProduct ds = productService.selectDefaltProduct(productNo);
-						logger.debug("ProductUpdate 성공 - 판매이력 Insert하러옴");
-						System.out.println("가져온Product:"+ds);
-						int saleInsertResult = service.salesInsert(ds);
-				
-
-						if (saleInsertResult > 0) {
-							// 판매이력 insert 성공
-							logger.debug("판매이력 Insert 성공 ");
-							// product 초기화 cursell + 누적 cursell = 0 state = 3
-							int updateProductCSResult = service.updateProductCS(productNo);
-
-							if (updateProductCSResult > 0) {
-								logger.debug("초기화 성공 ");
+							if (updatePStateEnd > 0) {
+								logger.debug("판매종료와 수량 업데이트 성공");
 								msg = "결제 완료되었습니다 이용해주셔서 감사합니다.";
 								loc = "/member/manageOrder.do";
-								// Product Update
 							} else {
-								// saleInsert 삭제시켜야함
-								logger.debug("초기화 실패 ");
+								int deleteResult = service.deleteOrder(order.getOrderNo());
+								logger.debug("주문 실패 했기 때문에 Insert한 Order를 삭제 : Rollback");
 								msg = "결제 실패하였습니다.";
 								loc = "/order/orderEnroll.do";
 							}
@@ -324,25 +353,54 @@ public class OrderController {
 							msg = "결제 실패하였습니다.";
 							loc = "/order/orderEnroll.do";
 						}
+					}
+				} else {
+					// 입점예정
 
-					} else {
+					int orderInsertResult = service.orderInsert(order);
+					if (orderInsertResult > 0) {
+						Map<String, Object> updateProduct = new HashMap();
+						updateProduct.put("productNo", productNo);
+						updateProduct.put("productOptionQty", order.getProductOptionQty());
+						// 수량 업데이트
+						int updateProductQtyResult = service.updateProductQty(updateProduct);
+						if (updateProductQtyResult > 0) {
+					
+							// 판매종료 이므로 상태 3 업데이트
+							int updatePStateEnd = service.updatePStateEnd(productNo);
+
+							if (updatePStateEnd > 0) {
+								logger.debug("판매종료와 수량 업데이트 성공");
+								msg = "결제 완료되었습니다 이용해주셔서 감사합니다.";
+								loc = "/member/manageOrder.do";
+							} else {
+								int deleteResult = service.deleteOrder(order.getOrderNo());
+								logger.debug("주문 실패 했기 때문에 Insert한 Order를 삭제 : Rollback");
+								msg = "결제 실패하였습니다.";
+								loc = "/order/orderEnroll.do";
+							}
+
+						} else {
+							int deleteResult = service.deleteOrder(order.getOrderNo());
+							logger.debug("주문 실패 했기 때문에 Insert한 Order를 삭제 : Rollback");
+							msg = "결제 실패하였습니다.";
+							loc = "/order/orderEnroll.do";
+						}
+					}else {
 						// int deleteSalesResult = service.deleteSales();
 						int deleteResult = service.deleteOrder(order.getOrderNo());
 						logger.debug("주문 실패 했기 때문에 Insert한 Order를 삭제 : Rollback");
 						msg = "결제 실패하였습니다.";
 						loc = "/order/orderEnroll.do";
 					}
-
-				} else {
-					int deleteResult = service.deleteOrder(order.getOrderNo());
-					logger.debug("주문 실패 했기 때문에 Insert한 Order를 삭제 : Rollback");
-					msg = "결제 실패하였습니다.";
-					loc = "/order/orderEnroll.do";
 				}
 
-			} else {
-				// 재고보다 많을 경우
 
+			} else {
+				int deleteResult = service.deleteOrder(order.getOrderNo());
+				logger.debug("주문 실패 했기 때문에 Insert한 Order를 삭제 : Rollback");
+				msg = "결제 실패하였습니다.";
+				loc = "/order/orderEnroll.do";
 			}
 
 		}

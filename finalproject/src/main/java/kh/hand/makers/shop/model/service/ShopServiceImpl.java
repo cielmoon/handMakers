@@ -184,6 +184,24 @@ public class ShopServiceImpl implements ShopService {
 		return dao.orderDeliveryCheck(qnaNo);
 	}
 
+	@Override
+	public int selectSaleEmpty(String productNo) {
+		// TODO Auto-generated method stub
+		return dao.selectSaleEmpty(productNo);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectOrderAll(Map<String, Object> map, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderAll(map, cPage, numPerPage);
+	}
+
+	@Override
+	public int orderAllListCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return dao.orderAllListCount(map);
+	}
+
 	
 	
 	

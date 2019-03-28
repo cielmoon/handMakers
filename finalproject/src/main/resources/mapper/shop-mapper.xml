@@ -2,161 +2,276 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="shop">
 	<resultMap type="brand" id="brandMap">
-   		<result column="brand_no" property="brandNo"/>
-   		<result column="brand_title" property="brandTitle"/>	
-   		<result column="brand_license" property="brandLicense"/>	
-   		<result column="brand_type" property="brandType"/>	
-   		<result column="brand_addr" property="brandAddr"/>	
-   		<result column="brand_detailAddr" property="brandDetailAddr"/>	
-   		<result column="brand_enrollDate" property="brandEnrollDate"/>		
-   		<result column="brand_state" property="brandState"/>
-   		<result column="member_no" property="memberNo"/>
+		<result column="brand_no" property="brandNo" />
+		<result column="brand_title" property="brandTitle" />
+		<result column="brand_license" property="brandLicense" />
+		<result column="brand_type" property="brandType" />
+		<result column="brand_addr" property="brandAddr" />
+		<result column="brand_detailAddr" property="brandDetailAddr" />
+		<result column="brand_enrollDate" property="brandEnrollDate" />
+		<result column="brand_state" property="brandState" />
+		<result column="member_no" property="memberNo" />
 	</resultMap>
 	<resultMap type="bigcategory" id="bcMap">
-		<result column="bc_no" property="bcNo"/>
-   		<result column="bc_title" property="bcTitle"/>
+		<result column="bc_no" property="bcNo" />
+		<result column="bc_title" property="bcTitle" />
 	</resultMap>
 	<resultMap type="smallcategory" id="scMap">
-		<result column="sc_no" property="scNo"/>
-   		<result column="sc_title" property="scTitle"/>
-   		<result column="bc_no" property="bcNo"/>
+		<result column="sc_no" property="scNo" />
+		<result column="sc_title" property="scTitle" />
+		<result column="bc_no" property="bcNo" />
 	</resultMap>
 	<resultMap type="preproduct" id="preproductMap">
-		<result column="pre_product_no" property="preProductNo"/>
-   		<result column="pre_product_title" property="preProductTitle"/>
-   		<result column="pre_product_discript" property="preProductDiscript"/>
-		<result column="pre_product_state" property="preProductState"/>
-   		<result column="pre_product_date" property="preProductDate"/>
-   		<result column="brand_no" property="bcNo"/>
-		<result column="bc_no" property="bcNo"/>
-  		<result column="sc_no" property="scNo"/>
-  		<result column="bc_title" property="bcTitle" />
+		<result column="pre_product_no" property="preProductNo" />
+		<result column="pre_product_title" property="preProductTitle" />
+		<result column="pre_product_discript"
+			property="preProductDiscript" />
+		<result column="pre_product_state" property="preProductState" />
+		<result column="pre_product_date" property="preProductDate" />
+		<result column="brand_no" property="bcNo" />
+		<result column="bc_no" property="bcNo" />
+		<result column="sc_no" property="scNo" />
+		<result column="bc_title" property="bcTitle" />
 		<result column="sc_title" property="scTitle" />
 	</resultMap>
 	<!-- brand_state = 'b'를 추가해야할지도.. -->
-	<select id="selectBrandList" resultMap="brandMap" parameterType="string">
-		SELECT * FROM BRAND WHERE MEMBER_NO = #{memberNo}	
+	<select id="selectBrandList" resultMap="brandMap"
+		parameterType="string">
+		SELECT * FROM BRAND WHERE MEMBER_NO = #{memberNo}
 	</select>
 	<insert id="insertBrand" parameterType="map">
-		INSERT INTO BRAND VALUES('B_NO_'||SEQ_BRAND_NO.nextval, 
-		#{brandTitle}, #{brandLicense}, #{brandType}, #{brandAddr}, #{brandDetailAddr}, DEFAULT, DEFAULT, #{memberNo})
+		INSERT INTO BRAND
+		VALUES('B_NO_'||SEQ_BRAND_NO.nextval,
+		#{brandTitle}, #{brandLicense}, #{brandType}, #{brandAddr}, #{brandDetailAddr},
+		DEFAULT, DEFAULT, #{memberNo})
 	</insert>
-	<select id="selectBrand" parameterType="string" resultMap="brandMap">
+	<select id="selectBrand" parameterType="string"
+		resultMap="brandMap">
 		SELECT * FROM BRAND WHERE BRAND_NO = #{brandNo}
 	</select>
 	<insert id="insertPreProduct" parameterType="map">
-		INSERT INTO PRE_PRODUCT VALUES('PRE_P_NO_'||SEQ_PRE_PRODUCT_NO.nextval,
-		#{preProductTitle}, #{preProductDiscript}, DEFAULT, DEFAULT, #{brandNo}, #{bcNo}, #{scNo})
+		INSERT INTO
+		PRE_PRODUCT VALUES('PRE_P_NO_'||SEQ_PRE_PRODUCT_NO.nextval,
+		#{preProductTitle}, #{preProductDiscript}, DEFAULT, DEFAULT,
+		#{brandNo}, #{bcNo}, #{scNo})
 	</insert>
 	<select id="selectBcList" resultMap="bcMap">
 		SELECT * FROM BIG_CATEGORY
 	</select>
-	<select id="selectScList" resultMap="scMap" parameterType="string">
+	<select id="selectScList" resultMap="scMap"
+		parameterType="string">
 		SELECT * FROM SMALL_CATEGORY WHERE BC_NO = #{bcNo}
 	</select>
 	<update id="updateBrand" parameterType="map">
-		UPDATE BRAND SET BRAND_ADDR = #{brandAddr}, BRAND_DETAILADDR = #{brandDetailAddr}, BRAND_TYPE = #{brandType}, BRAND_STATE = 'a'
-		WHERE BRAND_NO = #{brandNo}
+		UPDATE BRAND SET
+		BRAND_ADDR = #{brandAddr}, BRAND_DETAILADDR = #{brandDetailAddr},
+		BRAND_TYPE = #{brandType}, BRAND_STATE = 'a'
+		WHERE BRAND_NO =
+		#{brandNo}
 	</update>
-	<select id="selectPreProductCount" resultType="_int" parameterType="string">
-		SELECT COUNT(*) FROM PRE_PRODUCT WHERE BRAND_NO = #{brandNo}
+	<select id="selectPreProductCount" resultType="_int"
+		parameterType="string">
+		SELECT COUNT(*) FROM PRE_PRODUCT WHERE BRAND_NO =
+		#{brandNo}
 	</select>
-	<select id="selectPreProductList" resultMap="preproductMap" parameterType="string">
-		SELECT PRE_PRODUCT.*, BIG_CATEGORY.BC_TITLE, SMALL_CATEGORY.SC_TITLE FROM PRE_PRODUCT JOIN BIG_CATEGORY ON (BIG_CATEGORY.BC_NO = PRE_PRODUCT.BC_NO)
-		JOIN SMALL_CATEGORY ON (SMALL_CATEGORY.SC_NO = PRE_PRODUCT.SC_NO) WHERE BRAND_NO = #{brandNo} ORDER BY PRE_PRODUCT.PRE_PRODUCT_DATE DESC
+	<select id="selectPreProductList" resultMap="preproductMap"
+		parameterType="string">
+		SELECT PRE_PRODUCT.*, BIG_CATEGORY.BC_TITLE,
+		SMALL_CATEGORY.SC_TITLE FROM PRE_PRODUCT JOIN BIG_CATEGORY ON
+		(BIG_CATEGORY.BC_NO = PRE_PRODUCT.BC_NO)
+		JOIN SMALL_CATEGORY ON
+		(SMALL_CATEGORY.SC_NO = PRE_PRODUCT.SC_NO) WHERE BRAND_NO = #{brandNo}
+		ORDER BY PRE_PRODUCT.PRE_PRODUCT_DATE DESC
 	</select>
-		<select id="selectPreProductBcCount" resultType="_int" parameterType="string">
-		SELECT COUNT(*) FROM PRE_PRODUCT WHERE BRAND_NO = #{brandNo} AND BC_NO = #{bcNo}
+	<select id="selectPreProductBcCount" resultType="_int"
+		parameterType="string">
+		SELECT COUNT(*) FROM PRE_PRODUCT WHERE BRAND_NO =
+		#{brandNo} AND BC_NO = #{bcNo}
 	</select>
-	<select id="selectPreProductBcList" resultMap="preproductMap" parameterType="string">
-		SELECT PRE_PRODUCT.*, BIG_CATEGORY.BC_TITLE, SMALL_CATEGORY.SC_TITLE FROM PRE_PRODUCT JOIN BIG_CATEGORY ON (BIG_CATEGORY.BC_NO = PRE_PRODUCT.BC_NO)
-		JOIN SMALL_CATEGORY ON (SMALL_CATEGORY.SC_NO = PRE_PRODUCT.SC_NO) WHERE BRAND_NO = #{brandNo} AND PRE_PRODUCT.BC_NO = #{bcNo} ORDER BY PRE_PRODUCT.PRE_PRODUCT_DATE DESC
+	<select id="selectPreProductBcList" resultMap="preproductMap"
+		parameterType="string">
+		SELECT PRE_PRODUCT.*, BIG_CATEGORY.BC_TITLE,
+		SMALL_CATEGORY.SC_TITLE FROM PRE_PRODUCT JOIN BIG_CATEGORY ON
+		(BIG_CATEGORY.BC_NO = PRE_PRODUCT.BC_NO)
+		JOIN SMALL_CATEGORY ON
+		(SMALL_CATEGORY.SC_NO = PRE_PRODUCT.SC_NO) WHERE BRAND_NO = #{brandNo}
+		AND PRE_PRODUCT.BC_NO = #{bcNo} ORDER BY PRE_PRODUCT.PRE_PRODUCT_DATE
+		DESC
 	</select>
-	<select id="selectPreProduct" resultMap="preproductMap" parameterType="string">
-		SELECT PRE_PRODUCT.*, BIG_CATEGORY.BC_TITLE, SMALL_CATEGORY.SC_TITLE FROM PRE_PRODUCT JOIN BIG_CATEGORY ON (BIG_CATEGORY.BC_NO = PRE_PRODUCT.BC_NO)
-		JOIN SMALL_CATEGORY ON (SMALL_CATEGORY.SC_NO = PRE_PRODUCT.SC_NO) WHERE PRE_PRODUCT.PRE_PRODUCT_NO = #{preNo}
+	<select id="selectPreProduct" resultMap="preproductMap"
+		parameterType="string">
+		SELECT PRE_PRODUCT.*, BIG_CATEGORY.BC_TITLE,
+		SMALL_CATEGORY.SC_TITLE FROM PRE_PRODUCT JOIN BIG_CATEGORY ON
+		(BIG_CATEGORY.BC_NO = PRE_PRODUCT.BC_NO)
+		JOIN SMALL_CATEGORY ON
+		(SMALL_CATEGORY.SC_NO = PRE_PRODUCT.SC_NO) WHERE
+		PRE_PRODUCT.PRE_PRODUCT_NO = #{preNo}
 	</select>
-	<select id="selectBrandProductCount" resultType="_int" parameterType="map">
-		SELECT COUNT(*) FROM PRODUCT WHERE BRAND_NO = #{brandNo} AND PRODUCT_STATE IN ${productState}
+	<select id="selectBrandProductCount" resultType="_int"
+		parameterType="map">
+		SELECT COUNT(*) FROM PRODUCT WHERE BRAND_NO = #{brandNo}
+		AND PRODUCT_STATE IN ${productState}
 	</select>
-	<select id="selectBrandProductList" resultType="map" parameterType="map">
-		SELECT PRODUCT.*, BIG_CATEGORY.BC_TITLE, SMALL_CATEGORY.SC_TITLE FROM PRODUCT JOIN BIG_CATEGORY ON (BIG_CATEGORY.BC_NO = PRODUCT.BC_NO)
-		JOIN SMALL_CATEGORY ON (SMALL_CATEGORY.SC_NO = PRODUCT.SC_NO) WHERE BRAND_NO = #{brandNo} AND PRODUCT_STATE IN ${productState} ORDER BY PRODUCT_ENROLLDATE DESC
+	<select id="selectBrandProductList" resultType="map"
+		parameterType="map">
+		SELECT PRODUCT.*, BIG_CATEGORY.BC_TITLE,
+		SMALL_CATEGORY.SC_TITLE FROM PRODUCT JOIN BIG_CATEGORY ON
+		(BIG_CATEGORY.BC_NO = PRODUCT.BC_NO)
+		JOIN SMALL_CATEGORY ON
+		(SMALL_CATEGORY.SC_NO = PRODUCT.SC_NO) WHERE BRAND_NO = #{brandNo} AND
+		PRODUCT_STATE IN ${productState} ORDER BY PRODUCT_ENROLLDATE DESC
 	</select>
-	<select id="selectBrandProductBcCount" resultType="_int" parameterType="map">
-		SELECT COUNT(*) FROM PRODUCT WHERE BRAND_NO = #{brandNo} AND PRODUCT_STATE IN ${productState} AND BC_NO = #{bcNo}
+	<select id="selectBrandProductBcCount" resultType="_int"
+		parameterType="map">
+		SELECT COUNT(*) FROM PRODUCT WHERE BRAND_NO = #{brandNo}
+		AND PRODUCT_STATE IN ${productState} AND BC_NO = #{bcNo}
 	</select>
-	<select id="selectBrandProductBcList" resultType="map" parameterType="map">
-		SELECT PRODUCT.*, BIG_CATEGORY.BC_TITLE, SMALL_CATEGORY.SC_TITLE FROM PRODUCT JOIN BIG_CATEGORY ON (BIG_CATEGORY.BC_NO = PRODUCT.BC_NO)
-		JOIN SMALL_CATEGORY ON (SMALL_CATEGORY.SC_NO = PRODUCT.SC_NO) WHERE BRAND_NO = #{brandNo} AND PRODUCT_STATE IN ${productState} AND PRODUCT.BC_NO = #{bcNo} ORDER BY PRODUCT_ENROLLDATE DESC
+	<select id="selectBrandProductBcList" resultType="map"
+		parameterType="map">
+		SELECT PRODUCT.*, BIG_CATEGORY.BC_TITLE,
+		SMALL_CATEGORY.SC_TITLE FROM PRODUCT JOIN BIG_CATEGORY ON
+		(BIG_CATEGORY.BC_NO = PRODUCT.BC_NO)
+		JOIN SMALL_CATEGORY ON
+		(SMALL_CATEGORY.SC_NO = PRODUCT.SC_NO) WHERE BRAND_NO = #{brandNo} AND
+		PRODUCT_STATE IN ${productState} AND PRODUCT.BC_NO = #{bcNo} ORDER BY
+		PRODUCT_ENROLLDATE DESC
 	</select>
-	<select id="selectOrderCount" resultType="_int" parameterType="string">
-		SELECT COUNT(*) FROM PRODUCT_ORDER WHERE PRODUCT_NO = #{productNo}
+	<select id="selectOrderCount" resultType="_int"
+		parameterType="string">
+		SELECT COUNT(*) FROM PRODUCT_ORDER WHERE PRODUCT_NO =
+		#{productNo}
 	</select>
-	<select id="selectOrderList" resultType="map" parameterType="string">
-   		SELECT P.*, M.MEMBER_ID
-		FROM PRODUCT_ORDER P JOIN MEMBER M ON(P.MEMBER_NO=M.MEMBER_NO)
-		WHERE P.PRODUCT_NO =  #{productNo}  ORDER BY ORDER_DATE DESC
+	<select id="selectOrderList" resultType="map"
+		parameterType="string">
+		SELECT P.*, M.MEMBER_ID
+		FROM PRODUCT_ORDER P JOIN MEMBER M
+		ON(P.MEMBER_NO=M.MEMBER_NO)
+		WHERE P.PRODUCT_NO = #{productNo} ORDER BY
+		ORDER_DATE DESC
 	</select>
-	<select id="selectProduct" resultType="map" parameterType="string">
+	<select id="selectProduct" resultType="map"
+		parameterType="string">
 		SELECT * FROM PRODUCT WHERE PRODUCT_NO = #{productNo}
 	</select>
-	<select id="selectProductQnaCount" resultType="_int" parameterType="string">
-		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE = 'Q' AND COMMENT_LEVEL = 1 AND PRODUCT_NO = #{productNo}
+	<select id="selectProductQnaCount" resultType="_int"
+		parameterType="string">
+		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE
+		= 'Q' AND COMMENT_LEVEL = 1 AND PRODUCT_NO = #{productNo}
 	</select>
-	<select id="selectProductQnaList" resultType="map" parameterType="string">
-		SELECT P.*, M.MEMBER_ID FROM PRODUCT_COMMENT P JOIN MEMBER M ON(P.MEMBER_NO=M.MEMBER_NO) WHERE COMMENT_TYPE = 'Q' AND COMMENT_LEVEL = 1 AND PRODUCT_NO = #{productNo} ORDER BY COMMENT_DATE DESC
+	<select id="selectProductQnaList" resultType="map"
+		parameterType="string">
+		SELECT P.*, M.MEMBER_ID FROM PRODUCT_COMMENT P JOIN
+		MEMBER M ON(P.MEMBER_NO=M.MEMBER_NO) WHERE COMMENT_TYPE = 'Q' AND
+		COMMENT_LEVEL = 1 AND PRODUCT_NO = #{productNo} ORDER BY COMMENT_DATE
+		DESC
 	</select>
-	<select id="selectProductAnswerList" resultType="map" parameterType="string">
-		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_TYPE = 'Q' AND COMMENT_LEVEL = 2 AND PRODUCT_NO = #{productNo} ORDER BY COMMENT_DATE DESC
+	<select id="selectProductAnswerList" resultType="map"
+		parameterType="string">
+		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_TYPE = 'Q'
+		AND COMMENT_LEVEL = 2 AND PRODUCT_NO = #{productNo} ORDER BY
+		COMMENT_DATE DESC
 	</select>
-	<select id="selectProductQnaAnswer" resultType="map" parameterType="string">
-		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_REF = #{refNo} AND COMMENT_TYPE = 'Q'
+	<select id="selectProductQnaAnswer" resultType="map"
+		parameterType="string">
+		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_REF =
+		#{refNo} AND COMMENT_TYPE = 'Q'
 	</select>
 	<update id="updateProductQnaAnswer" parameterType="map">
-		UPDATE PRODUCT_COMMENT SET COMMENT_CONTENT = #{content} WHERE COMMENT_REF = #{commentRef} AND COMMENT_TYPE = 'Q'
+		UPDATE
+		PRODUCT_COMMENT SET COMMENT_CONTENT = #{content} WHERE COMMENT_REF =
+		#{commentRef} AND COMMENT_TYPE = 'Q'
 	</update>
 	<insert id="insertProductQnaAnswer" parameterType="map">
-		INSERT INTO PRODUCT_COMMENT VALUES('P_COMMENT_NO_' ||SEQ_COMMENT_NO.NEXTVAL, #{content}, DEFAULT, 'Q', 2, #{commentRef}, #{sellerNo}, #{productNo})
+		INSERT INTO
+		PRODUCT_COMMENT VALUES('P_COMMENT_NO_' ||SEQ_COMMENT_NO.NEXTVAL,
+		#{content}, DEFAULT, 'Q', 2, #{commentRef}, #{sellerNo}, #{productNo})
 	</insert>
 	<insert id="insertSellerRequest" parameterType="map">
-		INSERT INTO SELLER_REQUEST VALUES('S_REQ_NO' || SEQ_SELLER_REQ_NO.NEXTVAL, #{memberNo}, #{requestRef}, #{requestType}, #{requestState}, #{requestTitle}, #{requestReason}, DEFAULT, DEFAULT)
+		INSERT INTO
+		SELLER_REQUEST VALUES('S_REQ_NO' || SEQ_SELLER_REQ_NO.NEXTVAL,
+		#{memberNo}, #{requestRef}, #{requestType}, #{requestState},
+		#{requestTitle}, #{requestReason}, DEFAULT, DEFAULT)
 	</insert>
-	<select id="selectSellerReqList" parameterType="string" resultType="map">
+	<select id="selectSellerReqList" parameterType="string"
+		resultType="map">
 		SELECT * FROM SELLER_REQUEST WHERE MEMBER_NO = #{memberNo}
 	</select>
-	<select id="selectReqState" parameterType="map" resultType="_int">
-		SELECT COUNT(*) FROM SELLER_REQUEST WHERE SELLER_REQ_REF = #{reqRef} AND SELLER_REQ_STATE = #{reqState} AND SELLER_REQ_PROCESS = '0'
+	<select id="selectReqState" parameterType="map"
+		resultType="_int">
+		SELECT COUNT(*) FROM SELLER_REQUEST WHERE SELLER_REQ_REF =
+		#{reqRef} AND SELLER_REQ_STATE = #{reqState} AND SELLER_REQ_PROCESS =
+		'0'
 	</select>
 	<update id="exportOrders" parameterType="string">
-		UPDATE PRODUCT_ORDER SET ORDER_STATE = '1' WHERE ORDER_NO = #{order}
+		UPDATE PRODUCT_ORDER SET
+		ORDER_STATE = '1' WHERE ORDER_NO = #{order}
 	</update>
 	<select id="selectOrder" parameterType="string" resultType="map">
 		SELECT * FROM PRODUCT_ORDER WHERE ORDER_NO = #{orderNo}
 	</select>
-	
-	<select id="selectSalesRecordsCount" resultType="_int" parameterType="string">
-		SELECT COUNT(*) FROM SALES_RECORDS WHERE PRODUCT_NO = #{productNo}
+
+	<select id="selectSalesRecordsCount" resultType="_int"
+		parameterType="string">
+		SELECT COUNT(*) FROM SALES_RECORDS WHERE PRODUCT_NO =
+		#{productNo}
 	</select>
-	<select id="selectSalesRecordsList" resultType="map" parameterType="string">
-		SELECT * FROM SALES_RECORDS WHERE PRODUCT_NO = #{productNo} ORDER BY PRODUCT_ENDDATE DESC
+	<select id="selectSalesRecordsList" resultType="map"
+		parameterType="string">
+		SELECT * FROM SALES_RECORDS WHERE PRODUCT_NO =
+		#{productNo} ORDER BY PRODUCT_ENDDATE DESC
 	</select>
-	<select id="selectRecord" resultType="map" parameterType="string">
-		SELECT * FROM SALES_RECORDS WHERE SALESRECORDS_NO = #{recordNo}
+	<select id="selectRecord" resultType="map"
+		parameterType="string">
+		SELECT * FROM SALES_RECORDS WHERE SALESRECORDS_NO =
+		#{recordNo}
 	</select>
 	<update id="updateBrandSellerReq" parameterType="map">
-		UPDATE BRAND SET BRAND_STATE = #{requestState} WHERE BRAND_NO = #{requestRef}
+		UPDATE BRAND SET
+		BRAND_STATE = #{requestState} WHERE BRAND_NO = #{requestRef}
 	</update>
 	<update id="updateProductSellerReq" parameterType="map">
-		UPDATE PRODUCT SET PRODUCT_STATE = #{requestState} WHERE PRODUCT_NO = #{requestRef}
+		UPDATE PRODUCT
+		SET PRODUCT_STATE = #{requestState} WHERE PRODUCT_NO = #{requestRef}
 	</update>
 	<update id="updateTracking" parameterType="map">
-		UPDATE PRODUCT_ORDER SET ORDER_TRACKINGNO = #{trackingNo} WHERE ORDER_NO = #{orderNo}
+		UPDATE PRODUCT_ORDER
+		SET ORDER_TRACKINGNO = #{trackingNo} WHERE ORDER_NO = #{orderNo}
 	</update>
-	<select id="selectProductQnaComment" parameterType="string" resultType="map">
-		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_NO = #{commentNo}
+	<select id="selectProductQnaComment" parameterType="string"
+		resultType="map">
+		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_NO =
+		#{commentNo}
 	</select>
-	<select id="orderDeliveryCheck" resultType="_int" parameterType="string">
-		SELECT COUNT(*) FROM PRODUCT_ORDER WHERE PRODUCT_NO = #{productNo} AND ORDER_STATE = '0' AND ORDER_PAYSTATE = '0'
+	<select id="orderDeliveryCheck" resultType="_int"
+		parameterType="string">
+		SELECT COUNT(*) FROM PRODUCT_ORDER WHERE PRODUCT_NO =
+		#{productNo} AND ORDER_STATE = '0' AND ORDER_PAYSTATE = '0'
+	</select>
+
+	<!-- HJ추가 -->
+	<select id="selectSaleEmpty" resultType="_int"
+		parameterType="string">
+		SELECT count(*) FROM SALES_RECORDS WHERE PRODUCT_NO =
+		#{productNo}
+	</select>
+
+	<select id="selectOrderAll" resultType="map"
+		parameterType="map">
+		SELECT P.*, M.MEMBER_ID
+		FROM PRODUCT_ORDER P JOIN MEMBER M
+		ON(P.MEMBER_NO=M.MEMBER_NO)
+		WHERE P.PRODUCT_NO = #{productNo} and
+		P.SALESCOUNT = #{saleCount}
+		ORDER BY ORDER_DATE DESC
+	</select>
+	
+	<select id="orderAllListCount" resultType="_int"
+		parameterType="map">
+		SELECT count(*)
+		FROM PRODUCT_ORDER P JOIN MEMBER M
+		ON(P.MEMBER_NO=M.MEMBER_NO)
+		WHERE P.PRODUCT_NO = #{productNo} and
+		P.SALESCOUNT = #{saleCount}
+		ORDER BY ORDER_DATE DESC
 	</select>
 </mapper>

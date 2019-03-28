@@ -22,9 +22,16 @@ public class ShopDaoImpl implements ShopDao {
 	SqlSessionTemplate sqlSession;
 	
 	@Override
+	public int selectSaleEmpty(String productNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("shop.selectSaleEmpty", productNo);
+	}
+
+	@Override
 	public List<Brand> selectBrandList(String memberNo) {
 		return sqlSession.selectList("shop.selectBrandList", memberNo);
 	}
+	
 
 	@Override
 	public int insertBrand(Map<String, String> map) {
@@ -201,6 +208,18 @@ public class ShopDaoImpl implements ShopDao {
 	public List<Map<String, String>> selectSalesRecordsList(String productNo, int cPage, int numPerPage) {
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
 		return sqlSession.selectList("shop.selectSalesRecordsList", productNo, rb);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectOrderAll(Map<String, Object> map, int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return sqlSession.selectList("shop.selectOrderAll", map, rb);
+	}
+
+	@Override
+	public int orderAllListCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("shop.orderAllListCount", map);
 	}
 
 	@Override

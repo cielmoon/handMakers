@@ -309,24 +309,25 @@
 
 	<update id="updateProductMinus" parameterType="map">
 		UPDATE PRODUCT SET
-		PRODUCT_TOTALSELL = (PRODUCT_TOTALSELL - #{currSell}),
-		PRODUCT_CURSELL=(#{currSell}-#{productOptionQty})
-		WHERE PRODUCT_NO =
-		#{productNo}
+		PRODUCT_CURSELL=(PRODUCT_CURSELL-#{productOptionQty}),	
+		WHERE PRODUCT_NO
+		= #{productNo}
 	</update>
 
 	<update id="updatePMinus" parameterType="map">
 		UPDATE PRODUCT SET
-		PRODUCT_CURSELL=(PRODUCT_CURSELL-#{productOptionQty})
+		PRODUCT_CURSELL=(PRODUCT_CURSELL-#{productOptionQty}),
+		PRODUCT_STATE = 0
 		WHERE PRODUCT_NO
 		= #{productNo}
 	</update>
+	
 	<select id="selectProductCheck" parameterType="order"
 		resultType="_int">
 		SELECT count(*) FROM PRODUCT WHERE PRODUCT_NO=#{productNo}
 		AND PRODUCT_MAX=PRODUCT_CURSELL+#{productOptionQty}
 	</select>
-
+	
 	<insert id="insertProductSalesRecord" parameterType="string">
 		INSERT INTO
 		SALES_RECORDS
@@ -337,7 +338,7 @@
 		FROM PRODUCT
 		WHERE PRODUCT_NO=#{productNo}
 	</insert>
-
+	
 	<update id="updateProductState" parameterType="string">
 		UPDATE PRODUCT SET
 		PRODUCT_STATE='3' WHERE product_no=#{productNo}

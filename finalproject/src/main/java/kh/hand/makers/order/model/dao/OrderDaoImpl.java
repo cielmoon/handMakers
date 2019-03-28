@@ -68,6 +68,12 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
+	public int updateOrderStateSecond(Map<String, Object> psMap) {
+		// TODO Auto-generated method stub
+		return session.update("order.updateOrderStateSecond",psMap);
+	}
+
+	@Override
 	public int selectProductCheck(Order order) {
 		
 		return session.selectOne("product.selectProductCheck",order);
@@ -132,6 +138,24 @@ public class OrderDaoImpl implements OrderDao {
 		// TODO Auto-generated method stub
 		return session.update("order.updateProductCS",productNo);
 
+	}
+
+	@Override
+	public int salesInsertFirst(DefaultProduct ds) {
+		// TODO Auto-generated method stub
+		return session.insert("order.salesInsertFirst",ds);
+	}
+
+	@Override
+	public int updatePStateEnd(String productNo) {
+		// TODO Auto-generated method stub
+		return session.update("order.updatePStateEnd",productNo);
+	}
+
+	@Override
+	public int orderInsertSecond(Order order) {
+		// TODO Auto-generated method stub
+		return session.insert("order.orderInsertSecond",order);
 	}
 	
 	
