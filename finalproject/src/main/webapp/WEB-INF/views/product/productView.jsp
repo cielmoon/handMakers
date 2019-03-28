@@ -836,12 +836,17 @@ function fn_imageViewChange(subImg){
                         <li class="media">                  
                            <c:if test="${questionComment.COMMENT_LEVEL eq 1 }">
                            <a class="pull-left" href="javascript:void(0);"> 
-                           <c:if test="${member.memberAuthority eq 'A' }">
-                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/adminProfile/${second['MEMBER_PROFILE']}" alt="profile">
+                           <%-- <c:if test="${member.memberAuthority eq 'A' }">
+                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/adminProfile/${questionComment.MEMBER_PROFILE }" alt="profile">
                            </c:if>
-                           <c:if test="${member.memberAuthority eq 'M' }">
-                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/memberProfile/${second['MEMBER_PROFILE']}" alt="profile">
+                           <c:if test="${member.memberAuthority eq 'M' }"> --%>
+                           <c:if test="${questionComment.MEMBER_AUTHORITY eq 'A' }">
+                           	  <img class="media-object img-circle" width="100px;" src="${path }/resources/image/adminProfile/${questionComment.MEMBER_PROFILE }" alt="profile">
                            </c:if>
+                           <c:if test="${questionComment.MEMBER_AUTHORITY eq 'M' }">
+                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/memberProfile/${questionComment.MEMBER_PROFILE }" alt="profile">
+                           </c:if>
+                           <%-- </c:if> --%>
                            </a>
                               <div class="media-body">
                                  <div class="well well-sm">

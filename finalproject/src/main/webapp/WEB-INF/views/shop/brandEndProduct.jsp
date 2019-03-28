@@ -67,33 +67,43 @@ $(function(){
 });
 
 function reSale(productNo, productTitle)
-{
+{	
 	$.ajax({
-		url:"${path}/shop/selectReqState.do",
-		data:{"reqRef" : productNo, "reqState": '4'},
+		url:"${path}/shop/orderDeliveryCheck.do",
+		data:{"productNo" : productNo},
 		success:function(data){
-			var result = data.result;		
-			if(result > 0)
+			if(data.delivery == 0)
 			{
-				alert("이미 요청 처리중 입니다.");
+				$.ajax({
+					url:"${path}/shop/selectReqState.do",
+					data:{"reqRef" : productNo, "reqState": '4'},
+					success:function(data){
+						var result = data.result;		
+						if(result > 0)
+						{
+							alert("이미 요청 처리중 입니다.");
+						}
+						else
+						{					
+							$("#saleModalTitle").text("재판매 요청");
+							$("#saleModalSubTitle").text("(" + productTitle + ")");
+							$("#input-sale-requestTitle").val("");
+							$("#input-sale-requestReason").val("");
+							$("#input-sale-requestType").val('P');
+							$("#input-sale-requestState").val('4');
+							$("#input-sale-requestRef").val(productNo);
+							$("#input-sale-requestLoc").val("/shop/brandEndProduct.do?brandNo=");
+							$("#frm-saleRequestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
+							$("#saleRequestModal").modal();
+						}
+					}
+				});
 			}
-			else
-			{					
-				$("#saleModalTitle").text("재판매 요청");
-				$("#saleModalSubTitle").text("(" + productTitle + ")");
-				$("#input-sale-requestTitle").val("");
-				$("#input-sale-requestReason").val("");
-				$("#input-sale-requestType").val('P');
-				$("#input-sale-requestState").val('4');
-				$("#input-sale-requestRef").val(productNo);
-				$("#input-sale-requestLoc").val("/shop/brandEndProduct.do?brandNo=");
-				$("#frm-saleRequestModal").attr("action", "${path}/shop/sellerRequest.do?brandNo=${brand.brandNo}");
-				$("#saleRequestModal").modal();
+			else{
+				alert("상품이 출고되지 않은 주문이 있습니다.");
 			}
 		}
 	});
-	
-	
 
 }
 

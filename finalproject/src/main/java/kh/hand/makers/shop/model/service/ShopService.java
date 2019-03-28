@@ -71,6 +71,10 @@ public interface ShopService {
 	int updateSellerRequestRef(Map<String, String> map);
 
 	int updateTracking(Map<String, String> map);
+
+	Map<String, String> selectProductQnaComment(String qnaNo);
+
+	int orderDeliveryCheck(String qnaNo);
 	
 
 }

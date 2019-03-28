@@ -174,6 +174,16 @@ public class ShopServiceImpl implements ShopService {
 		return dao.updateTracking(map);
 	}
 
+	@Override
+	public Map<String, String> selectProductQnaComment(String qnaNo) {
+		return dao.selectProductQnaComment(qnaNo);
+	}
+
+	@Override
+	public int orderDeliveryCheck(String qnaNo) {
+		return dao.orderDeliveryCheck(qnaNo);
+	}
+
 	
 	
 	
