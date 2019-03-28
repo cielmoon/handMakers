@@ -43,4 +43,8 @@ public interface ProductService {
 	Map<String,String> selectProductCheck(Map<String,String> map);
 	
 	DefaultProduct selectDefaltProduct(String productNo);
+	List<Map<String, String>> selectCommentQnaLv1(Map<String, String> questionMap, int qcPage, int numPerPage);
+	List<Map<String, String>> selectCommentQnaLv2(Map<String, String> questionMap);
+	
+
 }
