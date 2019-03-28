@@ -313,13 +313,11 @@ public class ShopController {
 		List<Map<String, String>> orderList = service.selectOrderList(productNo, cPage, numPerPage);
 		// 입점예정인지 아닌지 확인이 필요함 - 입점예정시 CurrSell은 product값, 신규일시 CurrSell은 로직으로 가져와야함
 		int saleCount = service.selectSaleEmpty(productNo);
-		int nextOrderCount = service.selectNextOrder(saleCount);
-		
-		if(nextOrderCount > 0) {
-			//다음주문이 들어온것
+	
+		if(saleCount <= 1) {
 			Map<String, Object> map = new HashMap<>();
 			map.put("productNo", productNo);
-			map.put("saleCount", saleCount);
+			map.put("saleCount", 0);
 			
 			List<Map<String, Object>> orderAllList = service.selectOrderAll(map, cPage, numPerPage);
 			int orderAllListCount = service.orderAllListCount(map);
@@ -335,7 +333,6 @@ public class ShopController {
 			mv.addObject("index", ((cPage - 1) * 10) + 1);
 			mv.setViewName("shop/brandProductHome");
 		}else {
-			//아직 새로운 주문이 안들어온것
 			Map<String, Object> map = new HashMap<>();
 			map.put("productNo", productNo);
 			map.put("saleCount", saleCount-1);
@@ -354,7 +351,7 @@ public class ShopController {
 			mv.addObject("index", ((cPage - 1) * 10) + 1);
 			mv.setViewName("shop/brandProductHome");
 		}
-
+		
 	
 		return mv;
 
