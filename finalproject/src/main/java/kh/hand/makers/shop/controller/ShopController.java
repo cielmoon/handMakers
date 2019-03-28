@@ -320,18 +320,18 @@ public class ShopController {
 		int contentCount = service.selectOrderCount(productNo);
 		List<Map<String, String>> orderList = service.selectOrderList(productNo, cPage, numPerPage);
 		String salesNo = memberService.selectSalseNo(productNo);
-		int currSell = memberService.selectCerrSell(salesNo);
-		System.out.println("현재판매량"+currSell);
+		/*int currSell = memberService.selectCerrSell(salesNo);*/
+		/*System.out.println("현재판매량"+currSell);*/
 		String pState ="";
 	
-		if(currSell >= p.getProductMin()) {
+		/*if(currSell >= p.getProductMin()) {
 			pState ="T";
 		}else {
 			pState = "F";
-		}
+		}*/
 		mv.addObject("brand", brand);
 		mv.addObject("pState", pState);
-		mv.addObject("currSell", currSell);
+		/*mv.addObject("currSell", currSell);*/
 		mv.addObject("product", product);
 		mv.addObject("orderList", orderList);
 		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandProductHome.do?productNo=" + productNo + "&brandNo=" + brandNo));

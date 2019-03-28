@@ -46,4 +46,8 @@ public interface ProductDao {
 
 	int updatePMinus(Map<String,Object> productMap);
 
+	List<Map<String, String>> selectCommentQnaLv1(Map<String, String> map, int cPage, int numPerPage);
+	List<Map<String, String>> selectCommentQnaLv2(Map<String, String> map);
+
+
 }

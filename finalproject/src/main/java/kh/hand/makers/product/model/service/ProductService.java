@@ -46,4 +46,7 @@ public interface ProductService {
 
 	int updatePMinus(Map<String,Object> productMap);
 
+	List<Map<String, String>> selectCommentQnaLv1(Map<String, String> questionMap, int qcPage, int numPerPage);
+	List<Map<String, String>> selectCommentQnaLv2(Map<String, String> questionMap);
+	
 }

@@ -219,4 +219,18 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	
+	@Override
+	public List<Map<String, String>> selectCommentQnaLv1(Map<String, String> map, int cPage, int numPerPage) {
+		return dao.selectCommentQnaLv1(map, cPage, numPerPage);
+	}
+
+	@Override
+	public List<Map<String, String>> selectCommentQnaLv2(Map<String, String> map) {
+		return dao.selectCommentQnaLv2(map);
+	}
+
+	
+
+
+	
 }

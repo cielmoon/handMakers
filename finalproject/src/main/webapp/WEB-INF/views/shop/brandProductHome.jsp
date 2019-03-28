@@ -234,7 +234,7 @@ function updateTracking()
 						<table id='tbl-board' class='table table-striped table-hover'>
 							<tr>	
 								<c:choose>								
-								<c:when test="${product.PRODUCT_STATE == '3' && pState == 'T'}">
+								<c:when test="${product.PRODUCT_STATE == '3'}"> <!--  && pState == 'T' -->
 									<th>										
 										<a id="check-all-order" href="javascript:void(0);" onclick="checkAllOrder(1);"><i class="fa fa-check" style="color: gray;"></i></a>
 										<a id="uncheck-all-order" href="javascript:void(0);" onclick="checkAllOrder(0);"><i class="fa fa-check" style="color: lightgray;"></i></a>	
@@ -260,7 +260,7 @@ function updateTracking()
  							<c:forEach var="o" items="${orderList }" varStatus="vs">
 								<tr>
 									<c:choose>
-									<c:when test="${product.PRODUCT_STATE == '3' && pState == 'T'}">
+									<c:when test="${product.PRODUCT_STATE == '3'}"> <!--  && pState == 'T' -->
 										<td>
 											<input type="checkbox" name="checkOrders" id="check-order" value="${o.ORDER_NO }" 
 											${o.ORDER_STATE == '1'? "style='display:none;'" : o.ORDER_TRACKINGNO == null ? "disabled" : ""}/>
@@ -294,7 +294,7 @@ function updateTracking()
 					</div>
 					<div class="col-sm-2 float-right">
 						<c:choose>
-							<c:when test="${product.PRODUCT_STATE == '3' && pState == 'T'}">									
+							<c:when test="${product.PRODUCT_STATE == '3'}"> <!-- && pState == 'T' -->									
 							<button class="btn btn-primary" onclick="exportOrders();">출고처리</button>
 							</c:when>
 						</c:choose>
