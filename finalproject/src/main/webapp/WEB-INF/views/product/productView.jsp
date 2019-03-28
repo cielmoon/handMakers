@@ -17,6 +17,20 @@ $(function() {
 		}
 	});
 	
+	$('#input-quantity').keyup(function(e){
+		if(!((e.keyCode > 95 && e.keyCode < 106)|| (e.keyCode > 47 && e.keyCode < 58)|| e.keyCode == 8)) {
+			alert('숫자만 입력해주세요');
+			return false;
+		}
+		
+		if($('#input-quantity').val()==""){
+			alert('수량을 입력해주세요');
+			return false;
+		}
+	});
+		
+	
+	
 	var type = '${type}';
 	if (type == 'R') {
 		$("#li-description").attr('class', '');
