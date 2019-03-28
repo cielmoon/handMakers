@@ -59,6 +59,7 @@
   //<![CDATA[
     // 사용할 앱의 JavaScript 키를 설정해 주세요.
     Kakao.init('2a40c35769407dab0853c995ef536c20');
+    /* Kakao.init('bc707634ff27da5e93d59fea2e3ec55a'); */
     // 플러스친구 친구추가 버튼을 생성합니다.
     Kakao.PlusFriend.createAddFriendButton({
       container: '#plusfriend-addfriend-button',
