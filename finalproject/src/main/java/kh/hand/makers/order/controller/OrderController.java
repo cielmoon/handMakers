@@ -241,15 +241,43 @@ public class OrderController {
 			loc = "/order/orderEnroll.do?productNo="+productNo;
 		}else {
 			state = "T";
-			int yechk = service.insertOrderEnroll(order);
+			//주문 테이블에 기록
+			result = service.insertOrderEnroll(order);
 			Map<String,Object> insertMap = new HashMap();
-			
 			
 			insertMap.put("productNo", productNo);
 			insertMap.put("productOptionQty", productOptionQty);
+			
+			if(result>0) {
+				result = 0; 
+				logger.debug("결제하고 주문 가능 할떄!!!");
+				result = service.selectProductCheck(order); //갯수 다샀나 체크
+				if(result>0) {
+					logger.debug("여기 들어 오니?");
+					//MAX = 판매량 
+					int insertRecord = service.insertProductSalesRecord(order);
+					if(insertRecord>0) {
+						//state 값 수정
+						logger.debug("상태 값 바꾸고 토탈에다가 다 넣어줘야 됨!");
+						int updateState = service.updateProductStateYewon(order);
+					}
+				}else {
+					logger.debug("다 샀을 때 돌면 안되~~~");
+					//MAX 값이 판매량 보다 클 경우
+					int updateResult = 0;
+					updateResult = service.updateProductSell(map);
+				}
+				msg = "결제 완료되었습니다.";
+				loc = "/member/manageOrder.do";
+			}else {
+				/*int deleteResult = service.deleteOrder(order.getOrderNo());*/
+				msg = "결제 실패하였습니다.";
+				loc = "/order/orderEnroll.do?productNo="+productNo;
+			}
+			
 		
-			logger.debug("asgdasghdasdjgasgdagshdgahsdgahgsdahsd"+yechk);
-			int updateResult = 0;
+			
+			/*int updateResult = 0;
 			
 			if(result>0) {
 				updateResult = service.updateProductSell(insertMap);
@@ -263,16 +291,14 @@ public class OrderController {
 					loc = "/member/manageOrder.do";
 				}else {
 					result = 0;
-					int deleteResult = service.deleteOrder(order.getOrderNo());
-					msg = "결제 실패하였습니다.";
-					loc = "/order/orderEnroll.do";
+					
 				}
 				
 			}else {
 				
 				msg = "결제 실패하였습니다.";
 				loc = "/order/orderEnroll.do?productNo="+productNo;
-			}
+			}*/
 		}
 		
 		mv.addObject("loc",loc);

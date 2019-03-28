@@ -73,9 +73,9 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public int insertProductSalesRecord(String productNo) {
+	public int insertProductSalesRecord(Order order) {
 		
-		return session.insert("product.insertProductSalesRecord",productNo);
+		return session.insert("product.insertProductSalesRecord",order);
 	}
 
 	@Override
@@ -109,9 +109,9 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public int updateProductStateYewon(String productNo) {
+	public int updateProductStateYewon(Order order) {
 		// TODO Auto-generated method stub
-		return session.update("product.updateProductStateYewon",productNo);
+		return session.update("product.updateProductStateYewon",order);
 	}
 	
 	

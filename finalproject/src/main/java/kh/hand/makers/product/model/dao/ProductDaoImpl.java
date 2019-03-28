@@ -148,15 +148,7 @@ public class ProductDaoImpl implements ProductDao {
 		
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		
-		if(map.get("commentType").equals("R"))
-		{
-			return session.selectList("product.selectCommentR", map, rb);
-		}else 
-		{
-			return session.selectList("product.selectCommentQ", map, rb);
-		}
-
-	
+		return session.selectList("product.selectCommentR", map, rb);	
 	}
 
 	@Override
@@ -267,6 +259,19 @@ public class ProductDaoImpl implements ProductDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("product.selectDefaltProduct",productNo);
 	}
+
+	@Override
+	public List<Map<String, String>> selectCommentQnaLv1(Map<String, String> map, int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return session.selectList("product.selectCommentQnaLv1", map, rb);
+	}
+
+	@Override
+	public List<Map<String, String>> selectCommentQnaLv2(Map<String, String> map) {
+		return session.selectList("product.selectCommentQnaLv2", map);
+	}
+
+	
 
 	
 

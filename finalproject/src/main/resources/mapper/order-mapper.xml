@@ -28,7 +28,8 @@
   	</select>
   	
   	<update id="updateProductSell" parameterType="map">
-  		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL+#{productOptionQty}, PRODUCT_TOTALSELL=PRODUCT_TOTALSELL+#{productOptionQty} WHERE PRODUCT_NO = #{productNo}
+  		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL+#{productOptionQty} WHERE PRODUCT_NO = #{product_no}
+  		<!-- , PRODUCT_TOTALSELL=PRODUCT_TOTALSELL+#{productOptionQty}  -->
   	</update>
   	
   	<select id="selectProductOption" parameterType="string" resultType="map">

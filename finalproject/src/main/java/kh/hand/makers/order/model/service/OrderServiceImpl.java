@@ -39,10 +39,11 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional
 	public int insertOrderEnroll(Order order) {
+		
 		int result = dao.insertOrderEnroll(order);
 		
 //		Map<String,String> map = new HashMap();
-		Map<String,Object> map = new HashMap();
+		/*Map<String,Object> map = new HashMap();
 		
 		if(result>0) {
 			int r = dao.selectProductCheck(order); //갯수 다샀나 체크
@@ -59,8 +60,13 @@ public class OrderServiceImpl implements OrderService {
 					//result = dao.updateProductStateYewon(order.getProductNo());
 					//+그 후에 프로덕트에 초기화 + 누적++ 작업없음
 				}
+			}else {
+				//상품테이블 수량 업데이트
+				int updateResult = dao.updateProductSell(map);
+				
+				
 			}
-		}
+		}*/
 
 		return result;
 	}
@@ -126,15 +132,21 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public int updateProductStateYewon(String productNo) {
-		// TODO Auto-generated method stub
-		return updateProductStateYewon(productNo);
+	public int selectProductCheck(Order order) {
+		
+		return dao.selectProductCheck(order);
 	}
 
 	@Override
-	public int insertProductSalesRecord(String productNo) {
-		// TODO Auto-generated method stub
-		return dao.insertProductSalesRecord(productNo);
+	public int insertProductSalesRecord(Order order) {
+		
+		return dao.insertProductSalesRecord(order);
+	}
+
+	@Override
+	public int updateProductStateYewon(Order order) {
+
+		return dao.updateProductStateYewon(order);
 	}
 	
 	
