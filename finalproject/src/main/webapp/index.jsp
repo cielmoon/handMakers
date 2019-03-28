@@ -11,15 +11,15 @@
 		<div class="mainbanner"><!-- 메인배너엔 뭘넣어야할까? -->
 			<div id="main-banner" class="owl-carousel home-slider">
 				<div class="item">
-						<a href="#"><img src="${path }/resources/image/banners/ex1.jpg"
+						<a href="${path }/product/preList.do"><img src="${path }/resources/image/banners/ex1.jpg"
 						alt="main-banner1" class="img-responsive" /></a>
 				</div>
 				<div class="item">
-					<a href="#"><img src="${path }/resources/image/banners/ex2.jpg"
+					<a href="${path }/product/newList.do"><img src="${path }/resources/image/banners/ex2.jpg"
 						alt="main-banner2" class="img-responsive" /></a>
 				</div>
 				<div class="item">
-					<a href="#"><img src="${path }/resources/image/banners/ex3.jpg"
+					<a href="${path }/product/bestList.do"><img src="${path }/resources/image/banners/ex3.jpg"
 						alt="main-banner3" class="img-responsive" /></a>
 				</div>
 			</div>
