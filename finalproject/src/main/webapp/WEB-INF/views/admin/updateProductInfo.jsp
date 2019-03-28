@@ -175,6 +175,15 @@
 			}
 		})
 		
+		$("#productNewMin").blur(function() {			
+				if (parseInt($("#productNewMin").val()) > parseInt($("#productNewMax").val())) {
+					alert("최대 주문량은 최소 주문량보다 크게 입력해주세요.")
+					$("#productNewMin").val('');
+					$("#productNewMax").val('');
+					$("#productNewMax").focus();
+				}
+			});
+		
 		$("#productNewMax").blur(function() {			
 			if (parseInt($("#productNewMin").val()) >= parseInt($("#productNewMax").val())) {
 				alert("최대 주문량은 최소 주문량보다 크게 입력해주세요.")
