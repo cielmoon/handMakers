@@ -57,13 +57,13 @@ $(function(){
 		var d = Math.floor(distance / (1000 * 60 * 60 * 24)); 
 		var h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 		
-		if(productState != '0')
+		if(productState == '0' || productState == '1')
 		{
-			document.getElementById("d-day").innerHTML = "";
+			document.getElementById("d-day").innerHTML = d +"일 " + h + "시간  남았습니다.";		
 		}
 		else
 		{
-			document.getElementById("d-day").innerHTML = d +"일 " + h + "시간  남았습니다.";
+			document.getElementById("d-day").innerHTML = "";
 		}
 	});
 });

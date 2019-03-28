@@ -100,13 +100,23 @@ public class MemberController {
 		}
 
 		int result = service.changeProfile(m);
-
+		
+		
+		
 		if (result > 0) {
 			msg = "프로필사진 변경 완료";
-			loc = "/";
+			if (m.getMemberAuthority().equals("A")) {
+				loc = "/admin/adminPage.do";
+			} else {
+				loc = "/member/myPage.do";
+			}
 		} else {
 			msg = "프로필사진 변경 실패";
-			loc = "/";
+			if (m.getMemberAuthority().equals("A")) {
+				loc = "/admin/adminPage.do";
+			} else {
+				loc = "/member/myPage.do";
+			}
 		}
 
 		mv.addObject("msg", msg);
@@ -148,11 +158,11 @@ public class MemberController {
 	
 	@RequestMapping("/member/mailCheck.do")
 	public ModelAndView mailCheck(String memberEmail, ModelAndView mv) throws UnsupportedEncodingException {
+		System.out.println("왔다@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		int ran = new Random().nextInt(100000) + 10000; // 인증 코드용 난수 발생 10000 ~ 99999
 		Member m = service.memberEmailFind(memberEmail);
 		String emailState = "F";
 		
-		System.out.println("왔다");
 		System.out.println("이메일 : " + memberEmail);
 		
 		if (m != null) {
@@ -410,7 +420,7 @@ public class MemberController {
 		List<Map<String, String>> wishList = service.selectWishList(memberNo, cPage, numPerPage);
 
 		mv.addObject("wishContentCount", wishContentCount);
-		mv.addObject("pageBar", PageFactory.getPageBar(wishContentCount, cPage, numPerPage, "/member/wishList.do"));
+		mv.addObject("pageBar", PageFactory.getPageBar(wishContentCount, cPage, numPerPage, "/makers/member/wishList.do"));
 		mv.addObject("wishList", wishList);
 		mv.setViewName("/member/wishList");
 
@@ -455,7 +465,7 @@ public class MemberController {
 		int numPerPage = 5;
 		logger.debug("주문/배송 조회");
 		ModelAndView mv = new ModelAndView();
-		int contentCount = service.selectOrderCount();
+		int contentCount = service.selectOrderCount(m.getMemberNo());
 		List<ManageOrder> oList = service.selectOrderList(m, cPage, numPerPage);
 		mv.addObject("pageBar",
 				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/member/manageOrder.do"));
@@ -723,6 +733,7 @@ public class MemberController {
 		String accessToken = null;
 
 		ModelAndView mv = new ModelAndView();
+		//max == 현재판매량 + 내 수량 -> 상품:판매종료
 
 		String test_api_key = "0709424890638444";
 		String test_api_secret = "AblFnSFrDGn4XNWRNAdC4E4dgOosLqbmCx1ZpHr3oP8mC5dqFq3K57YmWmOIN04px6pXOR1cH9zkfMKV";
@@ -773,14 +784,27 @@ public class MemberController {
 		productMap.put("productNo", productNo);
 
 		int result = 0;
-
+		
 		try {
 			// 주문 상태 바꾸는 로직
 			result = orderService.updateOrderState(map);
 
 			if (result > 0) {
 				// 상품 현재 판매량 수량에 맞춰서 마이너스
-				result = productService.updateProductMinus(productMap);
+				
+				int productState = service.selectProductState(productNo.trim());
+				if(productState == 3) {
+					int updateR = service.updateProductState(productNo.trim());
+					String salesNo = service.selectSalseNo(productNo.trim());
+			
+					result = productService.updateProductMinus(productMap);
+					
+					//productNo의 판매이력중 제일 최근꺼 삭제
+					int deleteResult = service.deleteSaleProduct(salesNo);
+				}else {
+					result = productService.updateProductMinus(productMap);
+				}
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

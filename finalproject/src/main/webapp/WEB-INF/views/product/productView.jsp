@@ -682,7 +682,7 @@ function fn_imageViewChange(subImg){
 	                              </a>
 	                                 <div class="media-body">
 	                                    <div class="well well-sm">
-	                                       <h4 class="media-heading text-uppercase reviews display-inline">${second['MEMBER_ID'] }</h4>
+	                                       <h4 class="media-heading text-uppercase reviews display-inline">${second['MEMBER_NAME'] }</h4>
 	                                       <ul class="media-date text-uppercase reviews list-inline display-inline">
 	                                          <li class="dd"><fmt:formatDate value="${second['COMMENT_DATE'] }" pattern="yyyy MM dd"/></li>
 	                                       </ul>
@@ -721,7 +721,7 @@ function fn_imageViewChange(subImg){
                           	  </a>
                                  <div class="media-body">
                                     <div class="well well-sm">
-                                       <h4 class="media-heading text-uppercase reviews display-inline">${member.memberId}</h4>
+                                       <h4 class="media-heading text-uppercase reviews display-inline">${member.memberName}</h4>
                                        <hr/>
                                         <p class="media-comment">
 										 <textarea id="reviewContent${reviewComment['COMMENT_NO'] }" name="reviewContent" class="form-control" style="resize: none; border: 0px;" placeholder="댓글을 작성해주세요"></textarea>
@@ -836,12 +836,17 @@ function fn_imageViewChange(subImg){
                         <li class="media">                  
                            <c:if test="${questionComment.COMMENT_LEVEL eq 1 }">
                            <a class="pull-left" href="javascript:void(0);"> 
-                           <c:if test="${member.memberAuthority eq 'A' }">
-                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/adminProfile/${second['MEMBER_PROFILE']}" alt="profile">
+                           <%-- <c:if test="${member.memberAuthority eq 'A' }">
+                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/adminProfile/${questionComment.MEMBER_PROFILE }" alt="profile">
                            </c:if>
-                           <c:if test="${member.memberAuthority eq 'M' }">
-                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/memberProfile/${second['MEMBER_PROFILE']}" alt="profile">
+                           <c:if test="${member.memberAuthority eq 'M' }"> --%>
+                           <c:if test="${questionComment.MEMBER_AUTHORITY eq 'A' }">
+                           	  <img class="media-object img-circle" width="100px;" src="${path }/resources/image/adminProfile/${questionComment.MEMBER_PROFILE }" alt="profile">
                            </c:if>
+                           <c:if test="${questionComment.MEMBER_AUTHORITY eq 'M' }">
+                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/memberProfile/${questionComment.MEMBER_PROFILE }" alt="profile">
+                           </c:if>
+                           <%-- </c:if> --%>
                            </a>
                               <div class="media-body">
                                  <div class="well well-sm">

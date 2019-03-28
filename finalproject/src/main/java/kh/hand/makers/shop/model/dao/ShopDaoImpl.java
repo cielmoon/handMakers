@@ -224,5 +224,16 @@ public class ShopDaoImpl implements ShopDao {
 		return sqlSession.update("shop.updateTracking", map);
 	}
 
+	@Override
+	public Map<String, String> selectProductQnaComment(String qnaNo) {
+		return sqlSession.selectOne("shop.selectProductQnaComment", qnaNo);
+	}
+
+	@Override
+	public int orderDeliveryCheck(String qnaNo) {
+		return sqlSession.selectOne("shop.orderDeliveryCheck", qnaNo);
+
+	}
+
 	
 }

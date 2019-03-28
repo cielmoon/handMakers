@@ -238,7 +238,7 @@ public class OrderController {
 			}
 			
 			msg = "재고량이 없어 환불 되었습니다.";
-			loc = "/order/orderEnroll.do";
+			loc = "/order/orderEnroll.do?productNo="+productNo;
 		}else {
 			state = "T";
 			result = service.insertOrderEnroll(order);
@@ -256,7 +256,7 @@ public class OrderController {
 				
 				if(updateResult>0) {
 					msg = "결제 완료되었습니다 이용해주셔서 감사합니다.";
-					loc = "/";
+					loc = "/member/manageOrder.do";
 				}else {
 					result = 0;
 					int deleteResult = service.deleteOrder(order.getOrderNo());
@@ -267,7 +267,7 @@ public class OrderController {
 			}else {
 				
 				msg = "결제 실패하였습니다.";
-				loc = "/order/orderEnroll.do";
+				loc = "/order/orderEnroll.do?productNo="+productNo;
 			}
 		}
 		

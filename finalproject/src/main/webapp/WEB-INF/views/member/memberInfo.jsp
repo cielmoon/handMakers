@@ -142,7 +142,7 @@
 							<label for="input-id" class="col-sm-4 control-label" id="labelMemberEmail">이메일</label>
 							<div class="col-sm-8">
 									<input type="text" class="form-control"  name="memberEmail" id="memberEmail" 
-									value="${member.memberEmail }">
+									value="${member.memberEmail } " readonly>
 							</div>
 						</div>
 						<div class="form-group required" id="memberInfo">
