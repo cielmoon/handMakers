@@ -60,6 +60,8 @@ function searchAddr(){
 
 function requestPay() {
 	
+	
+	
 	var addr = $('input[name=addr]').val();
 	var detailAddr = $('input[name=detailAddr]').val();
 	var postCode = $('input[name=postCode]').val();
@@ -128,7 +130,8 @@ function requestPay() {
 	        var msg = '결제에 실패하였습니다.';
 	        msg += '에러내용 : ' + rsp.error_msg;
 	        
-	        location.href="${path}/order/updateResetOrder.do?productNo="+productNo+"&productOptionQty="+productOptionQty;
+	        alert("결제에 실패 하였습니다.");
+	        /* location.href="${path}/order/updateResetOrder.do?productNo="+productNo+"&productOptionQty="+productOptionQty; */
 	        
 	        return;
 	    }

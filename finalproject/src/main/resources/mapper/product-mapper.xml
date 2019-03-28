@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="product">
+	<resultMap type="defaultproduct" id="defaultProductMap">
+		<result column="product_no" property="productNo" />
+		<result column="product_title" property="productTitle" />
+		<result column="product_enrolldate"	property="productEnrollDate" />
+		<result column="product_update" property="productUpdate" />
+		<result column="product_profile" property="productProfile" />
+		<result column="product_comment" property="productComment" />
+		<result column="product_state" property="productState" />
+		<result column="product_step" property="productStep" />
+		<result column="product_price" property="productPrice" />
+		<result column="product_max" property="productMax" />
+		<result column="product_min" property="productMin" />
+		<result column="product_enddate" property="productEndDate" />
+		<result column="sc_no" property="scNo" />
+		<result column="bc_no" property="bcNo" />
+		<result column="brand_no" property="brandNo" />
+		<result column="member_no" property="memberNo" />
+		<result column="admin_no" property="adminNo" />
+		<result column="product_totalsell" property="productTotalSell" />
+		<result column="product_cursell" property="productCurSell" />
+		<result column="product_discount" property="productDiscount" />
+		
+	</resultMap>
+
 	<resultMap type="product" id="productMap">
 		<result column="product_no" property="productNo" />
 		<result column="product_title" property="productTitle" />
@@ -111,7 +135,9 @@
 	</select>
 	
 	<select id="selectProductDetail" parameterType="string" resultType="map">
-		SELECT * FROM PRODUCT_DETAIL WHERE PRODUCT_NO=#{productNo}
+		SELECT * 
+		FROM PRODUCT_DETAIL
+		WHERE PRODUCT_NO=#{productNo}
 	</select>
 	
 	<delete id="deleteWish" parameterType="wish">
@@ -209,8 +235,8 @@
 		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL-#{productOptionQty}, PRODUCT_TOTALSELL=PRODUCT_TOTALSELL-#{productOptionQty} WHERE PRODUCT_NO = #{productNo} 
 	</update>
 	
-	<select id="selectProductCheck" parameterType="map" resultType="map">
-		SELECT * FROM PRODUCT WHERE PRODUCT_NO=#{productNo} AND PRODUCT_MAX=PRODUCT_CURSELL
+	<select id="selectProductCheck" parameterType="order" resultType="_int">
+		SELECT count(*) FROM PRODUCT WHERE PRODUCT_NO=#{productNo} AND PRODUCT_MAX=PRODUCT_CURSELL+#{productOptionQty}
 	</select>
 	
 	<insert id="insertProductSalesRecord" parameterType="string">
@@ -231,4 +257,11 @@
 	<update id="updateResetOrder" parameterType="map">
 		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL-TO_NUMBER(#{productOptionQty}), PRODUCT_TOTALSELL=PRODUCT_TOTALSELL-TO_NUMBER(#{productOptionQty}) WHERE PRODUCT_NO=#{productNo} 
 	</update>
+	
+	<update id="updateResetProduct" parameterType="map">
+		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL-TO_NUMBER(#{productOptionQty}), PRODUCT_TOTALSELL=PRODUCT_TOTALSELL-TO_NUMBER(#{productOptionQty}) WHERE PRODUCT_NO=#{productNo}
+	</update>
+	<select id="selectDefaltProduct" parameterType="string" resultMap="defaultProductMap">
+		SELECT * FROM PRODUCT WHERE PRODUCT_NO=#{productNo}
+	</select>
 </mapper>
