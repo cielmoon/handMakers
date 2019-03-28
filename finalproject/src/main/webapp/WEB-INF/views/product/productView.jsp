@@ -92,8 +92,6 @@ function productCheck(){
 			
 			if(data.state == "F"){
 				alert('주문에 실패 하였습니다.');
-				console.log(tab);
-				console.log(productNo);
 				location.href="${path}/product/productView.do?productNo="+productNo+"&tab="+tab;
 				
 			}else{
@@ -345,7 +343,7 @@ function fn_imageViewChange(subImg){
     <li><a href="/makers"><i class="fa fa-home"></i></a></li>
     <c:choose>
     	<c:when test="${tab eq 'p'}">
-    		<li><a href="${path }/product/preList.do">입점문의</a></li>
+    		<li><a href="${path }/product/preList.do">입점예정</a></li>
     	</c:when>
     	<c:when test="${tab eq 'n' }">
     		<li><a href="${path }/product/newList.do">신규</a></li>
