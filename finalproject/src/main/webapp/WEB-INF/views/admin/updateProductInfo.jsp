@@ -57,6 +57,22 @@
 </style>
 
 <script>
+	$(document).ready(function() {
+		var today = new Date();
+		  var year = today.getFullYear();
+		  var month = ("0" + (today.getMonth() + 1)).slice(-2);
+		  var day = ("0" + (today.getDate() + 1)).slice(-2);
+			
+		  var minDate = (year + "-" + month + "-" + day);
+			
+		  $("#productNewEndDate").attr("min", minDate);
+		  
+		  function fn_setDatePickerMax(){
+    		var datePicker = $('#productNewEndDate');
+    		datePicker.min = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+ 		  }
+	});
+
 	function validate() {
 		var date = new Date();
 		var selectedEndDate = $("#productNewEndDate").val();
@@ -77,7 +93,6 @@
 			return false;
 		}
 	
-		// 추가할 제약조건 : 최대주문량은 최소주문량보다 커야 함
 		if ($("#productNewMax").val() == "") {
 			alert("최대 주문량을 입력해주세요.");
 			$("#productNewMax").focus();
@@ -85,7 +100,6 @@
 			return false;
 		}
 		
-		// 추가할 제약조건 : 상품 마감날짜는 무조건 등록날짜 이후여야 함
 		if ($("#productNewEndDate").val() == "") {
 			alert("상품 마감 날짜를 입력해주세요.");
 			$("#productNewEndDate").focus();
@@ -93,25 +107,92 @@
 			return false;
 		}
 		
-		if (parseInt($("#productNewMin").val()) >= parseInt($("#productNewMax").val())) {
-			alert("최대 수량은 최소 수량보다 크게 입력해주세요.")
-			$("#productNewMin").val('');
-			$("#productNewMax").val('');
-			$("#productNewMin").focus();
-			
-			return false;
-		}
-		
-		if (date >= endDate) {
-			alert("판매 종료일은 오늘 날짜 이후로 선택해주세요.");
-			$("#productNewEndDate").val('');
-			$("#productNewEndDate").focus();
-			
-			return false;
-		}
-		
 		return true;
 	};
+	
+	$(function() {
+		var numberRegex = /^[0-9]+$/;
+		
+		$("#productNewPrice").on('change keyup paste', (function () {
+			var productNewPrice = $("#productNewPrice").val();
+			if (productNewPrice.length > 0) {
+				if(!numberRegex.test(productNewPrice)) {
+					alert("상품 가격은 숫자만 입력해주세요.");
+					$("#productNewPrice").val('');
+					/* $("#newProductPrice").focus(); */
+
+					return;
+				}
+			}
+			if(productNewPrice.length > 7 ){
+				alert("상품은 1천원 ~ 1천만원 사이의 금액만 입력 가능합니다.");
+				$("#productNewPrice").val('');
+				
+				return;	
+			}
+		}))
+		
+		$("#productNewMin").keyup(function() {
+			var productNewMin = $("#productNewMin").val();
+			if (productNewMin.length > 0) {
+				if(!numberRegex.test(productNewMin)) {
+					alert("최소 주문량은 숫자만 입력해주세요.");
+					$("#productNewMin").val('');
+					/* $("#newProductPrice").focus(); */
+
+					return;
+				}
+			}
+			
+			if (parseInt($("#productNewMin").val()) < 1 || parseInt($("#productNewMin").val()) > 10000) {
+				alert("최소 주문량은 1 ~ 10000 사이의 숫자만 입력해주세요.");
+				$("#productNewMin").val('');
+				/* $("#newProductSale").focus(); */
+				
+				return;
+			}
+		})
+		
+		$("#productNewMax").keyup(function() {
+			var productNewMax = $("#productNewMax").val();
+			
+			if (productNewMax.length > 0) {
+				if(!numberRegex.test(productNewMax)) {
+					alert("최대 주문량은 숫자만 입력해주세요.");
+					$("#productNewMax").val('');
+					/* $("#newProductPrice").focus(); */
+
+					return;
+				}
+			}
+			
+			if (parseInt($("#productNewMax").val()) < 1 || parseInt($("#productNewMax").val()) > 10000) {
+				alert("최대 주문량은 1 ~ 10000 사이의 숫자만 입력해주세요.");
+				$("#productNewMax").val('');
+				/* $("#newProductSale").focus(); */
+				
+				return;
+			}
+		})
+		
+		$("#productNewMin").blur(function() {			
+				if (parseInt($("#productNewMin").val()) > parseInt($("#productNewMax").val())) {
+					alert("최대 주문량은 최소 주문량보다 크게 입력해주세요.")
+					$("#productNewMin").val('');
+					$("#productNewMax").val('');
+					$("#productNewMax").focus();
+				}
+			});
+		
+		$("#productNewMax").blur(function() {			
+			if (parseInt($("#productNewMin").val()) >= parseInt($("#productNewMax").val())) {
+				alert("최대 주문량은 최소 주문량보다 크게 입력해주세요.")
+				$("#productNewMin").val('');
+				$("#productNewMax").val('');
+				$("#productNewMin").focus();
+			}
+		});
+	});
 </script>
 
 <section>
@@ -195,7 +276,7 @@
 							<hr>
 							<ul class="list-unstyled productinfo-details-top">
 								<li><label>가격:</label> <span>
-										<input type="text" id="productNewPrice" name="productNewPrice" placeholder="상품 가격"/></span>
+										<input type="text" class="form-control" id="productNewPrice" name="productNewPrice" min="1000" max="10000000" placeholder="상품가격을 적어주세요(원)"/></span>
 								
 								</li>
 							
@@ -204,12 +285,12 @@
 
 							<ul class="list-unstyled product_info">
 								<li><label>최소수량:</label> <span>
-										<input type="text" id="productNewMin" name="productNewMin" placeholder="최소 수량"/></span></li>
+										<input type="text" id="productNewMin" name="productNewMin" placeholder="최소 수량" min='1' max='10000' placeholder="1부터 10000까지 입력해주세요."/></span></li>
 								<li><label>최대수량:</label> <span>
-										<input type="text" id="productNewMax" name="productNewMax" placeholder="최대 수량" /></span></li>
+										<input type="text" id="productNewMax" name="productNewMax" placeholder="최대 수량" min='1' max='10000' placeholder="1부터 10000까지 입력해주세요."/></span></li>
 										
 								<li><label>판매 종료일:</label> <span>
-										<input type="date" id="productNewEndDate" name="productNewEndDate"  /></span></li>
+										<input type="date" class="form-control" id="productNewEndDate" name="productNewEndDate" placeholder="마감날짜"/></span></li>
 								
 							</ul>
 							<hr />

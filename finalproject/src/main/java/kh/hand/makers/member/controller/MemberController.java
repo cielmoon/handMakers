@@ -100,13 +100,23 @@ public class MemberController {
 		}
 
 		int result = service.changeProfile(m);
-
+		
+		
+		
 		if (result > 0) {
 			msg = "프로필사진 변경 완료";
-			loc = "/";
+			if (m.getMemberAuthority().equals("A")) {
+				loc = "/admin/adminPage.do";
+			} else {
+				loc = "/member/myPage.do";
+			}
 		} else {
 			msg = "프로필사진 변경 실패";
-			loc = "/";
+			if (m.getMemberAuthority().equals("A")) {
+				loc = "/admin/adminPage.do";
+			} else {
+				loc = "/member/myPage.do";
+			}
 		}
 
 		mv.addObject("msg", msg);
@@ -148,11 +158,11 @@ public class MemberController {
 	
 	@RequestMapping("/member/mailCheck.do")
 	public ModelAndView mailCheck(String memberEmail, ModelAndView mv) throws UnsupportedEncodingException {
+		System.out.println("왔다@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		int ran = new Random().nextInt(100000) + 10000; // 인증 코드용 난수 발생 10000 ~ 99999
 		Member m = service.memberEmailFind(memberEmail);
 		String emailState = "F";
 		
-		System.out.println("왔다");
 		System.out.println("이메일 : " + memberEmail);
 		
 		if (m != null) {
