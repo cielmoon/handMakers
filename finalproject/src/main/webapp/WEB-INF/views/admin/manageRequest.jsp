@@ -63,7 +63,7 @@ function manageRequestAjaxBrand(cPage) {
 					sellerReqState = '폐점신고요청';
 				}else if(data.proc[i].sellerReqState == 'e'){
 					sellerReqState = '폐점완료';
-				}else if(data.proc[i].sellerReqState == 'f'){
+				}else if(data.proc[i].sellerReqState == 'b'){
 					sellerReqState = '폐점반려';
 				}
 				if(data.proc[i].sellerReqProcess == '0'){
@@ -216,7 +216,7 @@ function manageRequestAjaxProduct(cPage) {
 											<c:when test="${r.sellerReqState == 'e' }">
 												<td>폐점완료</td>											
 											</c:when>		
-											<c:when test="${r.sellerReqState == 'f' }">
+											<c:when test="${r.sellerReqState == 'b' }">
 												<td>폐점반려</td>											
 											</c:when>												
 										</c:choose>	
@@ -235,8 +235,9 @@ function manageRequestAjaxProduct(cPage) {
 										<c:choose>
 											<c:when test="${r.sellerReqProcess == '0' }">
 												<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,e,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">수락</button></a>
-												<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,f,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">반려</button></a></td>					
-											</c:when>						
+												<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,b,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">반려</button></a></td>					
+											</c:when>		
+											<c:otherwise><td></td></c:otherwise>				
 										</c:choose>										
 									</c:when>
 									<%-- <c:when test="${r.sellerReqType == 'P' }">
