@@ -5,6 +5,7 @@ import java.util.Map;
 
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.order.model.vo.Order;
+import kh.hand.makers.product.model.vo.DefaultProduct;
 
 public interface OrderDao {
 	
@@ -23,4 +24,9 @@ public interface OrderDao {
 	int updateResetOrder(Map<String,String> map);
 	int updateResetProduct(Map<String,Object> map);
 	int deleteOrder(String orderNo);
+	
+	int orderInsert(Order order);
+	int updateProductQty(Map<String,Object> updateProduct);
+	int salesInsert(DefaultProduct ds);
+	int updateProductCS(String productNo);
 }

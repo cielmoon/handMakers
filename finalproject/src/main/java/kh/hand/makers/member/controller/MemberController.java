@@ -796,13 +796,22 @@ public class MemberController {
 				if(productState == 3) {
 					int updateR = service.updateProductState(productNo.trim());
 					String salesNo = service.selectSalseNo(productNo.trim());
-			
-					result = productService.updateProductMinus(productMap);
+					int currSell = service.selectCerrSell(salesNo);
+					//int beforeSell = (currSell - Integer.parseInt(productOptionQty));
+					//System.out.println("초기화전 cursell"+beforeSell);
+					System.out.println("현재 내 수량"+Integer.parseInt(productOptionQty));
+					Map<String, Object> pMap = new HashMap();
 					
+					pMap.put("productOptionQty", Integer.parseInt(productOptionQty));
+					pMap.put("currSell", currSell);
+					pMap.put("productNo", productNo);
 					//productNo의 판매이력중 제일 최근꺼 삭제
+					
+					result = productService.updateProductMinus(pMap);
+					
 					int deleteResult = service.deleteSaleProduct(salesNo);
 				}else {
-					result = productService.updateProductMinus(productMap);
+					result = productService.updatePMinus(productMap);
 				}
 				
 			}

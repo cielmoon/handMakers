@@ -188,6 +188,12 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.selectSalseNo(productNo);
 	}
+
+	@Override
+	public int selectCerrSell(String salesNo) {
+		// TODO Auto-generated method stub
+		return dao.selectCerrSell(salesNo);
+	}
 	
 	
 }

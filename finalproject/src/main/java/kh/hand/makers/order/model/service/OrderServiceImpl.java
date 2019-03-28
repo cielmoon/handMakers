@@ -25,6 +25,7 @@ import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.order.model.vo.Order;
 import kh.hand.makers.product.model.dao.ProductDao;
 import kh.hand.makers.product.model.dao.ProductDaoImpl;
+import kh.hand.makers.product.model.vo.DefaultProduct;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -116,6 +117,30 @@ public class OrderServiceImpl implements OrderService {
 	public int deleteOrder(String orderNo) {
 		
 		return dao.deleteOrder(orderNo);
+	}
+
+	@Override
+	public int orderInsert(Order order) {
+		// TODO Auto-generated method stub
+		return dao.orderInsert(order);
+	}
+
+	@Override
+	public int updateProductQty(Map<String, Object> updateProduct) {
+		// TODO Auto-generated method stub
+		return dao.updateProductQty(updateProduct);
+	}
+
+	@Override
+	public int salesInsert(DefaultProduct ds) {
+		// TODO Auto-generated method stub
+		return dao.salesInsert(ds);
+	}
+
+	@Override
+	public int updateProductCS(String productNo) {
+		// TODO Auto-generated method stub
+		return dao.updateProductCS(productNo);
 	}
 	
 	

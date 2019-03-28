@@ -188,6 +188,12 @@ public class MemberDaoImpl implements MemberDao {
 	public String selectSalseNo(String productNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("member.selectSalseNo", productNo);
+	}
+
+	@Override
+	public int selectCerrSell(String salesNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.selectCerrSell", salesNo);
 	}	
 	
 }

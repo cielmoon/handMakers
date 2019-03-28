@@ -1,13 +1,11 @@
 package kh.hand.makers.shop.controller;
 
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.hand.makers.common.PageFactory;
+import kh.hand.makers.member.model.service.MemberService;
 import kh.hand.makers.member.model.vo.Member;
-import kh.hand.makers.order.model.vo.Order;
 import kh.hand.makers.product.model.service.ProductService;
-import kh.hand.makers.product.model.vo.Product;
+import kh.hand.makers.product.model.vo.DefaultProduct;
 import kh.hand.makers.shop.model.service.ShopService;
 import kh.hand.makers.shop.model.vo.BigCategory;
 import kh.hand.makers.shop.model.vo.Brand;
@@ -35,6 +33,9 @@ public class ShopController {
 	ShopService service;
 	@Autowired
 	ProductService productService;
+	@Autowired
+	MemberService memberService;
+	
 	
 	@RequestMapping("/shop/shopCart.do")
 	public String shopCart()
@@ -314,11 +315,23 @@ public class ShopController {
 		Brand brand = service.selectBrand(brandNo);	
 		
 		Map<String, String> product = service.selectProduct(productNo);
+		DefaultProduct p = productService.selectDefaltProduct(productNo);
 		int numPerPage = 10;
 		int contentCount = service.selectOrderCount(productNo);
 		List<Map<String, String>> orderList = service.selectOrderList(productNo, cPage, numPerPage);
-		
+		String salesNo = memberService.selectSalseNo(productNo);
+		int currSell = memberService.selectCerrSell(salesNo);
+		System.out.println("현재판매량"+currSell);
+		String pState ="";
+	
+		if(currSell >= p.getProductMin()) {
+			pState ="T";
+		}else {
+			pState = "F";
+		}
 		mv.addObject("brand", brand);
+		mv.addObject("pState", pState);
+		mv.addObject("currSell", currSell);
 		mv.addObject("product", product);
 		mv.addObject("orderList", orderList);
 		mv.addObject("pageBar",PageFactory.getConditionPageBar(contentCount, cPage, numPerPage, "/makers/shop/brandProductHome.do?productNo=" + productNo + "&brandNo=" + brandNo));

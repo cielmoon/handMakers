@@ -268,6 +268,12 @@ public class ProductDaoImpl implements ProductDao {
 		return session.selectOne("product.selectDefaltProduct",productNo);
 	}
 
+	@Override
+	public int updatePMinus(Map<String, Object> productMap) {
+		// TODO Auto-generated method stub
+		return session.update("product.updatePMinus",productMap);
+	}
+
 	
 
 	

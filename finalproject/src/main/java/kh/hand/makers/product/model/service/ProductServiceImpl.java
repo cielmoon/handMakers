@@ -212,6 +212,12 @@ public class ProductServiceImpl implements ProductService {
 		return dao.selectProductCheck(map);
 	}
 
+	@Override
+	public int updatePMinus(Map<String, Object> productMap) {
+		// TODO Auto-generated method stub
+		return  dao.updatePMinus(productMap);
+	}
+
 	
 	
 	

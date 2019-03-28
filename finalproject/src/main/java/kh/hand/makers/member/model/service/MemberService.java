@@ -45,4 +45,5 @@ public interface MemberService {
 	int deleteSaleProduct(String salesNo);
 	
 	String selectSalseNo(String productNo);
+	int selectCerrSell(String salesNo);
 }

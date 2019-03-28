@@ -43,5 +43,6 @@ public interface MemberDao {
 	int deleteSaleProduct(String salesNo);
 	
 	String selectSalseNo(String productNo);
+	int selectCerrSell(String salesNo);
 
 }

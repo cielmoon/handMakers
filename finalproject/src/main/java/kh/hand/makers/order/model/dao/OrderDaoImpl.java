@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.order.model.vo.Order;
+import kh.hand.makers.product.model.vo.DefaultProduct;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
@@ -106,6 +107,30 @@ public class OrderDaoImpl implements OrderDao {
 	public int deleteOrder(String orderNo) {
 		
 		return session.delete("order.deleteOrder",orderNo);
+	}
+
+	@Override
+	public int orderInsert(Order order) {
+		// TODO Auto-generated method stub
+		return session.insert("order.orderInsert",order);
+	}
+
+	@Override
+	public int updateProductQty(Map<String, Object> updateProduct) {
+		// TODO Auto-generated method stub
+		return session.update("order.updateProductQty",updateProduct);
+	}
+
+	@Override
+	public int salesInsert(DefaultProduct ds) {
+		// TODO Auto-generated method stub
+		return session.insert("order.salesInsert",ds);
+	}
+
+	@Override
+	public int updateProductCS(String productNo) {
+		// TODO Auto-generated method stub
+		return session.update("order.updateProductCS",productNo);
 	}
 	
 	

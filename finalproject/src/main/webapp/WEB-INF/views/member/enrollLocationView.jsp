@@ -90,7 +90,7 @@
 						<div class="col-sm-9"></div>
 						<div class="col-sm-3">
 						<c:choose>	
-							<c:when test="${deliveryList.size() < 8 }">					
+							<c:when test="${deliveryList.size() < 5 }">					
 							<input type="button" class="btn btn-primary" onclick='location.href="${path}/member/enrollLocation.do"'
 								value="배송지 등록하기" />
 							</c:when>

@@ -232,9 +232,16 @@
 	</select>
 	
 	<update id="updateProductMinus" parameterType="map">
-		UPDATE PRODUCT SET PRODUCT_CURSELL=PRODUCT_CURSELL-#{productOptionQty}, PRODUCT_TOTALSELL=PRODUCT_TOTALSELL-#{productOptionQty} WHERE PRODUCT_NO = #{productNo} 
+		UPDATE PRODUCT SET PRODUCT_TOTALSELL = (PRODUCT_TOTALSELL - #{currSell}),
+		PRODUCT_CURSELL=(#{currSell}-#{productOptionQty})
+		WHERE PRODUCT_NO = #{productNo} 
 	</update>
 	
+	<update id="updatePMinus" parameterType="map">
+		UPDATE PRODUCT SET 
+		PRODUCT_CURSELL=(PRODUCT_CURSELL-#{productOptionQty})
+		WHERE PRODUCT_NO = #{productNo} 
+	</update>
 	<select id="selectProductCheck" parameterType="order" resultType="_int">
 		SELECT count(*) FROM PRODUCT WHERE PRODUCT_NO=#{productNo} AND PRODUCT_MAX=PRODUCT_CURSELL+#{productOptionQty}
 	</select>

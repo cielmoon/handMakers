@@ -215,10 +215,13 @@ function updateTracking()
 							<c:when test="${product.PRODUCT_STATE == '2'}">
 								<label>판매중지&nbsp;<i class="fa fa-times" style="font-size:18px; color: firebrick;"></i></label>						
 							</c:when>
+							<c:when test="${product.PRODUCT_STATE == '3'}">
+								<label>현재 ${product.PRODUCT_CURSELL}개 남음</label>					
+							</c:when>
 							<c:otherwise>
 								<c:if test="${product.PRODUCT_CURSELL < product.PRODUCT_MIN}">
 								<label>최소 주문수량 미달 <i class="fa fa-times" style="font-size:18px; color: firebrick;"></i></label>&nbsp;&nbsp;							
-								<label>현재 ${product.PRODUCT_MIN - product.PRODUCT_CURSELL}개 남음</label>
+								<label>재고가 현재 ${product.PRODUCT_MIN - product.PRODUCT_CURSELL}개 남음</label>
 								</c:if>
 								<c:if test="${product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">	
 									<label>최소 주문수량 달성 <i class="fa fa-check" style="font-size:18px; color: lightgreen;"></i></label>&nbsp;&nbsp;	
@@ -227,15 +230,20 @@ function updateTracking()
 							</c:otherwise>
 						</c:choose>	
 					</div>
-					<div class="col-sm-12 mt-10">					
+					<div class="col-sm-12 mt-10">
 						<table id='tbl-board' class='table table-striped table-hover'>
-							<tr>
-								<c:if test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">
-									<th>
+							<tr>	
+								<c:choose>								
+								<c:when test="${product.PRODUCT_STATE == '3' && pState == 'T'}">
+									<th>										
 										<a id="check-all-order" href="javascript:void(0);" onclick="checkAllOrder(1);"><i class="fa fa-check" style="color: gray;"></i></a>
 										<a id="uncheck-all-order" href="javascript:void(0);" onclick="checkAllOrder(0);"><i class="fa fa-check" style="color: lightgray;"></i></a>	
 									</th>
-								</c:if>
+								</c:when>
+								<c:otherwise>
+									
+								</c:otherwise>
+								</c:choose>
 								<th>번호</th>
 								<th>주문자</th>
 								<th>옵션</th>								
@@ -251,12 +259,14 @@ function updateTracking()
 							</c:if>
  							<c:forEach var="o" items="${orderList }" varStatus="vs">
 								<tr>
-									<c:if test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">
+									<c:choose>
+									<c:when test="${product.PRODUCT_STATE == '3' && pState == 'T'}">
 										<td>
 											<input type="checkbox" name="checkOrders" id="check-order" value="${o.ORDER_NO }" 
 											${o.ORDER_STATE == '1'? "style='display:none;'" : o.ORDER_TRACKINGNO == null ? "disabled" : ""}/>
 										</td>
-									</c:if>
+									</c:when>
+									</c:choose>
 									<td>${index + vs.index }</td>	
 									<td>${fn:replace(o.MEMBER_ID, fn:substring(o.MEMBER_ID, o.MEMBER_ID.length()-2, o.MEMBER_ID.length()), '**')}</td>
 									<td>${o.PRODUCT_OPTION }</td>
@@ -283,9 +293,11 @@ function updateTracking()
 						</table>
 					</div>
 					<div class="col-sm-2 float-right">
-						<c:if test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">
+						<c:choose>
+							<c:when test="${product.PRODUCT_STATE == '3' && pState == 'T'}">									
 							<button class="btn btn-primary" onclick="exportOrders();">출고처리</button>
-						</c:if>
+							</c:when>
+						</c:choose>
 					</div>
 					<div class="col-sm-12 text-center">
 						${pageBar }

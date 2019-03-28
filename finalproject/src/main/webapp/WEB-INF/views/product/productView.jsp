@@ -349,9 +349,9 @@ function fn_imageViewChange(subImg){
   <!-- nav -->
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
-    <c:choose>
+<%--     <c:choose>
     	<c:when test="${tab eq 'n' or tab eq 'p' }"></c:when>
-    	<c:when test="${tab eq 'b'}">
+     	<c:when test="${tab eq 'b'}">
     		<div class="column-block">
 	        <div class="column-block">
 	          <div class="columnblock-title">${bcTitle }</div>
@@ -364,8 +364,8 @@ function fn_imageViewChange(subImg){
 	          </div>
 	        </div>
 	       </div>
-    	</c:when>
-    	<c:otherwise>
+    	</c:when> 
+     	<c:otherwise>
       <div class="column-block">
         <div class="column-block">
           <div class="columnblock-title">${bcTitle }</div>
@@ -379,7 +379,7 @@ function fn_imageViewChange(subImg){
         </div>
        </div>
        </c:otherwise>
-       </c:choose>
+       </c:choose> --%>
        </div>
 
     <div id="content" class="col-sm-9">
@@ -502,10 +502,25 @@ function fn_imageViewChange(subImg){
               <label>판매종료일:</label>
               <span><fmt:formatDate value="${product.PRODUCT_ENDDATE }" pattern="yyyy-MM-dd"/></span></li>
             <c:choose>
-            	<c:when test="${product.PRODUCT_STATE ne 0}">
+            	<c:when test="${product.PRODUCT_STATE eq 3}">
             	<li>
 	              <label>판매 남은일:</label>
-	              <span id="remainperiod" style="color:red">주문 마감된 상품입니다.</span></li>
+	              <span id="remainperiod" style="color:red">판매가 완료된 상품입니다.</span></li>
+	           </c:when>
+	           <c:when test="${product.PRODUCT_STATE eq 1}">
+            	<li>
+	              <label>판매 남은일:</label>
+	              <span id="remainperiod" style="color:red">판매중지가 요청된 상품입니다.</span></li>
+	           </c:when>
+	           <c:when test="${product.PRODUCT_STATE eq 2}">
+            	<li>
+	              <label>판매 남은일:</label>
+	              <span id="remainperiod" style="color:red">판매중지 상품입니다.</span></li>
+	           </c:when>
+	           <c:when test="${product.PRODUCT_STATE eq 4}">
+            	<li>
+	              <label>판매 남은일:</label>
+	              <span id="remainperiod" style="color:red">재판매가 요청된 상품입니다.</span></li>
 	           </c:when>
 	           <c:when test="${product.PRODUCT_STATE eq 0 }">
 	            <li>
