@@ -270,4 +270,9 @@
 	<select id="selectDefaltProduct" parameterType="string" resultMap="defaultProductMap">
 		SELECT * FROM PRODUCT WHERE PRODUCT_NO=#{productNo}
 	</select>
+	
+	<update id="updateProductStateYewon" parameterType="string">
+		UPDATE PRODUCT SET PRODUCT_TOTALSELL = 0, PRODUCT_CURSELL = 999, PRODUCT_STATE = '3' WHERE PRODUCT_NO = #{productNo}
+	</update>
+	<!-- (PRODUCT_TOTALSELL + PRODUCT_CURSELL) -->
 </mapper>

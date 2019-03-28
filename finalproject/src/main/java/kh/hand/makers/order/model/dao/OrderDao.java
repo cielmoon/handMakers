@@ -23,4 +23,5 @@ public interface OrderDao {
 	int updateResetOrder(Map<String,String> map);
 	int updateResetProduct(Map<String,Object> map);
 	int deleteOrder(String orderNo);
+	int updateProductStateYewon(String productNo);
 }
