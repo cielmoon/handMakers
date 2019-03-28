@@ -40,5 +40,8 @@ public interface MemberDao {
 	int updateProductWithdrawl(String brandNo);
 	int updateBrandWithdrawl(String brandNo);
 	int updateProductState(String productNo);
+	int deleteSaleProduct(String salesNo);
+	
+	String selectSalseNo(String productNo);
 
 }

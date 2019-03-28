@@ -536,4 +536,28 @@ public class ShopController {
 		mv.setViewName("jsonView");
 		return mv;
 	}
+	
+	@RequestMapping("/shop/selectProductQnaComment.do")
+	public ModelAndView qnaView(String qnaNo)
+	{
+		ModelAndView mv = new ModelAndView();
+		
+		Map<String, String> comment = service.selectProductQnaComment(qnaNo);				
+		mv.addObject("comment", comment);
+		mv.setViewName("jsonView");
+		return mv;
+	}
+	
+	@RequestMapping("/shop/orderDeliveryCheck.do")
+	public ModelAndView orderDeliveryCheck(String productNo)
+	{
+		ModelAndView mv = new ModelAndView();
+		int deliveryCheck = service.orderDeliveryCheck(productNo);	
+		
+		mv.addObject("delivery", deliveryCheck);
+		mv.setViewName("jsonView");
+		return mv;
+	}
+	
+	
 }

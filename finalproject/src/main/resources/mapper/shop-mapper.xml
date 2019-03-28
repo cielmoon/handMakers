@@ -153,4 +153,10 @@
 	<update id="updateTracking" parameterType="map">
 		UPDATE PRODUCT_ORDER SET ORDER_TRACKINGNO = #{trackingNo} WHERE ORDER_NO = #{orderNo}
 	</update>
+	<select id="selectProductQnaComment" parameterType="string" resultType="map">
+		SELECT * FROM PRODUCT_COMMENT WHERE COMMENT_NO = #{commentNo}
+	</select>
+	<select id="orderDeliveryCheck" resultType="_int" parameterType="string">
+		SELECT COUNT(*) FROM PRODUCT_ORDER WHERE PRODUCT_NO = #{productNo} AND ORDER_STATE = '0' AND ORDER_PAYSTATE = '0'
+	</select>
 </mapper>

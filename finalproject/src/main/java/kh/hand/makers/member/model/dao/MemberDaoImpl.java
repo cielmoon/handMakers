@@ -177,6 +177,17 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("member.updateProductState", productNo);
 	}
-	
+
+	@Override
+	public int deleteSaleProduct(String salesNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("member.deleteSaleProduct", salesNo);
+	}
+
+	@Override
+	public String selectSalseNo(String productNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.selectSalseNo", productNo);
+	}	
 	
 }

@@ -59,37 +59,43 @@
 			var d = Math.floor(distance / (1000 * 60 * 60 * 24)); 
 			var h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 			
-			if(productState != '0')
+			if(productState == '0' || productState == '1')
 			{
-				document.getElementById("d-day").innerHTML = "";
+				document.getElementById("d-day").innerHTML = d +"일 " + h + "시간  남았습니다.";		
 			}
 			else
 			{
-				document.getElementById("d-day").innerHTML = d +"일 " + h + "시간  남았습니다.";
+				document.getElementById("d-day").innerHTML = "";
 			}
 		});
 	});
-	function qnaView(qnaNo, qnaWriter, qnaContent, qnaDate)
+	function qnaView(qnaNo, qnaWriter, qnaDate)
 	{
-		$("#btn-answer").text("작성");
-		$("#input-content").val("");
-		$("#state").val("insert");
-		$("#commentRef").val(qnaNo);
-		$("#qnaWriter").text(qnaWriter);
-		$("#qnaContent").text(qnaContent);
-		$("#qnaDate").text(qnaDate);
-		
 		$.ajax({
-			url:"${path}/shop/selectProductQnaAnswer.do",
-			data:{"refNo" : qnaNo},
+			url:"${path}/shop/selectProductQnaComment.do",
+			data:{"qnaNo" : qnaNo},
 			success:function(data){
-				$("#input-content").val(data.answer['COMMENT_CONTENT']);
-				$("#btn-answer").text("수정");
-				$("#state").val("update");
+				$("#btn-answer").text("작성");
+				$("#input-content").val("");
+				$("#state").val("insert");
+				$("#commentRef").val(qnaNo);
+				$("#qnaWriter").text(qnaWriter);
+				$("#qnaContent").text(data.comment.COMMENT_CONTENT);
+				$("#qnaDate").text(qnaDate);
+				
+				$.ajax({
+					url:"${path}/shop/selectProductQnaAnswer.do",
+					data:{"refNo" : qnaNo},
+					success:function(data){
+						$("#input-content").val(data.answer['COMMENT_CONTENT']);
+						$("#btn-answer").text("수정");
+						$("#state").val("update");
+					}
+				});
+
+				$('#answerModal').modal();
 			}
 		});
-
-		$('#answerModal').modal();
 	}
 	
 	function answerSubmit()
@@ -185,7 +191,7 @@
  							<c:forEach var="q" items="${qnaList }" varStatus="vs">
 								<tr>
 									<td>${index + vs.index }</td>	
-									<td><a href="javascript:void(0);" onclick="qnaView('${q.COMMENT_NO}', '${q.MEMBER_ID}','${q.COMMENT_CONTENT }','<fmt:formatDate value="${q.COMMENT_DATE}" pattern="yyyy-MM-dd HH:mm"/>');">상품 문의입니다.</a></td>
+									<td><a href="javascript:void(0);" onclick="qnaView('${q.COMMENT_NO}', '${q.MEMBER_ID}','<fmt:formatDate value="${q.COMMENT_DATE}" pattern="yyyy-MM-dd HH:mm"/>');">상품 문의입니다.</a></td>
 									<td>${fn:replace(q.MEMBER_ID, fn:substring(q.MEMBER_ID, q.MEMBER_ID.length()-2, q.MEMBER_ID.length()), '**')}</td>
 									<td><fmt:formatDate value="${q.COMMENT_DATE}" pattern="yyyy-MM-dd HH:mm"/></td>
 									<td>

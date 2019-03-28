@@ -186,7 +186,7 @@
 	
 	<insert id="insertCommentReview" parameterType="map">
 		INSERT INTO PRODUCT_COMMENT (COMMENT_NO, COMMENT_CONTENT, COMMENT_DATE, COMMENT_TYPE, COMMENT_LEVEL, COMMENT_REF, MEMBER_NO, PRODUCT_NO) 
-		VALUES ('P_C_NO_'||SEQ_COMMENT_NO.NEXTVAL, #{reviewContent}, SYSDATE, #{reviewType}, DEFAULT, NULL, #{memberNo}, #{reviewCommentProductNo})
+		VALUES ('P_COMMENT_NO_'||SEQ_COMMENT_NO.NEXTVAL, #{reviewContent}, SYSDATE, #{reviewType}, DEFAULT, NULL, #{memberNo}, #{reviewCommentProductNo})
 	</insert>
 	
 	<insert id="insertTotalScoreReview" parameterType="map">
@@ -211,7 +211,7 @@
 	
 	<insert id="insertCommentQuestion" parameterType="map">
 		INSERT INTO PRODUCT_COMMENT (COMMENT_NO, COMMENT_CONTENT, COMMENT_DATE, COMMENT_TYPE, COMMENT_LEVEL, COMMENT_REF, MEMBER_NO, PRODUCT_NO) 
-		VALUES ('P_C_NO_'||SEQ_COMMENT_NO.NEXTVAL, #{questionContent}, SYSDATE, #{commentType}, DEFAULT, NULL, #{memberNo}, #{questionCommentProductNo})
+		VALUES ('P_COMMENT_NO_'||SEQ_COMMENT_NO.NEXTVAL, #{questionContent}, SYSDATE, #{commentType}, DEFAULT, NULL, #{memberNo}, #{questionCommentProductNo})
 	</insert>
 	
 	<update id="updateComment" parameterType="map">
@@ -220,7 +220,7 @@
 
 	<insert id="insertCommentLevel2" parameterType="map">
 		INSERT INTO PRODUCT_COMMENT(COMMENT_NO, COMMENT_CONTENT, COMMENT_DATE, COMMENT_TYPE, COMMENT_LEVEL, COMMENT_REF, MEMBER_NO, PRODUCT_NO)
-		VALUES('P_C_NO_'||SEQ_COMMENT_NO.NEXTVAL, #{reviewContent}, SYSDATE, 'R', '2', #{commentNo}, #{memberNo}, #{productNo})
+		VALUES('P_COMMENT_NO_'||SEQ_COMMENT_NO.NEXTVAL, #{reviewContent}, SYSDATE, 'R', '2', #{commentNo}, #{memberNo}, #{productNo})
 	</insert>
 	
 	<delete id="deleteComment" parameterType="map">
