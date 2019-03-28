@@ -24,7 +24,7 @@
     <div id="content" class="col-sm-12">    
 
 	<div class="category-page-wrapper">
-					<div class="col-md-6 list-grid-wrapper">
+					<div class="col-md-7 list-grid-wrapper">
 						<div class="btn-group btn-list-grid">
 							<div class="result-inner">(총 ${wishContentCount }건의 상품)</div>
 							<div id="grid-view" class="btn btn-default grid"></div>

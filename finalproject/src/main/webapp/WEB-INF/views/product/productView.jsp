@@ -721,7 +721,7 @@ function fn_imageViewChange(subImg){
                           	  </a>
                                  <div class="media-body">
                                     <div class="well well-sm">
-                                       <h4 class="media-heading text-uppercase reviews display-inline">${member.memberId}</h4>
+                                       <h4 class="media-heading text-uppercase reviews display-inline">${member.memberName}</h4>
                                        <hr/>
                                         <p class="media-comment">
 										 <textarea id="reviewContent${reviewComment['COMMENT_NO'] }" name="reviewContent" class="form-control" style="resize: none; border: 0px;" placeholder="댓글을 작성해주세요"></textarea>
