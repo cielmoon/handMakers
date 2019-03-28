@@ -326,7 +326,7 @@ public class ShopController {
 
 			Map<String, Object> map = new HashMap<>();
 			map.put("productNo", productNo);
-			map.put("saleCount", 0);
+			map.put("saleCount", saleCount);
 			
 			List<Map<String, Object>> orderAllList = service.selectOrderAll(map, cPage, numPerPage);
 			int orderAllListCount = service.orderAllListCount(map);
