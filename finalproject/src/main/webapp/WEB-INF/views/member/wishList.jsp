@@ -30,42 +30,6 @@
 							<div id="grid-view" class="btn btn-default grid"></div>
 						</div>
 					</div>
-					<%-- <div class="col-md-1 text-right page-wrapper">
-          <label class="control-label" for="input-limit">Show :</label>
-          <div class="limit">
-          <form name="numPerPagesFrm" id="numPerPagesFrm" action = "${path }/product/newList.do">
-            <select id="input-limit" name="numPerPage" class="form-control">
-            <c:set var="numper" value="${numPerPage }" />
-			<c:choose>
-    		<c:when test="${numper eq '16'}">
-        	<option value="8">8</option><!-- selected="selected" -->
-              <option value="16" selected="selected">16</option>
-              <option value="24">24</option>
-              <option value="32">32</option>
-    		</c:when>
-    		<c:when test="${numper eq '24'}">
-        	<option value="8">8</option><!-- selected="selected" -->
-              <option value="16">16</option>
-              <option value="24" selected="selected">24</option>
-              <option value="32">32</option>
-    		</c:when>
-    		<c:when test="${numper eq '32'}">
-        	<option value="8">8</option><!-- selected="selected" -->
-              <option value="16">16</option>
-              <option value="24">24</option>
-              <option value="32" selected="selected">32</option>
-    		</c:when>
-    		<c:otherwise>
-       		<option value="8" selected="selected">8</option>
-              <option value="16">16</option>
-              <option value="24">24</option>
-              <option value="32">32</option>
-    		</c:otherwise>
-			</c:choose>
-            </select>
-          </form>
-          </div>
-        </div> --%>
 	</div>
      
      <div class="grid-list-wrapper">

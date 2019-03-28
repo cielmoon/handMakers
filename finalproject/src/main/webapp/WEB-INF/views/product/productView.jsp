@@ -682,7 +682,7 @@ function fn_imageViewChange(subImg){
 	                              </a>
 	                                 <div class="media-body">
 	                                    <div class="well well-sm">
-	                                       <h4 class="media-heading text-uppercase reviews display-inline">${second['MEMBER_ID'] }</h4>
+	                                       <h4 class="media-heading text-uppercase reviews display-inline">${second['MEMBER_NAME'] }</h4>
 	                                       <ul class="media-date text-uppercase reviews list-inline display-inline">
 	                                          <li class="dd"><fmt:formatDate value="${second['COMMENT_DATE'] }" pattern="yyyy MM dd"/></li>
 	                                       </ul>
