@@ -275,7 +275,7 @@
 		ORDER BY ORDER_DATE DESC
 	</select>
 	
-	<select id="selectNextOrder" resultType="_int"	parameterType="_int">
-		SELECT COUNT(*) FROM PRODUCT_ORDER WHERE SALESCOUNT = #{saleCount}
+	<select id="selectNextOrder" resultType="_int"	parameterType="map">
+		SELECT COUNT(*) FROM PRODUCT_ORDER WHERE SALESCOUNT = #{saleCount} AND PRODUCT_NO = #{productNo}
 	</select>
 </mapper>
