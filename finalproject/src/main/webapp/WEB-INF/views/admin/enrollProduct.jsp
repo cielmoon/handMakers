@@ -333,8 +333,9 @@
 				
 				return;
 			}
-			
-			$("#newProductMin").blur(function() {			
+		})
+		
+		$("#newProductMin").blur(function() {			
 				if (parseInt($("#newProductMin").val()) > parseInt($("#newProductMax").val())) {
 					alert("최대 주문량은 최소 주문량보다 크게 입력해주세요.")
 					$("#newProductMin").val('');
@@ -342,7 +343,6 @@
 					$("#newProductMax").focus();
 				}
 			});
-		})
 		
 		$("#newProductMax").keyup(function() {
 			var newProductMax = $("#newProductMax").val();
