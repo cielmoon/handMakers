@@ -146,9 +146,9 @@
 	
 	<select id="selectCommentCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} 
-		<if test="COMMENT_TYPE = 'R'">
+		<!-- <if test="COMMENT_TYPE == 'R'"> -->
 			AND COMMENT_LEVEL='1' 
-		</if>
+		<!-- </if> -->
 	</select>
 	
 	<select id="selectCommentR" parameterType="map" resultType="map">
@@ -157,8 +157,12 @@
 		WHERE COMMENT_LEVEL='1' AND COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} ORDER BY COMMENT_DATE DESC
 	</select>
 	
-	<select id="selectCommentQ" parameterType="map" resultType="map">
-		SELECT * FROM PRODUCT_COMMENT JOIN MEMBER M USING(MEMBER_NO) WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} ORDER BY COMMENT_DATE DESC
+	<select id="selectCommentQnaLv1" parameterType="map" resultType="map">
+		SELECT * FROM PRODUCT_COMMENT JOIN MEMBER M USING(MEMBER_NO) WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} AND COMMENT_LEVEL = 1 ORDER BY COMMENT_DATE DESC
+	</select>
+	
+	<select id="selectCommentQnaLv2" parameterType="map" resultType="map">
+		SELECT * FROM PRODUCT_COMMENT JOIN MEMBER M USING(MEMBER_NO) WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} AND COMMENT_LEVEL = 2 ORDER BY COMMENT_DATE DESC
 	</select>
 	
 	<select id="selectProductOption" parameterType="string" resultType="map">
