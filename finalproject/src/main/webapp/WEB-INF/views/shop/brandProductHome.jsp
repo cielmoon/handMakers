@@ -216,7 +216,7 @@ function updateTracking()
 								<label>판매중지&nbsp;<i class="fa fa-times" style="font-size:18px; color: firebrick;"></i></label>						
 							</c:when>
 							<c:when test="${product.PRODUCT_STATE == '3'}">
-								<label>현재 ${product.PRODUCT_CURSELL}개 남음</label>					
+								<label>남은 재고가 없습니다.</label>					
 							</c:when>
 							<c:otherwise>
 								<c:if test="${product.PRODUCT_CURSELL < product.PRODUCT_MIN}">
@@ -234,7 +234,7 @@ function updateTracking()
 						<table id='tbl-board' class='table table-striped table-hover'>
 							<tr>	
 								<c:choose>								
-								<c:when test="${product.PRODUCT_STATE == '3'}"> <!--  && pState == 'T' -->
+								<c:when test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN }"> <!--  && pState == 'T' -->
 									<th>										
 										<a id="check-all-order" href="javascript:void(0);" onclick="checkAllOrder(1);"><i class="fa fa-check" style="color: gray;"></i></a>
 										<a id="uncheck-all-order" href="javascript:void(0);" onclick="checkAllOrder(0);"><i class="fa fa-check" style="color: lightgray;"></i></a>	
@@ -252,15 +252,15 @@ function updateTracking()
 								<th>운송장 번호</th>
 								<th>상태</th>					
 							</tr>
-							<c:if test="${orderList.size()==0 }">
+							<c:if test="${orderAllList.size()==0 }">
 								<tr>
 									<td colspan="7" style="text-align: center;">상품 주문이 없습니다.</td>
 								</tr>
 							</c:if>
- 							<c:forEach var="o" items="${orderList }" varStatus="vs">
+ 							<c:forEach var="o" items="${orderAllList }" varStatus="vs">
 								<tr>
 									<c:choose>
-									<c:when test="${product.PRODUCT_STATE == '3'}"> <!--  && pState == 'T' -->
+									<c:when test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN }"> <!--  && pState == 'T' -->
 										<td>
 											<input type="checkbox" name="checkOrders" id="check-order" value="${o.ORDER_NO }" 
 											${o.ORDER_STATE == '1'? "style='display:none;'" : o.ORDER_TRACKINGNO == null ? "disabled" : ""}/>
@@ -294,7 +294,7 @@ function updateTracking()
 					</div>
 					<div class="col-sm-2 float-right">
 						<c:choose>
-							<c:when test="${product.PRODUCT_STATE == '3'}"> <!-- && pState == 'T' -->									
+							<c:when test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN }"> <!-- && pState == 'T' -->									
 							<button class="btn btn-primary" onclick="exportOrders();">출고처리</button>
 							</c:when>
 						</c:choose>

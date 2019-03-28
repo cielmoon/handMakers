@@ -27,6 +27,7 @@ public class Order implements Serializable{
 	private int productOptionQty; // 상품수량
 	private String orderPayStatus;//주문상태
 	private String orderTrackingNo;
+	private int salesCount = 0;
 	
 	public Order() {
 	}
@@ -53,6 +54,31 @@ public class Order implements Serializable{
 		this.productOptionQty = productOptionQty;
 		this.orderPayStatus = orderPayStatus;
 		this.orderTrackingNo = orderTrackingNo;
+	}
+
+	public Order(String orderNo, int orderTotalPrice, String orderPayType, String orderPayState, String productNo,
+			String memberNo, String deliveryPostCode, String deliveryAddr, String deliveryDetailAddr, String orderState,
+			Date orderDate, String imp_uid, String merchant_uid, String productOption, int productOptionQty,
+			String orderPayStatus, String orderTrackingNo, int salesCount) {
+		super();
+		this.orderNo = orderNo;
+		this.orderTotalPrice = orderTotalPrice;
+		this.orderPayType = orderPayType;
+		this.orderPayState = orderPayState;
+		this.productNo = productNo;
+		this.memberNo = memberNo;
+		this.deliveryPostCode = deliveryPostCode;
+		this.deliveryAddr = deliveryAddr;
+		this.deliveryDetailAddr = deliveryDetailAddr;
+		this.orderState = orderState;
+		this.orderDate = orderDate;
+		this.imp_uid = imp_uid;
+		this.merchant_uid = merchant_uid;
+		this.productOption = productOption;
+		this.productOptionQty = productOptionQty;
+		this.orderPayStatus = orderPayStatus;
+		this.orderTrackingNo = orderTrackingNo;
+		this.salesCount = salesCount;
 	}
 
 	public String getOrderNo() {
@@ -191,6 +217,18 @@ public class Order implements Serializable{
 		this.orderTrackingNo = orderTrackingNo;
 	}
 
+	public int getSalesCount() {
+		return salesCount;
+	}
+
+	public void setSalesCount(int salesCount) {
+		this.salesCount = salesCount;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [orderNo=" + orderNo + ", orderTotalPrice=" + orderTotalPrice + ", orderPayType=" + orderPayType
@@ -198,7 +236,8 @@ public class Order implements Serializable{
 				+ ", deliveryPostCode=" + deliveryPostCode + ", deliveryAddr=" + deliveryAddr + ", deliveryDetailAddr="
 				+ deliveryDetailAddr + ", orderState=" + orderState + ", orderDate=" + orderDate + ", imp_uid="
 				+ imp_uid + ", merchant_uid=" + merchant_uid + ", productOption=" + productOption
-				+ ", productOptionQty=" + productOptionQty + ", orderPayStatus=" + orderPayStatus + "]";
+				+ ", productOptionQty=" + productOptionQty + ", orderPayStatus=" + orderPayStatus + ", orderTrackingNo="
+				+ orderTrackingNo + ", salesCount=" + salesCount + "]";
 	}
 
 	

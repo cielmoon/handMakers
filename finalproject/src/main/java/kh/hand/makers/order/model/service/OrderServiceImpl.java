@@ -109,6 +109,12 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	public int updateOrderStateSecond(Map<String, Object> psMap) {
+		// TODO Auto-generated method stub
+		return dao.updateOrderStateSecond(psMap);
+	}
+
+	@Override
 	public int updateOrder(Map<String, Object> map) {
 		
 		return dao.updateOrder(map);
@@ -155,6 +161,24 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return dao.updateProductCS(productNo);
 
+	}
+
+	@Override
+	public int salesInsertFirst(DefaultProduct ds) {
+		// TODO Auto-generated method stub
+		return dao.salesInsertFirst(ds);
+	}
+
+	@Override
+	public int updatePStateEnd(String productNo) {
+		// TODO Auto-generated method stub
+		return dao.updatePStateEnd(productNo);
+	}
+
+	@Override
+	public int orderInsertSecond(Order order) {
+		// TODO Auto-generated method stub
+		return dao.orderInsertSecond(order);
 	}
 	
 	
