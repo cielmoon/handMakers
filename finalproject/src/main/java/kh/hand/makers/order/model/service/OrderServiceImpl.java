@@ -40,21 +40,34 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional
 	public int insertOrderEnroll(Order order) {
+		
 		int result = dao.insertOrderEnroll(order);
 		
-		Map<String,String> map = new HashMap();
+//		Map<String,String> map = new HashMap();
+		/*Map<String,Object> map = new HashMap();
 		
 		if(result>0) {
-			int r = dao.selectProductCheck(order);
+			int r = dao.selectProductCheck(order); //갯수 다샀나 체크
 			if(r > 0) {
-				result = 0;
-				result = dao.insertProductSalesRecord(order.getProductNo());
+				
+				//map.put("productNo", order.getProductNo());
+				//map.put("productOptionQty", order.getProductOptionQty());
+				//dao.updateProductSell(map);//yewon add.//기록하기전에 프로덕트에 지금 주문업데이트 해야지 이사람아!ㅡ ㅡ
+				result = 0;					
+				//result = dao.insertProductSalesRecord(order.getProductNo());// 아카이브기록 (판매이력)
 				if(result>0) {
 					result = 0;
-					result = dao.updateProductState(order.getProductNo());
+					//result = dao.updateProductState(order.getProductNo());//판매종료로 업데이트
+					//result = dao.updateProductStateYewon(order.getProductNo());
+					//+그 후에 프로덕트에 초기화 + 누적++ 작업없음
 				}
+			}else {
+				//상품테이블 수량 업데이트
+				int updateResult = dao.updateProductSell(map);
+				
+				
 			}
-		}
+		}*/
 
 		return result;
 	}
@@ -141,6 +154,7 @@ public class OrderServiceImpl implements OrderService {
 	public int updateProductCS(String productNo) {
 		// TODO Auto-generated method stub
 		return dao.updateProductCS(productNo);
+
 	}
 	
 	

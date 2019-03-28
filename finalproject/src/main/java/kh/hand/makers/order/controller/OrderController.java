@@ -248,6 +248,7 @@ public class OrderController {
 			 */
 			state = "T";
 
+
 			// 1. 재고확인
 			DefaultProduct dps = productService.selectDefaltProduct(productNo);
 
@@ -277,6 +278,8 @@ public class OrderController {
 					logger.debug("주문 실패 했기 때문에 Insert한 Order를 삭제 : Rollback");
 					msg = "결제 실패하였습니다.";
 					loc = "/order/orderEnroll.do";
+					
+
 				}
 
 			} else if (dps.getProductMax() == (dps.getProductCurSell() + order.getProductOptionQty())) {
@@ -296,6 +299,7 @@ public class OrderController {
 						System.out.println("가져온Product:"+ds);
 						int saleInsertResult = service.salesInsert(ds);
 				
+
 						if (saleInsertResult > 0) {
 							// 판매이력 insert 성공
 							logger.debug("판매이력 Insert 성공 ");
@@ -340,6 +344,7 @@ public class OrderController {
 				// 재고보다 많을 경우
 
 			}
+
 		}
 		mv.addObject("loc", loc);
 		mv.addObject("msg", msg);

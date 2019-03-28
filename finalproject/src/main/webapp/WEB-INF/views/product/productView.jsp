@@ -843,11 +843,12 @@ function fn_imageViewChange(subImg){
           <div class="tab-pane" id="tab-question">
             <div id="questionComment" class="form-group"><!--  style="border:1px solid red" -->
                   <ul class="media-list">
-                     <c:if test='${questionCommentList.size() eq 0 }'>
+             
+                     <c:if test='${questionCommentListLv1.size() eq 0 }'>
                         <span id="level1">등록된 상품 문의가 없습니다.</span>
                      </c:if>
-                     <c:if test="${questionCommentList!=null }">
-                        <c:forEach items="${questionCommentList }" var="questionComment" varStatus="vs">
+                     <c:if test="${questionCommentListLv1!=null }">   
+                        <c:forEach items="${questionCommentListLv1 }" var="questionComment" varStatus="vs">  
                         <li class="media">                  
                            <c:if test="${questionComment.COMMENT_LEVEL eq 1 }">
                            <a class="pull-left" href="javascript:void(0);"> 
@@ -882,14 +883,15 @@ function fn_imageViewChange(subImg){
                                      </c:if>
                                     <p class="media-comment" id="${questionComment['COMMENT_NO'] }Level1">${questionComment['COMMENT_CONTENT'] }</p>
                                     <input type="hidden" id="input-${questionComment['COMMENT_NO'] }Level1" style='width:80%;'value="${questionComment['COMMENT_CONTENT'] }"/>
-                                    <input type="button" class="btn btn-primary" id="btn-${questionComment['COMMENT_NO'] }Level1" value="등록" style="display:none" onclick="fn_updateReviewComment('inputNo-${questionComment['COMMENT_NO'] }Level1','${questionComment['COMMENT_NO'] }Level1')"/>
+                                    <input type="button" class="btn btn-primary" id="btn-${questionComment['COMMENT_NO'] }Level1" value="등록" style="display:none;" onclick="fn_updateReviewComment('inputNo-${questionComment['COMMENT_NO'] }Level1','${questionComment['COMMENT_NO'] }Level1')"/>
                                     <input type="hidden" id="inputNo-${questionComment['COMMENT_NO'] }Level1" name="commentNo" value="${questionComment['COMMENT_NO'] }"/>
                                     <input type="hidden" name="questionCommentType" value="Q"/>
                                     <!-- <input type="hidden" name="tab" id="tab"/> -->
                                  </div>
                               </div>
                         </c:if>
-                        <c:if test="${questionComment.COMMENT_LEVEL eq 2 }">  
+                        <c:forEach items="${questionCommentListLv2 }" var="questionCommentLv2">
+                        <c:if test="${questionCommentLv2.COMMENT_REF eq questionComment.COMMENT_NO }">  
                            <div class="col-sm-11 reply-sm-10">
                               <ul class="media-list">
                               <li class="media media-replied">
@@ -900,15 +902,17 @@ function fn_imageViewChange(subImg){
                                     <div class="well well-sm">
                                        <h4 class="media-heading text-uppercase reviews display-inline">판매자</h4>
                                        <ul class="media-date text-uppercase reviews list-inline display-inline">
-                                          <li class="dd"><fmt:formatDate value="${questionComment['COMMENT_DATE'] }" pattern="yyyy MM dd"/></li>
+                                          <li class="dd"><fmt:formatDate value="${questionCommentLv2['COMMENT_DATE'] }" pattern="yyyy MM dd"/></li>
                                        </ul>
-                                       <p class="media-comment">${questionComment['COMMENT_CONTENT'] }</p>
+                                       <p class="media-comment">${questionCommentLv2['COMMENT_CONTENT'] }</p>
                                     </div>
                                  </div>
                               </li>
                               </ul>
                            </div>
                         </c:if>
+                        </c:forEach>
+                        
                      </li>
                      </c:forEach>
                   </c:if>

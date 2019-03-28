@@ -148,15 +148,7 @@ public class ProductDaoImpl implements ProductDao {
 		
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		
-		if(map.get("commentType").equals("R"))
-		{
-			return session.selectList("product.selectCommentR", map, rb);
-		}else 
-		{
-			return session.selectList("product.selectCommentQ", map, rb);
-		}
-
-	
+		return session.selectList("product.selectCommentR", map, rb);	
 	}
 
 	@Override
@@ -273,6 +265,7 @@ public class ProductDaoImpl implements ProductDao {
 		// TODO Auto-generated method stub
 		return session.update("product.updatePMinus",productMap);
 	}
+
 
 	
 

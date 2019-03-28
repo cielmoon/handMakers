@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="order">
+
 	<!-- <insert id="insertDelivery" parameterType="delivery"> INSERT INTO DELIVERY 
 		VALUES('D_NO_'||SEQ_DELIVERY_NO.NEXTVAL, #{deliveryPostCode},#{deliveryAddr},#{deliveryDetailAddr},#{memberNo}) 
 		<selectKey keyProperty="deliveryNo" resultType="String" order="AFTER"> SELECT 
@@ -99,4 +100,5 @@
 		WHERE
 		PRODUCT_NO=#{productNo}
 	</update>
+
 </mapper>

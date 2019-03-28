@@ -18,15 +18,17 @@ public interface OrderDao {
 	Map<String,String> selectCategoryMap(String productNo);
 	int updateOrderState(Map<String,String> map);
 	int selectProductCheck(Order order);
-	int insertProductSalesRecord(String productNo);
+	int insertProductSalesRecord(Order order);
 	int updateProductState(String productNo);
 	int updateOrder(Map<String,Object> map);
 	int updateResetOrder(Map<String,String> map);
 	int updateResetProduct(Map<String,Object> map);
 	int deleteOrder(String orderNo);
+
 	
 	int orderInsert(Order order);
 	int updateProductQty(Map<String,Object> updateProduct);
 	int salesInsert(DefaultProduct ds);
 	int updateProductCS(String productNo);
+
 }

@@ -145,8 +145,10 @@
 	</delete>
 	
 	<select id="selectCommentCount" parameterType="string" resultType="_int">
-		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} AND COMMENT_LEVEL='1' AND PRODUCT_NO=#{productNo} 
-		<!-- <if test="COMMENT_TYPE = 'R'"></if> -->
+		SELECT COUNT(*) FROM PRODUCT_COMMENT WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} 
+		<!-- <if test="COMMENT_TYPE == 'R'"> -->
+			AND COMMENT_LEVEL='1' 
+		<!-- </if> -->
 	</select>
 	
 	<select id="selectCommentR" parameterType="map" resultType="map">
@@ -155,8 +157,12 @@
 		WHERE COMMENT_LEVEL='1' AND COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} ORDER BY COMMENT_DATE DESC
 	</select>
 	
-	<select id="selectCommentQ" parameterType="map" resultType="map">
-		SELECT * FROM PRODUCT_COMMENT JOIN MEMBER M USING(MEMBER_NO) WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} ORDER BY COMMENT_DATE DESC
+	<select id="selectCommentQnaLv1" parameterType="map" resultType="map">
+		SELECT * FROM PRODUCT_COMMENT JOIN MEMBER M USING(MEMBER_NO) WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} AND COMMENT_LEVEL = 1 ORDER BY COMMENT_DATE DESC
+	</select>
+	
+	<select id="selectCommentQnaLv2" parameterType="map" resultType="map">
+		SELECT * FROM PRODUCT_COMMENT JOIN MEMBER M USING(MEMBER_NO) WHERE COMMENT_TYPE=#{commentType} AND PRODUCT_NO=#{productNo} AND COMMENT_LEVEL = 2 ORDER BY COMMENT_DATE DESC
 	</select>
 	
 	<select id="selectProductOption" parameterType="string" resultType="map">
@@ -246,9 +252,9 @@
 		SELECT count(*) FROM PRODUCT WHERE PRODUCT_NO=#{productNo} AND PRODUCT_MAX=PRODUCT_CURSELL+#{productOptionQty}
 	</select>
 	
-	<insert id="insertProductSalesRecord" parameterType="string">
+	<insert id="insertProductSalesRecord" parameterType="order">
 		INSERT INTO SALES_RECORDS
-        SELECT SEQ_SALESRECORDS_NO.NEXTVAL, PRODUCT_ENROLLDATE, PRODUCT_ENDDATE, PRODUCT_CURSELL, PRODUCT_PRICE, (PRODUCT_CURSELL * PRODUCT_PRICE), 5, (PRODUCT_CURSELL * PRODUCT_PRICE) - ((PRODUCT_CURSELL * PRODUCT_PRICE) * 0.05), PRODUCT_NO
+        SELECT SEQ_SALESRECORDS_NO.NEXTVAL, PRODUCT_ENROLLDATE, PRODUCT_ENDDATE, PRODUCT_CURSELL+#{productOptionQty}, PRODUCT_PRICE, ((PRODUCT_CURSELL+#{productOptionQty}) * PRODUCT_PRICE), 5, ((PRODUCT_CURSELL+#{productOptionQty}) * PRODUCT_PRICE) - (((PRODUCT_CURSELL+#{productOptionQty}) * PRODUCT_PRICE) * 0.05), PRODUCT_NO
         FROM PRODUCT 
         WHERE PRODUCT_NO=#{productNo} 
 	</insert>
@@ -271,4 +277,9 @@
 	<select id="selectDefaltProduct" parameterType="string" resultMap="defaultProductMap">
 		SELECT * FROM PRODUCT WHERE PRODUCT_NO=#{productNo}
 	</select>
+	
+	<update id="updateProductStateYewon" parameterType="order">
+		UPDATE PRODUCT SET PRODUCT_TOTALSELL = (PRODUCT_TOTALSELL + PRODUCT_CURSELL + #{productOptionQty}), PRODUCT_CURSELL = 0, PRODUCT_STATE = '3' WHERE PRODUCT_NO = #{productNo}
+	</update>
+	
 </mapper>

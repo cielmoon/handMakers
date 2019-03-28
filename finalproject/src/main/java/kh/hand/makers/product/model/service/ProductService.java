@@ -43,5 +43,7 @@ public interface ProductService {
 	Map<String,String> selectProductCheck(Map<String,String> map);
 	
 	DefaultProduct selectDefaltProduct(String productNo);
+
 	int updatePMinus(Map<String,Object> productMap);
+
 }

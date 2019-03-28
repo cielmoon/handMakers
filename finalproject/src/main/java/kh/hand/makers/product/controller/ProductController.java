@@ -110,7 +110,8 @@ public class ProductController {
 		List<Map<String,String>> reviewCommentList = service.selectComment(reviewMap, rcPage, numPerPage);
 		int reviewCommentCount = service.selectCommentCount(reviewMap);
 		//문의 정보 select
-		List<Map<String,String>> questionCommentList = service.selectComment(questionMap, qcPage, numPerPage);
+		List<Map<String,String>> questionCommentListLv1 = service.selectCommentQnaLv1(questionMap, qcPage, numPerPage);
+		List<Map<String,String>> questionCommentListLv2 = service.selectCommentQnaLv2(questionMap);
 		int questionCommentCount = service.selectCommentCount(questionMap);
 		
 		//후기 대댓글 리스트
@@ -131,7 +132,9 @@ public class ProductController {
 		mv.addObject("product",product);
 		mv.addObject("orderList",orderList);
 		mv.addObject("reviewCommentList",reviewCommentList);
-		mv.addObject("questionCommentList",questionCommentList);
+		mv.addObject("questionCommentListLv1",questionCommentListLv1);
+		mv.addObject("questionCommentListLv2",questionCommentListLv2);
+
 		mv.addObject("reviewCommentCount",reviewCommentCount);
 		mv.addObject("questionCommentCount",questionCommentCount);
 		mv.addObject("reviewSecondCommentList", reviewSecondCommentList);
