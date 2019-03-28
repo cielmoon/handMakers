@@ -410,7 +410,7 @@ public class MemberController {
 		List<Map<String, String>> wishList = service.selectWishList(memberNo, cPage, numPerPage);
 
 		mv.addObject("wishContentCount", wishContentCount);
-		mv.addObject("pageBar", PageFactory.getPageBar(wishContentCount, cPage, numPerPage, "/member/wishList.do"));
+		mv.addObject("pageBar", PageFactory.getPageBar(wishContentCount, cPage, numPerPage, "/makers/member/wishList.do"));
 		mv.addObject("wishList", wishList);
 		mv.setViewName("/member/wishList");
 
