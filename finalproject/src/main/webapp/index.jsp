@@ -8,7 +8,7 @@
 
 <section>
 	<div class="container">
-		<div class="mainbanner"><!-- 메인배너엔 뭘넣어야할까? -->
+		<div class="mainbanner">
 			<div id="main-banner" class="owl-carousel home-slider">
 				<div class="item">
 						<a href="${path }"><img src="${path }/resources/image/banners/banner_1.jpg"
