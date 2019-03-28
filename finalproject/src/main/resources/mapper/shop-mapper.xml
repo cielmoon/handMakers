@@ -218,7 +218,7 @@
 	<select id="selectSalesRecordsList" resultType="map"
 		parameterType="string">
 		SELECT * FROM SALES_RECORDS WHERE PRODUCT_NO =
-		#{productNo} ORDER BY PRODUCT_ENDDATE DESC
+		#{productNo} ORDER BY SALESRECORDS_NO DESC
 	</select>
 	<select id="selectRecord" resultType="map"
 		parameterType="string">

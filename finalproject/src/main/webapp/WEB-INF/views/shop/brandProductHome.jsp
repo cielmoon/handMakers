@@ -263,7 +263,7 @@ function updateTracking()
 									<c:when test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN }"> <!--  && pState == 'T' -->
 										<td>
 											<input type="checkbox" name="checkOrders" id="check-order" value="${o.ORDER_NO }" 
-											${o.ORDER_STATE == '1'? "style='display:none;'" : o.ORDER_TRACKINGNO == null ? "disabled" : ""}/>
+											${o.ORDER_STATE == '1' || o.ORDER_PAYSTATE == '2' ? "style='display:none;'" : o.ORDER_TRACKINGNO == null ? "disabled" : ""}/>
 										</td>
 									</c:when>
 									</c:choose>
