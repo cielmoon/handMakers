@@ -76,13 +76,13 @@ $(function(){
 		var d = Math.floor(distance / (1000 * 60 * 60 * 24)); 
 		var h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 		
-		if(productState != '0')
+		if(productState == '0' || productState == '1')
 		{
-			document.getElementById("d-day").innerHTML = "";
+			document.getElementById("d-day").innerHTML = d +"일 " + h + "시간  남았습니다.";		
 		}
 		else
 		{
-			document.getElementById("d-day").innerHTML = d +"일 " + h + "시간  남았습니다.";
+			document.getElementById("d-day").innerHTML = "";
 		}
 	});
 });
@@ -215,27 +215,28 @@ function updateTracking()
 							<c:when test="${product.PRODUCT_STATE == '2'}">
 								<label>판매중지&nbsp;<i class="fa fa-times" style="font-size:18px; color: firebrick;"></i></label>						
 							</c:when>
+							<c:when test="${product.PRODUCT_STATE == '3'}">
+								<label>남은 재고가 없습니다.</label>					
+							</c:when>
 							<c:otherwise>
-								<c:if test="${product.PRODUCT_CURSELL < product.PRODUCT_MIN}">
-								<label>최소 주문수량 미달 <i class="fa fa-times" style="font-size:18px; color: firebrick;"></i></label>&nbsp;&nbsp;							
-								<label>현재 ${product.PRODUCT_MIN - product.PRODUCT_CURSELL}개 남음</label>
-								</c:if>
-								<c:if test="${product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">	
-									<label>최소 주문수량 달성 <i class="fa fa-check" style="font-size:18px; color: lightgreen;"></i></label>&nbsp;&nbsp;	
-									<label>현재 ${product.PRODUCT_CURSELL}개 주문중</label>
-								</c:if>
+								<label></label>
 							</c:otherwise>
 						</c:choose>	
 					</div>
-					<div class="col-sm-12 mt-10">					
+					<div class="col-sm-12 mt-10">
 						<table id='tbl-board' class='table table-striped table-hover'>
-							<tr>
-								<c:if test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">
-									<th>
+							<tr>	
+								<c:choose>								
+								<c:when test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN }"> <!--  && pState == 'T' -->
+									<th>										
 										<a id="check-all-order" href="javascript:void(0);" onclick="checkAllOrder(1);"><i class="fa fa-check" style="color: gray;"></i></a>
 										<a id="uncheck-all-order" href="javascript:void(0);" onclick="checkAllOrder(0);"><i class="fa fa-check" style="color: lightgray;"></i></a>	
 									</th>
-								</c:if>
+								</c:when>
+								<c:otherwise>
+									
+								</c:otherwise>
+								</c:choose>
 								<th>번호</th>
 								<th>주문자</th>
 								<th>옵션</th>								
@@ -244,19 +245,21 @@ function updateTracking()
 								<th>운송장 번호</th>
 								<th>상태</th>					
 							</tr>
-							<c:if test="${orderList.size()==0 }">
+							<c:if test="${orderAllList.size()==0 }">
 								<tr>
 									<td colspan="7" style="text-align: center;">상품 주문이 없습니다.</td>
 								</tr>
 							</c:if>
- 							<c:forEach var="o" items="${orderList }" varStatus="vs">
+ 							<c:forEach var="o" items="${orderAllList }" varStatus="vs">
 								<tr>
-									<c:if test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">
+									<c:choose>
+									<c:when test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN }"> <!--  && pState == 'T' -->
 										<td>
 											<input type="checkbox" name="checkOrders" id="check-order" value="${o.ORDER_NO }" 
-											${o.ORDER_STATE == '1'? "style='display:none;'" : o.ORDER_TRACKINGNO == null ? "disabled" : ""}/>
+											${o.ORDER_STATE == '1' || o.ORDER_PAYSTATE == '2' ? "style='display:none;'" : o.ORDER_TRACKINGNO == null ? "disabled" : ""}/>
 										</td>
-									</c:if>
+									</c:when>
+									</c:choose>
 									<td>${index + vs.index }</td>	
 									<td>${fn:replace(o.MEMBER_ID, fn:substring(o.MEMBER_ID, o.MEMBER_ID.length()-2, o.MEMBER_ID.length()), '**')}</td>
 									<td>${o.PRODUCT_OPTION }</td>
@@ -283,9 +286,11 @@ function updateTracking()
 						</table>
 					</div>
 					<div class="col-sm-2 float-right">
-						<c:if test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">
+						<c:choose>
+							<c:when test="${product.PRODUCT_STATE == '3' && product.PRODUCT_CURSELL >= product.PRODUCT_MIN }"> <!-- && pState == 'T' -->									
 							<button class="btn btn-primary" onclick="exportOrders();">출고처리</button>
-						</c:if>
+							</c:when>
+						</c:choose>
 					</div>
 					<div class="col-sm-12 text-center">
 						${pageBar }

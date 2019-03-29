@@ -72,5 +72,13 @@ public interface ShopDao {
 
 	int updateTracking(Map<String, String> map);
 
+	Map<String, String> selectProductQnaComment(String qnaNo);
+
+	int orderDeliveryCheck(String qnaNo);
 	
+	
+	int selectSaleEmpty(String productNo);
+	List<Map<String, Object>> selectOrderAll(Map<String,Object> map, int cPage, int numPerPage);
+	int orderAllListCount(Map<String,Object> map);
+	int selectNextOrder(int saleCount, String productNo);
 }

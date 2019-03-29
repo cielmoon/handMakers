@@ -59,37 +59,43 @@
 			var d = Math.floor(distance / (1000 * 60 * 60 * 24)); 
 			var h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 			
-			if(productState != '0')
+			if(productState == '0' || productState == '1')
 			{
-				document.getElementById("d-day").innerHTML = "";
+				document.getElementById("d-day").innerHTML = d +"일 " + h + "시간  남았습니다.";		
 			}
 			else
 			{
-				document.getElementById("d-day").innerHTML = d +"일 " + h + "시간  남았습니다.";
+				document.getElementById("d-day").innerHTML = "";
 			}
 		});
 	});
-	function qnaView(qnaNo, qnaWriter, qnaContent, qnaDate)
+	function qnaView(qnaNo, qnaWriter, qnaDate)
 	{
-		$("#btn-answer").text("작성");
-		$("#input-content").val("");
-		$("#state").val("insert");
-		$("#commentRef").val(qnaNo);
-		$("#qnaWriter").text(qnaWriter);
-		$("#qnaContent").text(qnaContent);
-		$("#qnaDate").text(qnaDate);
-		
 		$.ajax({
-			url:"${path}/shop/selectProductQnaAnswer.do",
-			data:{"refNo" : qnaNo},
+			url:"${path}/shop/selectProductQnaComment.do",
+			data:{"qnaNo" : qnaNo},
 			success:function(data){
-				$("#input-content").val(data.answer['COMMENT_CONTENT']);
-				$("#btn-answer").text("수정");
-				$("#state").val("update");
+				$("#btn-answer").text("작성");
+				$("#input-content").val("");
+				$("#state").val("insert");
+				$("#commentRef").val(qnaNo);
+				$("#qnaWriter").text(qnaWriter);
+				$("#qnaContent").text(data.comment.COMMENT_CONTENT);
+				$("#qnaDate").text(qnaDate);
+				
+				$.ajax({
+					url:"${path}/shop/selectProductQnaAnswer.do",
+					data:{"refNo" : qnaNo},
+					success:function(data){
+						$("#input-content").val(data.answer['COMMENT_CONTENT']);
+						$("#btn-answer").text("수정");
+						$("#state").val("update");
+					}
+				});
+
+				$('#answerModal').modal();
 			}
 		});
-
-		$('#answerModal').modal();
 	}
 	
 	function answerSubmit()
@@ -156,10 +162,13 @@
 							<c:when test="${product.PRODUCT_STATE == '2'}">
 								<label>판매중지&nbsp;<i class="fa fa-times" style="font-size:18px; color: firebrick;"></i></label>						
 							</c:when>
+							<c:when test="${product.PRODUCT_STATE == '3'}">
+								<label>남은 재고가 없습니다.</label>					
+							</c:when>
 							<c:otherwise>
 								<c:if test="${product.PRODUCT_CURSELL < product.PRODUCT_MIN}">
 								<label>최소 주문수량 미달 <i class="fa fa-times" style="font-size:18px; color: firebrick;"></i></label>&nbsp;&nbsp;							
-								<label>현재 ${product.PRODUCT_MIN - product.PRODUCT_CURSELL}개 남음</label>
+								<label>재고가 현재 ${product.PRODUCT_MIN - product.PRODUCT_CURSELL}개 남음</label>
 								</c:if>
 								<c:if test="${product.PRODUCT_CURSELL >= product.PRODUCT_MIN}">	
 									<label>최소 주문수량 달성 <i class="fa fa-check" style="font-size:18px; color: lightgreen;"></i></label>&nbsp;&nbsp;	
@@ -185,7 +194,7 @@
  							<c:forEach var="q" items="${qnaList }" varStatus="vs">
 								<tr>
 									<td>${index + vs.index }</td>	
-									<td><a href="javascript:void(0);" onclick="qnaView('${q.COMMENT_NO}', '${q.MEMBER_ID}','${q.COMMENT_CONTENT }','<fmt:formatDate value="${q.COMMENT_DATE}" pattern="yyyy-MM-dd HH:mm"/>');">상품 문의입니다.</a></td>
+									<td><a href="javascript:void(0);" onclick="qnaView('${q.COMMENT_NO}', '${q.MEMBER_ID}','<fmt:formatDate value="${q.COMMENT_DATE}" pattern="yyyy-MM-dd HH:mm"/>');">상품 문의입니다.</a></td>
 									<td>${fn:replace(q.MEMBER_ID, fn:substring(q.MEMBER_ID, q.MEMBER_ID.length()-2, q.MEMBER_ID.length()), '**')}</td>
 									<td><fmt:formatDate value="${q.COMMENT_DATE}" pattern="yyyy-MM-dd HH:mm"/></td>
 									<td>

@@ -100,9 +100,9 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int selectOrderCount() {
+	public int selectOrderCount(String memberNo) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("member.selectOrderCount");
+		return sqlSession.selectOne("member.selectOrderCount", memberNo);
 	}
 
 	@Override
@@ -165,6 +165,35 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("member.updateBrandWithdrawl", brandNo);
 	}
-	
+
+	@Override
+	public int selectProductState(String productNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.selectProductState", productNo);
+	}
+
+	@Override
+	public int updateProductState(String productNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.updateProductState", productNo);
+	}
+
+	@Override
+	public int deleteSaleProduct(String salesNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("member.deleteSaleProduct", salesNo);
+	}
+
+	@Override
+	public String selectSalseNo(String productNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.selectSalseNo", productNo);
+	}
+
+	@Override
+	public int selectCerrSell(String salesNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.selectCerrSell", salesNo);
+	}	
 	
 }

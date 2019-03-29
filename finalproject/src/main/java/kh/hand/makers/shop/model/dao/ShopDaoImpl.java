@@ -1,5 +1,6 @@
 package kh.hand.makers.shop.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +23,26 @@ public class ShopDaoImpl implements ShopDao {
 	SqlSessionTemplate sqlSession;
 	
 	@Override
+	public int selectNextOrder(int saleCount, String productNo) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("saleCount", saleCount);
+		map.put("productNo", productNo);
+		
+		return sqlSession.selectOne("shop.selectNextOrder", map);
+	}
+
+	@Override
+	public int selectSaleEmpty(String productNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("shop.selectSaleEmpty", productNo);
+	}
+
+	@Override
 	public List<Brand> selectBrandList(String memberNo) {
 		return sqlSession.selectList("shop.selectBrandList", memberNo);
 	}
+	
 
 	@Override
 	public int insertBrand(Map<String, String> map) {
@@ -204,6 +222,18 @@ public class ShopDaoImpl implements ShopDao {
 	}
 
 	@Override
+	public List<Map<String, Object>> selectOrderAll(Map<String, Object> map, int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return sqlSession.selectList("shop.selectOrderAll", map, rb);
+	}
+
+	@Override
+	public int orderAllListCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("shop.orderAllListCount", map);
+	}
+
+	@Override
 	public Map<String, String> selectRecord(String recordNo) {
 		return sqlSession.selectOne("shop.selectRecord", recordNo);
 	}
@@ -222,6 +252,17 @@ public class ShopDaoImpl implements ShopDao {
 	@Override
 	public int updateTracking(Map<String, String> map) {
 		return sqlSession.update("shop.updateTracking", map);
+	}
+
+	@Override
+	public Map<String, String> selectProductQnaComment(String qnaNo) {
+		return sqlSession.selectOne("shop.selectProductQnaComment", qnaNo);
+	}
+
+	@Override
+	public int orderDeliveryCheck(String qnaNo) {
+		return sqlSession.selectOne("shop.orderDeliveryCheck", qnaNo);
+
 	}
 
 	

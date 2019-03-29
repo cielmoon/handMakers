@@ -32,6 +32,14 @@ $(function(){
 			}
 		});
 	});
+	
+	$('#input-detailAddr').on('keyup', function() {
+		if (this.value.length > 60) {
+			alert("30자 까지만 입력해 주세요.");
+			this.value = this.value.substring(0, 60);
+			this.focus();
+		}
+	});
 });
 
 
@@ -59,6 +67,8 @@ function searchAddr(){
 }
 
 function requestPay() {
+	
+	
 	
 	var addr = $('input[name=addr]').val();
 	var detailAddr = $('input[name=detailAddr]').val();
@@ -128,7 +138,8 @@ function requestPay() {
 	        var msg = '결제에 실패하였습니다.';
 	        msg += '에러내용 : ' + rsp.error_msg;
 	        
-	        location.href="${path}/order/updateResetOrder.do?productNo="+productNo+"&productOptionQty="+productOptionQty;
+	        alert("결제에 실패 하였습니다.");
+	        /* location.href="${path}/order/updateResetOrder.do?productNo="+productNo+"&productOptionQty="+productOptionQty; */
 	        
 	        return;
 	    }
@@ -163,7 +174,7 @@ function requestPay() {
   <!-- nav -->
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
-      <div class="column-block">
+      <%-- <div class="column-block">
         <div class="column-block">
           <div class="columnblock-title">${bcTitle }</div>
           <div class="category_block">
@@ -174,7 +185,7 @@ function requestPay() {
             </ul>
           </div>
         </div>
-       </div>
+       </div> --%>
        </div>
        
  		<div class="col-sm-9" id="content">
@@ -220,8 +231,8 @@ function requestPay() {
 										<c:if test="${deliveryList!='[]' }">
 										<div class="form-group">
 											<select class="form-control" id="myAddr" name="myAddr">
-											<c:forEach items="${deliveryList }" var="delivery">
 												<option value="list" selected>나의 배송지 주소</option>
+											<c:forEach items="${deliveryList }" var="delivery">
 												<option id="myAddrOption" value="${delivery.DELIVERY_NO }">${delivery.DELIVERY_POSTCODE }${delivery.DELIVERY_ADDR }${delivery.DELIVERY_DETAILADDR }
 											</c:forEach>
 											</select>

@@ -43,6 +43,7 @@ import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.service.OrderService;
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.product.model.service.ProductService;
+import kh.hand.makers.product.model.vo.DefaultProduct;
 import kh.hand.makers.product.model.vo.Wish;
 import kh.hand.makers.shop.model.service.ShopService;
 import kh.hand.makers.shop.model.vo.Brand;
@@ -70,13 +71,13 @@ public class MemberController {
 	public ModelAndView changeProfile(Member m, MultipartFile newProfileImg, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
 		String saveDir = "";
-		
+
 		if (m.getMemberAuthority().equals("A")) {
 			saveDir = request.getSession().getServletContext().getRealPath("/resources/image/adminProfile");
 		} else {
 			saveDir = request.getSession().getServletContext().getRealPath("/resources/image/memberProfile");
 		}
-		
+
 		String msg = "";
 		String loc = "";
 
@@ -103,10 +104,18 @@ public class MemberController {
 
 		if (result > 0) {
 			msg = "프로필사진 변경 완료";
-			loc = "/";
+			if (m.getMemberAuthority().equals("A")) {
+				loc = "/admin/adminPage.do";
+			} else {
+				loc = "/member/myPage.do";
+			}
 		} else {
 			msg = "프로필사진 변경 실패";
-			loc = "/";
+			if (m.getMemberAuthority().equals("A")) {
+				loc = "/admin/adminPage.do";
+			} else {
+				loc = "/member/myPage.do";
+			}
 		}
 
 		mv.addObject("msg", msg);
@@ -145,22 +154,22 @@ public class MemberController {
 
 		return mv;
 	}
-	
+
 	@RequestMapping("/member/mailCheck.do")
 	public ModelAndView mailCheck(String memberEmail, ModelAndView mv) throws UnsupportedEncodingException {
+		System.out.println("왔다@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		int ran = new Random().nextInt(100000) + 10000; // 인증 코드용 난수 발생 10000 ~ 99999
 		Member m = service.memberEmailFind(memberEmail);
 		String emailState = "F";
-		
-		System.out.println("왔다");
+
 		System.out.println("이메일 : " + memberEmail);
-		
+
 		if (m != null) {
 			String setfrom = "admin";
 			String title = "handmakers 인증 코드"; // 제목
 			String content = "인증 코드는 " + Integer.toString(ran) + " 입니다. 인증 코드란에 입력해주세요."; // 인증 코드
 			emailCode = Integer.toString(ran);
-			
+
 			try {
 				MimeMessage message = mailSender.createMimeMessage();
 				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
@@ -174,7 +183,7 @@ public class MemberController {
 			} catch (Exception e) {
 				System.out.println(e);
 			}
-			
+
 			emailState = "T";
 			mv.addObject("randomNumber", emailCode);
 			mv.addObject("emailState", emailState);
@@ -184,11 +193,11 @@ public class MemberController {
 		} else {
 			mv.addObject("emailState", emailState);
 			mv.setViewName("jsonView");
-			
+
 			return mv;
 		}
 	}
-	
+
 	@RequestMapping("/member/memberIdFind.do")
 	public ModelAndView memberIdFind(String memberEmail, ModelAndView mv) throws UnsupportedEncodingException {
 
@@ -410,7 +419,8 @@ public class MemberController {
 		List<Map<String, String>> wishList = service.selectWishList(memberNo, cPage, numPerPage);
 
 		mv.addObject("wishContentCount", wishContentCount);
-		mv.addObject("pageBar", PageFactory.getPageBar(wishContentCount, cPage, numPerPage, "/member/wishList.do"));
+		mv.addObject("pageBar",
+				PageFactory.getPageBar(wishContentCount, cPage, numPerPage, "/makers/member/wishList.do"));
 		mv.addObject("wishList", wishList);
 		mv.setViewName("/member/wishList");
 
@@ -455,7 +465,7 @@ public class MemberController {
 		int numPerPage = 5;
 		logger.debug("주문/배송 조회");
 		ModelAndView mv = new ModelAndView();
-		int contentCount = service.selectOrderCount();
+		int contentCount = service.selectOrderCount(m.getMemberNo());
 		List<ManageOrder> oList = service.selectOrderList(m, cPage, numPerPage);
 		mv.addObject("pageBar",
 				PageFactory.getPageBar(contentCount, cPage, numPerPage, "/makers/member/manageOrder.do"));
@@ -514,26 +524,26 @@ public class MemberController {
 	public ModelAndView memberWithdrawalEnds(String memberNo, SessionStatus status) {
 		logger.debug("회원탈퇴 대상 : " + memberNo);
 		ModelAndView mv = new ModelAndView();
-							
+
 		int result = service.memberWithdrawal(memberNo);
 		String msg = "";
 		String loc = "/";
 
 		if (result > 0) {
-			//찾은 브랜드들 상품들 전부 판매종료
-			List<Brand> brandList = service.selectBrand(memberNo);		
-			if(brandList.size() > 0) {
+			// 찾은 브랜드들 상품들 전부 판매종료
+			List<Brand> brandList = service.selectBrand(memberNo);
+			if (brandList.size() > 0) {
 				for (Brand brand : brandList) {
 					int updateProduct = service.updateProductWithdrawl(brand.getBrandNo());
 				}
-			}	
-			//찾은 브랜드 폐점신고
-			if(brandList.size() > 0) {
+			}
+			// 찾은 브랜드 폐점신고
+			if (brandList.size() > 0) {
 				for (Brand brand : brandList) {
 					int updateBrand = service.updateBrandWithdrawl(brand.getBrandNo());
 				}
-			}	
-			
+			}
+
 			msg = "회원탈퇴가 완료되었습니다.";
 			if (!status.isComplete()) {
 				status.setComplete();
@@ -723,6 +733,7 @@ public class MemberController {
 		String accessToken = null;
 
 		ModelAndView mv = new ModelAndView();
+		// max == 현재판매량 + 내 수량 -> 상품:판매종료
 
 		String test_api_key = "0709424890638444";
 		String test_api_secret = "AblFnSFrDGn4XNWRNAdC4E4dgOosLqbmCx1ZpHr3oP8mC5dqFq3K57YmWmOIN04px6pXOR1cH9zkfMKV";
@@ -761,7 +772,7 @@ public class MemberController {
 
 		Map<String, String> map = new HashMap();
 		Map<String, Object> productMap = new HashMap();
-
+		Map<String, Object> psMap = new HashMap();
 		String memberNo = ((Member) request.getSession().getAttribute("member")).getMemberNo();
 
 		map.put("orderNo", oNo.trim());
@@ -772,16 +783,50 @@ public class MemberController {
 		productMap.put("productOptionQty", Integer.parseInt(productOptionQty));
 		productMap.put("productNo", productNo);
 
-		int result = 0;
+		psMap.put("orderNo", oNo.trim());
+		psMap.put("orderState", oState.trim());
+		psMap.put("imp_uid", uid);
+		psMap.put("memberNo", memberNo);
+		psMap.put("productNo", productNo.trim());
 
+		int result = 0;
+		int results = 0;
 		try {
 			// 주문 상태 바꾸는 로직
-			result = orderService.updateOrderState(map);
+			DefaultProduct ds = productService.selectDefaltProduct(productNo);
+			int saleCount = shopService.selectSaleEmpty(ds.getProductNo());
 
-			if (result > 0) {
-				// 상품 현재 판매량 수량에 맞춰서 마이너스
-				result = productService.updateProductMinus(productMap);
+			if (saleCount > 0) {
+				// 신규 자기 회차 넣어서
+				psMap.put("saleCount", saleCount);
+				
+				result = orderService.updateOrderStateSecond(psMap);
+				if(ds.getProductState() == 3) {
+					logger.debug("판매종료");
+					results = productService.updatePMinus(productMap);	
+					System.out.println("result: "+results);
+				}else {
+					logger.debug("판매종료X");
+					results = productService.updateProductMinus(productMap);	
+					System.out.println("result: "+results);
+				}
+						
+
+			} else {
+				// 입점예정
+				result = orderService.updateOrderState(map);
+				if(ds.getProductState() == 3) {
+					logger.debug("입점판매종료");
+					results = productService.updatePMinus(productMap);	
+					System.out.println("result: "+results);
+				}else {
+					logger.debug("입점판매종료X");
+					results = productService.updateProductMinus(productMap);	
+					System.out.println("result: "+results);
+				}
+				
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -809,13 +854,13 @@ public class MemberController {
 			e.printStackTrace();
 		}
 
-		logger.debug("result" + result);
+		logger.debug("results" + results);
 		// response.getWriter().print(result);
 
 		String msg = "";
 		String loc = "/member/manageOrder.do";
 
-		if (result > 0) {
+		if (results > 0) {
 			msg = "결제 취소에 성공했습니다.";
 		} else {
 			msg = "결제 취소에 실패했습니다.";
@@ -828,15 +873,14 @@ public class MemberController {
 	}
 
 	@RequestMapping("/member/updateOrderState.do")
-	public ModelAndView updateOrderState(String orderNo) {		
+	public ModelAndView updateOrderState(String orderNo) {
 		ModelAndView mv = new ModelAndView();
-			
-		
-	    int result = service.updateOrderState(orderNo);
-		
+
+		int result = service.updateOrderState(orderNo);
+
 		String msg = "";
 		String loc = "";
-		
+
 		if (result > 0) {
 			msg = "구매확정에 성공했습니다.";
 			loc = "/member/manageOrder.do";
@@ -844,11 +888,11 @@ public class MemberController {
 			msg = "구매확정에 실패했습니다.";
 			loc = "/member/manageOrder.do";
 		}
-		
+
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.setViewName("common/msg");
-		
+
 		return mv;
 	}
 }

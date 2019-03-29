@@ -17,6 +17,20 @@ $(function() {
 		}
 	});
 	
+	$('#input-quantity').keyup(function(e){
+		if(!((e.keyCode > 95 && e.keyCode < 106)|| (e.keyCode > 47 && e.keyCode < 58)|| e.keyCode == 8)) {
+			alert('숫자만 입력해주세요');
+			return false;
+		}
+		
+		if($('#input-quantity').val()==""){
+			alert('수량을 입력해주세요');
+			return false;
+		}
+	});
+		
+	
+	
 	var type = '${type}';
 	if (type == 'R') {
 		$("#li-description").attr('class', '');
@@ -50,24 +64,43 @@ $(function() {
 		$("#tab-sallerInfo").attr('class', 'tab-pane');
 	};
 	
-	$('#orderBtn').on('click',function(){
-		var stock = Number(${product.REMAININVENTORY});
-		var qty = Number($('input[name=productQty]').val());
-		/* var cursell = Number(${product.PRODUCT_CURSELL}); */
-		console.log("재고"+stock);
-		console.log("수량"+qty);
-		console.log(typeof qty);
-		console.log(typeof stock);
-		
-		if(stock < qty){
+		/* if(stock < qty){
 			alert('남은 수량보다 더 주문해서 주문이 안됩니다.');
 			return false;
 		}else{
 			return true;
-		}
-      	
-	});
+		} */
 });
+
+function productCheck(){
+	
+	var qty = Number($('input[name=productQty]').val());
+	var productNo = $('#input-productNo').val();
+	var tab = $('#tab').val();
+	/* var price = ;
+	var option = ; */
+	
+
+	$.ajax({
+		url : "${path}/product/selectProductCheck.do",
+		data : {
+			"productNo" : productNo,
+			"qty" : qty
+		},
+		success : function(data) {
+			//해당 max 값이 보다 더 큰 경우
+			
+			if(data.state == "F"){
+				alert('주문에 실패 하였습니다.');
+				location.href="${path}/product/productView.do?productNo="+productNo+"&tab="+tab;
+				
+			}else{
+				alert('결제페이지로 이동합니다.');
+				$('#productViewFrm').submit();
+			}
+		}
+	});
+};
 
 function fn_sallerInfo() {
 	var addr = $('#addr').val();
@@ -184,14 +217,11 @@ function fn_insertReviewCommentLevel1() {
 	$('#input-reviewCommentProductNo').val(productNo);
 	$('#input-reviewOrderNo').val(orderNo);
 	var content = $('#input-review').val();
-	var radio = $('input[type=radio]').val();
-	console.log(radio);
 	console.log(content);
-	if(radio==null){
-		alert('평점 점수를 넣어주세요');
-	}
-	if(content.trim().length<0){
+
+	if(content.trim().length < 1){ 
 		alert('내용을 넣어주세요');
+		return false;
 	}
 	
 	$('#commentReview').submit();
@@ -215,7 +245,7 @@ function fn_reviewComment(commentNo){
 	console.log(commentNo);
 	$('#'+commentNo).attr('style','display:none');
 	$('#input-'+commentNo).attr('type','text');
-	$('#btn-'+commentNo).attr('style','display:inline');
+	$('#btn-'+commentNo).attr('style','display:inline; padding-top:0; padding-bottom:0');
 };
 
 function fn_updateReviewComment(inputCommentNo, inputCommentContent){
@@ -224,6 +254,11 @@ function fn_updateReviewComment(inputCommentNo, inputCommentContent){
 	var commentNo = $('#' + inputCommentNo).val();
 	var commentContent = $('#input-'+inputCommentContent).val();
 	var commentType = $('input[name=commentType]').val();
+	
+	if(commentContent.trim().length<1){
+		alert('내용을 입력해주세요');
+		return false;
+	}
 	console.log(commentType);
 	console.log(commentNo);
 	console.log(commentContent);
@@ -308,7 +343,7 @@ function fn_imageViewChange(subImg){
     <li><a href="/makers"><i class="fa fa-home"></i></a></li>
     <c:choose>
     	<c:when test="${tab eq 'p'}">
-    		<li><a href="${path }/product/preList.do">입점문의</a></li>
+    		<li><a href="${path }/product/preList.do">입점예정</a></li>
     	</c:when>
     	<c:when test="${tab eq 'n' }">
     		<li><a href="${path }/product/newList.do">신규</a></li>
@@ -326,9 +361,9 @@ function fn_imageViewChange(subImg){
   <!-- nav -->
   <div class="row">
     <div id="column-left" class="col-sm-3 hidden-xs column-left">
-    <c:choose>
+<%--     <c:choose>
     	<c:when test="${tab eq 'n' or tab eq 'p' }"></c:when>
-    	<c:when test="${tab eq 'b'}">
+     	<c:when test="${tab eq 'b'}">
     		<div class="column-block">
 	        <div class="column-block">
 	          <div class="columnblock-title">${bcTitle }</div>
@@ -341,8 +376,8 @@ function fn_imageViewChange(subImg){
 	          </div>
 	        </div>
 	       </div>
-    	</c:when>
-    	<c:otherwise>
+    	</c:when> 
+     	<c:otherwise>
       <div class="column-block">
         <div class="column-block">
           <div class="columnblock-title">${bcTitle }</div>
@@ -356,7 +391,7 @@ function fn_imageViewChange(subImg){
         </div>
        </div>
        </c:otherwise>
-       </c:choose>
+       </c:choose> --%>
        </div>
 
     <div id="content" class="col-sm-9">
@@ -479,10 +514,25 @@ function fn_imageViewChange(subImg){
               <label>판매종료일:</label>
               <span><fmt:formatDate value="${product.PRODUCT_ENDDATE }" pattern="yyyy-MM-dd"/></span></li>
             <c:choose>
-            	<c:when test="${product.PRODUCT_STATE ne 0}">
+            	<c:when test="${product.PRODUCT_STATE eq 3}">
             	<li>
 	              <label>판매 남은일:</label>
-	              <span id="remainperiod" style="color:red">주문 마감된 상품입니다.</span></li>
+	              <span id="remainperiod" style="color:red">판매가 완료된 상품입니다.</span></li>
+	           </c:when>
+	           <c:when test="${product.PRODUCT_STATE eq 1}">
+            	<li>
+	              <label>판매 남은일:</label>
+	              <span id="remainperiod" style="color:red">판매중지가 요청된 상품입니다.</span></li>
+	           </c:when>
+	           <c:when test="${product.PRODUCT_STATE eq 2}">
+            	<li>
+	              <label>판매 남은일:</label>
+	              <span id="remainperiod" style="color:red">판매중지 상품입니다.</span></li>
+	           </c:when>
+	           <c:when test="${product.PRODUCT_STATE eq 4}">
+            	<li>
+	              <label>판매 남은일:</label>
+	              <span id="remainperiod" style="color:red">재판매가 요청된 상품입니다.</span></li>
 	           </c:when>
 	           <c:when test="${product.PRODUCT_STATE eq 0 }">
 	            <li>
@@ -505,7 +555,7 @@ function fn_imageViewChange(subImg){
             
             <div class="form-group">
               <label class="control-label qty-label" for="input-qty">수량</label>
-              <input type="number" name="productQty" value="1" min="1" size="10" id="input-quantity" class="form-control productpage-qty" style="width:100px"/>
+              <input type="number" name="productQty" value="1" min="1" size="10" max="${product.REMAININVENTORY }" id="input-quantity" class="form-control productpage-qty" style="width:100px"/>
               <input type="hidden" name="tab" id="tab" value="${tab }"/>
               <input type="hidden" name="productNo" id="input-productNo" value="${product.PRODUCT_NO }"/>
               <input type="hidden" name="brandNo" value="${product.BRAND_NO }"/>
@@ -554,7 +604,7 @@ function fn_imageViewChange(subImg){
 	                		<input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기" disabled/>
 	                	</c:when>	                              	
 	                	<c:when test="${member.memberAuthority ne 'A' }">
-	                		<input type="submit" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" value="결제하기"/>
+	                		<input type="button" id="orderBtn" class="btn btn-primary btn-lg btn-block addtocart" onclick="return productCheck();" value="결제하기"/>
 	                	</c:when>
 	                	</c:choose>
 	                </c:when>
@@ -607,7 +657,12 @@ function fn_imageViewChange(subImg){
                         <li class="media">                  
                            <c:if test="${reviewComment.COMMENT_LEVEL eq 1 }">
                            <a class="pull-left" href="javascript:void(0);"> 
+                           <c:if test="${member.memberAuthority eq 'A' }">
+                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/adminProfile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
+                           </c:if>
+                           <c:if test="${member.memberAuthority eq 'M' }">
                               <img class="media-object img-circle" width="100px;" src="${path }/resources/image/memberProfile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
+                           </c:if>   
                            </a>
                               <div class="media-body">
                                  <div class="well well-sm">
@@ -627,19 +682,13 @@ function fn_imageViewChange(subImg){
                                      </c:if>
       
                                     <p class="media-comment" id="${reviewComment['COMMENT_NO'] }Level1">${reviewComment['COMMENT_CONTENT'] }</p>
-                                    <input type="hidden" id="input-${reviewComment['COMMENT_NO'] }Level1" style="width:100%;" value="${reviewComment['COMMENT_CONTENT'] }"/>
-                                    <input type="button" id="btn-${reviewComment['COMMENT_NO'] }Level1" value="등록" style="display:none" onclick="fn_updateReviewComment('inputNo-${reviewComment['COMMENT_NO'] }Level1','${reviewComment['COMMENT_NO'] }Level1')"/>
+                                    <input type="hidden" id="input-${reviewComment['COMMENT_NO'] }Level1" style="width:80%;" value="${reviewComment['COMMENT_CONTENT'] }"/>
+                                    <input type="button" class="btn btn-primary" id="btn-${reviewComment['COMMENT_NO'] }Level1" value="등록" style="display:none;" onclick="fn_updateReviewComment('inputNo-${reviewComment['COMMENT_NO'] }Level1','${reviewComment['COMMENT_NO'] }Level1')"/><br/>
                                     <input type="hidden" id="inputNo-${reviewComment['COMMENT_NO'] }Level1" name="commentNo" value="${reviewComment['COMMENT_NO'] }"/>
                                     <input type="hidden" name="commentType" value="R"/>
                                     <div>
                                     <a id="btn-comment" class="btn btn-primary btn-circle text-uppercase btn-reply" data-toggle="collapse" href="#${reviewComment['COMMENT_NO']}"> <!--onclick="fn_selectCommentLevel2('${reviewComment.COMMENT_NO}'); -->
                                        <i class="far fa-comment-dots"></i>&nbsp;${reviewComment['CN']}개 comment</a>
-                                       
-                                    <a class="btn btn-success btn-circle text-uppercase btn-reply" href="#" id="replyUp">
-                                       <i class="far fa-thumbs-up"></i></a>
-                                    <a class="btn btn-warning btn-circle text-uppercase btn-reply" href="#" id="replyDown" style="background-color: #b7c7c7;">
-                                       <i class="far fa-thumbs-down"></i></a>  
-                                       
                                     </div>
                                  </div>
                               </div>
@@ -651,12 +700,16 @@ function fn_imageViewChange(subImg){
                               <c:if test="${second['COMMENT_REF'] eq  reviewComment['COMMENT_NO']}">
 	                              <li class="media media-replied">
 	                              <a class="pull-left" href="javascript:void(0);"> 
-	                                 <img class="media-object img-circle" style="width: 80px;" 
-	                                    src="${path }/resources/image/memberProfile/${second['MEMBER_PROFILE']}" alt="profile">
+	                              <c:if test="${member.memberAuthority eq 'A' }">
+	                                 <img class="media-object img-circle" style="width: 80px;" src="${path }/resources/image/adminProfile/${second['MEMBER_PROFILE']}" alt="profile">
+	                              </c:if>
+	                              <c:if test="${member.memberAuthority eq 'M' }">
+	                              	 <img class="media-object img-circle" style="width: 80px;" src="${path }/resources/image/memberProfile/${second['MEMBER_PROFILE']}" alt="profile">
+	                              </c:if>   
 	                              </a>
 	                                 <div class="media-body">
 	                                    <div class="well well-sm">
-	                                       <h4 class="media-heading text-uppercase reviews display-inline">${second['MEMBER_ID'] }</h4>
+	                                       <h4 class="media-heading text-uppercase reviews display-inline">${second['MEMBER_NAME'] }</h4>
 	                                       <ul class="media-date text-uppercase reviews list-inline display-inline">
 	                                          <li class="dd"><fmt:formatDate value="${second['COMMENT_DATE'] }" pattern="yyyy MM dd"/></li>
 	                                       </ul>
@@ -673,7 +726,7 @@ function fn_imageViewChange(subImg){
 	                                     </c:if>	                                       
 	                                    <p class="media-comment" id="${second['COMMENT_NO'] }Level2">${second['COMMENT_CONTENT'] }</p>
 	                                    <input type="hidden" id="input-${second['COMMENT_NO'] }Level2" style='width:100%;'value="${second['COMMENT_CONTENT'] }"/>
-	                                    <input type="button" id="btn-${second['COMMENT_NO'] }Level2" value="등록" style="display:none" onclick="fn_updateReviewComment('inputNo-${second['COMMENT_NO'] }Level2','${second['COMMENT_NO'] }Level2')"/>
+	                                    <input type="button" class="btn btn-primary" id="btn-${second['COMMENT_NO'] }Level2" value="등록" style="display:none" onclick="fn_updateReviewComment('inputNo-${second['COMMENT_NO'] }Level2','${second['COMMENT_NO'] }Level2')"/>
 	                                    <input type="hidden" id="inputNo-${second['COMMENT_NO'] }Level2" name="commentNo" value="${second['COMMENT_NO'] }"/>
 	                                    <input type="hidden" name="commentType" value="R"/>	                                      
 	                                 </div>
@@ -686,11 +739,16 @@ function fn_imageViewChange(subImg){
                               <li class="media media-replied">
                               <form id="fm-${reviewComment['COMMENT_NO'] }" action="${path}/product/insertCommentLevel2.do?productNo=${product.PRODUCT_NO}&tab=${tab}" method="post">
                               <a class="pull-left" href="javascript:void(0);"> 
-                              	<img class="media-object img-circle" width="80px;" src="${path }/resources/image/memberProfile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
+                              <c:if test="${member.memberAuthority eq 'A' }">
+                              	<img class="media-object img-circle" width="80px;" src="${path }/resources/image/adminProfile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
+                              </c:if>
+                              <c:if test="${member.memberAuthority eq 'M' }">
+                                <img class="media-object img-circle" width="80px;" src="${path }/resources/image/memberProfile/${reviewComment['MEMBER_PROFILE']}" alt="profile">
+                              </c:if>
                           	  </a>
                                  <div class="media-body">
                                     <div class="well well-sm">
-                                       <h4 class="media-heading text-uppercase reviews display-inline">${member.memberId}</h4>
+                                       <h4 class="media-heading text-uppercase reviews display-inline">${member.memberName}</h4>
                                        <hr/>
                                         <p class="media-comment">
 										 <textarea id="reviewContent${reviewComment['COMMENT_NO'] }" name="reviewContent" class="form-control" style="resize: none; border: 0px;" placeholder="댓글을 작성해주세요"></textarea>
@@ -723,19 +781,25 @@ function fn_imageViewChange(subImg){
             	function fn_insertReviewComment(inputCommentNo){
             		console.log(inputCommentNo);
             		var commentNo = $('#'+inputCommentNo).val();
+            		var commentContent = $('#reviewContent'+commentNo).val();
             		console.log(commentNo);
+            		if(commentContent.trim().length < 1){
+            			alert('내용을 입력해주세요');
+            			return false;
+            		}
+            		
             		$('#fm-'+commentNo).submit();
             	};
             
             </script>
             
-            <c:if test="${member!=null && orderList[0].ORDER_PAYSTATE eq '3' }">
+            <c:if test="${member!=null && orderList[0].ORDER_PAYSTATE ne '2' }">
             <form id="commentReview" class="form-horizontal" action="${path }/product/insertCommentReview.do?tab=${tab}">
               <div  id="div-review">
                  <c:if test="${orderList.size()>0 }">
                  <select class="form-control" id="orderList">
                  <c:forEach items="${orderList }" var="order">
-                 <c:if test="${order.ORDER_PAYSTATE eq '3'}">
+                 <c:if test="${order.ORDER_PAYSTATE ne '2'}">
                     <option value="${order.ORDER_NO }">${order.PRODUCT_TITLE }</option>
                  </c:if>
                  </c:forEach>
@@ -773,7 +837,7 @@ function fn_imageViewChange(subImg){
                   &nbsp;
                   <input type="radio" name="rating" value="4" />
                   &nbsp;
-                  <input type="radio" name="rating" value="5" />
+                  <input type="radio" name="rating" value="5" checked/>
                   &nbsp;Good</div>
               </div>
  
@@ -791,15 +855,26 @@ function fn_imageViewChange(subImg){
           <div class="tab-pane" id="tab-question">
             <div id="questionComment" class="form-group"><!--  style="border:1px solid red" -->
                   <ul class="media-list">
-                     <c:if test='${questionCommentList.size() eq 0 }'>
+             
+                     <c:if test='${questionCommentListLv1.size() eq 0 }'>
                         <span id="level1">등록된 상품 문의가 없습니다.</span>
                      </c:if>
-                     <c:if test="${questionCommentList!=null }">
-                        <c:forEach items="${questionCommentList }" var="questionComment" varStatus="vs">
+                     <c:if test="${questionCommentListLv1!=null }">   
+                        <c:forEach items="${questionCommentListLv1 }" var="questionComment" varStatus="vs">  
                         <li class="media">                  
                            <c:if test="${questionComment.COMMENT_LEVEL eq 1 }">
                            <a class="pull-left" href="javascript:void(0);"> 
-                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/memberProfile/${second['MEMBER_PROFILE']}" alt="profile">
+                           <%-- <c:if test="${member.memberAuthority eq 'A' }">
+                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/adminProfile/${questionComment.MEMBER_PROFILE }" alt="profile">
+                           </c:if>
+                           <c:if test="${member.memberAuthority eq 'M' }"> --%>
+                           <c:if test="${questionComment.MEMBER_AUTHORITY eq 'A' }">
+                           	  <img class="media-object img-circle" width="100px;" src="${path }/resources/image/adminProfile/${questionComment.MEMBER_PROFILE }" alt="profile">
+                           </c:if>
+                           <c:if test="${questionComment.MEMBER_AUTHORITY eq 'M' }">
+                              <img class="media-object img-circle" width="100px;" src="${path }/resources/image/memberProfile/${questionComment.MEMBER_PROFILE }" alt="profile">
+                           </c:if>
+                           <%-- </c:if> --%>
                            </a>
                               <div class="media-body">
                                  <div class="well well-sm">
@@ -819,35 +894,37 @@ function fn_imageViewChange(subImg){
                                        </ul>
                                      </c:if>
                                     <p class="media-comment" id="${questionComment['COMMENT_NO'] }Level1">${questionComment['COMMENT_CONTENT'] }</p>
-                                    <input type="hidden" id="input-${questionComment['COMMENT_NO'] }Level1" style='width:100%;'value="${questionComment['COMMENT_CONTENT'] }"/>
-                                    <input type="button" id="btn-${questionComment['COMMENT_NO'] }Level1" value="등록" style="display:none" onclick="fn_updateReviewComment('inputNo-${questionComment['COMMENT_NO'] }Level1','${questionComment['COMMENT_NO'] }Level1')"/>
+                                    <input type="hidden" id="input-${questionComment['COMMENT_NO'] }Level1" style='width:80%;'value="${questionComment['COMMENT_CONTENT'] }"/>
+                                    <input type="button" class="btn btn-primary" id="btn-${questionComment['COMMENT_NO'] }Level1" value="등록" style="display:none;" onclick="fn_updateReviewComment('inputNo-${questionComment['COMMENT_NO'] }Level1','${questionComment['COMMENT_NO'] }Level1')"/>
                                     <input type="hidden" id="inputNo-${questionComment['COMMENT_NO'] }Level1" name="commentNo" value="${questionComment['COMMENT_NO'] }"/>
                                     <input type="hidden" name="questionCommentType" value="Q"/>
                                     <!-- <input type="hidden" name="tab" id="tab"/> -->
                                  </div>
                               </div>
                         </c:if>
-                        <c:if test="${questionComment.COMMENT_LEVEL eq 2 }">  
+                        <c:forEach items="${questionCommentListLv2 }" var="questionCommentLv2">
+                        <c:if test="${questionCommentLv2.COMMENT_REF eq questionComment.COMMENT_NO }">  
                            <div class="col-sm-11 reply-sm-10">
                               <ul class="media-list">
                               <li class="media media-replied">
                               <a class="pull-left" href="javascript:void(0);"> 
-                                 <img class="media-object img-circle" style="width: 80px;" 
-                                    src="${path }/resources/image/memberProfile/seller_img.png" alt="profile">
+                                 <img class="media-object img-circle" style="width: 80px;" src="${path }/resources/image/memberProfile/seller_img.png" alt="profile">
                               </a>
                                  <div class="media-body">
                                     <div class="well well-sm">
                                        <h4 class="media-heading text-uppercase reviews display-inline">판매자</h4>
                                        <ul class="media-date text-uppercase reviews list-inline display-inline">
-                                          <li class="dd"><fmt:formatDate value="${questionComment['COMMENT_DATE'] }" pattern="yyyy MM dd"/></li>
+                                          <li class="dd"><fmt:formatDate value="${questionCommentLv2['COMMENT_DATE'] }" pattern="yyyy MM dd"/></li>
                                        </ul>
-                                       <p class="media-comment">${questionComment['COMMENT_CONTENT'] }</p>
+                                       <p class="media-comment">${questionCommentLv2['COMMENT_CONTENT'] }</p>
                                     </div>
                                  </div>
                               </li>
                               </ul>
                            </div>
                         </c:if>
+                        </c:forEach>
+                        
                      </li>
                      </c:forEach>
                   </c:if>

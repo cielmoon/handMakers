@@ -5,6 +5,7 @@ import java.util.Map;
 
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.order.model.vo.Order;
+import kh.hand.makers.product.model.vo.DefaultProduct;
 
 public interface OrderDao {
 	
@@ -16,9 +17,23 @@ public interface OrderDao {
 	Map<String,String> selectProductOption(String productOptionNo);
 	Map<String,String> selectCategoryMap(String productNo);
 	int updateOrderState(Map<String,String> map);
-	Map<String,String> selectProductCheck(Order order);
-	int insertProductSalesRecord(String productNo);
+	int selectProductCheck(Order order);
+	int insertProductSalesRecord(Order order);
 	int updateProductState(String productNo);
 	int updateOrder(Map<String,Object> map);
 	int updateResetOrder(Map<String,String> map);
+	int updateResetProduct(Map<String,Object> map);
+	int deleteOrder(String orderNo);
+	
+	
+	int updateOrderStateSecond(Map<String,Object> psMap);
+	int updateProductCSS(String productNo);
+	int orderInsert(Order order);
+	int orderInsertSecond(Order order);
+	int updateProductQty(Map<String,Object> updateProduct);
+	int salesInsert(DefaultProduct ds);
+	int updateProductCS(String productNo);
+	int salesInsertFirst(DefaultProduct ds);
+	int updatePStateEnd(String productNo);
+
 }

@@ -89,9 +89,16 @@
  					<div class="col-sm-12">
 						<div class="col-sm-9"></div>
 						<div class="col-sm-3">
+						<c:choose>	
+							<c:when test="${deliveryList.size() < 5 }">					
 							<input type="button" class="btn btn-primary" onclick='location.href="${path}/member/enrollLocation.do"'
 								value="배송지 등록하기" />
+							</c:when>
+							<c:otherwise>
+							</c:otherwise>
+						</c:choose>
 						</div>
+						
 					</div>
 
 				</div>

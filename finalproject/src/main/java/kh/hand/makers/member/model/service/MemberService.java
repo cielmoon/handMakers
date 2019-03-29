@@ -21,7 +21,7 @@ public interface MemberService {
 	int memberPwdUpdate(Member m);
 	
 	List<ManageOrder> selectOrderList(Member m, int cPage,int numPerPage);
-	int selectOrderCount();
+	int selectOrderCount(String memberNo);
 	List<Map<String,String>> selectWishList(String memberNo, int cPage, int numPerPage);
 	int selectWishCount(String memberNo);
 	
@@ -39,4 +39,11 @@ public interface MemberService {
 	List<Brand> selectBrand(String memberNo);
 	int updateProductWithdrawl(String brandNo);
 	int updateBrandWithdrawl(String brandNo);
+	
+	int selectProductState(String productNo);
+	int updateProductState(String productNo);
+	int deleteSaleProduct(String salesNo);
+	
+	String selectSalseNo(String productNo);
+	int selectCerrSell(String salesNo);
 }

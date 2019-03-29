@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import kh.hand.makers.product.model.vo.DefaultProduct;
 import kh.hand.makers.product.model.vo.Product2;
 import kh.hand.makers.product.model.vo.ProductImg;
 import kh.hand.makers.product.model.vo.Wish;
@@ -147,15 +148,7 @@ public class ProductDaoImpl implements ProductDao {
 		
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		
-		if(map.get("commentType").equals("R"))
-		{
-			return session.selectList("product.selectCommentR", map, rb);
-		}else 
-		{
-			return session.selectList("product.selectCommentQ", map, rb);
-		}
-
-	
+		return session.selectList("product.selectCommentR", map, rb);	
 	}
 
 	@Override
@@ -255,7 +248,33 @@ public class ProductDaoImpl implements ProductDao {
 		return session.update("product.updateProductMinus",productMap);
 	}
 
-	
+	@Override
+	public Map<String,String> selectProductCheck(Map<String,String> map) {
+		
+		return session.selectOne("product.selectProductCheck",map);
+	}
+
+	@Override
+	public DefaultProduct selectDefaltProduct(String productNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("product.selectDefaltProduct",productNo);
+	}
+
+	@Override
+	public int updatePMinus(Map<String, Object> productMap) {
+		// TODO Auto-generated method stub
+		return session.update("product.updatePMinus",productMap);
+	}
+	@Override
+	public List<Map<String, String>> selectCommentQnaLv1(Map<String, String> map, int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return session.selectList("product.selectCommentQnaLv1", map, rb);
+	}
+
+	@Override
+	public List<Map<String, String>> selectCommentQnaLv2(Map<String, String> map) {
+		return session.selectList("product.selectCommentQnaLv2", map);
+	}
 
 	
 

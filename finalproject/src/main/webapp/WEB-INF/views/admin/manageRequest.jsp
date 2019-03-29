@@ -63,7 +63,7 @@ function manageRequestAjaxBrand(cPage) {
 					sellerReqState = '폐점신고요청';
 				}else if(data.proc[i].sellerReqState == 'e'){
 					sellerReqState = '폐점완료';
-				}else if(data.proc[i].sellerReqState == 'f'){
+				}else if(data.proc[i].sellerReqState == 'b'){
 					sellerReqState = '폐점반려';
 				}
 				if(data.proc[i].sellerReqProcess == '0'){
@@ -115,14 +115,8 @@ function manageRequestAjaxProduct(cPage) {
 			var table = $('<table id="tbl-board" class="table table-striped table-hover"></table>');
 			table.append(tr1);
 			for(var i=0;i<data.proc.length;i++){
-				if(data.proc[i].sellerReqState == '4'){
-					sellerReqState = '재판매요청';
-				}else if(data.proc[i].sellerReqState == '0'){
-					sellerReqState = '정상등록';
-				}else if(data.proc[i].sellerReqState == '1'){
+				if(data.proc[i].sellerReqState == '1'){
 					sellerReqState = '판매중단요청';
-				}else if(data.proc[i].sellerReqState == '2'){
-					sellerReqState = '판매중지';
 				}else if(data.proc[i].sellerReqState == '3'){
 					sellerReqState = '판매종료';
 				}
@@ -137,14 +131,7 @@ function manageRequestAjaxProduct(cPage) {
 				}
 
 				
-				if(data.proc[i].sellerReqProcess == '0' && data.proc[i].sellerReqState == '4'){
-					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" 					
-							+ "<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>" +"</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
-							+ "</td><td>" + data.proc[i].sReqDate + "</td><td>"
-							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+ data.proc[i].sellerReqNo +",1,0,"+ data.proc[i].sellerReqType +","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>수락</button></a>" 
-							+ "<a href='${path}/admin/changeReqProcess.do?sellerReqNo="+data.proc[i].sellerReqNo+",2,2,"+data.proc[i].sellerReqType+","+ data.proc[i].sellerReqRef +"'><button class='AgreeBtn'>반려</button></a></td>"+"</td></tr>");
-				
-				}else if (data.proc[i].sellerReqProcess == '0' && data.proc[i].sellerReqState == '1'){
+				if (data.proc[i].sellerReqProcess == '0' && data.proc[i].sellerReqState == '1'){
 					var tr2 =  $("<tr><td>"+ data.proc[i].sellerReqNo +"</td><td>"+ data.proc[i].refName + "</td><td>" + 
 							"<a href='${path}/admin/checkReq.do?sellerReqNo="+ data.proc[i].sellerReqNo +"'>"+ data.proc[i].sellerReqTitle +"</a>"
 							+ "</td><td>"+ data.proc[i].memberId +"</td><td>"+ sellerReqState +"</td><td>"+ sellerReqProcess 
@@ -229,7 +216,7 @@ function manageRequestAjaxProduct(cPage) {
 											<c:when test="${r.sellerReqState == 'e' }">
 												<td>폐점완료</td>											
 											</c:when>		
-											<c:when test="${r.sellerReqState == 'f' }">
+											<c:when test="${r.sellerReqState == 'b' }">
 												<td>폐점반려</td>											
 											</c:when>												
 										</c:choose>	
@@ -248,8 +235,9 @@ function manageRequestAjaxProduct(cPage) {
 										<c:choose>
 											<c:when test="${r.sellerReqProcess == '0' }">
 												<td><a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,1,e,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">수락</button></a>
-												<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,f,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">반려</button></a></td>					
-											</c:when>						
+												<a href="${path}/admin/changeReqProcess.do?sellerReqNo=${r.sellerReqNo}+,2,b,+${r.sellerReqType}+,+${r.sellerReqRef}"><button class="AgreeBtn">반려</button></a></td>					
+											</c:when>		
+											<c:otherwise><td></td></c:otherwise>				
 										</c:choose>										
 									</c:when>
 									<%-- <c:when test="${r.sellerReqType == 'P' }">

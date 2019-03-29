@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kh.hand.makers.product.model.dao.ProductDao;
+import kh.hand.makers.product.model.vo.DefaultProduct;
 import kh.hand.makers.product.model.vo.Product;
 import kh.hand.makers.product.model.vo.ProductImg;
 import kh.hand.makers.product.model.vo.Wish;
@@ -19,6 +20,12 @@ public class ProductServiceImpl implements ProductService {
 
 	
 	
+	@Override
+	public DefaultProduct selectDefaltProduct(String productNo) {
+		// TODO Auto-generated method stub
+		return dao.selectDefaltProduct(productNo);
+	}
+
 	@Override
 	public int selectWishYewon(Map<String, String> map) {
 		// TODO Auto-generated method stub
@@ -199,8 +206,29 @@ public class ProductServiceImpl implements ProductService {
 		return dao.updateProductMinus(productMap);
 	}
 
+	@Override
+	public Map<String,String> selectProductCheck(Map<String,String> map) {
+		
+		return dao.selectProductCheck(map);
+	}
+
+	@Override
+	public int updatePMinus(Map<String, Object> productMap) {
+		// TODO Auto-generated method stub
+		return  dao.updatePMinus(productMap);
+	}
+
 	
-	
+	@Override
+	public List<Map<String, String>> selectCommentQnaLv1(Map<String, String> map, int cPage, int numPerPage) {
+		return dao.selectCommentQnaLv1(map, cPage, numPerPage);
+	}
+
+	@Override
+	public List<Map<String, String>> selectCommentQnaLv2(Map<String, String> map) {
+		return dao.selectCommentQnaLv2(map);
+	}
+
 	
 
 

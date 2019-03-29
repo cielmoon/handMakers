@@ -21,6 +21,12 @@ public class ShopServiceImpl implements ShopService {
 	ShopDao dao;
 	
 	@Override
+	public int selectNextOrder(int saleCount, String productNo) {
+		// TODO Auto-generated method stub
+		return dao.selectNextOrder(saleCount, productNo);
+	}
+
+	@Override
 	public List<Brand> selectBrandList(String memberNo) {
 		return dao.selectBrandList(memberNo);
 	}
@@ -172,6 +178,34 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public int updateTracking(Map<String, String> map) {
 		return dao.updateTracking(map);
+	}
+
+	@Override
+	public Map<String, String> selectProductQnaComment(String qnaNo) {
+		return dao.selectProductQnaComment(qnaNo);
+	}
+
+	@Override
+	public int orderDeliveryCheck(String qnaNo) {
+		return dao.orderDeliveryCheck(qnaNo);
+	}
+
+	@Override
+	public int selectSaleEmpty(String productNo) {
+		// TODO Auto-generated method stub
+		return dao.selectSaleEmpty(productNo);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectOrderAll(Map<String, Object> map, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderAll(map, cPage, numPerPage);
+	}
+
+	@Override
+	public int orderAllListCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return dao.orderAllListCount(map);
 	}
 
 	

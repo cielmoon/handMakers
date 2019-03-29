@@ -10,7 +10,6 @@ import kh.hand.makers.member.model.dao.MemberDao;
 import kh.hand.makers.member.model.vo.ManageOrder;
 import kh.hand.makers.member.model.vo.Member;
 import kh.hand.makers.order.model.vo.Delivery;
-import kh.hand.makers.product.model.vo.Wish;
 import kh.hand.makers.shop.model.vo.Brand;
 
 
@@ -101,9 +100,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int selectOrderCount() {
+	public int selectOrderCount(String memberNo) {
 		// TODO Auto-generated method stub
-		return dao.selectOrderCount();
+		return dao.selectOrderCount(memberNo);
 	}
 
 	@Override
@@ -164,6 +163,36 @@ public class MemberServiceImpl implements MemberService {
 	public int updateBrandWithdrawl(String brandNo) {
 		// TODO Auto-generated method stub
 		return dao.updateBrandWithdrawl(brandNo);
+	}
+
+	@Override
+	public int selectProductState(String productNo) {
+		// TODO Auto-generated method stub
+		return dao.selectProductState(productNo);
+	}
+
+	@Override
+	public int updateProductState(String productNo) {
+		// TODO Auto-generated method stub
+		return dao.updateProductState(productNo);
+	}
+
+	@Override
+	public int deleteSaleProduct(String salesNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteSaleProduct(salesNo);
+	}
+
+	@Override
+	public String selectSalseNo(String productNo) {
+		// TODO Auto-generated method stub
+		return dao.selectSalseNo(productNo);
+	}
+
+	@Override
+	public int selectCerrSell(String salesNo) {
+		// TODO Auto-generated method stub
+		return dao.selectCerrSell(salesNo);
 	}
 	
 	

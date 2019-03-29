@@ -71,6 +71,15 @@ public interface ShopService {
 	int updateSellerRequestRef(Map<String, String> map);
 
 	int updateTracking(Map<String, String> map);
-	
 
+	Map<String, String> selectProductQnaComment(String qnaNo);
+
+	int orderDeliveryCheck(String qnaNo);
+	
+	int selectSaleEmpty(String productNo);
+	int orderAllListCount(Map<String,Object> map);
+	List<Map<String, Object>> selectOrderAll(Map<String,Object> map, int cPage, int numPerPage);
+	
+	int selectNextOrder(int saleCount, String productNo);
+	
 }

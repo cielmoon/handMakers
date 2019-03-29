@@ -3,6 +3,7 @@ package kh.hand.makers.product.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import kh.hand.makers.product.model.vo.DefaultProduct;
 import kh.hand.makers.product.model.vo.ProductImg;
 import kh.hand.makers.product.model.vo.Wish;
 
@@ -39,4 +40,14 @@ public interface ProductDao {
 	int deleteComment(Map<String,String> map);
 	Map<String,String> selectTotalScore(String productNo);
 	int updateProductMinus(Map<String,Object> productMap);
+	Map<String,String> selectProductCheck(Map<String,String> map);
+	
+	DefaultProduct selectDefaltProduct(String productNo);
+
+	int updatePMinus(Map<String,Object> productMap);
+
+	List<Map<String, String>> selectCommentQnaLv1(Map<String, String> map, int cPage, int numPerPage);
+	List<Map<String, String>> selectCommentQnaLv2(Map<String, String> map);
+
+
 }

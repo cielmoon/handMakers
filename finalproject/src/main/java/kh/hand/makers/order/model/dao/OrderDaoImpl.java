@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.hand.makers.order.model.vo.Delivery;
 import kh.hand.makers.order.model.vo.Order;
+import kh.hand.makers.product.model.vo.DefaultProduct;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
@@ -62,20 +63,26 @@ public class OrderDaoImpl implements OrderDao {
 
 	@Override
 	public int updateOrderState(Map<String, String> map) {
-		System.out.println("업데이트 하기 전 확인 하자~"+map);
+		
 		return session.update("order.updateOrderState",map);
 	}
 
 	@Override
-	public Map<String, String> selectProductCheck(Order order) {
+	public int updateOrderStateSecond(Map<String, Object> psMap) {
+		// TODO Auto-generated method stub
+		return session.update("order.updateOrderStateSecond",psMap);
+	}
+
+	@Override
+	public int selectProductCheck(Order order) {
 		
 		return session.selectOne("product.selectProductCheck",order);
 	}
 
 	@Override
-	public int insertProductSalesRecord(String productNo) {
+	public int insertProductSalesRecord(Order order) {
 		
-		return session.insert("product.insertProductSalesRecord",productNo);
+		return session.insert("product.insertProductSalesRecord",order);
 	}
 
 	@Override
@@ -94,6 +101,67 @@ public class OrderDaoImpl implements OrderDao {
 	public int updateResetOrder(Map<String, String> map) {
 		
 		return session.update("product.updateResetOrder",map);
+	}
+
+	@Override
+	public int updateResetProduct(Map<String, Object> map) {
+		
+		return session.update("product.updateResetProduct",map);
+	}
+
+	@Override
+	public int deleteOrder(String orderNo) {
+		
+		return session.delete("order.deleteOrder",orderNo);
+	}
+
+	@Override
+	public int orderInsert(Order order) {
+		// TODO Auto-generated method stub
+		return session.insert("order.orderInsert",order);
+	}
+
+	@Override
+	public int updateProductQty(Map<String, Object> updateProduct) {
+		// TODO Auto-generated method stub
+		return session.update("order.updateProductQty",updateProduct);
+	}
+
+	@Override
+	public int salesInsert(DefaultProduct ds) {
+		// TODO Auto-generated method stub
+		return session.insert("order.salesInsert",ds);
+	}
+
+	@Override
+	public int updateProductCS(String productNo) {
+		// TODO Auto-generated method stub
+		return session.update("order.updateProductCS",productNo);
+
+	}
+
+	@Override
+	public int salesInsertFirst(DefaultProduct ds) {
+		// TODO Auto-generated method stub
+		return session.insert("order.salesInsertFirst",ds);
+	}
+
+	@Override
+	public int updatePStateEnd(String productNo) {
+		// TODO Auto-generated method stub
+		return session.update("order.updatePStateEnd",productNo);
+	}
+
+	@Override
+	public int orderInsertSecond(Order order) {
+		// TODO Auto-generated method stub
+		return session.insert("order.orderInsertSecond",order);
+	}
+
+	@Override
+	public int updateProductCSS(String productNo) {
+		// TODO Auto-generated method stub
+		return session.update("order.updateProductCSS",productNo);
 	}
 	
 	

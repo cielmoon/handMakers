@@ -18,8 +18,6 @@
 
 <script>
 	function validate() {
-		var memberEmail = $("#memberEmail").val();
-		var emailRegex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 		var memberPhone = $("#memberPhone").val();
 		var phoneRegex = /^[0-9]+$/;
 		var memberName = $("#memberName").val();
@@ -31,24 +29,12 @@
 			return false;
 		}
 		
-		if ($("#memberEmail").val() == "") {
-			alert("이메일을 입력해주세요.");
-			$("#memberEmail").focus();
-			return false;
-		}
-		
 		if ($("#memberPhone").val() == "") {
 			alert("핸드폰번호를 입력해주세요.");
 			$("#memberPhone").focus();
 			return false;
 		}
 		
-		if (!emailRegex.test(memberEmail)) {
-			alert("잘못된 이메일 형식입니다. 다시 입력해주세요.")
-			$("#memberEmail").focus();
-			
-			return false;
-		}
 		
 		if (!phoneRegex.test(memberPhone)) {
 			alert("핸드폰번호는 숫자만 입력해주세요.");
@@ -134,7 +120,7 @@
 						<div class="form-group required" id="memberInfo">
 							<label for="input-id" class="col-sm-4 control-label" id="labelMemberName">이름</label>
 							<div class="col-sm-8">
-									<input type="text" class="form-control"  name="memberName" id="memberName"  
+									<input type="text" class="form-control"  name="memberName" id="memberName" maxlength="15" 
 									value="${member.memberName }">
 							</div>
 						</div>
@@ -142,7 +128,7 @@
 							<label for="input-id" class="col-sm-4 control-label" id="labelMemberEmail">이메일</label>
 							<div class="col-sm-8">
 									<input type="text" class="form-control"  name="memberEmail" id="memberEmail" 
-									value="${member.memberEmail }">
+									value="${member.memberEmail } " readonly>
 							</div>
 						</div>
 						<div class="form-group required" id="memberInfo">
